@@ -339,6 +339,7 @@
     <Folder Include="Areas\CMS_Sale\Controllers\" />
     <Folder Include="Areas\CMS_Sale\Models\" />
     <Folder Include="Areas\CMS_Sale\Views\" />
+    <Folder Include="Assets\" />
     <Folder Include="Controllers\" />
     <Folder Include="Filters\" />
     <Folder Include="Helpers\" />
