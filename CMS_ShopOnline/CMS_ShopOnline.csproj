@@ -1979,6 +1979,7 @@
     <Content Include="Assets\vendor\fontawesome-free\webfonts\fa-solid-900.woff2" />
     <Content Include="Assets\vendor\jquery\jquery.min.map" />
     <Content Include="Assets\vendor\jquery\jquery.slim.min.map" />
+    <Content Include="Areas\CMS_Sale\Views\Home\Index.cshtml" />
     <None Include="scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="scripts\jquery-3.0.0.js" />
     <Content Include="scripts\jquery-3.0.0.min.js" />
@@ -2076,13 +2077,14 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\CMS_Sale\CMS_SaleAreaRegistration.cs" />
+    <Compile Include="Areas\CMS_Sale\Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\web.config" />
+    <Content Include="Areas\CMS_Sale\web.config" />
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -2093,6 +2095,7 @@
     <Content Include="Views\Shared\_MenuLeft.cshtml" />
     <Content Include="Views\Shared\_MenuTop.cshtml" />
     <Content Include="Views\Shared\Login.cshtml" />
+    <Content Include="Views\Shared\web.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2102,9 +2105,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\CMS_Sale\Controllers\" />
     <Folder Include="Areas\CMS_Sale\Models\" />
-    <Folder Include="Areas\CMS_Sale\Views\" />
     <Folder Include="Controllers\" />
     <Folder Include="Filters\" />
     <Folder Include="Helpers\" />
