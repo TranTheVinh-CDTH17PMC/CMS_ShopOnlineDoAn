@@ -2095,7 +2095,7 @@
     <Content Include="Views\Shared\_MenuLeft.cshtml" />
     <Content Include="Views\Shared\_MenuTop.cshtml" />
     <Content Include="Views\Shared\Login.cshtml" />
-    <Content Include="Views\Shared\web.config" />
+    <Content Include="Views\web.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
