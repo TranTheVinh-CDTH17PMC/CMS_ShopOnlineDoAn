@@ -19,6 +19,12 @@ namespace CMS_ShopOnline.Areas.CMS_Sale
                 "CMS_Sale/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional }
             );
+
+            context.MapRoute(
+                "CMS_Sale_Supplier",
+                "Supplier/{controller}/{action}/{id}",
+                new { action = "Index", id = UrlParameter.Optional }
+            );
         }
     }
 }
