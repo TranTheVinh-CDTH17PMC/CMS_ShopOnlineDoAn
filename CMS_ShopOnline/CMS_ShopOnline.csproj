@@ -182,6 +182,7 @@
       <Link>AutoMapper.Net4.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\css\home.css" />
     <Content Include="Assets\css\ruang-admin.css" />
     <Content Include="Assets\css\ruang-admin.min.css" />
     <Content Include="Assets\font\OFL.txt" />

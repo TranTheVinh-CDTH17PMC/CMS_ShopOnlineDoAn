@@ -3,6 +3,148 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/ACE_Layout.cshtml";
 }
+<link href="@Url.Content("~/Assets/css/home.css")" rel="stylesheet" type="text/css" />
+<div class="container-fluid" id="container-wrapper">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Tổng quan</h1>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="./">Trang chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Tổng quan</li>
+        </ol>
+    </div>
+    <div class="row">
+        <!--Grid-->
+        <div class="column">
+            <div class="card" style="background-color:#8bc34a">
+                <h3>Doanh số <i class="fas fa-chart-bar" style="font-size:24px; float:right "></i></h3>
+                <p>449,500</p>
+            </div>
+        </div>
 
-<h2>Index</h2>
+        <div class="column">
+            <div class="card" style="background-color:#0277bd">
+                <h3>Lãi gộp <i class="far fa-fw fa-window-maximize" style="font-size: 24px; float:right"></i></h3>
+                <p>220,000</p>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="card" style="background-color:#ffc107">
+                <h3>Số đơn hàng <i class="far fa-calendar-alt" style="font-size:24px;float:right"></i></h3>
+                <p>ĐHTB:99,000</p>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="card" style="background-color:#d32f2f">
+                <h3>Kho <i class="fas fa-warehouse" style="font-size: 24px; float: right"></i></h3>
+                <p>300</p>
+            </div>
+        </div>
+        <!-- Doanh số-->
+        <div class="col-lg-8" style="padding:15px">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">DOANH SỐ</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-bar">
+                        <canvas id="myBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Bonus -->
+        <div class="col-lg-4" style="padding:15px">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">GIỚI THIỆU</h6>
+                </div>
+                <div class="card-body">
+                    <p style="color:black">Đây là phần giới thiệu gì gì đó...</p>
+                    <p style="color:black">Đây là phần giới thiệu gì gì đó...</p>
+                    <p style="color:black">Đây là phần giới thiệu gì gì đó...</p>
+                    <p style="color:black">Đây là phần giới thiệu gì gì đó...</p>
+                    <p style="color:black">Đây là phần giới thiệu gì gì đó...</p>
+                    <p style="color:black">Đây là phần giới thiệu gì gì đó...</p>
+                    <p style="color:black">Đây là phần giới thiệu gì gì đó...</p>
+                    <p style="color:black">Đây là phần giới thiệu gì gì đó...</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">TIỀN BẠC</h6>
+                </div>
+                <div class="dropdown" style="text-align:right;margin-top:-43px">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Hôm nay
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">Hôm qua</a>
+                        <a class="dropdown-item" href="#">Hôm nay</a>
+                        <a class="dropdown-item" href="#">7 ngày gần đây</a>
+                        <a class="dropdown-item" href="#">Tháng này</a>
+                        <a class="dropdown-item" href="#">Tháng trước</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p style="color:black">Tiền thu bán hàng: <b style="float:right">199,000</b></p>
+                    <p style="color:black">Khách tạm ứng, đặt hàng: <b style="float:right">0</b></p>
+                    <hr class="sidebar-divider">
+                    <a href="#demo1" data-toggle="collapse">Tổng thu:<i class="fa fa-caret-down"></i><b style="float:right">0</b></a>
+                    <div id="demo1" class="collapse"><br />
+                        <p style="color: black; text-indent: 20px">Thu bán hàng: <b style="float:right">0</b></p>
+                        <p style="color: black; text-indent: 20px">Thu trả nhà cung cấp: <b style="float:right">0</b></p>
+                        <p style="color: black; text-indent: 20px">Gốp vốn: <b style="float:right">0</b></p>
+                        <p style="color: black; text-indent: 20px">Thu khác: <b style="float:right">0</b></p>
+                    </div>
+                    <hr class="sidebar-divider">
+                    <a href="#demo2" data-toggle="collapse" style="color:red">Tổng chi:<i class="fa fa-caret-down"></i><b style="float:right">0</b></a>
+                    <div id="demo2" class="collapse"><br />
+                        <p style="color: black; text-indent: 20px">Mua hàng: <b style="float:right">0</b></p>
+                        <p style="color: black; text-indent: 20px; ">Chi phí: <b style="float:right">0</b></p>
+                        <p style="color: black; text-indent: 20px">Chi phí khác: <b style="float:right">0</b></p>
+                    </div>
+                    <hr class="sidebar-divider">
+                    <p style="color:black"><i>(Thu - Chi):</i><b style="float:right">0</b></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">TÌNH TRẠNG KHO</h6>
+                </div>
+                <div class="card-body">
+                    <p style="color:black">Hàng còn trong kho: <b style="float:right">300</b></p>
+                    <p style="color:black">Hết hàng: <b style="float: right; color:#d32f2f">53</b></p>
+                    <p style="color:black">Hàng bị lỗi kho: <b style="float:right">0</b></p>      
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">SỰ KIỆN BÁN LẺ</h6>
+                </div>
+                <div class="card-body">
+                    <p style="color:black">Đây là phần giới thiệu gì gì đó...</p>
+                    <p style="color:black">Đây là phần giới thiệu gì gì đó...</p>
+                    <p style="color:black">Đây là phần giới thiệu gì gì đó...</p>
+                    <p style="color:black">Đây là phần giới thiệu gì gì đó...</p>
+                    <p style="color:black">Đây là phần giới thiệu gì gì đó...</p>
+                    <p style="color:black">Đây là phần giới thiệu gì gì đó...</p>
+                    <p style="color:black">Đây là phần giới thiệu gì gì đó...</p>
+                    <p style="color:black">Đây là phần giới thiệu gì gì đó...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
