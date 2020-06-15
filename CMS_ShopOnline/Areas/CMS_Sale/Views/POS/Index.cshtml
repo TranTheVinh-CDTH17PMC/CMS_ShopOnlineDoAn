@@ -1,0 +1,772 @@
+﻿<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="">
+    <link rel="shortcut icon" type="image/png" href="/Assets/public/templates/images/pos.png">
+    <title>POS MyCoffee</title>
+    <link href="/Assets/public/templates/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/Assets/public/templates/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/Assets/public/templates/css/style.css" rel="stylesheet">
+    <link href="/Assets/public/templates/css/jquery-ui.min.css" rel="stylesheet">
+    <!--Start of Zendesk Chat Script-->
+    <script async="" charset="utf-8" src="https://v2.zopim.com/?2Z9j3qQJSSSIytel3Hsn5sCSk4aspfwy" type="text/javascript">
+    </script>
+    <script type="text/javascript">
+        window.$zopim || (function (d, s) {
+            var z = $zopim = function (c) { z._.push(c) }, $ = z.s =
+            d.createElement(s), e = d.getElementsByTagName(s)[0]; z.set = function (o) {
+                z.set.
+                _.push(o)
+            }; z._ = []; z.set._ = []; $.async = !0; $.setAttribute("charset", "utf-8");
+            $.src = "https://v2.zopim.com/?2Z9j3qQJSSSIytel3Hsn5sCSk4aspfwy"; z.t = +new Date; $.
+            type = "text/javascript"; e.parentNode.insertBefore($, e)
+        })(document, "script");
+    </script>
+    <!--End of Zendesk Chat Script-->
+    <script type="text/javascript" src="https://v2.zopim.com/w?2Z9j3qQJSSSIytel3Hsn5sCSk4aspfwy"></script>
+    <style media="print" class="jx_ui_StyleSheet" __jx__id="___$_2" type="text/css">
+        .zopim {
+            display: none !important;
+        }
+    </style>
+</head>
+<body style="">
+    <div class="zopim" __jx__id="___$_73 ___$_73" data-test-id="ChatWidgetButton" style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; padding: 0px; border: 0px; background: transparent; overflow: hidden; position: fixed; z-index: 16000002; width: 192px; height: 30px; bottom: 0px; left: 10px;"><iframe frameborder="0" style="background-color: transparent; vertical-align: text-bottom; position: relative; width: 100%; height: 100%; min-width: 100%; min-height: 100%; max-width: 100%; max-height: 100%; margin: 0px; overflow: hidden; display: block;" src="about:blank" data-test-id="ChatWidgetButton-iframe" title="Zendesk Chat widget button" __idm_frm__="96"></iframe></div><div class="zopim" __jx__id="___$_4 ___$_4" data-test-id="ChatWidgetWindow" style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; padding: 0px; border: 0px; background: transparent; overflow: hidden; position: fixed; z-index: 16000001; bottom: 0px; left: 10px; border-top-left-radius: 5px; border-top-right-radius: 5px; display: none; width: 290px; height: 400px; box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 3px 2px;"><iframe frameborder="0" style="background-color: transparent; vertical-align: text-bottom; position: relative; width: 100%; height: 100%; min-width: 100%; min-height: 100%; max-width: 100%; max-height: 100%; margin: 0px; overflow: hidden; display: block;" src="about:blank" data-test-id="ChatWidgetWindow-iframe" title="Zendesk Chat widget window" __idm_frm__="94"></iframe></div>
+    <header>
+        <nav id="navbar-container" class="navbar navbar- navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle menu-toggler pull-left" onclick="$('#sidebar').toggleClass('hidden-xs hidden-sm hidden-md')">
+                        <span class="sr-only">Toggle sidebar</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <label style="margin: 13px 15px; color: white">
+                                Cửa hàng
+                            </label>
+                        </li>
+                        <li style="border-right: 1px solid #E1E1E1; padding-right: 15px;">
+                            <select id="store-id" class="form-control" style="margin: 8px auto">
+                                <option selected="" value="1">Cửa hàng số 1</option>
+                            </select>
+                        </li>
+                        <li class="dropdown user-profile">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="hello">Xin chào, </span>My Coffee<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="account"><i class="fa fa-user"></i>Tài khoản</a></li>
+                                <li><a href="authentication/logout"><i class="fa fa-power-off"></i>Thoát</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <section id="pos" class="main" role="main">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 padd-left-0">
+                    <div class="main-content">
+                        <div class="alert alert-dange ajax-error" role="alert">
+                            <span style="font-weight: bold; font-size: 18px;">Thông báo!</span><br>
+
+                            <div class="ajax-error-ct"></div>
+                        </div>
+                        <div class="alert ajax-success" role="alert" style="width: 350px;background: rgba(92,130,79,0.9); display:none; color: #fff;" data-original-title="" title="">
+                            <span style="font-weight: bold; font-size: 18px;">Thông báo!</span>
+                            <br>
+
+                            <div class="ajax-success-ct"></div>
+                        </div>
+                        <!-- Start create employee -->
+                        <div class="modal fade" id="create-nv" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        <h4 class="modal-title" id="myModalLabel" style="text-transform: uppercase;">
+                                            <i class="fa fa-user"></i>
+                                            Thêm tài khoản đăng nhập
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form class="form-horizontal" id="frm-cruser">
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                    <label for="tennhanvien">Tên nhân viên</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <input type="text" id="display_name" name="display_name" class="form-control" value="" placeholder="Nhập tên nhân viên">
+                                                    <span style="color: red; font-style: italic;" class="error error-display_name"></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                    <label for="manv">Mã nhân viên</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <input type="text" id="manv" name="manv" class="form-control" value="" placeholder="Nhập mã nhân viên">
+                                                    <span style="color: red; font-style: italic;" class="error error-manv"></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                    <label for="manv">Email</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <input type="text" id="mail" name="email" class="form-control" value="" placeholder="Nhập email của bạn">
+                                                    <span style="color: red; font-style: italic;" class="error error-mail"></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                    <label for="manv">Mật khẩu</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <input type="password" id="password" name="password" class="form-control" value="" placeholder="Nhập Mật khẩu">
+                                                    <span style="color: red; font-style: italic;" class="error error-password"></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-3 padd-right-0">
+                                                    <label for="manv">Nhóm người dùng</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <div class="group-user">
+                                                        <div class="group-selbox">
+
+                                                        </div>
+                                                        <span style="color: red; font-style: italic;" class="error error-group"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                    <label for="stock">Kho làm việc</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <div class="stock-selbox"></div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary btn-sm btn-crnv" onclick="cms_cruser()">
+                                            <i class="fa fa-check"></i> Lưu
+                                        </button>
+                                        <button type="button" class="btn btn-default btn-sm btn-close" data-dismiss="modal">
+                                            <i class="fa fa-undo"></i> Bỏ qua
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end create employee -->
+                        <!-- Start create function -->
+                        <div class="modal fade" id="create-func" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        <h4 class="modal-title" id="myModalLabel" style="text-transform: uppercase;">
+                                            <i class="fa fa-user"></i>
+                                            Thêm Chức năng
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form class="form-horizontal">
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                    <label for="tennhanvien">URL</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <input type="text" id="permisstion_url" name="permisstion_url" class="form-control" value="" placeholder="Nhập url cho phép của chức năng">
+                                                    <span style="color: red; font-style: italic;" class="error error-permisstion_url"></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                    <label for="manv">Tên chức năng</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <input type="text" id="permisstion_name" name="permisstion_name" class="form-control" value="" placeholder="Nhập tên chức năng">
+                                                    <span style="color: red; font-style: italic;" class="error error-permisstion_name"></span>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary btn-sm btn-crfunc"><i class="fa fa-check"></i> Lưu</button>
+                                        <button type="button" class="btn btn-default btn-sm btn-close" data-dismiss="modal">
+                                            <i class="fa fa-undo"></i> Bỏ qua
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end create function -->
+                        <!-- Start create group -->
+                        <div class="modal fade" id="create-group" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        <h4 class="modal-title" id="myModalLabel" style="text-transform: uppercase;">
+                                            <i class="fa fa-user"></i>
+                                            Thêm nhóm người dùng
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form class="form-horizontal">
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                    <label for="group-name">Tên Nhóm</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <input type="text" id="group-name" name="group_name" class="form-control" value="" placeholder="Nhập tên nhóm người dùng">
+                                                    <span style="color: red; font-style: italic;" class="error error-group_name"></span>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary btn-sm btn-crgroup">
+                                            <i class="fa fa-check"></i> Lưu
+                                        </button>
+                                        <button type="button" class="btn btn-default btn-sm btn-close" data-dismiss="modal">
+                                            <i class="fa fa-undo"></i> Bỏ qua
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end create function -->
+                        <!-- Start create group -->
+                        <div class="modal fade" id="create-store" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        <h4 class="modal-title" id="myModalLabel" style="text-transform: uppercase;">
+                                            <i class="fa fa-user"></i>
+                                            Thêm kho
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form class="form-horizontal">
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                    <label for="group-name">Tên Kho</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <input type="text" id="store-name" name="store_name" class="form-control" value="" placeholder="Nhập tên kho">
+                                                    <span style="color: red; font-style: italic;" class="error error-store_name"></span>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary btn-sm" onclick="cms_crstore();">
+                                            <i class="fa fa-check"></i> Lưu
+                                        </button>
+                                        <button type="button" class="btn btn-default btn-sm btn-close" data-dismiss="modal">
+                                            <i class="fa fa-undo"></i> Bỏ qua
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end create function -->
+                        <!-- start create customer -->
+
+                        <div class="modal fade" id="create-cust" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="End();"><span aria-hidden="true">×</span></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div id="resultado"></div>
+                                        <div id="camera"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <style>
+                                video {
+                                    width: 800px;
+                                    height: 200px;
+                                }
+                            </style>
+                            <script src="/Assets/quagga.min.js"></script>
+                        </div>
+
+                        <!-- end customer -->
+                        <!-- start create supplier -->
+
+                        <div class="modal fade" id="create-sup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">Tạo mới nhà cung cấp</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form class="form-horizontal" id="frm-crsup">
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                    <label for="supplier_name">Mã nhà cung cấp</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <input type="text" id="supplier_code" name="supplier_code" class="form-control" value="" placeholder="Mã nhà cung cấp (Tự sinh nếu bỏ trống)">
+                                                    <span style="color: red; font-style: italic;" class="error error-supplier_code"></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                    <label for="supplier_name">Tên nhà cung cấp</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <input type="text" id="supplier_name" name="supplier_name" class="form-control" value="" placeholder="Nhập tên nhà cung cấp (bắc buộc)">
+                                                    <span style="color: red; font-style: italic;" class="error error-supplier_name"></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                    <label for="supplier_phone">Số điện thoại</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <input type="text" id="supplier_phone" name="supplier_phone" class="form-control" value="" placeholder="Số điện thoại">
+                                                    <span style="color: red; font-style: italic;" class="error error-supplier_phone"></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                    <label for="supplier_email">Email</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <input type="text" id="supplier_email" name="supplier_email" class="form-control" value="" placeholder="Nhập email nhà cung cấp ( ví dụ: kh10@gmail.com )">
+                                                    <span style="color: red; font-style: italic;" class="error error-supplier_email"></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                    <label for="supplier_addr">Địa chỉ</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <input type="text" id="supplier_addr" name="supplier_addr" class="form-control" value="" placeholder="">
+                                                    <span style="color: red; font-style: italic;" class="error error-supplier_addr"></span>
+                                                </div>
+                                            </div>
+                                            <!--                    <div class="form-group">-->
+                                            <!--                        <div class="col-sm-3">-->
+                                            <!--                            <label for="tax_code">Mã số thuế</label>-->
+                                            <!--                        </div>-->
+                                            <!--                        <div class="col-sm-9">-->
+                                            <!--                            <input type="text" id="tax_code" name="tax_code" class="form-control" value="" placeholder="">-->
+                                            <!--                            <span style="color: red; font-style: italic;" class="error error-tax_code"></span>-->
+                                            <!--                        </div>-->
+                                            <!--                    </div>-->
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                    <label for="supplier_notes">Ghi chú</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <input type="text" id="supplier_notes" name="notes" class="form-control" value="" placeholder="">
+                                                    <span style="color: red; font-style: italic;" class="error error-supplier_notes"></span>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary btn-sm btn-crsup" onclick="cms_crsup();">
+                                            <i class="fa fa-check"></i> Lưu
+                                        </button>
+                                        <button type="button" class="btn btn-default btn-sm btn-close" data-dismiss="modal">
+                                            <i class="fa fa-undo"></i> Bỏ qua
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- end supacture -->
+                        <!-- PRODUCTS -->
+                        <div class="modal fade" id="list-prd-manufacture" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">Quản lý nhà sản xuất</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="tabtable">
+                                            <!-- Nav tabs -->
+                                            <ul class="nav nav-tabs tab-setting" role="tablist" style="background-color: #EFF3F8; padding: 5px 0 0 15px;">
+                                                <li role="presentation" class="active list-manufacture-click" style="margin-right: 3px;"><a href="#list-manufacture" aria-controls="list-manufacture" role="tab" data-toggle="tab"><i class="fa fa-list"></i> Danh sách Nhà sản xuất</a></li>
+                                                <li role="presentation">
+                                                    <a href="#create-manufacture" aria-controls="create-manufacture" role="tab" data-toggle="tab">
+                                                        <i class="fa fa-plus"></i> Tạo mới chủng
+                                                        loại
+                                                    </a>
+                                                </li>
+                                            </ul>
+
+                                            <!-- Tab panes -->
+                                            <div class="tab-content" style="padding:10px; border: 1px solid #ddd; border-top: none;">
+                                                <div role="tabpanel" class="tab-pane active" id="list-manufacture">
+                                                    <div class="prd_manufacture-body">
+
+                                                    </div>
+                                                </div>
+
+                                                <!-- Tab Function -->
+                                                <div role="tabpanel" class="tab-pane" id="create-manufacture">
+                                                    <div class="row form-horizontal">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <div class="col-md-7 padd-right-0">
+                                                                    <input type="text" style="border-radius: 0 !important;" class="form-control" id="prd_manuf_name" value="" placeholder="Nhập tên Nhà sản xuất">
+                                                                </div>
+                                                                <div class="input-groups-btn col-md-5 padd-0">
+                                                                    <button type="button" class="btn btn-primary" style="border-radius: 0 3px 3px 0;" onclick="cms_create_manufacture(1);">
+                                                                        <i class="fa fa-check"></i> Lưu
+                                                                    </button>
+                                                                    <button type="button" class="btn btn-primary " onclick="cms_create_manufacture(0);">
+                                                                        <i class="fa fa-floppy-o"></i> Lưu và tiếp tục
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default btn-sm btn-close" data-dismiss="modal">
+                                            <i class="fa fa-undo"></i> Đóng
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="list-prd-group" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">Quản lý danh mục</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="tabtable">
+                                            <!-- Nav tabs -->
+                                            <ul class="nav nav-tabs tab-setting" role="tablist" style="background-color: #EFF3F8; padding: 5px 0 0 15px;">
+                                                <li role="presentation" class="active" style="margin-right: 3px;"><a href="#list-groups" aria-controls="list-group" role="tab" data-toggle="tab"><i class="fa fa-list"></i> Danh sách danh mục</a></li>
+                                                <li role="presentation">
+                                                    <a href="#create-groups" aria-controls="create-group" role="tab" data-toggle="tab"><i class="fa fa-plus"></i> Tạo mới danh mục</a>
+                                                </li>
+                                            </ul>
+
+                                            <!-- Tab panes -->
+                                            <div class="tab-content" style="padding:10px; border: 1px solid #ddd; border-top: none;">
+                                                <div role="tabpanel" class="tab-pane active" id="list-groups">
+                                                    <div class="prd_group-body">
+                                                        <div class="text-center"><img src="/Assets/public/templates/images/balls.gif"></div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Tab Function -->
+                                                <div role="tabpanel" class="tab-pane" id="create-groups">
+                                                    <div class="row form-horizontal">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <div class="col-md-4 text-right">
+                                                                    <label>Tên danh mục</label>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <input type="text" id="prd_group_name" class="form-control" placeholder="Nhập tên danh mục.">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="col-md-4 text-right">
+                                                                    <label>Danh mục cấp cha</label>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <select id="parentid" class="form-control"></select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="col-md-8 col-md-offset-4">
+                                                                    <button type="button" class="btn btn-primary" style="border-radius: 0 3px 3px 0;" onclick="cms_create_group(1);">
+                                                                        <i class="fa fa-check"></i> Lưu
+                                                                    </button>
+                                                                    <button type="button" class="btn btn-primary " onclick="cms_create_group(0);">
+                                                                        <i class="fa fa-floppy-o"></i> Lưu
+                                                                        và tiếp tục
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default btn-sm btn-close" data-dismiss="modal">
+                                            <i class="fa fa-undo"></i> Đóng
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="row">
+                                <div class="orders-act">
+                                    <div class="col-md-8">
+                                        <div class="order-search" style="margin: 10px 0px; position: relative;">
+                                            <input type="text" class="form-control ui-autocomplete-input" placeholder="Nhập mã sản phẩm hoặc tên sản phẩm (F2)" id="search-pro-box" autocomplete="off">
+                                        </div>
+                                        <div class="product-results">
+                                            <table class="table table-bordered table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center">STT</th>
+                                                        <th>Mã hàng</th>
+                                                        <th>Tên sản phẩm</th>
+                                                        <th class="text-center">Số lượng</th>
+                                                        <th class="text-center">Giá bán</th>
+                                                        <th class="text-center">Thành tiền</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="pro_search_append"></tbody>
+                                            </table>
+                                            <div class="alert alert-success" style="margin-top: 30px;" role="alert">
+                                                Gõ mã
+                                                hoặc tên sản phẩm vào hộp
+                                                tìm kiếm để thêm hàng vào đơn hàng
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="morder-info" style="padding: 4px;">
+                                                    <div class="tab-contents" style="padding: 8px 6px;">
+                                                        <div class="form-group marg-bot-10 clearfix">
+                                                            <div style="padding:0px" class="col-md-4">
+                                                                <label>Khách hàng</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <div class="col-md-10 padd-0" style="position: relative;">
+                                                                    <input id="makh" class="form-control" type="text" placeholder="Tìm khách hàng (F4)" style="border-radius: 3px 0 0 3px !important;"><span style="color: red; position: absolute; right: 5px; top:5px; " class="del-cys"></span>
+
+
+                                                                </div>
+                                                                <div class="col-md-2 padd-0">
+                                                                    <button type="button" data-toggle="modal" onclick="Click();" data-target="#create-cust" class="btn btn-primary" style="border-radius: 0 3px 3px 0; box-shadow: none; padding: 7px 11px;">
+                                                                        +
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group marg-bot-10 clearfix">
+                                                            <div style="padding:0px" class="col-md-4">
+                                                                <label>NV bán hàng</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <select class="form-control" id="sale_id">
+                                                                    <option value="">--Chọn--</option>
+                                                                    <option value="2">admin</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group marg-bot-10 clearfix">
+                                                            <div style="padding:0px" class="col-md-4">
+                                                                <label>Ghi chú</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <textarea id="note-order" cols="" class="form-control" rows="3" style="border-radius: 0;"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <h4 class="lighter" style="margin-top: 0;">
+                                                    <i class="fa fa-info-circle blue"></i>
+                                                    Thông tin thanh toán
+                                                </h4>
+
+                                                <div class="morder-info" style="padding: 4px;">
+                                                    <div class="tab-contents" style="padding: 8px 6px;">
+                                                        <div class="form-group marg-bot-10 clearfix">
+                                                            <div class="col-md-4">
+                                                                <label>Hình thức</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <div class="input-group">
+                                                                    <input type="radio" class="payment-method" name="method-pay" value="1" checked="">
+                                                                    Tiền mặt &nbsp;
+                                                                    <input type="radio" class="payment-method" name="method-pay" value="2"> Thẻ&nbsp;
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group marg-bot-10 clearfix">
+                                                            <div class="col-md-4">
+                                                                <label>Tiền hàng</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <div class="total-money">
+                                                                    0
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group marg-bot-10 clearfix">
+                                                            <div class="col-md-4">
+                                                                <label>Giảm giá (F7)</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <input type="text" class="form-control text-right txtMoney discount-order" placeholder="0" style="border-radius: 0 !important;">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group marg-bot-10 clearfix">
+                                                            <div class="col-md-4">
+                                                                <label>Tổng cộng</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <div class="total-after-discount">
+                                                                    0
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group marg-bot-10 clearfix">
+                                                            <div class="col-md-4 padd-right-0">
+                                                                <label>Khách đưa (F8)</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <input type="text" class="form-control text-right txtMoney customer-pay" placeholder="0" style="border-radius: 0 !important;">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group marg-bot-10 clearfix">
+                                                            <div class="col-md-4">
+                                                                <label class="debt">Còn nợ</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <div class="debt">0</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="btn-groups pull-right" style="margin-bottom: 50px;">
+                                                    <button type="button" class="btn btn-primary" onclick="cms_save_orders(3)">
+                                                        <i class="fa fa-check"></i> Lưu (F9)
+                                                    </button>
+                                                    <button type="button" class="btn btn-primary" onclick="cms_save_orders(4)">
+                                                        <i class="fa fa-print"></i> Lưu và
+                                                        in (F10)
+                                                    </button>
+                                                    <a href="/orders">
+                                                        <button type="button" class="btn-back btn btn-default">
+                                                            <i class="fa fa-arrow-left"></i> Hủy
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="/Assets/public/templates/js/jquery.js"></script>
+    <script src="/Assets/public/templates/js/jquery-ui.min.js"></script>
+    <script src="/Assets/public/templates/js/html5shiv.min.js"></script>
+    <script src="/Assets/public/templates/js/respond.min.js"></script>
+    <script src="/Assets/public/templates/js/bootstrap.min.js"></script>
+    <script src="/Assets/public/templates/js/ajax.js"></script>
+    <script>
+
+        function End() {
+            Quagga.stop();
+        }
+        function Click() {
+            Quagga.init({
+                inputStream: {
+                    name: "Live",
+                    type: "LiveStream",
+                    target: document.querySelector('#camera')    // Or '#yourElement' (optional)
+                },
+                decoder: {
+                    readers: ["code_128_reader"]
+                }
+            }, function (err) {
+                if (err) {
+                    console.log(err);
+                    return
+                }
+                console.log("Initialization finished. Ready to start");
+                Quagga.start();
+
+            });
+
+            Quagga.onDetected(function (data) {
+                debugger
+                console.log(data.codeResult.code);
+                var audioElement = document.createElement('audio');
+                audioElement.setAttribute('src', 'barcode.wav');
+                audioElement.play();
+                var text = $("#makh").val(data.codeResult.code);
+            });
+        }
+        $(function () {
+            $("#search-pro-box").autocomplete({
+                minLength: 1,
+                source: 'orders/cms_autocomplete_products/',
+                focus: function (event, ui) {
+                    $("#search-pro-box").val(ui.item.prd_code);
+                    return false;
+                },
+                select: function (event, ui) {
+                    cms_select_product_sell(ui.item.ID);
+                    $("#search-pro-box").val('');
+                    return false;
+                }
+            }).keyup(function (e) {
+                if (e.which === 13) {
+                    cms_autocomplete_enter_sell();
+                    $("#search-pro-box").val('');
+                    $(".ui-menu-item").hide();
+                }
+            })
+                .autocomplete("instance")._renderItem = function (ul, item) {
+                    return $("<li>")
+                        .append("<div>" + item.prd_code + " - " + item.prd_name + "</div>")
+                        .appendTo(ul);
+                };
+        });
+
+        document.addEventListener('keyup', hotkey, false);
+    </script>
+    <ul id="ui-id-1" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div>
+</body>
+</html>
+
