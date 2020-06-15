@@ -1983,6 +1983,8 @@
     <Content Include="Areas\CMS_Sale\Views\Home\Index.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\Supplier\Index.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\Supplier\Create.cshtml" />
+    <Content Include="Areas\CMS_Sale\Views\PurchaseOrder\Index.cshtml" />
+    <Content Include="Areas\CMS_Sale\Views\Products\Index.cshtml" />
     <None Include="scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="scripts\jquery-3.0.0.js" />
     <Content Include="scripts\jquery-3.0.0.min.js" />
@@ -2081,6 +2083,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\CMS_Sale\CMS_SaleAreaRegistration.cs" />
     <Compile Include="Areas\CMS_Sale\Controllers\HomeController.cs" />
+    <Compile Include="Areas\CMS_Sale\Controllers\ProductsController.cs" />
+    <Compile Include="Areas\CMS_Sale\Controllers\PurchaseOrderController.cs" />
     <Compile Include="Areas\CMS_Sale\Controllers\SupplierController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
