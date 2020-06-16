@@ -1,0 +1,44 @@
+﻿@model CMS_ShopOnline.Areas.CMS_Sale.Models.LoginViewModel
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+   
+    <div class="login-form">
+        <div class="text-center">
+            <h1 class="h4 text-gray-900 mb-4">Chào mừng!</h1>
+        </div>
+        <form class="user">
+            <div class="form-group">
+                @Html.TextBoxFor(m=>m.Username, new {@class= "form-control", placeholder="Nhập Tên Tài Khoản" }) 
+            </div>
+            <div class="form-group">
+                @Html.TextBoxFor(m => m.Password, new { @class = "form-control", placeholder = "Nhập Mật Khẩu", Type = "password" })    
+            </div>
+            <div class="form-group">
+                <div class="custom-control custom-checkbox small" style="line-height: 1.5rem;">
+                    <input type="checkbox" class="custom-control-input" id="customCheck">
+                    <label class="custom-control-label" for="customCheck">
+                        Lưu tài khoản
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary btn-block" value="Đăng Nhập">
+            </div>
+        </form>
+        <hr>
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="text-center">
+            <a class="font-weight-bold small" href="register.html">Coffe Manager!</a>
+        </div>
+        <div class="text-center">
+        </div>
+    </div>
+
+}
+
