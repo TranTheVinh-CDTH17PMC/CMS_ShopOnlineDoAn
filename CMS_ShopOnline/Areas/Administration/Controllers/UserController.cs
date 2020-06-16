@@ -1,6 +1,6 @@
 ﻿using CMS_Database.Interfaces;
 using CMS_Database.Repositories;
-using CMS_ShopOnline.Areas.CMS_Sale.Models;
+using CMS_ShopOnline.Areas.Administration.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,15 +8,15 @@ using System.Web;
 using System.Web.Mvc;
 using WebMatrix.WebData;
 
-namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
+namespace CMS_ShopOnline.Areas.Administration.Controllers
 {
-    public class NhanVienController : Controller
+    public class UserController : Controller
     {
         private readonly INhanVien _NhanVien = new NhanVienRepository();
         // GET: CMS_Sale/NhanVien
         public ActionResult Login()
         {
-            WebSecurity.CreateUserAndAccount("admin", "admin", false);
+            //WebSecurity.CreateUserAndAccount("admin", "admin", false);
             return View();
         }
         [HttpPost]
@@ -24,9 +24,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         {
             if (ModelState.IsValid)
             {
-                int id = WebSecurity.GetUserId(login.Username);
-                bool isAu = WebSecurity.Login(login.Username, login.Password, login.Remeberme);
-                if (isAu)
+                //int Id = WebSecurity.GetUserId(login.Username); //để update tạo tài khoản
+                bool IsAu = WebSecurity.Login(login.Username, login.Password, login.Remeberme);
+                if (IsAu)
                 { 
                     var user = _NhanVien.GetByUserName(login.Username);
                     if(user.SLDNSai >= 5)
@@ -38,7 +38,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     {
                         
                         HttpContext.Application["TaiKhoanLogin"] = user.TenTaiKhoan.ToLower();
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Home",new { area ="CMS_Sale"});
                     }
                 }
                 else
@@ -59,6 +59,14 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 }
             }
             return View();
+        }
+        public ActionResult LogOff()
+        {
+            WebSecurity.Logout();
+
+            HttpContext.Application.Contents.Remove("TaiKhoanLogin");
+
+            return RedirectToAction("Login", "User", new { @area = "Administration" });
         }
     }
 }

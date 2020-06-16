@@ -3077,7 +3077,7 @@
     <Content Include="Areas\Crm\Views\Supplier\Create.cshtml" />
     <Content Include="Areas\Crm\Views\Customer\Index.cshtml" />
     <Content Include="Areas\Staff\Views\Staff\Index.cshtml" />
-    <Content Include="Areas\CMS_Sale\Views\NhanVien\Login.cshtml" />
+    <Content Include="Areas\Administration\Views\User\Login.cshtml" />
     <None Include="scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="scripts\jquery-3.0.0.js" />
     <Content Include="scripts\jquery-3.0.0.min.js" />
@@ -3179,17 +3179,16 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Areas\CMS_Sale\CMS_SaleAreaRegistration.cs" />
     <Compile Include="Areas\CMS_Sale\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Administration\Controllers\UserController.cs" />
     <Compile Include="Areas\CMS_Sale\Controllers\POSController.cs" />
     <Compile Include="Areas\CMS_Sale\Controllers\ProductsController.cs" />
     <Compile Include="Areas\CMS_Sale\Controllers\PurchaseOrderController.cs" />
+    <Compile Include="Areas\Administration\Models\LoginViewModel.cs" />
     <Compile Include="Areas\Crm\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Crm\Controllers\SupplierController.cs" />
     <Compile Include="Areas\Crm\CrmAreaRegistration.cs" />
     <Compile Include="Areas\Staff\Controllers\StaffController.cs" />
     <Compile Include="Areas\Staff\StaffAreaRegistration.cs" />
-    <Compile Include="Areas\CMS_Sale\Controllers\SupplierController.cs" />
-    <Compile Include="Areas\CMS_Sale\Models\LoginViewModel.cs" />
-    <Compile Include="Areas\CMS_Sale\Controllers\NhanVienController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Filters\SecurityFilter.cs" />
     <Compile Include="Filters\UsersContext.cs" />
@@ -3221,9 +3220,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Administration\Controllers\" />
-    <Folder Include="Areas\Administration\Models\" />
     <Folder Include="Areas\Administration\Views\Shared\" />
+    <Folder Include="Areas\CMS_Account\Controllers\" />
+    <Folder Include="Areas\CMS_Account\Models\" />
+    <Folder Include="Areas\CMS_Account\Views\Shared\" />
     <Folder Include="Areas\CMS_Sale\Models\" />
     <Folder Include="Areas\Crm\Models\" />
     <Folder Include="Areas\Crm\Views\Shared\" />

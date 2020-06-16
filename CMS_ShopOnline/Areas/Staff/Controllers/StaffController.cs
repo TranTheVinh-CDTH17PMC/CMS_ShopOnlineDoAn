@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace CMS_ShopOnline.Areas.Staff.Controllers
 {
+    [Authorize]
     public class StaffController : Controller
     {
         //

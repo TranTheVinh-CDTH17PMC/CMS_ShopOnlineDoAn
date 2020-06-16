@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         //

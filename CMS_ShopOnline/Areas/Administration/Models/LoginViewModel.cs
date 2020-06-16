@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace CMS_ShopOnline.Areas.CMS_Sale.Models
+namespace CMS_ShopOnline.Areas.Administration.Models
 {
     public class LoginViewModel
     {
