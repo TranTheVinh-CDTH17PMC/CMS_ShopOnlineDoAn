@@ -10,6 +10,8 @@
     <link href="/Assets/public/templates/css/font-awesome.min.css" rel="stylesheet">
     <link href="/Assets/public/templates/css/style.css" rel="stylesheet">
     <link href="/Assets/public/templates/css/jquery-ui.min.css" rel="stylesheet">
+    <link href="/Assets/css/pos.css" rel="stylesheet" type="text/css" />
+    <link href="/Assets/css/posjsproduct.css" rel="stylesheet" type="text/css" />
     <!--Start of Zendesk Chat Script-->
     <script async="" charset="utf-8" src="https://v2.zopim.com/?2Z9j3qQJSSSIytel3Hsn5sCSk4aspfwy" type="text/javascript">
     </script>
@@ -29,6 +31,32 @@
     <style media="print" class="jx_ui_StyleSheet" __jx__id="___$_2" type="text/css">
         .zopim {
             display: none !important;
+        }
+    </style>
+    <style>
+        .my-custom-scrollbar {
+            position: relative;
+            height: 200px;
+            overflow: auto;
+        }
+
+        .table-wrapper-scroll-y {
+            display: block;
+        }
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            width: 100%;
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
         }
     </style>
 </head>
@@ -532,33 +560,115 @@
                         <div>
                             <div class="row">
                                 <div class="orders-act">
-                                    <div class="col-md-8">
-                                        <div class="order-search" style="margin: 10px 0px; position: relative;">
-                                            <input type="text" class="form-control ui-autocomplete-input" placeholder="Nhập mã sản phẩm hoặc tên sản phẩm (F2)" id="search-pro-box" autocomplete="off">
-                                        </div>
-                                        <div class="product-results">
-                                            <table class="table table-bordered table-striped">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="text-center">STT</th>
-                                                        <th>Mã hàng</th>
-                                                        <th>Tên sản phẩm</th>
-                                                        <th class="text-center">Số lượng</th>
-                                                        <th class="text-center">Giá bán</th>
-                                                        <th class="text-center">Thành tiền</th>
-                                                        <th></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="pro_search_append"></tbody>
-                                            </table>
-                                            <div class="alert alert-success" style="margin-top: 30px;" role="alert">
-                                                Gõ mã
-                                                hoặc tên sản phẩm vào hộp
-                                                tìm kiếm để thêm hàng vào đơn hàng
+                                    <div class="col-md-7">
+                                        <div class="dropdown">
+                                            <button onclick="myFunction()" class="dropbtn" id="search-pro-box"><i class="fa fa-search"></i> Nhấn tìm kiếm và chọn sản phẩm (F2)</button>
+                                            <div id="myDropdown" class="dropdown-content">
+                                                <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+                                                <table class="table table-bordered table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-center">Hình</th>
+                                                            <th class="text-center">Tên</th>
+                                                            <th class="text-center">Giá</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="pro_search_append">
+                                                        <tr>
+                                                            <td class="text-center"><img src="/Assets/img/products/cappuccino.png" style="width:40px; height:40px" /></td>
+                                                            <td class="text-center"><a href="#" style="color:blue">Cappuccino</a></td>
+                                                            <td class="text-center" style="padding:20px">35000</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center"><img src="/Assets/img/products/cafesua.png" style="width:40px; height:40px" /></td>
+                                                            <td class="text-center"><a href="#" style="color:blue">Cà phê sữa</a></td>
+                                                            <td class="text-center" style="padding:20px">25000</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-4">
+                                        <!--load sản phẩm-->
+                                        <div class="main">
+                                            <div id="myBtnContainer">
+                                                <button class="btnproduct active" onclick="filterSelection('all')">Tất cả sản phẩm</button>
+                                                <button class="btnproduct" onclick="filterSelection('cafe')"> Cà phê</button>
+                                                <button class="btnproduct" onclick="filterSelection('cappu')"> Cappuccino</button>
+                                                <button class="btnproduct" onclick="filterSelection('cake')"> Đồ ngọt</button>
+                                            </div>
+
+                                            <!-- Portfolio Gallery Grid -->
+                                            <div class="rowproduct">
+                                                <div class="column cafe">
+                                                    <div class="content">
+                                                        <img src="/Assets/img/products/kemchese.png" alt="Mountains" style="width:100%">
+                                                        <h4>Cà phê 1</h4>
+                                                        <p>35.000</p>
+                                                    </div>
+                                                </div>
+                                                <div class="column cafe">
+                                                    <div class="content">
+                                                        <img src="/Assets/img/products/kemchese.png" alt="Lights" style="width:100%">
+                                                        <h4>Cà phê 2</h4>
+                                                        <p>35.000</p>
+                                                    </div>
+                                                </div>
+                                                <div class="column cafe">
+                                                    <div class="content">
+                                                        <img src="/Assets/img/products/kemchese.png" alt="Nature" style="width:100%">
+                                                        <h4>Cà phê 3</h4>
+                                                        <p>35.000</p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="column cappu">
+                                                    <div class="content">
+                                                        <img src="/Assets/img/products/cappuccino2.png" alt="Car" style="width:100%">
+                                                        <h4>Cappuccino 1</h4>
+                                                        <p>45.000</p>
+                                                    </div>
+                                                </div>
+                                                <div class="column cappu">
+                                                    <div class="content">
+                                                        <img src="/Assets/img/products/cappuccino2.png" alt="Car" style="width:100%">
+                                                        <h4>Cappuccino 2</h4>
+                                                        <p>45.000</p>
+                                                    </div>
+                                                </div>
+                                                <div class="column cappu">
+                                                    <div class="content">
+                                                        <img src="/Assets/img/products/cappuccino2.png" alt="Car" style="width:100%">
+                                                        <h4>Cappuccino 3</h4>
+                                                        <p>45.000</p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="column cake">
+                                                    <div class="content">
+                                                        <img src="/Assets/img/products/cake1.png" alt="Car" style="width:100%">
+                                                        <h4>Bánh 1</h4>
+                                                        <p>55.000</p>
+                                                    </div>
+                                                </div>
+                                                <div class="column cake">
+                                                    <div class="content">
+                                                        <img src="/Assets/img/products/cake2.png" alt="Car" style="width:100%">
+                                                        <h4>Bánh 2</h4>
+                                                        <p>55.000</p>
+                                                    </div>
+                                                </div>
+                                                <div class="column cake">
+                                                    <div class="content">
+                                                        <img src="/Assets/img/products/cake3.png" alt="Car" style="width:100%">
+                                                        <h4>Bánh 3</h4>
+                                                        <p>55.000</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Load sp js -->
+                                            </div>
+                                        </div>
+                                    <div class="col-md-5">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="morder-info" style="padding: 4px;">
@@ -580,7 +690,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group marg-bot-10 clearfix">
+                                                        @*<div class="form-group marg-bot-10 clearfix">
                                                             <div style="padding:0px" class="col-md-4">
                                                                 <label>NV bán hàng</label>
                                                             </div>
@@ -590,17 +700,78 @@
                                                                     <option value="2">admin</option>
                                                                 </select>
                                                             </div>
-                                                        </div>
+                                                        </div>*@
                                                         <div class="form-group marg-bot-10 clearfix">
                                                             <div style="padding:0px" class="col-md-4">
                                                                 <label>Ghi chú</label>
                                                             </div>
                                                             <div class="col-md-8">
-                                                                <textarea id="note-order" cols="" class="form-control" rows="3" style="border-radius: 0;"></textarea>
+                                                                <textarea id="note-order" cols="" class="form-control" rows="2" style="border-radius: 0;"></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="table-wrapper-scroll-y my-custom-scrollbar">
+
+                                                    <div style="overflow-x:auto;">
+                                                        <table>
+                                                            <tr>
+                                                                <th>STT</th>
+                                                                <th>Tên sản phẩm</th>
+                                                                <th>Số lượng</th>
+                                                                <th>Đơn giá</th>
+                                                                <th>Tổng tiền</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>1</td>
+                                                                <td>Smith</td>
+                                                                <td class="text-center">50</td>
+                                                                <td>50</td>
+                                                                <td>50</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>2</td>
+                                                                <td>Jackson</td>
+                                                                <td class="text-center">94</td>
+                                                                <td>94</td>
+                                                                <td>94</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>3</td>
+                                                                <td>Johnson</td>
+                                                                <td class="text-center">67</td>
+                                                                <td>67</td>
+                                                                <td>67</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>4</td>
+                                                                <td>Johnson</td>
+                                                                <td class="text-center">67</td>
+                                                                <td>67</td>
+                                                                <td>67</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>5</td>
+                                                                <td>Johnson</td>
+                                                                <td class="text-center">67</td>
+                                                                <td>67</td>
+                                                                <td>67</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>6</td>
+                                                                <td>Johnson</td>
+                                                                <td class="text-center">67</td>
+                                                                <td>67</td>
+                                                                <td>67</td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+
+                                                </div>
+                                                <hr size="2">
+
                                             </div>
                                             <div class="col-md-12">
                                                 <h4 class="lighter" style="margin-top: 0;">
@@ -610,29 +781,6 @@
 
                                                 <div class="morder-info" style="padding: 4px;">
                                                     <div class="tab-contents" style="padding: 8px 6px;">
-                                                        <div class="form-group marg-bot-10 clearfix">
-                                                            <div class="col-md-4">
-                                                                <label>Hình thức</label>
-                                                            </div>
-                                                            <div class="col-md-8">
-                                                                <div class="input-group">
-                                                                    <input type="radio" class="payment-method" name="method-pay" value="1" checked="">
-                                                                    Tiền mặt &nbsp;
-                                                                    <input type="radio" class="payment-method" name="method-pay" value="2"> Thẻ&nbsp;
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group marg-bot-10 clearfix">
-                                                            <div class="col-md-4">
-                                                                <label>Tiền hàng</label>
-                                                            </div>
-                                                            <div class="col-md-8">
-                                                                <div class="total-money">
-                                                                    0
-                                                                </div>
-                                                            </div>
-                                                        </div>
                                                         <div class="form-group marg-bot-10 clearfix">
                                                             <div class="col-md-4">
                                                                 <label>Giảm giá (F7)</label>
@@ -659,14 +807,7 @@
                                                                 <input type="text" class="form-control text-right txtMoney customer-pay" placeholder="0" style="border-radius: 0 !important;">
                                                             </div>
                                                         </div>
-                                                        <div class="form-group marg-bot-10 clearfix">
-                                                            <div class="col-md-4">
-                                                                <label class="debt">Còn nợ</label>
-                                                            </div>
-                                                            <div class="col-md-8">
-                                                                <div class="debt">0</div>
-                                                            </div>
-                                                        </div>
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
@@ -703,8 +844,36 @@
     <script src="/Assets/public/templates/js/respond.min.js"></script>
     <script src="/Assets/public/templates/js/bootstrap.min.js"></script>
     <script src="/Assets/public/templates/js/ajax.js"></script>
+    <script src="/Assets/js/posjs.js"></script>
     <script>
+        //Javascript tìm kiếm sản phẩm
+        function myFunction() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
 
+        function filterFunction() {
+            var input, filter, ul, li, tr, i;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            div = document.getElementById("myDropdown");
+            tr = div.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                txtValue = tr[i].textContent || tr[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else  {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+        $('#search-pro-box').keypress(function (e) {
+            if (e.which == 113) {
+                e.preventDefault();
+            }
+        });
+        //end tìm kiếm
+
+        //
         function End() {
             Quagga.stop();
         }
@@ -737,32 +906,32 @@
                 var text = $("#makh").val(data.codeResult.code);
             });
         }
-        $(function () {
-            $("#search-pro-box").autocomplete({
-                minLength: 1,
-                source: 'orders/cms_autocomplete_products/',
-                focus: function (event, ui) {
-                    $("#search-pro-box").val(ui.item.prd_code);
-                    return false;
-                },
-                select: function (event, ui) {
-                    cms_select_product_sell(ui.item.ID);
-                    $("#search-pro-box").val('');
-                    return false;
-                }
-            }).keyup(function (e) {
-                if (e.which === 13) {
-                    cms_autocomplete_enter_sell();
-                    $("#search-pro-box").val('');
-                    $(".ui-menu-item").hide();
-                }
-            })
-                .autocomplete("instance")._renderItem = function (ul, item) {
-                    return $("<li>")
-                        .append("<div>" + item.prd_code + " - " + item.prd_name + "</div>")
-                        .appendTo(ul);
-                };
-        });
+        //$(function () {
+        //    $("#search-pro-box").autocomplete({
+        //        minLength: 1,
+        //        source: 'orders/cms_autocomplete_products/',
+        //        focus: function (event, ui) {
+        //            $("#search-pro-box").val(ui.item.prd_code);
+        //            return false;
+        //        },
+        //        select: function (event, ui) {
+        //            cms_select_product_sell(ui.item.ID);
+        //            $("#search-pro-box").val('');
+        //            return false;
+        //        }
+        //    }).keyup(function (e) {
+        //        if (e.which === 13) {
+        //            cms_autocomplete_enter_sell();
+        //            $("#search-pro-box").val('');
+        //            $(".ui-menu-item").hide();
+        //        }
+        //    })
+        //        .autocomplete("instance")._renderItem = function (ul, item) {
+        //            return $("<li>")
+        //                .append("<div>" + item.prd_code + " - " + item.prd_name + "</div>")
+        //                .appendTo(ul);
+        //        };
+        //});
 
         document.addEventListener('keyup', hotkey, false);
     </script>

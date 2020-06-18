@@ -16,7 +16,6 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
         // GET: CMS_Sale/NhanVien
         public ActionResult Login()
         {
-            //WebSecurity.CreateUserAndAccount("admin", "admin", false);
             return View();
         }
         [HttpPost]

@@ -1,0 +1,72 @@
+﻿/* load sản phẩm JS*/
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f1f1f1;
+}
+
+/* Center website */
+.main {
+  margin: auto;
+}
+
+.rowproduct {
+  margin: 10px -16px;
+  position: relative;
+  height: 500px;
+  overflow: auto;
+}
+
+/* Add padding BETWEEN each column */
+.rowproduct,
+.rowproduct > .column {
+  padding: 8px;
+}
+
+/* Create three equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 25%;
+  display: none; /* Hide all elements by default */
+}
+
+/* Clear floats after rows */ 
+.rowproduct:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Content */
+.content {
+  background-color: white;
+  padding: 10px;
+}
+
+/* The "show" class is added to the filtered elements */
+.show {
+  display: block;
+}
+
+/* Style the buttons */
+.btnproduct {
+  border-radius:4px;
+  border:none;
+  outline: none;
+  padding: 12px 16px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.btnproduct:hover {
+  background-color: #ddd;
+}
+
+.btnproduct.active {
+  border-radius:4px;
+  background-color: #337ab7;
+  color: white;
+}
+/* end load product*/
