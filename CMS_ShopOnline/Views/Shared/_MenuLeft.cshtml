@@ -7,13 +7,13 @@
     </a>
     <hr class="sidebar-divider my-0">
     <li class="nav-item active">
-        <a class="nav-link" href="../Home/Index">
+        <a class="nav-link" href="@Url.Action("Index", "Home", new { area ="CMS_Sale" })">
             <i class="fas fa-chart-bar"></i>
             <span>Tổng quan</span>
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="../POS/Index">
+        <a class="nav-link" href="@Url.Action("Index", "POS", new { area ="CMS_Sale" })">
             <i class="fas fa-desktop"></i>
             <span>POS</span>
         </a>
@@ -27,10 +27,10 @@
         <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">QUẢN LÝ</h6>
-                <a class="collapse-item" href="../PurchaseOrder/Index">Đơn hàng</a>
-                <a class="collapse-item" href="../Products/Index">Sản phẩm</a>
-                <a class="collapse-item" href="../InOrder/Index">Nhập hàng</a>
-                <a class="collapse-item" href="../Warehouse/Index">Kho hàng</a>
+                <a class="collapse-item" href="@Url.Action("Index", "PurchaseOrder", new { area ="CMS_Sale" })" >Đơn hàng</a>
+                <a class="collapse-item" href="@Url.Action("Index", "Products", new { area ="CMS_Sale" })">Sản phẩm</a>
+                <a class="collapse-item" href="@Url.Action("Index", "InOrder", new { area ="CMS_Sale" })">Nhập hàng</a>
+                <a class="collapse-item" href="@Url.Action("Index", "Warehouse", new { area ="CMS_Sale" })">Kho hàng</a>
                 <a class="collapse-item" href="progress-bar.html">Khuyến mãi</a>
             </div>
         </div>
@@ -44,7 +44,7 @@
         <div id="collapseForm" class="collapse" aria-labelledby="headingForm" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">KHÁCH HÀNG</h6>
-                <a class="collapse-item" href="../Customer/Index">Khách hàng</a>
+                <a class="collapse-item" href="@Url.Action("Index", "Customer", new { area ="Crm" })">Khách hàng</a>
                 <a class="collapse-item" href="dropdowns.html">Nhà cung cấp</a>
                 <a class="collapse-item" href="modals.html">Nhóm khách hàng</a>
                 <a class="collapse-item" href="popovers.html">Đơn vị vận chuyển</a>
