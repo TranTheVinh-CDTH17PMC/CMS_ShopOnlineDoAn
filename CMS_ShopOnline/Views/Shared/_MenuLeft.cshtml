@@ -25,7 +25,7 @@
             <span>Quản lý</span>
         </a>
         <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
+            <div id="cc" class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">QUẢN LÝ</h6>
                 <a class="collapse-item" href="@Url.Action("Index", "PurchaseOrder", new { area ="CMS_Sale" })" >Đơn hàng</a>
                 <a class="collapse-item" href="@Url.Action("Index", "Products", new { area ="CMS_Sale" })">Sản phẩm</a>
@@ -45,7 +45,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">KHÁCH HÀNG</h6>
                 <a class="collapse-item" href="@Url.Action("Index", "Customer", new { area ="Crm" })">Khách hàng</a>
-                <a class="collapse-item" href="dropdowns.html">Nhà cung cấp</a>
+                <a class="collapse-item" href="@Url.Action("Index", "Supplier", new { area ="Crm" })">Nhà cung cấp</a>
                 <a class="collapse-item" href="modals.html">Nhóm khách hàng</a>
                 <a class="collapse-item" href="popovers.html">Đơn vị vận chuyển</a>
                 <a class="collapse-item" href="progress-bar.html">Thiết lập</a>

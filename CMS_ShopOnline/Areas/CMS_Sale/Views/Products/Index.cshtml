@@ -15,87 +15,115 @@
     </div>
     <div class="row">
         <div class="col-lg-12 mb-4">
-            <!-- Simple Tables -->
-            <div class="card">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Sản phẩm</h6>
-                    <div class="dropdown" style="margin-right:860px">
-                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Tất cả
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Sản phẩm</a>
-                            <a class="dropdown-item" href="#">Dịch vụ</a>
+                <!-- Simple Tables -->
+                <div class="card">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <div class="col-md-8">
+                            <div class="order-search" style="margin: 10px 0px; position: relative;">
+                                <input type="text" class="form-control ui-autocomplete-input" onkeyup="filterFunction()" placeholder="Nhập mã sản phẩm hoặc tên sản phẩm..." id="search-pro-box" autocomplete="off">
+                            </div>
                         </div>
+                        <div class="col-md-4">
+                            <div class="dropdown">
+                                <button class="btn btn-primary" type="button" id="dropdownMenuButton"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Tất cả sản phẩm <i class="fa fa-caret-down"></i>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Tất cả sản phẩm</a>
+                                    <a class="dropdown-item" href="#">Dịch vụ</a>
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
-                </div>
-                <div class="table-responsive">
-                    <table class="table align-items-center table-flush">
-                        <thead class="thead-light">
-                            <tr>
-                                <th>Sản phẩm</th>
-                                <th>Mã sản phẩm</th>
-                                <th>SL</th>
-                                <th>Giá nhập</th>
-                                <th>Giá bán</th>
-                                <th><div class="dropdown">
-                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <b>Nhóm hàng</b>
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="#">Cafe</a>
-                                            <a class="dropdown-item" href="#">Đồ ăn</a>
-                                            <a class="dropdown-item" href="#">Nước ngọt các loại</a>
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Sản phẩm</th>
+                                    <th>Mã sản phẩm</th>
+                                    <th>SL</th>
+                                    <th>Giá nhập</th>
+                                    <th>Giá bán</th>
+                                    <th>
+                                        <div class="dropdown">
+                                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <b>Nhóm hàng</b>
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" href="#">Cafe</a>
+                                                <a class="dropdown-item" href="#">Đồ ăn</a>
+                                                <a class="dropdown-item" href="#">Nước ngọt các loại</a>
+                                            </div>
                                         </div>
-                                    </div>
-                                </th>
-                                <th>Hình</th>
-                                <th><div class="dropdown">
-                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <b>Loại hàng</b>
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="#">Sản phẩm</a>
-                                            <a class="dropdown-item" href="#">SP có thuộc tính</a>
+                                    </th>
+                                    <th>Hình</th>
+                                    <th>
+                                        <div class="dropdown">
+                                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <b>Loại hàng</b>
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" href="#">Sản phẩm</a>
+                                                <a class="dropdown-item" href="#">SP có thuộc tính</a>
+                                            </div>
                                         </div>
-                                    </div>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Cappuccino</td>
-                                <td><a href="#">1</a></td>
-                                <td>1</td>
-                                <td>30000</td>
-                                <td>42000</td>
-                                <td>Cafe</td>
-                                <td><img src="/Assets/img/products/cappuccino.png" style="width:60px; height:60px"/></td>
-                                <td style="display:flex">
-                                    <a href="">
-                                        <i class='fas fa-pencil-alt' title="Cập nhật sản phẩm" style='font-size:20px'></i>
-                                    </a>
-                                    <div class="dropdown">
-                                        <a href="" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-h" style='font-size:20px; margin-left:20px'></i>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="myproducts">
+                                <tr>
+                                    <td>Cappuccino</td>
+                                    <td><a href="#">SP001</a></td>
+                                    <td>1</td>
+                                    <td>30000</td>
+                                    <td>42000</td>
+                                    <td>Cafe</td>
+                                    <td><img src="/Assets/img/products/cappuccino.png" style="width:60px; height:60px" /></td>
+                                    <td style="display:flex">
+                                        <a href="">
+                                            <i class='fas fa-pencil-alt' title="Cập nhật sản phẩm" style='font-size:20px'></i>
                                         </a>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="#">Ngừng kinh doanh</a>
-                                            <a class="dropdown-item" href="#">Xóa</a>
+                                        <div class="dropdown">
+                                            <a href="" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-h" style='font-size:20px; margin-left:20px'></i>
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" href="#">Ngừng kinh doanh</a>
+                                                <a class="dropdown-item" href="#">Xóa</a>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer"></div>
                 </div>
-                <div class="card-footer"></div>
             </div>
-        </div>
     </div>
     <!--Row-->
 </div>
+<script>
+    function filterFunction() {
+        var input, filter, ul, li, tr, i;
+        input = document.getElementById("search-pro-box");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("myproducts");
+        tr = div.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            txtValue = tr[i].textContent || tr[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+                
+            } else {
+                tr[i].style.display = "none";
+            }
+            
+        }
+    }
+</script>
 

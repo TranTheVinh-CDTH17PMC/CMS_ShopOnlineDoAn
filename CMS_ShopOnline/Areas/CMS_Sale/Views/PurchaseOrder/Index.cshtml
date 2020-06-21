@@ -18,7 +18,11 @@
             <!-- Simple Tables -->
             <div class="card">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Đơn hàng</h6>
+                    <div class="col-md-8">
+                        <div class="order-search" style="margin: 10px 0px; position: relative;">
+                            <input type="text" class="form-control ui-autocomplete-input" onkeyup="filterFunction()" placeholder="Nhập mã phiếu hoặc tên khách hàng..." id="search-pro-box" autocomplete="off">
+                        </div>
+                    </div>
                 </div>
                 <div class="table-responsive">
                     <table class="table align-items-center table-flush">
@@ -35,7 +39,7 @@
                                 <th>Ghi chú</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="myproducts">
                             <tr>
                                 <td><a href="#">1</a></td>
                                 <td>30/5/2020</td>
@@ -56,3 +60,22 @@
     </div>
     <!--Row-->
 </div>
+<script>
+    function filterFunction() {
+        var input, filter, ul, li, tr, i;
+        input = document.getElementById("search-pro-box");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("myproducts");
+        tr = div.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            txtValue = tr[i].textContent || tr[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+
+            } else {
+                tr[i].style.display = "none";
+            }
+
+        }
+    }
+</script>
