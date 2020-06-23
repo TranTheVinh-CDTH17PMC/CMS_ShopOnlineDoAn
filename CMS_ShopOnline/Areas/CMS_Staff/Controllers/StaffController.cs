@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace CMS_ShopOnline.Areas.Staff.Controllers
+namespace CMS_ShopOnline.Areas.CMS_Staff.Controllers
 {
     [Authorize]
     public class StaffController : Controller
@@ -12,6 +12,10 @@ namespace CMS_ShopOnline.Areas.Staff.Controllers
         //
         // GET: /Staff/Staff/
         public ActionResult Index()
+        {
+            return View();
+        }
+        public ActionResult Create()
         {
             return View();
         }

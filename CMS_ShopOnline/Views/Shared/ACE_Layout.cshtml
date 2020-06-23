@@ -62,5 +62,11 @@
     <script src="~/scripts/gridmvc.lang.ru.js"></script>
     <script src="~/scripts/gridmvc.min.js"></script>
     @RenderSection("Scripts", required: false)
+    <script>
+        $(document).ready(function () {
+            $('li.active').removeClass('active');
+            $('a[href="' + location.pathname + '"]').closest('li').addClass('active');
+        });
+    </script>
 </body>
 </html>

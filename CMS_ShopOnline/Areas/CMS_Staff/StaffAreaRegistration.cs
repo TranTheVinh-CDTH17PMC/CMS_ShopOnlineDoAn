@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace CMS_ShopOnline.Areas.Staff
+namespace CMS_ShopOnline.Areas.CMS_Staff
 {
     public class StaffAreaRegistration : AreaRegistration 
     {
@@ -8,15 +8,15 @@ namespace CMS_ShopOnline.Areas.Staff
         {
             get 
             {
-                return "Staff";
+                return "CMS_Staff";
             }
         }
 
         public override void RegisterArea(AreaRegistrationContext context) 
         {
             context.MapRoute(
-                "Staff_default",
-                "Staff/{controller}/{action}/{id}",
+                "CMS_Staff_default",
+                "CMS_Staff/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional }
             );
         }
