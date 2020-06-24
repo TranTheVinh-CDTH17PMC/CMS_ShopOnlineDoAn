@@ -24,7 +24,7 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="dropdown">
+                            @*<div class="dropdown">
                                 <button class="btn btn-primary" type="button" id="dropdownMenuButton"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Tất cả sản phẩm <i class="fa fa-caret-down"></i>
@@ -33,7 +33,12 @@
                                     <a class="dropdown-item" href="#">Tất cả sản phẩm</a>
                                     <a class="dropdown-item" href="#">Dịch vụ</a>
                                 </div>
-                            </div>
+                            </div>*@
+                                <select class="form-control">
+                                    <option>Tất cả</option>
+                                    <option>Sản phẩm</option>
+                                    <option>Dịch vụ</option>
+                                </select>
                         </div>
                         
                     </div>
@@ -47,30 +52,22 @@
                                     <th>Giá nhập</th>
                                     <th>Giá bán</th>
                                     <th>
-                                        <div class="dropdown">
-                                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <b>Nhóm hàng</b>
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="#">Cafe</a>
-                                                <a class="dropdown-item" href="#">Đồ ăn</a>
-                                                <a class="dropdown-item" href="#">Nước ngọt các loại</a>
-                                            </div>
-                                        </div>
+                                        <select class="custom-select">
+                                            <option>Nhóm hàng</option>
+                                            <option>Tất cả</option>
+                                            <option>Cafe</option>
+                                            <option>Đồ ăn</option>
+                                            <option>Nước ngọt</option>
+                                        </select>
                                     </th>
                                     <th>Hình</th>
                                     <th>
-                                        <div class="dropdown">
-                                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <b>Loại hàng</b>
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="#">Sản phẩm</a>
-                                                <a class="dropdown-item" href="#">SP có thuộc tính</a>
-                                            </div>
-                                        </div>
+                                        <select class="custom-select">
+                                            <option>Loại hàng</option>
+                                            <option>Tất cả</option>
+                                            <option>Sản phẩm</option>
+                                            <option>SP có thuộc tính</option>
+                                        </select>
                                     </th>
                                 </tr>
                             </thead>
@@ -84,18 +81,16 @@
                                     <td>Cafe</td>
                                     <td><img src="/Assets/img/products/cappuccino.png" style="width:60px; height:60px" /></td>
                                     <td style="display:flex">
-                                        <a href="">
-                                            <i class='fas fa-pencil-alt' title="Cập nhật sản phẩm" style='font-size:20px'></i>
-                                        </a>
-                                        <div class="dropdown">
-                                            <a href="" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="fas fa-ellipsis-h" style='font-size:20px; margin-left:20px'></i>
-                                            </a>
+                                        <button class="btn btn-danger" style="margin:5px"><i class="fas fa-pencil-alt"></i></button>
+                                         <div class="dropdown">
+                                             <button class="btn btn-primary" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin:5px">
+                                                 <i class="fas fa-ellipsis-h"></i>
+                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <a class="dropdown-item" href="#">Ngừng kinh doanh</a>
                                                 <a class="dropdown-item" href="#">Xóa</a>
                                             </div>
-                                        </div>
+                                        </div>    
                                     </td>
                                 </tr>
                             </tbody>

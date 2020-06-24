@@ -196,6 +196,7 @@
     <Content Include="Assets\css\posjsproduct.css" />
     <Content Include="Assets\css\ruang-admin.css" />
     <Content Include="Assets\css\ruang-admin.min.css" />
+    <Content Include="Assets\css\warehouse.css" />
     <Content Include="Assets\font\OFL.txt" />
     <Content Include="Assets\img\boy.png" />
     <Content Include="Assets\img\error.svg" />
