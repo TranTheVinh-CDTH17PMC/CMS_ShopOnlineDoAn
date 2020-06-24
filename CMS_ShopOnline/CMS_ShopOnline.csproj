@@ -3104,6 +3104,7 @@
     <Content Include="Areas\Administration\Views\User\Login.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\InOrder\Index.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\Warehouse\Index.cshtml" />
+    <Content Include="Areas\Crm\Views\Supplier\Edit.cshtml" />
     <Content Include="Areas\CMS_Staff\Views\Staff\Create.cshtml" />
     <None Include="scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="scripts\jquery-3.0.0.js" />
@@ -3216,6 +3217,9 @@
     <Compile Include="Areas\Crm\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Crm\Controllers\SupplierController.cs" />
     <Compile Include="Areas\Crm\CrmAreaRegistration.cs" />
+    <Compile Include="Areas\Crm\Models\NhaCungCapViewModel.cs" />
+    <Compile Include="Areas\Staff\Controllers\StaffController.cs" />
+    <Compile Include="Areas\Staff\StaffAreaRegistration.cs" />
     <Compile Include="Areas\CMS_Staff\Controllers\StaffController.cs" />
     <Compile Include="Areas\CMS_Staff\StaffAreaRegistration.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />

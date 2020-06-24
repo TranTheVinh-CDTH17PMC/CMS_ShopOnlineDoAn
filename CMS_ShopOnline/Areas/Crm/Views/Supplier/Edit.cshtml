@@ -1,0 +1,64 @@
+﻿@model CMS_ShopOnline.Areas.Crm.Models.NhaCungCapViewModel
+@{
+   ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/ACE_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    <div class="container-fluid" id="container-wrapper">
+        <div class="row">
+            <div class="col-lg-6">
+                <!-- Form Basic -->
+                <div class="card mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Chỉnh sửa nhà cung cấp</h6>
+                    </div>
+                    <div class="card-body" style="margin-top:-13px">
+                        <div class="form-group">
+                            <label>Tên nhà cung cấp</label>
+                            @Html.TextBoxFor(model => model.Ten, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Email</label>
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            <label>Số điện thoại</label>
+                            @Html.TextBoxFor(model => model.SDT, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <!-- General Element -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Địa chỉ</label>
+                            @Html.TextBoxFor(model => model.DiaChi, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Tỉnh/Thành phố</label>
+                            @Html.DropDownListFor(model => model.ThanhPho, (IEnumerable<SelectListItem>)ViewBag.Tpho, "- Chọn Thành phố -", new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect2">Quận/Huyện</label>
+                            @Html.DropDownListFor(model => model.Quan, (IEnumerable<SelectListItem>)ViewBag.QuanHuyen, "- Chọn Quận/Huyện -", new { @class = "form-control" })
+                        </div>
+                        <button class="btn btn-mini btn-primary" type="submit" name="Submit">
+                            <i class="ace-icon fa fa-save"></i> Lưu
+                        </button>
+                        @using (Html.BeginForm("Delete", "Supplier",new { Id=4}))
+                        {
+                            <button class="btn btn-mini btn-primary" type="submit" name="Delete">
+                                <i class="ace-icon fa fa-save"></i> Xóa
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

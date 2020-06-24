@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace CMS_Database.Interfaces
 {
-    public interface INhanVien : IGenericRepository<NhanVien>
+    public interface INhaCungCap : IGenericRepository<NhaCungCap>
     {
-        NhanVien GetbyId(int Id);
-        NhanVien GetByUserName(string name);
+        void Delele(int id);
     }
 }
