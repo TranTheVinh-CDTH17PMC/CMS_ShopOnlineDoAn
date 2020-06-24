@@ -3103,6 +3103,7 @@
     <Content Include="Areas\Administration\Views\User\Login.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\InOrder\Index.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\Warehouse\Index.cshtml" />
+    <Content Include="Areas\Crm\Views\Supplier\Edit.cshtml" />
     <None Include="scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="scripts\jquery-3.0.0.js" />
     <Content Include="scripts\jquery-3.0.0.min.js" />
@@ -3214,6 +3215,7 @@
     <Compile Include="Areas\Crm\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Crm\Controllers\SupplierController.cs" />
     <Compile Include="Areas\Crm\CrmAreaRegistration.cs" />
+    <Compile Include="Areas\Crm\Models\NhaCungCapViewModel.cs" />
     <Compile Include="Areas\Staff\Controllers\StaffController.cs" />
     <Compile Include="Areas\Staff\StaffAreaRegistration.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -3252,7 +3254,6 @@
     <Folder Include="Areas\CMS_Account\Models\" />
     <Folder Include="Areas\CMS_Account\Views\Shared\" />
     <Folder Include="Areas\CMS_Sale\Models\" />
-    <Folder Include="Areas\Crm\Models\" />
     <Folder Include="Areas\Crm\Views\Shared\" />
     <Folder Include="Areas\Staff\Models\" />
     <Folder Include="Areas\Staff\Views\Shared\" />
