@@ -118,8 +118,6 @@ namespace CMS_ShopOnline.Areas.Crm.Controllers
             }
             return View();
         }
-
-        #region Delete
         [HttpPost]
         public ActionResult Delete(int Id)
         {

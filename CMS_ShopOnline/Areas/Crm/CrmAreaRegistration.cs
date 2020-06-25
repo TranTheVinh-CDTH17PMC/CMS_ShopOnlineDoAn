@@ -26,6 +26,10 @@ namespace CMS_ShopOnline.Areas.Crm
         {
             AutoMapper.Mapper.CreateMap<CMS_Database.Entities.NhaCungCap, NhaCungCapViewModel>();
             AutoMapper.Mapper.CreateMap<NhaCungCapViewModel, CMS_Database.Entities.NhaCungCap>();
+
+            AutoMapper.Mapper.CreateMap<CMS_Database.Entities.KhachHang, CustomerViewModel>();
+            AutoMapper.Mapper.CreateMap<CustomerViewModel, CMS_Database.Entities.KhachHang>();
         }
+
     }
 }
