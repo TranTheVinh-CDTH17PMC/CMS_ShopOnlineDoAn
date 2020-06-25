@@ -92,21 +92,32 @@ namespace CMS_ShopOnline.Areas.CMS_Staff.Controllers
             var user = NhanVien.GetbyId(model.Id);
             if(user!=null)
             {
-                if(CheckName(model.TenTaiKhoan)==true)
+                if(user.TenTaiKhoan==model.TenTaiKhoan)
                 {
                     AutoMapper.Mapper.Map(model, user);
                     NhanVien.Update(user);
                     NhanVien.Save();
                     TempData["SuccessMessage"] = "Create";
                     return RedirectToAction("Index");
-
                 }
                 else
                 {
-                    model.listLoaiNV = LoaiNV.SelectAll();
-                    TempData["FailMessage"] = "FailCreate";
-                    return View(model);
-                }
+                    if (CheckName(model.TenTaiKhoan) == true)
+                    {
+                        AutoMapper.Mapper.Map(model, user);
+                        NhanVien.Update(user);
+                        NhanVien.Save();
+                        TempData["SuccessMessage"] = "Create";
+                        return RedirectToAction("Index");
+
+                    }
+                    else
+                    {
+                        model.listLoaiNV = LoaiNV.SelectAll();
+                        TempData["FailMessage"] = "FailCreate";
+                        return View(model);
+                    }
+                }   
             }
             else
             {
