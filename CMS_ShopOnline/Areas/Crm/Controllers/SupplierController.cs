@@ -5,11 +5,13 @@ using CMS_ShopOnline.Areas.Crm.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 
 namespace CMS_ShopOnline.Areas.Crm.Controllers
 {
+    [Authorize]
     public class SupplierController : Controller
     {
         private readonly INhaCungCap nhacungcap;
@@ -38,6 +40,7 @@ namespace CMS_ShopOnline.Areas.Crm.Controllers
         // GET: Crm/Supplier
         public ActionResult Index()
         {
+            ViewBag.SuccessMessage = TempData["SuccessMessage"];
             return View();
         }
 
@@ -60,12 +63,13 @@ namespace CMS_ShopOnline.Areas.Crm.Controllers
         {
             try
             {
+                
                 var _ncc = new NhaCungCap();
                 AutoMapper.Mapper.Map(model, _ncc);
                 _ncc.IsDelete = false;
                 nhacungcap.Insert(_ncc);
                 nhacungcap.Save();
-                ViewBag.Message = String.Format("Thêm mới thành công!!!");
+                TempData["SuccessMessage"] = "Create";
                 return RedirectToAction("Index");
             }
             catch(Exception e)
@@ -110,6 +114,7 @@ namespace CMS_ShopOnline.Areas.Crm.Controllers
                 AutoMapper.Mapper.Map(model, _ncc);
                 nhacungcap.Update(_ncc);
                 nhacungcap.Save();
+                TempData["SuccessMessage"] = "Edit";
                 return RedirectToAction("Index");
             }
             catch(Exception e)
@@ -118,8 +123,6 @@ namespace CMS_ShopOnline.Areas.Crm.Controllers
             }
             return View();
         }
-
-        #region Delete
         [HttpPost]
         public ActionResult Delete(int Id)
         {

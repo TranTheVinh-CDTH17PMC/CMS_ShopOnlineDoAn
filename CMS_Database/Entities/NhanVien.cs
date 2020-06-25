@@ -31,6 +31,8 @@ namespace CMS_Database.Entities
 
         [StringLength(50)]
         public string TenTaiKhoan { get; set; }
+        [StringLength(50)]
+        public string CMND { get; set; }
 
         [StringLength(50)]
         public string Email { get; set; }
