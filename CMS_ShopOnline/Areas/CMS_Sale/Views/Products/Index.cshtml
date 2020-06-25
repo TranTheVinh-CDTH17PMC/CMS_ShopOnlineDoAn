@@ -23,7 +23,7 @@
                                 <input type="text" class="form-control ui-autocomplete-input" onkeyup="filterFunction()" placeholder="Nhập mã sản phẩm hoặc tên sản phẩm..." id="search-pro-box" autocomplete="off">
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             @*<div class="dropdown">
                                 <button class="btn btn-primary" type="button" id="dropdownMenuButton"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -39,6 +39,13 @@
                                     <option>Sản phẩm</option>
                                     <option>Dịch vụ</option>
                                 </select>
+                        </div>
+                        <div class="col-md-2">
+                            <a href="@Url.Action("Create", "Products", new { area ="CMS_Sale" })">
+                                <button type="button" class="btn btn-primary">
+                                    <i class="fa fa-plus-circle"></i> Sản phẩm
+                                </button>
+                            </a>
                         </div>
                         
                     </div>
