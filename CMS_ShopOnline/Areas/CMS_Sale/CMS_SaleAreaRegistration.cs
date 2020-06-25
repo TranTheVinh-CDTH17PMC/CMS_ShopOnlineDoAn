@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using CMS_ShopOnline.Areas.CMS_Sale.Models;
+using System.Web.Mvc;
 
 namespace CMS_ShopOnline.Areas.CMS_Sale
 {
@@ -19,6 +20,12 @@ namespace CMS_ShopOnline.Areas.CMS_Sale
                 "CMS_Sale/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional }
             );
+            CreateMap();
+        }
+        public void CreateMap()
+        {
+            AutoMapper.Mapper.CreateMap<CMS_Database.Entities.NguyenLieu, NguyenLieuViewModel>();
+            AutoMapper.Mapper.CreateMap<NguyenLieuViewModel, CMS_Database.Entities.NguyenLieu>();
         }
     }
 }
