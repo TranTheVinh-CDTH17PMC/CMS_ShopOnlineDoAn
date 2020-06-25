@@ -3,6 +3,26 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/ACE_Layout.cshtml";
 }
+@if (ViewBag.SuccessMessage != null)
+{
+    <script>
+        $(document).ready(function () {
+	    'use strict';
+		swal({
+		title: 'Thông báo!!!',
+		text: 'thành công',
+		type: 'success',
+		button: {
+			text: "Continue",
+			value: true,
+			visible: true,
+			className: "btn btn-primary"
+				}
+		})
+});
+
+    </script>
+}
 <div class="container-fluid" id="container-wrapper">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Nhà cung cấp</h1>

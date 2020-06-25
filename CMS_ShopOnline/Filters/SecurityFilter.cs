@@ -10,6 +10,7 @@ namespace CMS_ShopOnline.App_Start
         {
             if (!filterContext.IsChildAction)
             {
+                CMS_ShopOnline.Helpers.Helper.Request();
             }
             _authenticate = (filterContext.ActionDescriptor.GetCustomAttributes(typeof(OverrideAuthenticationAttribute), true).Length == 0);
             bool skipAuthorization = filterContext.ActionDescriptor.IsDefined(typeof(AllowAnonymousAttribute), inherit: true) || filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(typeof(AllowAnonymousAttribute), inherit: true);

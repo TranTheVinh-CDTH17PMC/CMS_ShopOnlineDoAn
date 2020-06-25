@@ -3106,6 +3106,7 @@
     <Content Include="Areas\CMS_Sale\Views\Warehouse\Index.cshtml" />
     <Content Include="Areas\Crm\Views\Supplier\Edit.cshtml" />
     <Content Include="Areas\CMS_Staff\Views\Staff\Create.cshtml" />
+    <Content Include="Areas\CMS_Staff\Views\Staff\Edit.cshtml" />
     <Content Include="Areas\Crm\Views\Customer\Create.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\Products\Create.cshtml" />
     <None Include="scripts\jquery-3.0.0-vsdoc.js" />
@@ -3216,6 +3217,7 @@
     <Compile Include="Areas\CMS_Sale\Controllers\PurchaseOrderController.cs" />
     <Compile Include="Areas\Administration\Models\LoginViewModel.cs" />
     <Compile Include="Areas\CMS_Sale\Controllers\WarehouseController.cs" />
+    <Compile Include="Areas\CMS_Staff\Models\NhanVienViewModel.cs" />
     <Compile Include="Areas\Crm\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Crm\Controllers\SupplierController.cs" />
     <Compile Include="Areas\Crm\CrmAreaRegistration.cs" />
@@ -3230,6 +3232,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Helper.cs" />
+    <Compile Include="Helpers\RequestInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -3259,7 +3262,6 @@
     <Folder Include="Areas\CMS_Account\Models\" />
     <Folder Include="Areas\CMS_Account\Views\Shared\" />
     <Folder Include="Areas\CMS_Sale\Models\" />
-    <Folder Include="Areas\CMS_Staff\Models\" />
     <Folder Include="Areas\CMS_Staff\Views\Shared\" />
     <Folder Include="Areas\Crm\Views\Shared\" />
     <Folder Include="Assets\public\templates\upload\.thumbs\image\" />

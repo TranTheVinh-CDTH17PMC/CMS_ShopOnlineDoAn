@@ -18,7 +18,7 @@ namespace CMS_Database.Repositories
 
         public NhanVien GetByUserName(string name)
         {
-            return _db.NhanVien.SingleOrDefault(m => m.TenTaiKhoan == name);
+            return _db.NhanVien.SingleOrDefault(m => m.TenTaiKhoan == name && m.IsDelete!=true);
         }
     }
 }

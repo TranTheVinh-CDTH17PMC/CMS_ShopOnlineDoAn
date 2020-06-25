@@ -46,7 +46,7 @@
                             <label for="exampleFormControlSelect2">Quận/Huyện</label>
                             @Html.DropDownListFor(model => model.Quan, (IEnumerable<SelectListItem>)ViewBag.QuanHuyen, "- Chọn Quận/Huyện -", new { @class = "form-control" })
                         </div>
-                        <button class="btn btn-mini btn-primary" type="submit" name="Submit">
+                        <button class="btn btn-mini btn-primary" type="submit" name="Submit" onclick="showSwal('success-message')">
                             <i class="ace-icon fa fa-save"></i> Lưu
                         </button>
                         @using (Html.BeginForm("Delete", "Supplier",new { Id=4}))
@@ -61,4 +61,3 @@
         </div>
     </div>
 }
-
