@@ -1,0 +1,50 @@
+﻿@model CMS_ShopOnline.Areas.Crm.Models.CustomerViewModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/ACE_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    <div class="container-fluid" id="container-wrapper">
+        <div class="row">
+            <div class="col-lg-6">
+                <!-- Form Basic -->
+                <div class="card mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Tạo mới khách hàng</h6>
+                    </div>
+                    <div class="card-body" style="margin-top:-13px">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Tên khách hàng</label>
+                            @Html.TextBoxFor(model => model.TenKH, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            <label>Nhân viên tạo</label>
+                            @Html.TextBoxFor(model => model.IdNVTao, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <!-- General Element -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Số điện thoại</label>
+                            @Html.TextBoxFor(model => model.SDT, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Tổng tiền</label>
+                            @Html.TextBoxFor(model => model.TongTien, new { @class = "form-control", @readonly = "readonly",@Value ="0" })
+                        </div>
+                        <button class="btn btn-mini btn-primary" type="submit" name="Submit">
+                            <i class="ace-icon fa fa-save"></i> Lưu
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

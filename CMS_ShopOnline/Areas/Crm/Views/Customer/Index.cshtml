@@ -23,6 +23,13 @@
                             <input type="text" class="form-control ui-autocomplete-input" onkeyup="filterFunction()" placeholder="Nhập mã phiếu hoặc tên khách hàng..." id="search-pro-box" autocomplete="off">
                         </div>
                     </div>
+                    <div class="col-md-4">
+                        <a href="@Url.Action("Create", "Customer", new { area ="Crm" })">
+                            <button type="button" class="btn btn-primary">
+                                <i class="fa fa-plus-circle"></i> Khách hàng
+                            </button>
+                        </a>
+                    </div>
                 </div>
                 <div class="table-responsive">
                     <table class="table align-items-center table-flush">

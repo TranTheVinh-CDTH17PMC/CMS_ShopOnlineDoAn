@@ -3107,6 +3107,7 @@
     <Content Include="Areas\Crm\Views\Supplier\Edit.cshtml" />
     <Content Include="Areas\CMS_Staff\Views\Staff\Create.cshtml" />
     <Content Include="Areas\CMS_Staff\Views\Staff\Edit.cshtml" />
+    <Content Include="Areas\Crm\Views\Customer\Create.cshtml" />
     <None Include="scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="scripts\jquery-3.0.0.js" />
     <Content Include="scripts\jquery-3.0.0.min.js" />
@@ -3219,6 +3220,7 @@
     <Compile Include="Areas\Crm\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Crm\Controllers\SupplierController.cs" />
     <Compile Include="Areas\Crm\CrmAreaRegistration.cs" />
+    <Compile Include="Areas\Crm\Models\CustomerViewModel.cs" />
     <Compile Include="Areas\Crm\Models\NhaCungCapViewModel.cs" />
     <Compile Include="Areas\CMS_Staff\Controllers\StaffController.cs" />
     <Compile Include="Areas\CMS_Staff\StaffAreaRegistration.cs" />
