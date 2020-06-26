@@ -133,6 +133,17 @@ namespace CMS_ShopOnline.Areas.CMS_Staff.Controllers
             }
             return false;
         }
+        public ActionResult Delete(int Id)
+        {
+            var _nhanvien = NhanVien.GetbyId(Id);
+            if (_nhanvien != null)
+            {
+                _nhanvien.IsDelete = true;
+                NhanVien.Update(_nhanvien);
+                NhanVien.Save();
+            }
+            return View();
+        }
 
     }
 }

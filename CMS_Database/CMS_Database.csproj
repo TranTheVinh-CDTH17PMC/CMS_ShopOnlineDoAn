@@ -154,7 +154,7 @@
     <Compile Include="Interfaces\ILoaiNV.cs" />
     <Compile Include="Interfaces\IKhachHang.cs" />
     <Compile Include="Interfaces\ILoaiSP.cs" />
-    <Compile Include="Interfaces\INgyenLieu.cs" />
+    <Compile Include="Interfaces\INguyenLieu.cs" />
     <Compile Include="Interfaces\INhaCungCap.cs" />
     <Compile Include="Repositories\DonViTinhRepository.cs" />
     <Compile Include="Repositories\LoaiSPRepository.cs" />

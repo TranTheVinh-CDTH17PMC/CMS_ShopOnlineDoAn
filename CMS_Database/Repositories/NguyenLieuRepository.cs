@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CMS_Database.Repositories
 {
-    public class NguyenLieuRepository : GenericRepository<NguyenLieu>,INgyenLieu
+    public class NguyenLieuRepository : GenericRepository<NguyenLieu>,INguyenLieu
     {
 
     }

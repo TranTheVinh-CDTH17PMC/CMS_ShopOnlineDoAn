@@ -9,11 +9,11 @@
     <div class="tab">
         <h5 style="margin-left:20px;margin-top:20px;"><b>SẢN PHẨM</b></h5>
         <hr class="sidebar-divider">
-        <button class="tablinks" onclick="openSP(event, 'all')" id="tabSP">Tất cả</button>
-        <button class="tablinks" onclick="openSP(event, 'hangcon')">Hàng còn trong kho</button>
-        <button class="tablinks" onclick="openSP(event, 'tonkho')">Tồn kho</button>
-        <button class="tablinks" onclick="openSP(event, 'hethang')">Hết hàng</button>
-        <button class="tablinks" onclick="openSP(event, 'hangloi')">Hết bị lỗi</button>
+        <button class="tablinks" onclick="openSP(event, 'all')" id="tabSP">Tất cả (@ViewBag.countAll)</button>
+        <button class="tablinks" onclick="openSP(event, 'hangcon')">Hàng còn trong kho (@ViewBag.countHangCon)</button>
+        <button class="tablinks" onclick="openSP(event, 'tonkho')">Tồn kho (@ViewBag.HangTonKho)</button>
+        <button class="tablinks" onclick="openSP(event, 'saphethang')">Sắp hết hàng (@ViewBag.countSapHetHang)</button>
+        <button class="tablinks" onclick="openSP(event, 'hethang')">Hết hàng (@ViewBag.countHetHang)</button>
         <h5 style="margin-left:20px;margin-top:20px;"><b>GIAO DỊCH</b></h5>
         <hr class="sidebar-divider">
         <button class="tablinks" onclick="openSP(event, 'khachtra')" id="tabSP">Khách trả hàng</button>
