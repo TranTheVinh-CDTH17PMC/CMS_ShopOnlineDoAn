@@ -27,8 +27,6 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Models
 
         public bool? IsDelete { get; set; }
 
-        [DataType(DataType.Upload)]
-        public string FileImage { get; set; }
         public IEnumerable<LoaiSP> listLoaiSP { get; set; }
         public IEnumerable<DonViTinh> listDVT { get; set; }
     }

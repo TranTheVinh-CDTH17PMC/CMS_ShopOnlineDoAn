@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CMS_Database.Repositories
 {
-    class DonViTinhRepository:GenericRepository<DonViTinh>,IDonViTinh
+    public class DonViTinhRepository:GenericRepository<DonViTinh>,IDonViTinh
     {
     }
 }

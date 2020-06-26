@@ -3263,6 +3263,8 @@
     <Folder Include="Areas\CMS_Account\Controllers\" />
     <Folder Include="Areas\CMS_Account\Models\" />
     <Folder Include="Areas\CMS_Account\Views\Shared\" />
+    <Folder Include="Areas\CMS_Sale\Image\NguyenLieu\" />
+    <Folder Include="Areas\CMS_Sale\Image\SanPham\" />
     <Folder Include="Areas\CMS_Staff\Views\Shared\" />
     <Folder Include="Areas\Crm\Views\Shared\" />
     <Folder Include="Assets\public\templates\upload\.thumbs\image\" />

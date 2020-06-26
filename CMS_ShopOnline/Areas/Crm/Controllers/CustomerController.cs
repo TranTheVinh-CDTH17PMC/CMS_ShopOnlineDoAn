@@ -53,7 +53,7 @@ namespace CMS_ShopOnline.Areas.Crm.Controllers
             }
             catch (Exception e)
             {
-
+                e.Message.ToString();
             }
             return View();
         }
