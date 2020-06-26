@@ -1,0 +1,70 @@
+﻿@model CMS_ShopOnline.Areas.CMS_Sale.Models.NguyenLieuViewModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/ACE_Layout.cshtml";
+}
+@using (Html.BeginForm("Edit", "Warehouse", FormMethod.Post, new { Id=Model.Id ,enctype = "multipart/form-data" }))
+{
+    <div class="container-fluid" id="container-wrapper">
+        <div class="row">
+            <div class="col-lg-6">
+                <!-- Form Basic -->
+                <div class="card mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Tạo mới nguyên liệu</h6>
+                    </div>
+                    <div class="card-body" style="margin-top:-13px">
+                        <div class="form-group">
+                            <label>Tên Nguyên Liệu</label>
+                            @Html.TextBoxFor(model => model.Ten, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Chọn Hình Ảnh Mô Tả</label>
+                            <input type="file" name="File" id="File" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>Đơn Giá Nhập</label>
+                            @Html.TextBoxFor(model => model.DonGia, new { @class = "form-control", Type = "number" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <!-- General Element -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>Số Lượng Kho</label>
+                            @Html.TextBoxFor(model => model.SoLuongKho, new { @class = "form-control", Type = "number" , @readonly = "readonly" })
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Phân loại</label>
+                            <select class="form-control " data-val="true" data-val-number="The field Loại người dùng must be a number." data-val-required="Bắt buộc nhập" id="IdLoai" name="IdLoai">
+                                <option @(Model.IdLoai == null ? "selected" : "") value="" data-code="">-Chọn Loại-</option>
+                                @foreach (var item in Model.listLoaiSP)
+                                {
+                                    <option @(Model.IdLoai == item.Id ? "selected" : "") value="@item.Id">@item.Ten</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Đơn Vị Tính</label>
+                            <select class="form-control " data-val="true" data-val-number="The field Loại người dùng must be a number." data-val-required="Bắt buộc nhập" id="IdDVT" name="IdDVT">
+                                <option @(Model.IdDVT == null ? "selected" : "") value="" data-code="">-Chọn Đơn Vị Tính-</option>
+                                @foreach (var item in Model.listDVT)
+                                {
+                                    <option @(Model.IdDVT == item.Id ? "selected" : "") value="@item.Id">@item.Ten</option>
+                                }
+                            </select>
+                        </div>
+                        <button class="btn btn-mini btn-primary" type="submit" name="Submit">
+                            <i class="ace-icon fa fa-save"></i> Lưu
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+

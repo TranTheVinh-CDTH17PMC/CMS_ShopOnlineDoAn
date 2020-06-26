@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CMS_Database.Interfaces
 {
-    public interface INgyenLieu:IGenericRepository<NguyenLieu>
+    public interface INguyenLieu:IGenericRepository<NguyenLieu>
     {
 
     }
