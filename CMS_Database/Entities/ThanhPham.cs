@@ -24,7 +24,6 @@ namespace CMS_Database.Entities
         [StringLength(50)]
         public string Ten { get; set; }
 
-        [StringLength(50)]
         public string HinhAnh { get; set; }
 
         public double? DonGia { get; set; }

@@ -150,10 +150,14 @@
     <Compile Include="Entities\PhieuXuat.cs" />
     <Compile Include="Entities\sysdiagrams.cs" />
     <Compile Include="Entities\ThanhPham.cs" />
+    <Compile Include="Interfaces\IDonViTinh.cs" />
     <Compile Include="Interfaces\ILoaiNV.cs" />
     <Compile Include="Interfaces\IKhachHang.cs" />
+    <Compile Include="Interfaces\ILoaiSP.cs" />
     <Compile Include="Interfaces\INgyenLieu.cs" />
     <Compile Include="Interfaces\INhaCungCap.cs" />
+    <Compile Include="Repositories\DonViTinhRepository.cs" />
+    <Compile Include="Repositories\LoaiSPRepository.cs" />
     <Compile Include="Repositories\NguyenLieuRepository.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />
     <Compile Include="Interfaces\IGenericRepository.cs" />
