@@ -10,5 +10,6 @@ namespace CMS_Database.Interfaces
     public interface IThanhPham : IGenericRepository<ThanhPham>
     {
         void Delele(int id);
+        ThanhPham GetbyId(int Id);
     }
 }

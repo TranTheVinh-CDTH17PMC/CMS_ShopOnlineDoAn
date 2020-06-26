@@ -26,6 +26,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale
         {
             AutoMapper.Mapper.CreateMap<CMS_Database.Entities.NguyenLieu, NguyenLieuViewModel>();
             AutoMapper.Mapper.CreateMap<NguyenLieuViewModel, CMS_Database.Entities.NguyenLieu>();
+
+            AutoMapper.Mapper.CreateMap<CMS_Database.Entities.ThanhPham, ThanhPhamViewModel>();
+            AutoMapper.Mapper.CreateMap<ThanhPhamViewModel, CMS_Database.Entities.ThanhPham>();
         }
     }
 }

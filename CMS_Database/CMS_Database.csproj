@@ -156,6 +156,7 @@
     <Compile Include="Interfaces\ILoaiSP.cs" />
     <Compile Include="Interfaces\INgyenLieu.cs" />
     <Compile Include="Interfaces\INhaCungCap.cs" />
+    <Compile Include="Interfaces\IThanhPham.cs" />
     <Compile Include="Repositories\DonViTinhRepository.cs" />
     <Compile Include="Repositories\LoaiSPRepository.cs" />
     <Compile Include="Repositories\NguyenLieuRepository.cs" />
@@ -167,6 +168,7 @@
     <Compile Include="Repositories\KhachHangRepository.cs" />
     <Compile Include="Repositories\NhaCungCapRepository.cs" />
     <Compile Include="Repositories\NhanVienRepository.cs" />
+    <Compile Include="Repositories\ThanhPhamRepository.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
