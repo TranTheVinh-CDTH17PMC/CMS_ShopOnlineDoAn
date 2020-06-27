@@ -25,7 +25,14 @@
 }
 <div class="container-fluid" id="container-wrapper">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Nhà cung cấp</h1>
+        <div style="display:flex;">
+            <h1 class="h3 mb-0 text-gray-800">Nhà cung cấp</h1>
+            <a href="@Url.Action("Create", "Supplier", new { area ="Crm" })">
+                <button type="button" class="btn btn-primary" title="Thêm nhà cung cấp" style="margin-left:10px">
+                    Thêm <i class="fa fa-plus-circle"></i>
+                </button>
+            </a>
+        </div>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="./">Trang chủ</a></li>
             <li class="breadcrumb-item">Khách hàng</li>
@@ -41,12 +48,6 @@
                         <div class="order-search" style="margin: 10px 0px; position: relative;">
                             <input type="text" class="form-control ui-autocomplete-input" onkeyup="filterFunction()" placeholder="Nhập mã hoặc tên nhà cung cấp..." id="search-pro-box" autocomplete="off">
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <a href="@Url.Action("Create", "Supplier", new { area ="Crm" })">
-                        <button type="button" class="btn btn-primary">
-                            <i class="fa fa-plus-circle"></i> Nhà cung cấp
-                        </button></a>
                     </div>
                 </div>
                 <div class="table-responsive">

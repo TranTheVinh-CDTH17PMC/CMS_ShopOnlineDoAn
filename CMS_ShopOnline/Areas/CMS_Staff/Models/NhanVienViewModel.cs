@@ -10,7 +10,6 @@ namespace CMS_ShopOnline.Areas.CMS_Staff.Models
     {
         public int Id { get; set; }
 
-        public DateTime? NgayTao { get; set; }
 
         public int? IdLoaiNV { get; set; }
 
