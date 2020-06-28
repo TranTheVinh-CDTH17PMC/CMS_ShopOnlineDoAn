@@ -20,12 +20,14 @@
                             @Html.TextBoxFor(model => model.Ten, new { @class = "form-control" })
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Chọn hình ảnh mô tả</label>
-                            <input type="file" name="File" id="File" class="form-control"/>
-                        </div>
-                        <div class="form-group">
-                            <label>Đơn giá</label>
-                            @Html.TextBoxFor(model => model.DonGia, new { @class = "form-control" })
+                            <div class="text-center">
+                                <label class="btn btn-primary btn-sm btn-white" for="File"><i class="fa fa-upload"></i><span>Tải hình mới</span></label>
+                                <input id="File" name="File" type="file" accept="image/*" style="display:none" onchange="$('#upload-file-info').html(this.files[0].name)">
+                                <span class='label label-info' style="display:none" id="upload-file-info"></span>
+                            </div>
+                            <div class="text-center" id="display-image">
+                                <img src="/Assets/img/icons/add-image2.png" title="" id="imgAvt" style="max-height:187px" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -67,4 +69,22 @@
         </div>
     </div>
 }
+<script type="text/javascript">
+    /* The uploader form */
+    $(function () {
+        $(":file").change(function () {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = imageIsLoaded;
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    });
+
+    function imageIsLoaded(e) {
+        $('#imgAvt').attr('src', e.target.result);
+    };
+
+</script>
 

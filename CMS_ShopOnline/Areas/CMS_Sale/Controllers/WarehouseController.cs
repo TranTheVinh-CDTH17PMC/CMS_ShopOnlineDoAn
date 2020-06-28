@@ -92,6 +92,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 _nguyenlieu.DonGia = vOut;
                 AutoMapper.Mapper.Map(model, _nguyenlieu);
                 _nguyenlieu.NgayTao = DateTime.Now;
+                _nguyenlieu.NgayNhap = DateTime.Now;
                 _nguyenlieu.IsDelete = false;
                 _nguyenlieu.SoLuongKho = 0;
                 NguyenLieu.Insert(_nguyenlieu);

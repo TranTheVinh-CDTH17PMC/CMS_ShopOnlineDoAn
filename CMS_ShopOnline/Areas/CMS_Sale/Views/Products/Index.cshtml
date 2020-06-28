@@ -5,8 +5,15 @@
 }
 
 <div class="container-fluid" id="container-wrapper">
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Sản phẩm</h1>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4"> 
+        <div style="display:flex;">
+            <h1 class="h3 mb-0 text-gray-800">Sản phẩm</h1>
+            <a href="@Url.Action("Create", "Products", new { area ="CMS_Sale" })">
+                <button type="button" class="btn btn-primary" title="Thêm sản phẩm" style="margin-left:10px">
+                     Thêm <i class="fa fa-plus-circle"></i>
+                </button>
+            </a>
+        </div>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="./">Trang chủ</a></li>
             <li class="breadcrumb-item">Quản lý</li>
@@ -18,12 +25,12 @@
                 <!-- Simple Tables -->
                 <div class="card">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <div class="col-md-8">
+                        <div class="col-md-9">
                             <div class="order-search" style="margin: 10px 0px; position: relative;">
                                 <input type="text" class="form-control ui-autocomplete-input" onkeyup="filterFunction()" placeholder="Nhập mã sản phẩm hoặc tên sản phẩm..." id="search-pro-box" autocomplete="off">
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             @*<div class="dropdown">
                                 <button class="btn btn-primary" type="button" id="dropdownMenuButton"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -40,14 +47,6 @@
                                     <option>Dịch vụ</option>
                                 </select>
                         </div>
-                        <div class="col-md-2">
-                            <a href="@Url.Action("Create", "Products", new { area ="CMS_Sale" })">
-                                <button type="button" class="btn btn-primary">
-                                    <i class="fa fa-plus-circle"></i> Sản phẩm
-                                </button>
-                            </a>
-                        </div>
-                        
                     </div>
                     <div class="table-responsive">
                         <table class="table align-items-center table-flush">
@@ -88,16 +87,8 @@
                                     <td>Cafe</td>
                                     <td><img src="/Assets/img/products/cappuccino.png" style="width:60px; height:60px" /></td>
                                     <td style="display:flex">
-                                        <button class="btn btn-danger" style="margin:5px"><i class="fas fa-pencil-alt"></i></button>
-                                         <div class="dropdown">
-                                             <button class="btn btn-primary" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin:5px">
-                                                 <i class="fas fa-ellipsis-h"></i>
-                                             </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="#">Ngừng kinh doanh</a>
-                                                <a class="dropdown-item" href="#">Xóa</a>
-                                            </div>
-                                        </div>    
+                                        <button class="btn btn-primary" title="Chỉnh sửa" style="margin:5px"><i class="fas fa-pencil-alt"></i></button>
+                                        <button class="btn btn-warning" title="Ngừng kinh doanh" style="margin:5px"> <i class="fas fa-trash-alt"></i></button>
                                     </td>
                                 </tr>
                             </tbody>
