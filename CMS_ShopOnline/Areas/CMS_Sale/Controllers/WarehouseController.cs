@@ -17,6 +17,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         private readonly INguyenLieu NguyenLieu;
         private readonly IDonViTinh DVT;
         private readonly ILoaiSP LoaiSP;
+        private DateTime datetimenow = DateTime.Now;
         public WarehouseController()
         {
             NguyenLieu = new NguyenLieuRepository();
@@ -31,25 +32,67 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         }
         //
         // GET: /CMS_Sale/Warehouse/
-        public ActionResult Index()
+        public ActionResult Index(string hangcon, string tonkho, string saphethang,string hethang,string all)
         {
-            DateTime datetimenow = DateTime.Now;
+            
             int i = 0;
             ViewBag.countAll = NguyenLieu.SelectAll().Count();
             ViewBag.countHangCon = NguyenLieu.SelectAll().Where(x => x.SoLuongKho > 0).Count();
             ViewBag.countSapHetHang = NguyenLieu.SelectAll().Where(x => x.SoLuongKho >= 1 && x.SoLuongKho <= 5).Count();
-            var HangTon = NguyenLieu.SelectAll();
+            var HangTon = NguyenLieu.SelectAll().Where(x=>x.IsDelete!=true && x.SoLuongKho > 20);
             foreach(var item in HangTon)
             {
                 TimeSpan diff1 = datetimenow.Subtract(item.NgayNhap);
-                if (diff1.Days >= 30)
+                if (diff1.Days > 30)
                 {
                     i++;
                 }
             }
             ViewBag.HangTonKho = i;
             ViewBag.countHetHang = NguyenLieu.SelectAll().Where(x => x.SoLuongKho == 0).Count();
-            return View();
+            IEnumerable<NguyenLieuViewModel> model = NguyenLieu.SelectAll().Where(x => x.IsDelete != true).Select(
+                item => new NguyenLieuViewModel
+                {
+                    Id = item.Id,
+                    TenLoai = item.LoaiSP.Ten,
+                    IdLoai = item.IdLoai,
+                    Ten = item.Ten,
+                    HinhAnh = item.HinhAnh,
+                    TenDVT = item.DonViTinh.Ten,
+                    IdDVT = item.IdDVT,
+                    DonGia = item.DonGia,
+                    SoLuongKho = item.SoLuongKho,
+                    IsDelete = item.IsDelete,
+                    NgayNhap = item.NgayNhap
+                });
+            if(hangcon!=null)
+            {
+                model = model.Where(x => x.SoLuongKho > 0 && x.IsDelete != true);
+            }
+            if (tonkho != null)
+            {
+                model = model.Where(x=>x.IsDelete != true && ngay(x.NgayNhap) > 30 && x.SoLuongKho > 20);
+            }
+            if (saphethang != null)
+            {
+                model = model.Where(x => x.SoLuongKho >= 1 && x.SoLuongKho <= 5 && x.IsDelete != true);
+            }
+            if (hethang != null)
+            {
+                model = model.Where(x => x.SoLuongKho == 0 && x.IsDelete != true);
+            }
+            if (all != null)
+            {
+                model = model.Where(x=>x.IsDelete != true);
+            }
+            return View(model);
+        }
+        public int ngay(DateTime ngaynhap)
+        {
+            int i = 0;
+            TimeSpan diff1 = datetimenow.Subtract(ngaynhap);
+            i = diff1.Days;
+            return i;
         }
         public ActionResult Create()
         {
@@ -164,14 +207,16 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
 
             return View();
         }
-        public ActionResult Delete(int Id)
+        [HttpPost]
+        public ActionResult Delete(string IdDelete)
         {
-            var _nguyenlieu = NguyenLieu.SelectById(Id);
+            var _nguyenlieu = NguyenLieu.SelectById(int.Parse(IdDelete));
             if(_nguyenlieu!=null)
             {
                 _nguyenlieu.IsDelete = true;
                 NguyenLieu.Update(_nguyenlieu);
                 NguyenLieu.Save();
+                return RedirectToAction("Index");
             }
             return View();
         }

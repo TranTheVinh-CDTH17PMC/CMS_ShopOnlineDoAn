@@ -3,6 +3,8 @@ using CMS_Database.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using WebMatrix.WebData;
 
@@ -60,6 +62,15 @@ namespace CMS_ShopOnline.Helpers
 
                 return null;
             }
+        }
+        public static string ChuyenThanhKhongDau(string s)
+        {
+            if (string.IsNullOrEmpty(s) == true)
+                return "";
+
+            Regex regex = new Regex("\\p{IsCombiningDiacriticalMarks}+");
+            string temp = s.Normalize(NormalizationForm.FormD);
+            return regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D').ToLower();
         }
     }
 }

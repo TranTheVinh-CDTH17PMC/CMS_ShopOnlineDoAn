@@ -38,9 +38,10 @@ namespace CMS_ShopOnline.Areas.Crm.Controllers
             nhacungcap = _ncc;
         }
         // GET: Crm/Supplier
-        public ActionResult Index()
+        public ActionResult Index(string txtCode)
         {
-            var model = nhacungcap.SelectAll().Where(x => x.IsDelete != true).Select(
+
+            IEnumerable<NhaCungCapViewModel> model = nhacungcap.SelectAll().Where(x => x.IsDelete != true).Select(
                 item => new NhaCungCapViewModel
                 {
                     Id = item.Id,
@@ -50,6 +51,11 @@ namespace CMS_ShopOnline.Areas.Crm.Controllers
                     Email = item.Email,
                     IsDelete = item.IsDelete
                 }).OrderBy(x=>x.Id);
+            if (txtCode != null)
+            {
+                txtCode = txtCode == "" ? "~" : Helpers.Helper.ChuyenThanhKhongDau(txtCode);
+                model = model.Where(x => x.IsDelete != true && (Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(txtCode)));
+            }
             ViewBag.SuccessMessage = TempData["SuccessMessage"];
             return View(model);
         }

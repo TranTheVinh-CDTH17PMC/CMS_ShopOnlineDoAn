@@ -12,18 +12,21 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Models
         public int Id { get; set; }
 
         public int? IdLoai { get; set; }
+        public string TenLoai { get; set; }
 
         public string Ten { get; set; }
 
         public string HinhAnh { get; set; }
 
         public int? IdDVT { get; set; }
+        public string TenDVT { get; set; }
 
         public double? DonGia { get; set; }
 
         public int? SoLuongKho { get; set; }
 
         public bool? IsDelete { get; set; }
+        public DateTime NgayNhap { get; set; }
 
         public IEnumerable<LoaiSP> listLoaiSP { get; set; }
         public IEnumerable<DonViTinh> listDVT { get; set; }

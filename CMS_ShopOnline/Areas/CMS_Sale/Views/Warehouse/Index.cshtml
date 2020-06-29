@@ -1,9 +1,43 @@
-﻿
+﻿@using CMS_ShopOnline.Areas.CMS_Sale.Models
+@model IEnumerable<NguyenLieuViewModel>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/ACE_Layout.cshtml";
 }
+@using GridMvc.Html
 <link href="/Assets/css/warehouse.css" rel="stylesheet" type="text/css" />
+@helper ButtonEdit(int Id)
+{
+    <a href="@Url.Action("Edit","Warehouse",new { @Id = Id })">
+        <button class="btn btn-primary" title="Chỉnh sửa" style="margin: 5px" type="button"><i class="fas fa-pencil-alt"></i></button>
+    </a>
+}
+@helper ButtonDelete(int Id)
+{
+    <button class="btn btn-warning" title="Ngừng kinh doanh" style="margin:5px" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmDelete()"> <i class="fas fa-trash-alt"></i></button>
+}
+@helper Ma(int Id)
+{
+    <span>NL @Id</span>
+}
+@helper Delete(bool? Status)
+{
+    if (Status == false)
+    {
+            <span class="badge badge-primary">Hoạt Động</span>
+    }
+}
+@helper Image(string img)
+{
+    if (img == null)
+    {
+            <img src="~/Areas/CMS_Sale/Image/NguyenLieu/error.png" style="width:60px; height:60px">
+    }
+    else
+    {
+            <img src="~/Areas/CMS_Sale/Image/NguyenLieu/@img" style="width:60px; height:60px">
+    }
+}
 <div class="container-fluid" id="container-wrapper">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <div style="display:flex;">
@@ -21,20 +55,23 @@
         </ol>
     </div>
     <!-- Sidebar -->
-    <div class="tab">
-        <h5 style="margin-left:20px;margin-top:20px;"><b>SẢN PHẨM</b></h5>
-        <hr class="sidebar-divider">
-        <button class="tablinks" onclick="openSP(event, 'all')" id="tabSP">Tất cả (@ViewBag.countAll)</button>
-        <button class="tablinks" onclick="openSP(event, 'hangcon')">Hàng còn trong kho (@ViewBag.countHangCon)</button>
-        <button class="tablinks" onclick="openSP(event, 'tonkho')">Tồn kho (@ViewBag.HangTonKho)</button>
-        <button class="tablinks" onclick="openSP(event, 'saphethang')">Sắp hết hàng (@ViewBag.countSapHetHang)</button>
-        <button class="tablinks" onclick="openSP(event, 'hethang')">Hết hàng (@ViewBag.countHetHang)</button>
-        <h5 style="margin-left:20px;margin-top:20px;"><b>GIAO DỊCH</b></h5>
-        <hr class="sidebar-divider">
-        <button class="tablinks" onclick="openSP(event, 'khachtra')" id="tabSP">Khách trả hàng</button>
-        <button class="tablinks" onclick="openSP(event, 'xuatncc')">Xuất trả NCC</button>
-        <button class="tablinks" onclick="openSP(event, 'kiemke')">Kiểm kê</button>
-    </div>
+    @using (Html.BeginForm("Index", "Warehouse", FormMethod.Post))
+    {
+        <div class="tab">
+            <h5 style="margin-left:20px;margin-top:20px;"><b>SẢN PHẨM</b></h5>
+            <hr class="sidebar-divider">
+            <button class="tablinks" name="all" value="all" type="submit">Tất cả (@ViewBag.countAll)</button>
+            <button class="tablinks" name="hangcon" value="hangcon" type="submit">Hàng còn trong kho (@ViewBag.countHangCon)</button>
+            <button class="tablinks" name="tonkho" value="tonkho" type="submit">Tồn kho (@ViewBag.HangTonKho)</button>
+            <button class="tablinks" name="saphethang" value="saphethang" type="submit">Sắp hết hàng (@ViewBag.countSapHetHang)</button>
+            <button class="tablinks" name="hethang" value="hethang" type="submit">Hết hàng (@ViewBag.countHetHang)</button>
+            @*<h5 style="margin-left:20px;margin-top:20px;"><b>GIAO DỊCH</b></h5>
+            <hr class="sidebar-divider">
+            <button class="tablinks" onclick="openSP(event, 'khachtra')" id="tabSP">Khách trả hàng</button>
+            <button class="tablinks" onclick="openSP(event, 'xuatncc')">Xuất trả NCC</button>
+            <button class="tablinks" onclick="openSP(event, 'kiemke')">Kiểm kê</button>*@
+        </div>
+    }
     <div class="row">
         <div class="col-lg-12 mb-4">
             <!-- Simple Tables -->
@@ -46,7 +83,34 @@
                         </div>
                     </div>
                 </div>
-                <div class="table-responsive">
+                @using (Html.BeginForm("Delete", "Warehouse", FormMethod.Post))
+                {
+                    <div class="table-responsive">
+                        @Html.Grid(Model).Columns(columns =>
+                   {
+                       columns.Add()
+                       .Encoded(false)
+                       .Sanitized(false)
+                       .SetWidth(30)
+                       .RenderValueAs(x => ButtonEdit(x.Id));
+                       columns.Add()
+                       .Encoded(false)
+                       .Sanitized(false)
+                       .SetWidth(30)
+                       .RenderValueAs(x => ButtonDelete(x.Id));
+                       columns.Add().Titled("Mã NLiệu").SetWidth(5).Sanitized(false).Encoded(false).RenderValueAs(x => Ma(x.Id));
+                       columns.Add().Encoded(false).Sanitized(false).Titled("Ảnh mô tả").RenderValueAs(x=>Image(x.HinhAnh));
+                       columns.Add(x => x.NgayNhap).Sanitized(false).Titled("Ngày Nhập Gần Nhất").Format("{0:dd/MM/yyyy}");
+                       columns.Add(x => x.Ten).Titled("Tên NLiệu");
+                       columns.Add(x => x.TenDVT).Titled("ĐVT");
+                       columns.Add(x => x.TenLoai).Titled("Loại NLiệu");
+                       columns.Add(x => x.SoLuongKho).Titled("Số Lượng Kho");
+                       columns.Add(x => x.DonGia).Titled("Đơn Giá Nhập");
+                       columns.Add().Titled("Trạng thái").Sanitized(false).Encoded(false).RenderValueAs(x => Delete(x.IsDelete));
+                   }).WithPaging(5)
+                    </div>
+                }
+                @*<div class="table-responsive">
                     <div id="hangcon" class="tabcontent">
                         <table class="table align-items-center table-flush">
                             <thead class="thead-light">
@@ -69,8 +133,8 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
-                <div class="table-responsive">
+                </div>*@
+                @*<div class="table-responsive">
                     <div id="tonkho" class="tabcontent">
                         <table class="table align-items-center table-flush">
                             <thead class="thead-light">
@@ -94,7 +158,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="card-footer"></div>
+                <div class="card-footer"></div>*@
             </div>
         </div>
     </div>
@@ -157,5 +221,12 @@
             }
             
         }
+    }
+    function ConfirmDelete() {
+        var x = confirm("Bạn có chắc muốn xóa item đã chọn ?");
+        if (x)
+            return true;
+        else
+            return false;
     }
 </script>

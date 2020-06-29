@@ -33,11 +33,18 @@
 }
 @helper ButtonDelete(int Id)
 {
-    <button class="btn btn-warning" title="Ngừng kinh doanh" style="margin:5px" name="IdDelete" type="submit" value="@Id" onclick="ConfirmDelete()"> <i class="fas fa-trash-alt"></i></button>
+    <button class="btn btn-warning" title="Ngừng kinh doanh" style="margin:5px" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmDelete()"> <i class="fas fa-trash-alt"></i></button>
 }
 @helper Ma(int Id)
 {
     <span>NCC @Id</span>
+}
+@helper Delete(bool? Status)
+{
+    if (Status == false)
+    {
+        <span class="badge badge-primary">Hoạt Động</span>
+    }
 }
 <div class="container-fluid" id="container-wrapper">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -59,13 +66,21 @@
         <div class="col-lg-12 mb-4">
             <!-- Simple Tables -->
             <div class="card">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <div class="col-md-8">
-                        <div class="order-search" style="margin: 10px 0px; position: relative;">
-                            <input type="text" class="form-control ui-autocomplete-input" onkeyup="filterFunction()" placeholder="Nhập mã hoặc tên nhà cung cấp..." id="search-pro-box" autocomplete="off">
+                @using (Html.BeginForm("Index", "Supplier",FormMethod.Post))
+                {
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <div class="col-md-8">
+                            <div class="order-search" style="margin: 10px 0px; position: relative;">
+                                @Html.TextBox("txtCode", Request["txtCode"], new { @class = "form-control ui-autocomplete-input", autocomplete = "off", placeholder = "Nhập tên nhà cung cấp..." })
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fa fa-plus-circle"></i> Tìm kiếm
+                            </button>
                         </div>
                     </div>
-                </div>
+                }
                 @using (Html.BeginForm("Delete", "Supplier", FormMethod.Post))
                 {
                     <div class="table-responsive">
@@ -86,7 +101,7 @@
                        columns.Add(x => x.SDT).Titled("Số ĐT");
                        columns.Add(x => x.Email).Titled("Email");
                        columns.Add(x => x.DiaChi).Titled("Địa Chỉ");
-                       columns.Add(x => x.IsDelete).Titled("Trạng thái");
+                       columns.Add().Titled("Trạng thái").Sanitized(false).Encoded(false).RenderValueAs(x=>Delete(x.IsDelete));
                    }).WithPaging(5)    
                     </div>
                 }
