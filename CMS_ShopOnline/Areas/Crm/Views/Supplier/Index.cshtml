@@ -1,4 +1,6 @@
-﻿@model CMS_ShopOnline.Areas.Crm.Models.NhaCungCapViewModel
+﻿@using CMS_ShopOnline.Areas.Crm.Models
+@model IEnumerable<NhaCungCapViewModel>
+@using GridMvc.Html
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/ACE_Layout.cshtml";
@@ -22,6 +24,20 @@
 });
 
     </script>
+}
+@helper ButtonEdit(int Id)
+{
+    <a href="@Url.Action("Edit","Supplier",new { @Id = Id })">
+        <button class="btn btn-primary" title="Chỉnh sửa" style="margin: 5px" type="button"><i class="fas fa-pencil-alt"></i></button>
+    </a>
+}
+@helper ButtonDelete(int Id)
+{
+    <button class="btn btn-warning" title="Ngừng kinh doanh" style="margin:5px" name="IdDelete" type="submit" value="@Id" onclick="ConfirmDelete()"> <i class="fas fa-trash-alt"></i></button>
+}
+@helper Ma(int Id)
+{
+    <span>NCC @Id</span>
 }
 <div class="container-fluid" id="container-wrapper">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -50,31 +66,30 @@
                         </div>
                     </div>
                 </div>
-                <div class="table-responsive">
-                    <table class="table align-items-center table-flush">
-                        <thead class="thead-light">
-                            <tr>
-                                <th>Mã NCC</th>
-                                <th>Nhà cung cấp</th>
-                                <th>Số điện thoại</th>
-                                <th>Email</th>
-                                <th>Địa chỉ</th>
-                                <th>Tổng tiền</th>
-                            </tr>
-                        </thead>
-                        <tbody id="myproducts">
-                            <tr>
-                                <td><a href="#">1</a></td>
-                                <td>Nguyễn A</td>
-                                <td>0987456123</td>
-                                <td>nguyen@gmail.com</td>
-                                <td>HCM</td>
-                                <td>50000</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="card-footer"></div>
+                @using (Html.BeginForm("Delete", "Supplier", FormMethod.Post))
+                {
+                    <div class="table-responsive">
+                        @Html.Grid(Model).Columns(columns =>
+                   {
+                       columns.Add()
+                       .Encoded(false)
+                       .Sanitized(false)
+                       .SetWidth(30)
+                       .RenderValueAs(x => ButtonEdit(x.Id));
+                       columns.Add()
+                       .Encoded(false)
+                       .Sanitized(false)
+                       .SetWidth(30)
+                       .RenderValueAs(x => ButtonDelete(x.Id));
+                       columns.Add().Titled("Mã NCC").SetWidth(5).Sanitized(false).Encoded(false).RenderValueAs(x => Ma(x.Id));
+                       columns.Add(x => x.Ten).Titled("Tên NCC");
+                       columns.Add(x => x.SDT).Titled("Số ĐT");
+                       columns.Add(x => x.Email).Titled("Email");
+                       columns.Add(x => x.DiaChi).Titled("Địa Chỉ");
+                       columns.Add(x => x.IsDelete).Titled("Trạng thái");
+                   }).WithPaging(5)    
+                    </div>
+                }
             </div>
         </div>
     </div>
@@ -96,6 +111,26 @@
                 tr[i].style.display = "none";
             }
         }
+    }
+    function Delete(id) {
+        if (confirm('Bạn có chắc muốn xóa item đã chọn ?')) {
+            $.post("@Url.Action("Delete", "Supplier", new { area = "Crm" })", 
+            { Id: id })
+            .done(function (data) {
+                location.reload();
+            });
+            return false;
+        }
+        else {
+            return false;
+        }
+    };
+    function ConfirmDelete() {
+        var x = confirm("Bạn có chắc muốn xóa item đã chọn ?");
+        if (x)
+            return true;
+        else
+            return false;
     }
 </script>
 

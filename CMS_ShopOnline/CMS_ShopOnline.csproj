@@ -977,6 +977,7 @@
     <Content Include="Assets\quagga.min.js" />
     <Content Include="Assets\vendor\bootstrap\css\bootstrap.css" />
     <Content Include="Assets\vendor\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Assets\vendor\bootstrap\css\CustomPagination.css" />
     <Content Include="Assets\vendor\bootstrap\js\bootstrap.bundle.js" />
     <Content Include="Assets\vendor\bootstrap\js\bootstrap.bundle.min.js" />
     <Content Include="Assets\vendor\bootstrap\js\bootstrap.js" />

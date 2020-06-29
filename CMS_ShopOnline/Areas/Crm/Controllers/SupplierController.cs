@@ -17,17 +17,17 @@ namespace CMS_ShopOnline.Areas.Crm.Controllers
         private readonly INhaCungCap nhacungcap;
         List<SelectListItem> Tpho = new List<SelectListItem>()
             {
-                new SelectListItem { Text = "Tp.HCM", Value = "1"},
+                new SelectListItem { Text = "Tp.HCM", Value = "TPHCM"},
                 //new SelectListItem { Text = "Tây Ninh", Value = "2"}
             };
         List<SelectListItem> QuanHuyen = new List<SelectListItem>()
             {
-                new SelectListItem { Text = "Q1", Value = "1"},
-                new SelectListItem { Text = "Q2", Value = "2"},
-                new SelectListItem { Text = "Q3", Value = "3"},
-                new SelectListItem { Text = "Q4", Value = "4"},
-                new SelectListItem { Text = "Q5", Value = "5"},
-                new SelectListItem { Text = "Q6", Value = "6"}
+                new SelectListItem { Text = "Q1", Value = "Q1"},
+                new SelectListItem { Text = "Q2", Value = "Q2"},
+                new SelectListItem { Text = "Q3", Value = "Q3"},
+                new SelectListItem { Text = "Q4", Value = "Q4"},
+                new SelectListItem { Text = "Q5", Value = "Q5"},
+                new SelectListItem { Text = "Q6", Value = "Q6"}
             };
         public SupplierController()
         {
@@ -40,8 +40,18 @@ namespace CMS_ShopOnline.Areas.Crm.Controllers
         // GET: Crm/Supplier
         public ActionResult Index()
         {
+            var model = nhacungcap.SelectAll().Where(x => x.IsDelete != true).Select(
+                item => new NhaCungCapViewModel
+                {
+                    Id = item.Id,
+                    Ten = item.Ten,
+                    DiaChi = item.DiaChi +","+ item.Quan + "," + item.ThanhPho,
+                    SDT = item.SDT,
+                    Email = item.Email,
+                    IsDelete = item.IsDelete
+                }).OrderBy(x=>x.Id);
             ViewBag.SuccessMessage = TempData["SuccessMessage"];
-            return View();
+            return View(model);
         }
 
         // GET: Crm/Supplier/Details/5
@@ -124,11 +134,11 @@ namespace CMS_ShopOnline.Areas.Crm.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Delete(int Id)
+        public ActionResult Delete(string IdDelete)
         {
             try
             {
-                var _ncc = nhacungcap.SelectById(Id);
+                var _ncc = nhacungcap.SelectById(int.Parse(IdDelete));
                 _ncc.IsDelete = true;
                 nhacungcap.Update(_ncc);
                 nhacungcap.Save();

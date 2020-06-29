@@ -14,5 +14,6 @@ namespace CMS_ShopOnline.Areas.Crm.Models
         public string Quan { get; set; }
         public string ThanhPho { get; set; }
         public string Email { get; set; }
+        public bool? IsDelete { get; set; }
     }
 }
