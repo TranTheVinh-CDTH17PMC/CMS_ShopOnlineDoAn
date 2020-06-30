@@ -38,6 +38,17 @@
             <img src="~/Areas/CMS_Sale/Image/NguyenLieu/@img" style="width:60px; height:60px">
     }
 }
+@helper CheckDate(DateTime date)
+{
+    if (date == new DateTime(2010,10,10,1,1,1))
+    {
+        <span class="badge badge-warning">Khởi tạo</span>
+    }
+    else
+    {
+        @date.Date.ToString("dd/MM/yyyy")
+    }
+}
 <div class="container-fluid" id="container-wrapper">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <div style="display:flex;">
@@ -95,7 +106,7 @@
                        .RenderValueAs(x => (ButtonEdit(x.Id)).ToString() + (ButtonDelete(x.Id)).ToString());
                        columns.Add().Titled("Mã").SetWidth(5).Sanitized(false).Encoded(false).RenderValueAs(x => Ma(x.Id));
                        columns.Add().Encoded(false).Sanitized(false).Titled("Hình ảnh").RenderValueAs(x=>Image(x.HinhAnh));
-                       columns.Add(x => x.NgayNhap).Sanitized(false).Titled("Ngày nhập").Format("{0:dd/MM/yyyy}");
+                       columns.Add().Sanitized(false).Encoded(false).Titled("Ngày nhập").Format("{0:dd/MM/yyyy}").RenderValueAs(x => CheckDate(x.NgayNhap));
                        columns.Add(x => x.Ten).Titled("Tên nguyên liệu");
                        columns.Add(x => x.TenDVT).Titled("ĐVT");
                        columns.Add(x => x.TenLoai).Titled("Loại");

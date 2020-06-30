@@ -192,6 +192,16 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Areas\CMS_Sale\Image\NguyenLieu\276202061451PM_ChromeBlue.jpg" />
+    <Content Include="Areas\CMS_Sale\Image\NguyenLieu\3006202020608CH_16903117_417667695237949_8455934983327692960_o.jpg" />
+    <Content Include="Areas\CMS_Sale\Image\NguyenLieu\3006202033112CH_63e8c6ac2fc0f219d47860cafcf9429c.jpg" />
+    <Content Include="Areas\CMS_Sale\Image\NguyenLieu\3006202033237CH_18056308_1820483724871403_5400843773371250710_o.jpg" />
+    <Content Include="Areas\CMS_Sale\Image\NguyenLieu\3006202033258CH_18056308_1820483724871403_5400843773371250710_o.jpg" />
+    <Content Include="Areas\CMS_Sale\Image\NguyenLieu\3006202033457CH_18056308_1820483724871403_5400843773371250710_o.jpg" />
+    <Content Include="Areas\CMS_Sale\Image\NguyenLieu\3006202033734CH_18056308_1820483724871403_5400843773371250710_o.jpg" />
+    <Content Include="Areas\CMS_Sale\Image\NguyenLieu\3006202033758CH_18056308_1820483724871403_5400843773371250710_o.jpg" />
+    <Content Include="Areas\CMS_Sale\Image\NguyenLieu\3006202034033CH_18056308_1820483724871403_5400843773371250710_o.jpg" />
+    <Content Include="Areas\CMS_Sale\Image\NguyenLieu\3006202034112CH_18056308_1820483724871403_5400843773371250710_o.jpg" />
+    <Content Include="Areas\CMS_Sale\Image\NguyenLieu\3062020123221AM_001a2766f68d0bd3529c.jpg" />
     <Content Include="Areas\CMS_Sale\Image\NguyenLieu\error.png" />
     <Content Include="Areas\CMS_Sale\Image\NguyenLieu\NguyenLieu_39de31551b5b4c08cc241494eef47d24.jpg" />
     <Content Include="Areas\CMS_Sale\Image\NguyenLieu\NguyenLieu_63e8c6ac2fc0f219d47860cafcf9429c.jpg" />
@@ -3117,6 +3127,8 @@
     <Content Include="Areas\CMS_Sale\Views\Warehouse\Create.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\Products\Edit.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\Warehouse\Edit.cshtml" />
+    <Content Include="Areas\CMS_Sale\Views\ProductType\CreateType.cshtml" />
+    <Content Include="Areas\CMS_Sale\Views\ProductType\Index.cshtml" />
     <None Include="scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="scripts\jquery-3.0.0.js" />
     <Content Include="scripts\jquery-3.0.0.min.js" />
@@ -3222,11 +3234,14 @@
     <Compile Include="Areas\CMS_Sale\Controllers\InOrderController.cs" />
     <Compile Include="Areas\CMS_Sale\Controllers\POSController.cs" />
     <Compile Include="Areas\CMS_Sale\Controllers\ProductsController.cs" />
+    <Compile Include="Areas\CMS_Sale\Controllers\ProductTypeController.cs" />
     <Compile Include="Areas\CMS_Sale\Controllers\PurchaseOrderController.cs" />
     <Compile Include="Areas\Administration\Models\LoginViewModel.cs" />
     <Compile Include="Areas\CMS_Sale\Controllers\WarehouseController.cs" />
     <Compile Include="Areas\CMS_Sale\Models\NguyenLieuViewModel.cs" />
     <Compile Include="Areas\CMS_Sale\Models\ThanhPhamViewModel.cs" />
+    <Compile Include="Areas\CMS_Sale\Models\TypeViewModel.cs" />
+    <Compile Include="Areas\CMS_Sale\Models\UnitViewModel.cs" />
     <Compile Include="Areas\CMS_Staff\Models\NhanVienViewModel.cs" />
     <Compile Include="Areas\Crm\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Crm\Controllers\SupplierController.cs" />

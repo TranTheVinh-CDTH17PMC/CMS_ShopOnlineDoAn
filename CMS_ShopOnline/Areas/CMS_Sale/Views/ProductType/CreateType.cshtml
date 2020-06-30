@@ -1,0 +1,56 @@
+﻿@model CMS_ShopOnline.Areas.CMS_Sale.Models.UnitViewModel
+
+@{
+    ViewBag.Title = "CreateType";
+    Layout = "~/Views/Shared/ACE_Layout.cshtml";
+}
+
+<div class="container-fluid" id="container-wrapper">
+    <div class="row">
+
+            <div class="col-lg-6">
+                <!-- Form Basic -->
+                @using (Html.BeginForm())
+                {
+                    <div class="card mb-4">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">Tạo mới loại sản phẩm</h6>
+                        </div>
+                        <div class="card-body" style="margin-top:-13px">
+                            <div class="form-group">
+                                <label>Tên Loại SP</label>
+                                @Html.TextBoxFor(model => model.Ten, new { @class = "form-control" })
+                            </div>
+                            <button class="btn btn-mini btn-primary" type="submit" name="Submit">
+                                <i class="ace-icon fa fa-save"></i> Lưu
+                            </button>
+                        </div>
+                    
+                    </div>
+                }
+            </div>
+  
+        
+            <div class="col-lg-6">
+                <!-- General Element -->
+            @using (Html.BeginForm("CreateUnit", "ProductType", FormMethod.Post))
+            {
+                <div class="card mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Tạo mới đơn vị tính</h6>
+                    </div>
+                    <div class="card-body" style="margin-top:-13px">
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Tên ĐVT</label>
+                            @Html.TextBoxFor(model => model.Ten, new { @class = "form-control" })
+                        </div>
+                        <button class="btn btn-mini btn-primary" type="submit" name="Submit">
+                            <i class="ace-icon fa fa-save"></i> Lưu
+                        </button>
+                    </div>
+                </div>
+            }
+            </div>
+    </div>
+</div>
+

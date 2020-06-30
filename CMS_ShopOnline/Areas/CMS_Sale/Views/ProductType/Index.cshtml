@@ -1,0 +1,162 @@
+﻿@using CMS_ShopOnline.Areas.CMS_Sale.Models
+@using GridMvc.Html
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/ACE_Layout.cshtml";
+    IEnumerable<TypeViewModel> ListType = ViewBag.ListType;
+    IEnumerable<UnitViewModel> ListUnit = ViewBag.ListUnit;
+}
+@helper ButtonEdit(string name,bool IsType,int id)
+{
+    if (IsType == true)
+    {
+            <button onclick="NameType('@name',@id)" class="btn btn-primary" title="Chỉnh sửa" style="margin-left:-8px;margin-right:9px;" type="button" data-toggle="modal" data-target="#myModalType">
+                <i class="fas fa-pencil-alt"></i>
+            </button>
+    }
+    if (IsType == false)
+    {
+            <button onclick="NameUnit('@name',@id)" class="btn btn-primary" title="Chỉnh sửa" style="margin-left:-8px;margin-right:9px;" type="button" data-toggle="modal" data-target="#myModalUnit">
+                <i class="fas fa-pencil-alt"></i>
+            </button>
+    }
+}
+@helper ButtonDelete(int Id)
+{
+    <button class="btn btn-warning" title="Xóa" style="margin:-2px" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmDelete()"> <i class="fas fa-trash-alt"></i></button>
+}
+@helper Ma(int Id)
+{
+    <span>NCC @Id</span>
+}
+@helper Delete(bool? Status)
+{
+    if (Status == false)
+    {
+            <span class="badge badge-primary">Hoạt Động</span>
+    }
+}
+<div class="container">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div style="display:flex;">
+            
+            <a href="@Url.Action("CreateType", "ProductType", new { area ="CMS_Sale" })">
+                <button type="button" class="btn btn-primary" title="Thêm nhà cung cấp" style="margin-left:10px">
+                    Thêm <i class="fa fa-plus-circle"></i>
+                </button>
+            </a>
+        </div>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="./">Trang chủ</a></li>
+            <li class="breadcrumb-item">Quản Lí</li>
+            <li class="breadcrumb-item active" aria-current="page">Loại Hàng</li>
+        </ol>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <h1 class="h3 mb-0 text-gray-800" style="padding-bottom:10px">Loại SP</h1>
+            @using (Html.BeginForm("DeleteType", "ProductType", FormMethod.Post))
+            {
+                <div class="table-responsive">
+                    @Html.Grid(ListType).Columns(columns =>
+                    {
+                       columns.Add().Titled("Tùy chỉnh").Css("text center")
+                               .Encoded(false)
+                               .Sanitized(false)
+                               .SetWidth(100)
+                               .RenderValueAs(x => (ButtonEdit(x.Ten,true,x.Id)).ToString() + (ButtonDelete(x.Id)).ToString());
+                       columns.Add(x => x.Ten).Titled("Tên Loại").SetWidth(5);
+                       columns.Add().Titled("Trạng thái").Sanitized(false).Encoded(false).RenderValueAs(x => Delete(x.IsDelete));
+                    }).WithPaging(5)
+                </div>
+            }
+        </div>
+        <div class="col-sm-6">
+            <h1 class="h3 mb-0 text-gray-800" style="padding-bottom:10px">Đơn Vị Tính</h1>
+           @using (Html.BeginForm("DeleteUnit", "ProductType", FormMethod.Post))
+           {
+                <div class="table-responsive">
+                    @Html.Grid(ListUnit).Columns(columns =>
+                    {
+                       columns.Add().Titled("Tùy chỉnh").Css("text center")
+                                   .Encoded(false)
+                                   .Sanitized(false)
+                                   .SetWidth(100)
+                                   .RenderValueAs(x => (ButtonEdit(x.Ten,false,x.Id)).ToString() + (ButtonDelete(x.Id)).ToString());
+                       columns.Add(x=>x.Ten).Titled("Tên ĐVT").SetWidth(5);
+                       columns.Add().Titled("Trạng thái").Sanitized(false).Encoded(false).RenderValueAs(x => Delete(x.IsDelete));
+                    }).WithPaging(5)
+                </div>
+           }
+        </div>
+    </div>
+</div>
+<div class="modal" id="myModalType">
+    <div class="modal-dialog">
+        @using (Html.BeginForm("EditType", "ProductType", FormMethod.Post))
+        {
+            <div class="modal-content">
+            <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Chỉnh Sửa Loại SP</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body mx-3">
+                    <div class="md-form mb-5">
+                        <label data-error="wrong" data-success="right" for="defaultForm-email">Tên Loại</label>
+                        <input id="NameType" class="form-control validate" name="NameUnit">
+                    </div>
+                    <button class="btn btn-mini btn-primary" type="submit" name="SubmitType" id="btnNameType">
+                        <i class="ace-icon fa fa-save"></i> Lưu
+                    </button>
+                </div>    
+            </div>
+        }
+    </div>
+</div>
+<div class="modal" id="myModalUnit">
+    <div class="modal-dialog">
+        @using (Html.BeginForm("EditUnit", "ProductType", FormMethod.Post))
+        {
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Chỉnh Sửa ĐVT</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body mx-3">
+                    <div class="md-form mb-5">
+                        <label data-error="wrong" data-success="right" for="defaultForm-email">Tên Loại</label>
+                        <input id="NameUnit" class="form-control validate" name="NameUnit">
+                    </div>
+                    <button class="btn btn-mini btn-primary" type="submit" name="SubmitUnit" id="btnNameUnit">
+                        <i class="ace-icon fa fa-save"></i> Lưu
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<script>
+    function ConfirmDelete() {
+        var x = confirm("Bạn có chắc muốn xóa item đã chọn ?");
+        if (x)
+            return true;
+        else
+            return false;
+    };
+    function NameType(name,id)
+    {
+        debugger
+        $('#NameType').val(name);
+        $('#btnNameType').val(id);
+    }
+    function NameUnit(name,id) {
+        debugger
+        $('#NameUnit').val(name);
+        $('#btnNameUnit').val(id);
+    }
+</script>
