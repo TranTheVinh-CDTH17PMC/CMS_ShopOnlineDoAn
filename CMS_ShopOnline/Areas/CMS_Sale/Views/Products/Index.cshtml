@@ -1,54 +1,105 @@
-﻿
+﻿@using CMS_ShopOnline.Areas.CMS_Sale.Models
+@model IEnumerable<ThanhPhamViewModel>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/ACE_Layout.cshtml";
 }
+@using GridMvc.Html
+    @helper ButtonEdit(int Id)
+    {
+        <a href="@Url.Action("Edit","Products",new { @Id = Id })">
+            <button class="btn btn-primary" title="Chỉnh sửa" style="margin-left:-8px;margin-right:9px;" type="button"><i class="fas fa-pencil-alt"></i></button>
+        </a>
+    }
 
-<div class="container-fluid" id="container-wrapper">
-    <div class="d-sm-flex align-items-center justify-content-between mb-4"> 
-        <div style="display:flex;">
-            <h1 class="h3 mb-0 text-gray-800">Sản phẩm</h1>
-            <a href="@Url.Action("Create", "Products", new { area ="CMS_Sale" })">
-                <button type="button" class="btn btn-primary" title="Thêm sản phẩm" style="margin-left:10px">
-                     Thêm <i class="fa fa-plus-circle"></i>
-                </button>
-            </a>
+    @helper ButtonDelete(int Id)
+    {
+        <button class="btn btn-warning" title="Ngừng kinh doanh" style="margin:-2px" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmDelete()"> <i class="fas fa-trash-alt"></i></button>
+    }
+
+    @helper Ma(int Id)
+    {
+        <span>SP @Id</span>
+    }
+
+    @helper Delete(bool? Status)
+    {
+        if (Status == false)
+        {
+            <span class="badge badge-primary">Hoạt động</span>
+        }
+    }
+    @helper Image(string img)
+    {
+    if (img == null)
+    {
+        <img src="~/Areas/CMS_Sale/Image/ThanhPham/noimage.gif" style="width:60px; height:60px">
+    }
+    else
+    {
+        <img src="~/Areas/CMS_Sale/Image/ThanhPham/@img" style="width:60px; height:60px">
+    }
+    }
+    <div class="container-fluid" id="container-wrapper">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <div style="display:flex;">
+                <h1 class="h3 mb-0 text-gray-800">Sản phẩm</h1>
+                <a href="@Url.Action("Create", "Products", new { area ="CMS_Sale" })">
+                    <button type="button" class="btn btn-primary" title="Thêm sản phẩm" style="margin-left:10px">
+                        Thêm <i class="fa fa-plus-circle"></i>
+                    </button>
+                </a>
+            </div>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="./">Trang chủ</a></li>
+                <li class="breadcrumb-item">Quản lý</li>
+                <li class="breadcrumb-item active" aria-current="page">Sản phẩm</li>
+            </ol>
         </div>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="./">Trang chủ</a></li>
-            <li class="breadcrumb-item">Quản lý</li>
-            <li class="breadcrumb-item active" aria-current="page">Sản phẩm</li>
-        </ol>
-    </div>
-    <div class="row">
-        <div class="col-lg-12 mb-4">
+        <div class="row">
+            <div class="col-lg-12 mb-4">
                 <!-- Simple Tables -->
                 <div class="card">
+                @using (Html.BeginForm("Index", "Products",FormMethod.Post))
+                {
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <div class="col-md-9">
                             <div class="order-search" style="margin: 10px 0px; position: relative;">
-                                <input type="text" class="form-control ui-autocomplete-input" onkeyup="filterFunction()" placeholder="Nhập mã sản phẩm hoặc tên sản phẩm..." id="search-pro-box" autocomplete="off">
+                                @Html.TextBox("txtCode", Request["txtCode"], new { @class = "form-control ui-autocomplete-input", autocomplete = "off", placeholder = "Nhập mã hoặc tên sản phẩm..." })
                             </div>
                         </div>
                         <div class="col-md-3">
-                            @*<div class="dropdown">
-                                <button class="btn btn-primary" type="button" id="dropdownMenuButton"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Tất cả sản phẩm <i class="fa fa-caret-down"></i>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Tất cả sản phẩm</a>
-                                    <a class="dropdown-item" href="#">Dịch vụ</a>
-                                </div>
-                            </div>*@
-                                <select class="form-control">
-                                    <option>Tất cả</option>
-                                    <option>Sản phẩm</option>
-                                    <option>Dịch vụ</option>
-                                </select>
+                            <select class="form-control">
+                                <option>Tất cả</option>
+                                <option>Cà phê</option>
+                                <option>Đồ ngọt</option>
+                                <option>Nước ngọt các loại</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="table-responsive">
+                }
+                @using (Html.BeginForm("Delete", "Products", FormMethod.Post))
+                    {
+                        <div class="table-responsive">
+                            @Html.Grid(Model).Columns(columns =>
+                        {
+                           columns.Add().Titled("Mã").SetWidth(5).Sanitized(false).Encoded(false).RenderValueAs(x => Ma(x.Id));
+                           columns.Add(x => x.Ten).Titled("Tên sản phẩm");
+                           columns.Add().Encoded(false).Sanitized(false).Titled("Hình ảnh").RenderValueAs(x => Image(x.HinhAnh));
+                           columns.Add(x => x.NgayTao).Sanitized(false).Titled("Ngày tạo").Format("{0:dd/MM/yyyy}");
+                           columns.Add(x => x.TenDVT).Titled("ĐVT");
+                           columns.Add(x => x.TenLoai).Titled("Loại");
+                           columns.Add(x => x.DonGia).Titled("Đơn giá");
+                           columns.Add().Titled("Trạng thái").Sanitized(false).Encoded(false).RenderValueAs(x => Delete(x.IsDelete));
+                           columns.Add().Titled("Tùy chỉnh").Css("text center")
+                              .Encoded(false)
+                              .Sanitized(false)
+                              .SetWidth(100)
+                              .RenderValueAs(x => (ButtonEdit(x.Id)).ToString() + (ButtonDelete(x.Id)).ToString());
+                       }).WithPaging(5)
+                        </div>
+                    }
+                    @*<div class="table-responsive">
                         <table class="table align-items-center table-flush">
                             <thead class="thead-light">
                                 <tr>
@@ -93,30 +144,37 @@
                                 </tr>
                             </tbody>
                         </table>
-                    </div>
-                    <div class="card-footer"></div>
+                    </div>*@
+                    @*<div class="card-footer"></div>*@
                 </div>
             </div>
+        </div>
+        <!--Row-->
     </div>
-    <!--Row-->
-</div>
-<script>
-    function filterFunction() {
-        var input, filter, ul, li, tr, i;
-        input = document.getElementById("search-pro-box");
-        filter = input.value.toUpperCase();
-        div = document.getElementById("myproducts");
-        tr = div.getElementsByTagName("tr");
-        for (i = 0; i < tr.length; i++) {
-            txtValue = tr[i].textContent || tr[i].innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
-                
-            } else {
-                tr[i].style.display = "none";
-            }
-            
+    <script>
+        //function filterFunction() {
+        //    var input, filter, ul, li, tr, i;
+        //    input = document.getElementById("search-pro-box");
+        //    filter = input.value.toUpperCase();
+        //    div = document.getElementById("myproducts");
+        //    tr = div.getElementsByTagName("tr");
+        //    for (i = 0; i < tr.length; i++) {
+        //        txtValue = tr[i].textContent || tr[i].innerText;
+        //        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        //            tr[i].style.display = "";
+
+        //        } else {
+        //            tr[i].style.display = "none";
+        //        }
+
+        //    }
+        //}
+        function ConfirmDelete() {
+            var x = confirm("Bạn có chắc muốn xóa item đã chọn ?");
+            if (x)
+                return true;
+            else
+                return false;
         }
-    }
-</script>
+    </script>
 

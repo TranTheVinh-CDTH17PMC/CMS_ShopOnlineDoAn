@@ -41,10 +41,6 @@
                             @Html.TextBoxFor(model => model.DonGia, new { @class = "form-control", Type = "number" })
                         </div>
                         <div class="form-group">
-                            <label>Đơn giá nhập</label>
-                            @Html.TextBoxFor(model => model.DonGia, new { @class = "form-control", Type = "number" })
-                        </div>
-                        <div class="form-group">
                             <label for="exampleFormControlSelect1">Phân loại</label>
                             <select class="form-control " data-val="true" data-val-number="The field Loại người dùng must be a number." data-val-required="Bắt buộc nhập" id="IdLoai" name="IdLoai">
                                 <option @(Model.IdLoai == null ? "selected" : "") value="" data-code="">-Chọn Loại-</option>

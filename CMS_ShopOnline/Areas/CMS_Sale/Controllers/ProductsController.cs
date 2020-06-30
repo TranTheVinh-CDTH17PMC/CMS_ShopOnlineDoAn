@@ -32,10 +32,31 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         }
         //
         // GET: /CMS_Sale/Products/
-        public ActionResult Index()
+        public ActionResult Index(string txtCode)
         {
-            return View();
+            IEnumerable<ThanhPhamViewModel> model = ThanhPham.SelectAll().Where(x => x.IsDelete != true).Select(
+                item => new ThanhPhamViewModel
+                {
+                    Id = item.Id,
+                    Ten = item.Ten,
+                    NgayTao = item.NgayTao,
+                    IdLoai = item.IdLoai,
+                    TenLoai = item.LoaiSP.Ten,
+                    HinhAnh = item.HinhAnh,
+                    DonGia = item.DonGia,
+                    IdDVT = item.IdDVT,
+                    TenDVT = item.DonViTinh.Ten,
+                    IsDelete = item.IsDelete
+                }).OrderBy(x => x.Id);
+            if (txtCode != null)
+            {
+                txtCode = txtCode == "" ? "~" : Helpers.Helper.ChuyenThanhKhongDau(txtCode);
+                model = model.Where(x => x.IsDelete != true && (Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(txtCode)));
+            }
+            ViewBag.SuccessMessage = TempData["SuccessMessage"];
+            return View(model);
         }
+
         public ActionResult Create()
         {
             var model = new ThanhPhamViewModel
@@ -147,6 +168,18 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             catch (Exception e)
             {
 
+            }
+            return View();
+        }
+        public ActionResult Delete(string IdDelete)
+        {
+            var tp = ThanhPham.SelectById(int.Parse(IdDelete));
+            if (tp != null)
+            {
+                tp.IsDelete = true;
+                ThanhPham.Update(tp);
+                ThanhPham.Save();
+                return RedirectToAction("Index");
             }
             return View();
         }
