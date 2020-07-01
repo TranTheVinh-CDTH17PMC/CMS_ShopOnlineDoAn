@@ -3129,6 +3129,7 @@
     <Content Include="Areas\CMS_Sale\Views\Warehouse\Edit.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\ProductType\CreateType.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\ProductType\Index.cshtml" />
+    <Content Include="Areas\Crm\Views\Customer\Edit.cshtml" />
     <None Include="scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="scripts\jquery-3.0.0.js" />
     <Content Include="scripts\jquery-3.0.0.min.js" />

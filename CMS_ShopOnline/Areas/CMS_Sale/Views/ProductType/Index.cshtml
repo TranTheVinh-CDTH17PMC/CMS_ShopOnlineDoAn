@@ -25,15 +25,11 @@
 {
     <button class="btn btn-warning" title="Xóa" style="margin:-2px" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmDelete()"> <i class="fas fa-trash-alt"></i></button>
 }
-@helper Ma(int Id)
-{
-    <span>NCC @Id</span>
-}
 @helper Delete(bool? Status)
 {
     if (Status == false)
     {
-            <span class="badge badge-primary">Hoạt Động</span>
+            <span class="badge badge-primary">Hoạt động</span>
     }
 }
 <div class="container">
@@ -41,50 +37,50 @@
         <div style="display:flex;">
             
             <a href="@Url.Action("CreateType", "ProductType", new { area ="CMS_Sale" })">
-                <button type="button" class="btn btn-primary" title="Thêm nhà cung cấp" style="margin-left:10px">
+                <button type="button" class="btn btn-primary" title="Thêm mới" style="margin-left:10px">
                     Thêm <i class="fa fa-plus-circle"></i>
                 </button>
             </a>
         </div>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="./">Trang chủ</a></li>
-            <li class="breadcrumb-item">Quản Lí</li>
-            <li class="breadcrumb-item active" aria-current="page">Loại Hàng</li>
+            <li class="breadcrumb-item">Quản lí</li>
+            <li class="breadcrumb-item active" aria-current="page">Loại & Đvt</li>
         </ol>
     </div>
     <div class="row">
         <div class="col-sm-6">
-            <h1 class="h3 mb-0 text-gray-800" style="padding-bottom:10px">Loại SP</h1>
+            <h1 class="h3 mb-0 text-gray-800" style="padding-bottom:10px">Loại sản phẩm</h1>
             @using (Html.BeginForm("DeleteType", "ProductType", FormMethod.Post))
             {
                 <div class="table-responsive">
                     @Html.Grid(ListType).Columns(columns =>
                     {
-                       columns.Add().Titled("Tùy chỉnh").Css("text center")
-                               .Encoded(false)
-                               .Sanitized(false)
-                               .SetWidth(100)
-                               .RenderValueAs(x => (ButtonEdit(x.Ten,true,x.Id)).ToString() + (ButtonDelete(x.Id)).ToString());
-                       columns.Add(x => x.Ten).Titled("Tên Loại").SetWidth(5);
                        columns.Add().Titled("Trạng thái").Sanitized(false).Encoded(false).RenderValueAs(x => Delete(x.IsDelete));
+                       columns.Add(x => x.Ten).Titled("Tên loại sản phẩm").SetWidth(280);
+                       columns.Add().Titled("Tùy chỉnh").Css("text center")
+                        .Encoded(false)
+                        .Sanitized(false)
+                        .SetWidth(100)
+                        .RenderValueAs(x => (ButtonEdit(x.Ten, true, x.Id)).ToString() + (ButtonDelete(x.Id)).ToString());
                     }).WithPaging(5)
                 </div>
             }
         </div>
         <div class="col-sm-6">
-            <h1 class="h3 mb-0 text-gray-800" style="padding-bottom:10px">Đơn Vị Tính</h1>
+            <h1 class="h3 mb-0 text-gray-800" style="padding-bottom:10px">Đơn vị tính</h1>
            @using (Html.BeginForm("DeleteUnit", "ProductType", FormMethod.Post))
            {
                 <div class="table-responsive">
                     @Html.Grid(ListUnit).Columns(columns =>
-                    {
-                       columns.Add().Titled("Tùy chỉnh").Css("text center")
-                                   .Encoded(false)
-                                   .Sanitized(false)
-                                   .SetWidth(100)
-                                   .RenderValueAs(x => (ButtonEdit(x.Ten,false,x.Id)).ToString() + (ButtonDelete(x.Id)).ToString());
-                       columns.Add(x=>x.Ten).Titled("Tên ĐVT").SetWidth(5);
+               {
                        columns.Add().Titled("Trạng thái").Sanitized(false).Encoded(false).RenderValueAs(x => Delete(x.IsDelete));
+                       columns.Add(x=>x.Ten).Titled("Đơn vị tính").SetWidth(280);
+                       columns.Add().Titled("Tùy chỉnh").Css("text center")
+                        .Encoded(false)
+                        .Sanitized(false)
+                        .SetWidth(100)
+                        .RenderValueAs(x => (ButtonEdit(x.Ten, false, x.Id)).ToString() + (ButtonDelete(x.Id)).ToString());
                     }).WithPaging(5)
                 </div>
            }
@@ -98,14 +94,14 @@
             <div class="modal-content">
             <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Chỉnh Sửa Loại SP</h4>
+                    <h4 class="modal-title">Chỉnh sửa</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
                 <!-- Modal body -->
                 <div class="modal-body mx-3">
                     <div class="md-form mb-5">
-                        <label data-error="wrong" data-success="right" for="defaultForm-email">Tên Loại</label>
+                        <label data-error="wrong" data-success="right" for="defaultForm-email">Tên loại</label>
                         <input id="NameType" class="form-control validate" name="NameUnit">
                     </div>
                     <button class="btn btn-mini btn-primary" type="submit" name="SubmitType" id="btnNameType">
@@ -123,13 +119,13 @@
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Chỉnh Sửa ĐVT</h4>
+                    <h4 class="modal-title">Chỉnh sửa</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body mx-3">
                     <div class="md-form mb-5">
-                        <label data-error="wrong" data-success="right" for="defaultForm-email">Tên Loại</label>
+                        <label data-error="wrong" data-success="right" for="defaultForm-email">Đơn vị tính</label>
                         <input id="NameUnit" class="form-control validate" name="NameUnit">
                     </div>
                     <button class="btn btn-mini btn-primary" type="submit" name="SubmitUnit" id="btnNameUnit">
