@@ -14,5 +14,10 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         {
             return View();
         }
+        public ActionResult Create()
+        {
+            return View();
+        }
+
 	}
 }
