@@ -1,12 +1,43 @@
-﻿
+﻿@using CMS_ShopOnline.Areas.Crm.Models
+@model IEnumerable<CustomerViewModel>
+@using GridMvc.Html
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/ACE_Layout.cshtml";
 }
-
+@helper ButtonEdit(int Id)
+{
+    <a href="@Url.Action("Edit","Customer",new { @Id = Id })">
+        <button class="btn btn-primary" title="Chỉnh sửa" style="margin-left:-8px;margin-right:9px;" type="button">
+            <i class="fas fa-pencil-alt"></i>
+        </button>
+    </a>
+}
+@helper ButtonDelete(int Id)
+{
+    <button class="btn btn-warning" title="Ngừng hoạt động" style="margin:-2px" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmDelete()"> <i class="fas fa-trash-alt"></i></button>
+}
+@helper Ma(int Id)
+{
+    <span>KH @Id</span>
+}
+@helper Delete(bool? Status)
+{
+    if (Status == false)
+    {
+        <span class="badge badge-primary">Hoạt động</span>
+    }
+}
 <div class="container-fluid" id="container-wrapper">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Khách hàng</h1>
+        <div style="display:flex">
+            <h1 class="h3 mb-0 text-gray-800">Khách hàng</h1>
+            <a href="@Url.Action("Create", "Customer", new { area ="Crm" })">
+                <button type="button" class="btn btn-primary" title="Thêm khách hàng" style="margin-left:10px">
+                    <i class="fa fa-plus-circle"></i> Thêm
+                </button>
+            </a>
+        </div>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="./">Trang chủ</a></li>
             <li class="breadcrumb-item">Khách hàng</li>
@@ -17,21 +48,38 @@
         <div class="col-lg-12 mb-4">
             <!-- Simple Tables -->
             <div class="card">
+            @using (Html.BeginForm("Index", "Customer",FormMethod.Post))
+            {
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <div class="col-md-8">
                         <div class="order-search" style="margin: 10px 0px; position: relative;">
-                            <input type="text" class="form-control ui-autocomplete-input" onkeyup="filterFunction()" placeholder="Nhập mã phiếu hoặc tên khách hàng..." id="search-pro-box" autocomplete="off">
+                            @Html.TextBox("txtCode", Request["txtCode"], new { @class = "form-control ui-autocomplete-input", autocomplete = "off", placeholder = "Nhập tên khách hàng..." })
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <a href="@Url.Action("Create", "Customer", new { area ="Crm" })">
-                            <button type="button" class="btn btn-primary">
-                                <i class="fa fa-plus-circle"></i> Khách hàng
-                            </button>
-                        </a>
-                    </div>
                 </div>
+            }
+                @using (Html.BeginForm("Delete", "Customer", FormMethod.Post))
+                {
                 <div class="table-responsive">
+                    @Html.Grid(Model).Columns(columns =>
+                   {
+                       columns.Add().Titled("Mã").SetWidth(5).Sanitized(false).Encoded(false).RenderValueAs(x => Ma(x.Id));
+                       columns.Add(x => x.TenKH).Titled("Tên khách hàng");
+                       columns.Add(x => x.NgayTao).Sanitized(false).Titled("Ngày tạo").Format("{0:dd/MM/yyyy}");
+                       columns.Add(x => x.TenNV).Titled("Nhân viên tạo");
+                       columns.Add(x => x.SDT).Titled("Số điện thoại");
+                       columns.Add(x => x.TongTien).Titled("Tổng tiền");
+                       columns.Add().Titled("Trạng thái").Sanitized(false).Encoded(false).RenderValueAs(x => Delete(x.IsDelete));
+                       columns.Add().Titled("Tùy chỉnh").Css("text center")
+                       .Encoded(false)
+                       .Sanitized(false)
+                       .SetWidth(100)
+                       .RenderValueAs(x => (ButtonEdit(x.Id)).ToString() + (ButtonDelete(x.Id)).ToString());
+
+                   }).WithPaging(5)  
+                </div>
+                }
+                @*<div class="table-responsive">
                     <table class="table align-items-center table-flush">
                         <thead class="thead-light">
                             <tr>
@@ -55,29 +103,36 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="card-footer"></div>
+                <div class="card-footer"></div>*@
             </div>
         </div>
     </div>
     <!--Row-->
 </div>
 <script>
-    function filterFunction() {
-        var input, filter, ul, li, tr, i;
-        input = document.getElementById("search-pro-box");
-        filter = input.value.toUpperCase();
-        div = document.getElementById("myproducts");
-        tr = div.getElementsByTagName("tr");
-        for (i = 0; i < tr.length; i++) {
-            txtValue = tr[i].textContent || tr[i].innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
+    //function filterFunction() {
+    //    var input, filter, ul, li, tr, i;
+    //    input = document.getElementById("search-pro-box");
+    //    filter = input.value.toUpperCase();
+    //    div = document.getElementById("myproducts");
+    //    tr = div.getElementsByTagName("tr");
+    //    for (i = 0; i < tr.length; i++) {
+    //        txtValue = tr[i].textContent || tr[i].innerText;
+    //        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+    //            tr[i].style.display = "";
 
-            } else {
-                tr[i].style.display = "none";
-            }
+    //        } else {
+    //            tr[i].style.display = "none";
+    //        }
 
-        }
+    //    }
+    //}
+    function ConfirmDelete() {
+        var x = confirm("Bạn có chắc muốn xóa item đã chọn ?");
+        if (x)
+            return true;
+        else
+            return false;
     }
 </script>
 

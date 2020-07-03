@@ -2,6 +2,7 @@
 using CMS_Database.Interfaces;
 using CMS_Database.Repositories;
 using CMS_ShopOnline.Areas.Crm.Models;
+using CMS_ShopOnline.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,9 +25,29 @@ namespace CMS_ShopOnline.Areas.Crm.Controllers
         }
         //
         // GET: /Crm/Customer/
-        public ActionResult Index()
+        public ActionResult Index(string txtCode)
         {
-            return View();
+                IEnumerable<CustomerViewModel> model = khachhang.SelectAll().Where(x => x.IsDelete != true).Select(
+                    item => new CustomerViewModel
+                    {
+                        Id = item.Id,
+                        TenKH = item.TenKH,
+                        NgayTao = item.NgayTao,
+                        SDT = item.SDT,
+                        IdNVTao = item.IdNVTao,
+                        TenNV = item.NhanVien.TenNV,
+                        TongTien = item.TongTien,
+                        IsDelete = item.IsDelete
+                    }).OrderBy(x => x.Id);
+                if (txtCode != null)
+                {
+                    txtCode = txtCode == "" ? "~" : Helpers.Helper.ChuyenThanhKhongDau(txtCode);
+                    model = model.Where(x => x.IsDelete != true && (Helpers.Helper.ChuyenThanhKhongDau(x.TenKH).Contains(txtCode)));
+                }
+
+                ViewBag.SuccessMessage = TempData["SuccessMessage"];
+                return View(model);
+            
         }
         public ActionResult Details(int id)
         {
@@ -34,6 +55,7 @@ namespace CMS_ShopOnline.Areas.Crm.Controllers
         }
         public ActionResult Create()
         {
+            
             return View();
         }
         // POST: Crm/Customer/Create
@@ -45,6 +67,7 @@ namespace CMS_ShopOnline.Areas.Crm.Controllers
                 var _kh = new KhachHang();
                 AutoMapper.Mapper.Map(model, _kh);
                 _kh.NgayTao = DateTime.Now;
+                _kh.IdNVTao= Helper.CurrentUser.Id;
                 _kh.IsDelete = false;
                 khachhang.Insert(_kh);
                 khachhang.Save();
@@ -54,6 +77,46 @@ namespace CMS_ShopOnline.Areas.Crm.Controllers
             catch (Exception e)
             {
                 e.Message.ToString();
+            }
+            return View();
+        }
+        public ActionResult Edit(int id)
+        {
+            var _kh = khachhang.SelectById(id);
+            CustomerViewModel model = new CustomerViewModel();
+            AutoMapper.Mapper.Map(_kh, model);
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult Edit(CustomerViewModel model)
+        {
+            try
+            {
+                var _kh = khachhang.SelectById(model.Id);
+                model.NgayTao = DateTime.Now;
+                model.IdNVTao = Helper.CurrentUser.Id;
+                model.IsDelete = false;
+                AutoMapper.Mapper.Map(model, _kh);
+                khachhang.Update(_kh);
+                khachhang.Save();
+                TempData["SuccessMessage"] = "Edit";
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+
+            }
+            return View();
+        }
+        public ActionResult Delete(string IdDelete)
+        {
+            var _kh = khachhang.SelectById(int.Parse(IdDelete));
+            if (_kh != null)
+            {
+                _kh.IsDelete = true;
+                khachhang.Update(_kh);
+                khachhang.Save();
+                return RedirectToAction("Index");
             }
             return View();
         }
