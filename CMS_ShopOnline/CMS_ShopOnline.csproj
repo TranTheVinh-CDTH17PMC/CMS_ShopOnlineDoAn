@@ -205,6 +205,9 @@
     <Content Include="Areas\CMS_Sale\Image\NguyenLieu\error.png" />
     <Content Include="Areas\CMS_Sale\Image\NguyenLieu\NguyenLieu_39de31551b5b4c08cc241494eef47d24.jpg" />
     <Content Include="Areas\CMS_Sale\Image\NguyenLieu\NguyenLieu_63e8c6ac2fc0f219d47860cafcf9429c.jpg" />
+    <Content Include="Areas\CMS_Sale\Image\ThanhPham\A.jpg" />
+    <Content Include="Areas\CMS_Sale\Image\ThanhPham\B.jpg" />
+    <Content Include="Areas\CMS_Sale\Image\ThanhPham\noimage.gif" />
     <Content Include="Assets\css\home.css" />
     <Content Include="Assets\css\pos.css" />
     <Content Include="Assets\css\posjsproduct.css" />
@@ -3244,6 +3247,8 @@
     <Compile Include="Areas\CMS_Sale\Models\CTPhieuNhapViewModel.cs" />
     <Compile Include="Areas\CMS_Sale\Models\NguyenLieuViewModel.cs" />
     <Compile Include="Areas\CMS_Sale\Models\PhieuNhapViewModel.cs" />
+    <Compile Include="Areas\CMS_Sale\Models\POSDetailsViewModel.cs" />
+    <Compile Include="Areas\CMS_Sale\Models\POSViewModel.cs" />
     <Compile Include="Areas\CMS_Sale\Models\ThanhPhamViewModel.cs" />
     <Compile Include="Areas\CMS_Sale\Models\TypeViewModel.cs" />
     <Compile Include="Areas\CMS_Sale\Models\UnitViewModel.cs" />
@@ -3292,7 +3297,7 @@
     <Folder Include="Areas\CMS_Account\Models\" />
     <Folder Include="Areas\CMS_Account\Views\Shared\" />
     <Folder Include="Areas\CMS_Sale\Image\SanPham\" />
-    <Folder Include="Areas\CMS_Sale\Image\ThanhPham\" />
+    <Folder Include="Areas\CMS_Sale\Views\Default\" />
     <Folder Include="Areas\CMS_Staff\Views\Shared\" />
     <Folder Include="Areas\Crm\Views\Shared\" />
     <Folder Include="Assets\public\templates\upload\.thumbs\image\" />
