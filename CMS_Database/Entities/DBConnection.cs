@@ -10,7 +10,7 @@ namespace CMS_Database.Entities
         public DBConnection()
             : base("name=DBConnection")
         {
-            this.Configuration.ProxyCreationEnabled = false;
+            
         }
 
         public virtual DbSet<CongViec> CongViec { get; set; }

@@ -43,7 +43,6 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         // GET: /CMS_Sale/POS/
         public ActionResult Index()
         {
-           
             ViewBag.ListType = LoaiSP.SelectAll().Where(x => x.IsDelete != true);  
             return View();
         }
@@ -70,8 +69,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     CTPhieuXuat.Insert(_ctphieuxuat);
                     CTPhieuXuat.Save();
                 }
-                ViewBag.ListType = LoaiSP.SelectAll().Where(x => x.IsDelete != true);
-                return View();
+                return RedirectToAction("Index");
             }
             catch(Exception e)
             {
@@ -149,24 +147,44 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             }
         }
         [HttpGet]
-        public JsonResult ListProducts(int Id)
+        public ActionResult ListProducts(int Id)
         {
-            var model = ThanhPham.SelectAll().Where(x => x.IsDelete != true).ToList();
-
-                if (Id == 0)
-                {
-                    model = ThanhPham.SelectAll().Where(x => x.IsDelete != true).ToList();
-                }
-                else
-                {
-                    model = ThanhPham.SelectAll().Where(x => x.IsDelete != true && x.IdLoai == Id).ToList();
-                }
-
+            var q = ThanhPham.SelectAll().Where(x => x.IsDelete != true);
+            if (Id > 0)
+            {
+                q = ThanhPham.SelectAll().Where(x => x.IsDelete != true && x.IdLoai == Id);
+            }
+            var model = q.Select(item => new ThanhPhamViewModel
+            {
+                Id = item.Id,
+                Ten = item.Ten,
+                NgayTao = item.NgayTao,
+                IdLoai = item.IdLoai,
+                TenLoai = item.LoaiSP.Ten,
+                HinhAnh = item.HinhAnh,
+                DonGia = item.DonGia,
+                IdDVT = item.IdDVT,
+                TenDVT = item.DonViTinh.Ten,
+                IsDelete = item.IsDelete
+            });
             return Json(model, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult ListProductsById(int Id)
+        public ActionResult ListProductsById(int Id)
         {
-            var model = ThanhPham.SelectAll().Where(x => x.IsDelete != true && x.Id==Id).ToList();
+            var q = ThanhPham.SelectAll().Where(x => x.IsDelete != true && x.Id==Id).ToList();
+            var model = q.Select(item => new ThanhPhamViewModel
+            {
+                Id = item.Id,
+                Ten = item.Ten,
+                NgayTao = item.NgayTao,
+                IdLoai = item.IdLoai,
+                TenLoai = item.LoaiSP.Ten,
+                HinhAnh = item.HinhAnh,
+                DonGia = item.DonGia,
+                IdDVT = item.IdDVT,
+                TenDVT = item.DonViTinh.Ten,
+                IsDelete = item.IsDelete
+            });
             return Json(model, JsonRequestBehavior.AllowGet);
         }
     }
