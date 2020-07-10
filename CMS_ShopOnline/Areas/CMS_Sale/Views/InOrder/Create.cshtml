@@ -1,59 +1,215 @@
-﻿
+﻿@model CMS_ShopOnline.Areas.CMS_Sale.Models.PhieuNhapViewModel
+@using CMS_ShopOnline.Helpers;
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/ACE_Layout.cshtml";
 }
+<link href="/Assets/css/pos.css" rel="stylesheet" type="text/css" />
+<style>
+    .my-custom-scrollbar {
+        position: relative;
+        height: 300px;
+        overflow: auto;
+    }
 
+    .table-wrapper-scroll-y {
+        display: block;
+    }
+</style>
 <div class="container-fluid" id="container-wrapper">
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-3">
             <!-- Form Basic -->
-            <div class="card mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Tạo mới phiếu nhập</h6>
+                <div class="dropdown">
+                    <button onclick="myFunction()" class="dropbtn" id="search-pro-box" style="width:293px"><i class="fa fa-search"></i> Tìm kiếm và chọn nguyên liệu(F2)</button>
+                    <div id="myDropdown" class="dropdown-content">
+                        <input type="text" placeholder="Search.." id="myInput" style="background-position: 17px 10px;" onkeyup="filterFunction()">
+                        <div class="table-wrapper-scroll-y my-custom-scrollbar" style="overflow-x:auto;">
+                            <table>
+                                <tr>
+                                    <th>Hình</th>
+                                    <th>Tên</th>
+                                    <th>Giá</th>
+                                </tr>
+                                <tr>
+                                    <td><img src="/Assets/img/products/cappuccino2.png" style="width:40px; height:40px" /></td>
+                                    <td><a href="#" style="color:#337ab7">Cappuccino</a></td>
+                                    <td>45000</td>
+                                </tr>
+                                <tr>
+                                    <td><img src="/Assets/img/products/kemchese.png" style="width:40px; height:40px" /></td>
+                                    <td><a href="#" style="color:#337ab7">Cà phê</a></td>
+                                    <td>35000</td>
+                                </tr>
+                                <tr>
+                                    <td><img src="/Assets/img/products/cake1.png" style="width:40px; height:40px" /></td>
+                                    <td><a href="#" style="color:#337ab7">Bánh</a></td>
+                                    <td>55000</td>
+                                </tr>
+                                <tr>
+                                    <td><img src="/Assets/img/products/cappuccino2.png" style="width:40px; height:40px" /></td>
+                                    <td><a href="#" style="color:#337ab7">Cappuccino</a></td>
+                                    <td>45000</td>
+                                </tr>
+                                <tr>
+                                    <td><img src="/Assets/img/products/kemchese.png" style="width:40px; height:40px" /></td>
+                                    <td><a href="#" style="color:#337ab7">Cà phê</a></td>
+                                    <td>35000</td>
+                                </tr>
+                                <tr>
+                                    <td><img src="/Assets/img/products/cake1.png" style="width:40px; height:40px" /></td>
+                                    <td><a href="#" style="color:#337ab7">Bánh</a></td>
+                                    <td>55000</td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body" style="margin-top:-13px">
-                    <div class="form-group">
-                        <label>Tên nguyên liệu</label>
-                        <input type="text" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label>Nhà cung cấp</label>
-                        <input type="text" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label>Người nhập</label>
-                        <input type="text" class="form-control" />
-                    </div>
-                </div>
-            </div>
         </div>
-        <div class="col-lg-6">
-            <!-- General Element -->
-            <div class="card mb-4">
-                <div class="card-body">
-                    <div class="form-group">
-                        <label>Số lượng</label>
-                        <input type="number" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label>Đơn giá</label>
-                        <input type="number" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label>Tổng tiền</label>
+        <div class="col-lg-9">
+            <div style="display:flex">
+                <div class="col-lg-4">
+                    <select class="form-control" style="margin-left:22px">
+                        <option selected>Chọn nhà cung cấp</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group" style="display:flex">
+                        <label style="width: 215px; margin: 20px; margin-top: 10px;">Nhân viên nhập:</label>
                         <input type="text" class="form-control" readonly />
                     </div>
-                    <div class="form-group">
-                        <label>Ghi chú</label>
-                        <textarea  class="form-control" rows="1" style="border-radius:0"></textarea>
-                    </div>
-                    <button class="btn btn-mini btn-primary" type="submit" name="Submit">
-                        <i class="ace-icon fa fa-save"></i> Lưu
-                    </button>
                 </div>
             </div>
+            <!-- General Element -->
+                <div class="card-body">
+                    <div class="col-md-12">
+                        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+
+                            <table class="table table-bordered table-striped mb-0">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">STT</th>
+                                        <th scope="col">Tên nguyên liệu</th>
+                                        <th scope="col">Đơn giá</th>
+                                        <th scope="col">Số lượng</th>
+                                        <th scope="col">Tổng tiền</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>mdo</td>
+                                        <td>Otto</td>
+
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>mdo</td>
+                                        <td>Otto</td>
+
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>mdo</td>
+                                        <td>Otto</td>
+
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>mdo</td>
+                                        <td>Otto</td>
+
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>mdo</td>
+                                        <td>Otto</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>
+                                            <div class="qty mt-5">
+                                                <input type="number" min="1" max="5" class="qty">
+                                            </div>
+                                        </td>
+                                        <td>Otto</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <hr size="1">
+                        
+                    </div>
+                    
+                    <div class="col-md-12">
+                        <div style="display:flex">
+                            <div style="padding:0px">
+                                <label>Ghi chú</label>
+                            </div>
+                            <div class="col-lg-5">
+                                <textarea class="form-control" rows="2" style="border-radius: 0;"></textarea>
+                            </div>
+                            <div class="btn-groups pull-right" style="margin-left: 30px;float:right">
+                                <button type="submit" class="btn btn-primary" onclick="">
+                                    <i class="fa fa-check"></i> Lưu (F9)
+                                </button>
+                                <button type="button" class="btn btn-primary" onclick="cms_save_orders(4)">
+                                    <i class="fa fa-print"></i> Lưu và
+                                    in (F10)
+                                </button>
+                                <a href="/orders">
+                                    <button type="button" class="btn-back btn btn-default">
+                                        <i class="fa fa-arrow-left"></i> Hủy
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
         </div>
     </div>
 </div>
+<script>
+    function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
 
+    function filterFunction() {
+        var input, filter, ul, li, tr, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("myDropdown");
+        tr = div.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            txtValue = tr[i].textContent || tr[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+    $('#search-pro-box').keypress(function (e) {
+        if (e.which == 113) {
+            e.preventDefault();
+        }
+    });
+</script>

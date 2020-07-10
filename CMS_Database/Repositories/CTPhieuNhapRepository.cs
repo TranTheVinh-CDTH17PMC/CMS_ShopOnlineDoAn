@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CMS_Database.Repositories
 {
-    public class CTPhieuNhapRepository : IGenericRepository<CTPhieuNhap>, ICTPhieuNhap
+    public class CTPhieuNhapRepository : GenericRepository<CTPhieuNhap>, ICTPhieuNhap
     {
 
     }

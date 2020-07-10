@@ -34,8 +34,10 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         // GET: /CMS_Sale/Products/
         public ActionResult Index(string txtCode)
         {
-            IEnumerable<ThanhPhamViewModel> model = ThanhPham.SelectAll().Where(x => x.IsDelete != true).Select(
-                item => new ThanhPhamViewModel
+            try
+            {
+                IEnumerable<ThanhPhamViewModel> model = ThanhPham.SelectAll().Where(x => x.IsDelete != true).Select(
+                    item => new ThanhPhamViewModel
                 {
                     Id = item.Id,
                     Ten = item.Ten,
@@ -48,13 +50,20 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     TenDVT = item.DonViTinh.Ten,
                     IsDelete = item.IsDelete
                 }).OrderBy(x => x.Id);
-            if (txtCode != null)
-            {
-                txtCode = txtCode == "" ? "~" : Helpers.Helper.ChuyenThanhKhongDau(txtCode);
-                model = model.Where(x => x.IsDelete != true && (Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(txtCode)));
+                if (txtCode != null)
+                {
+                    txtCode = txtCode == "" ? "~" : Helpers.Helper.ChuyenThanhKhongDau(txtCode);
+                    model = model.Where(x => x.IsDelete != true && (Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(txtCode)));
+                }
+                ViewBag.SuccessMessage = TempData["SuccessMessage"];
+                return View(model);
             }
-            ViewBag.SuccessMessage = TempData["SuccessMessage"];
-            return View(model);
+            catch(Exception e)
+            {
+                
+            }
+
+            return View();
         }
 
         public ActionResult Create()
