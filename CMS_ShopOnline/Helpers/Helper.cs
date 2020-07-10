@@ -1,4 +1,5 @@
 ﻿using CMS_Database.Entities;
+using CMS_Database.Interfaces;
 using CMS_Database.Repositories;
 using System;
 using System.Collections.Generic;
@@ -30,19 +31,23 @@ namespace CMS_ShopOnline.Helpers
                 ListRequest = new List<RequestInfo>();
             var ip = HttpContext.Current.Request.UserHostAddress;
             var requestInfo = ListRequest.Where(x=>x.IP == ip).FirstOrDefault();
+            if (requestInfo != null && WebSecurity.IsAuthenticated && requestInfo.User != null && requestInfo.User.TenTaiKhoan != WebSecurity.CurrentUserName.ToLower())
+            {
+                requestInfo = null;
+            }
             if (requestInfo == null)
             {
                 requestInfo = new RequestInfo();
-                requestInfo.IP = ip;
-                if (WebSecurity.IsAuthenticated && requestInfo.User == null)
-                {
-                    NhanVienRepository _nhanvien = new NhanVienRepository();
-                    NhanVien nhanvien = _nhanvien.GetByUserName(WebSecurity.CurrentUserName);
-                    requestInfo.User = nhanvien;
-                }
+                requestInfo.IP = ip;         
                 ListRequest.Add(requestInfo);
             }
-           
+            if (WebSecurity.IsAuthenticated && requestInfo.User == null)
+            {
+                INhanVien _nhanvien = new NhanVienRepository();
+                NhanVien nhanvien = _nhanvien.GetByUserName(WebSecurity.CurrentUserName);
+                requestInfo.User = nhanvien;
+            }
+
         }
         public static CMS_Database.Entities.NhanVien CurrentUser
         {
@@ -72,5 +77,14 @@ namespace CMS_ShopOnline.Helpers
             string temp = s.Normalize(NormalizationForm.FormD);
             return regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D').ToLower();
         }
+        public static bool IsPreparation()
+        {
+            if(ChuyenThanhKhongDau(CurrentUser.LoaiNV.TenLoai) == ChuyenThanhKhongDau("Pha Chế"))
+            {
+                return true;
+            }
+            return false;
+        }
+
     }
 }

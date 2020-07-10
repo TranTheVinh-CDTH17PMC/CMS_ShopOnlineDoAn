@@ -15,8 +15,9 @@ namespace CMS_Database.Entities
         public string Ten { get; set; }
 
         public int? IdNhanVien { get; set; }
-
-        public DateTime? NgayTao { get; set; }
+        public int? IdPhieuXuat { get; set; }
+        
+        public DateTime NgayTao { get; set; }
 
         [StringLength(50)]
         public string Action { get; set; }

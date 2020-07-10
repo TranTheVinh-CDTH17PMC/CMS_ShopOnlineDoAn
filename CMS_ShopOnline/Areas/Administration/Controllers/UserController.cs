@@ -24,7 +24,7 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
             if (ModelState.IsValid)
             {
                 //int Id = WebSecurity.GetUserId(login.Username); //để update tạo tài khoản
-                bool IsAu = WebSecurity.Login(login.Username, login.Password, login.Remeberme);
+                bool IsAu = WebSecurity.Login(login.Username, login.Password,false);
                 if (IsAu)
                 { 
                     var user = _NhanVien.GetByUserName(login.Username);

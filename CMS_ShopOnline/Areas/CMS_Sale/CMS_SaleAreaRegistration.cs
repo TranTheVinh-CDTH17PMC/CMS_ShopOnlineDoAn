@@ -35,6 +35,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale
 
             AutoMapper.Mapper.CreateMap<CMS_Database.Entities.CTPhieuXuat, POSDetailsViewModel>();
             AutoMapper.Mapper.CreateMap<POSDetailsViewModel, CMS_Database.Entities.CTPhieuXuat>();
+
+            AutoMapper.Mapper.CreateMap<CMS_Database.Entities.PhieuXuat, PhieuXuatViewModel>();
+            AutoMapper.Mapper.CreateMap<PhieuXuatViewModel, CMS_Database.Entities.PhieuXuat>();
         }
     }
 }

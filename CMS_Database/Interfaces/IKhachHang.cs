@@ -9,6 +9,7 @@ namespace CMS_Database.Interfaces
 {
     public interface IKhachHang : IGenericRepository<KhachHang>
     {
+        string GetNameById(int? id);
         void Delele(int id);
        
     }

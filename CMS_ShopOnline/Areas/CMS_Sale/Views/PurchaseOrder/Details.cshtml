@@ -1,0 +1,114 @@
+﻿@model CMS_ShopOnline.Areas.CMS_Sale.Models.PhieuXuatViewModel
+@using CMS_ShopOnline.Helpers
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/ACE_Layout.cshtml";
+    int count = 1;
+}
+@helper CheckDate(DateTime date)
+{
+    @date.Date.ToString("dd/MM/yyyy")
+}
+<link href="~/Assets/css/DetailsPos.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+<style>
+
+</style>
+<div class="container-fluid" id="container-wrapper">
+    <div class="row">
+        <div class="col-md-12" style="padding-bottom:10px">
+            @using (Html.BeginForm("UpdateStatus", "PurchaseOrder"))
+            {
+                if (Helper.IsPreparation() == true && Model.TrangThai == "Create")
+                {
+
+                    <button class="btn btn-mini btn-primary" type="submit" name="Submit" value="@Model.Id">
+                        <i class="ace-icon fa fa-save"></i> Xác nhận đơn
+                    </button>
+                }
+                if (Helper.IsPreparation() == true && Model.TrangThai == "Processing")
+                {
+                    <button class="btn btn-mini btn-primary" type="submit" name="Submit" value="@Model.Id">
+                        <i class="ace-icon fa fa-save"></i> Xác hoàn thành
+                    </button>
+                }
+            }     
+        </div>
+        <div class="col-md-12">
+            <div class="card mb-3">
+                <div class="p-4 text-center text-white text-lg bg-dark rounded-top"><span class="text-uppercase">Mã hóa đơn - </span><span class="text-medium">@Model.Id</span></div>
+                <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
+                    <div class="w-100 text-center py-1 px-2"><span class="text-medium">Nhân viên bán:</span> @Model.TenNV</div>
+                    <div class="w-100 text-center py-1 px-2"><span class="text-medium">Khách hàng:</span> @Model.TenKH</div>
+                    <div class="w-100 text-center py-1 px-2"><span class="text-medium">Tổng tiền:</span> @Model.TongTien</div>
+                    <div class="w-100 text-center py-1 px-2"><span class="text-medium">Ngày tạo:</span> @CheckDate(Model.NgayTao)</div>
+                </div>
+                <div class="card-body">
+                    <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x" style="position: sticky;">
+                    <div class="step completed" id="Create">
+                        <div class="step-icon-wrap">
+                            <div class="step-icon">
+                                <i class="pe-7s-cart"></i>
+                            </div>
+                        </div>
+                        <h4 class="step-title">Tạo hóa đơn</h4>
+                    </div>
+                    <div class="step completed" id="Processing">
+                        <div class="step-icon-wrap">
+                            <div class="step-icon"><i class="pe-7s-coffee"></i></div>
+                        </div>
+                        <h4 class="step-title">Chế biến</h4>
+                    </div>
+                    <div class="step completed" id="Success">
+                        <div class="step-icon-wrap">
+                            <div class="step-icon"><i class="fa fa-check"></i></div>
+                        </div>
+                        <h4 class="step-title">Hoàn thành</h4>
+                    </div>
+                </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Mã Px </th>
+                                <th scope="col">Tên SP</th>
+                                <th scope="col">Số lượng</th>
+                                <th scope="col">Đơn giá </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ListPOSDetails)
+                            {
+                                
+                                <tr>
+                                    <th scope="row">@count</th>
+                                    <td>@item.IdPhieuXuat</td>
+                                    <td>@item.Ten</td>
+                                    <td>@item.SoLuong</td>
+                                    <td>@item.DonGia</td>
+                                </tr>
+                                count++;
+                            }   
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+    </div>
+        
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        debugger
+        var status = @Model.TrangThai.ToString();
+        if(status == Create)
+        {
+            $("#Processing").removeClass("completed");
+            $("#Success").removeClass("completed");
+        }
+        if(status == Processing)
+        {
+            $("#Success").removeClass("completed");
+        }
+    });
+</script>

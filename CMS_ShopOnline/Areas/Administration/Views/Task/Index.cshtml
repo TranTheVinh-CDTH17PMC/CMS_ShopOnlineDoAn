@@ -1,0 +1,139 @@
+﻿
+@{
+    Layout = null;
+   
+}
+@helper Delete(string Status)
+{
+if (Status == "Create")
+{
+        <span class="badge badge-primary">Khởi tạo</span>
+}
+if (Status == "Processing")
+{
+        <span class="badge badge-secondary">Chế biến</span>
+}
+if (Status == "Success")
+{
+        <span class="badge badge-success">Hoàn thành</span>
+}
+}
+@helper CheckDate(DateTime date)
+{
+    @date.Date.ToString("dd/MM/yyyy")
+}
+<a class="nav-link dropdown-toggle" href="" id="alertsDropdown" role="button" data-toggle="dropdown"
+   aria-haspopup="true" aria-expanded="false">
+    <i class="fas fa-bell fa-fw"></i>
+    <span class="badge badge-danger badge-counter">@Enumerable.Count(ViewBag.listcongviec)</span>
+</a>
+<div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+     aria-labelledby="alertsDropdown">
+    <h6 class="dropdown-header">
+        Alerts Center
+    </h6>
+    @* thông báo *@
+    @foreach (var item in ViewBag.listcongviec)
+    {
+        <a class="dropdown-item d-flex align-items-center" href="@Url.Action("Details", "PurchaseOrder", new { area ="CMS_Sale",id=item.IdPhieuXuat })" id="noticolor[@item.Id]">
+            <div class="mr-3">
+                <div class="icon-circle bg-primary">
+                <i class="fas fa-file-alt text-white"></i>
+                </div>
+            </div>
+            <div>
+               <div class="small text-gray-500">Action : @item.Action| Ngày tạo : @item.NgayTao</div>
+                <span class="font-weight-bold">@item.Ten</span>
+            </div> 
+        </a>
+        @*<a class="dropdown-item d-flex align-items-center" href="#">
+            <div class="mr-3">
+                <div class="icon-circle bg-primary">
+                    <i class="fas fa-file-alt text-white"></i>
+                </div>
+            </div>
+            <div>
+                <div class="small text-gray-500">December 12, 2019</div>
+                <span class="font-weight-bold">A new monthly report is ready to download!</span>
+            </div>
+        </a>*@
+    }    
+    <div id="notication"></div>
+    @* end *@
+    <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+    
+</div>
+
+<script src="~/scripts/jquery.signalR-2.4.1.min.js"></script>
+<script src="~/signalr/hubs"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        notificationFromHub = $.connection.myHub;
+        notificationFromHub.client.updatedClients = function (NameTask, Controller, Action, Areas, UserIDCreate, Idtask, DateTime) {
+            var x = $('#alertsDropdown span').text();
+            var count = parseInt(x) + 1;
+            $('#alertsDropdown span').text(count);
+            var html = '<a class="dropdown-item d-flex align-items-center" href="../Tasks/Details/' + Idtask + '" id="noticolor[' + Idtask + ']">';
+            html += '<div class="mr-3">';
+            html += '<div class="icon-circle bg-primary">';
+            html += '<i class="fas fa-file-alt text-white"></i>';
+            html += '</div>';
+            html += '</div>';
+            html += '<div>';
+            html += '<div class="small text-gray-500">Action : ' + Action + ' | Ngày tạo : ' + DateTime + '</div>';
+            html += '<span class="font-weight-bold">' + NameTask + '</span>';
+            html += '</div> </a>';
+            $("#notication").prepend(html);
+           
+            //var audioElement = document.createElement('audio');
+            //audioElement.setAttribute('src', '/assets/facebookme.mp3');
+            //audioElement.play();
+        };
+        notificationFromHub.client.updatedPurchaseOder = function (Id, NgayTao, IdNhanVien, IdKhachHang, TenNV, TenKH, GhiChu, TrangThai, TongTien) {
+            var today = new Date(NgayTao);
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1;
+            var yyyy = today.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            var today = dd + '/' + mm + '/' + yyyy;
+
+            if (TrangThai == "Create")
+            {
+                TrangThai='<span class="badge badge-primary">Khởi tạo</span>'
+            }
+            if (TrangThai == "Processing")
+                {
+                    TrangThai='<span class="badge badge-secondary">Chế biến</span>'
+                }
+            if (TrangThai == "Success")
+                {
+                    TrangThai = '<span class="badge badge-success">Hoàn thành</span>';
+                }
+
+            var html = ' <tr class="grid-row "><td class="grid-cell" data-name=""><span>NCC '+Id+'</span></td>';
+            html += '<td class="grid-cell" data-name="Ten">' + today + '</td>';
+            html += '<td class="grid-cell" data-name="SDT">' + TenNV + '</td>';
+            html += '<td class="grid-cell" data-name="Email">' + TenKH + '</td>';
+            html += '<td class="grid-cell" data-name="DiaChi">' + TongTien + '</td>';
+            html += '<td class="grid-cell" data-name="DiaChi">' + GhiChu + '</td>';
+            html += '<td class="grid-cell" data-name="">' + TrangThai + '</td>';
+            html += '<td class="grid-cell text center" data-name="">';
+            html += '<a href="/Crm/Supplier/Edit/1"><button class="btn btn-primary" title="Chỉnh sửa" type="button"><i class="fas fa-pencil-alt"></i></button></a>';
+            html += '<a href="/Crm/Supplier/Edit/1"><button class="btn btn-success" title="Chỉnh sửa" type="button"><i class="fa fa-eye"></i></button></a>';
+            html += '<button class="btn btn-warning" title="Ngừng kinh doanh" style="margin:-2px" name="IdDelete" type="submit" value="1" onclick="return ConfirmDelete()"><i class="fas fa-trash-alt"></i></button></td></tr>';
+            $("#table-grid tbody").prepend(html);
+
+            //var audioElement = document.createElement('audio');
+            //audioElement.setAttribute('src', '/assets/facebookme.mp3');
+            //audioElement.play();
+        };
+        $.connection.hub.start().done(function () {
+        });
+    });
+</script>

@@ -27,6 +27,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
+    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -46,6 +47,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="AutoMapper, Version=3.1.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.3.1.0\lib\net40\AutoMapper.dll</HintPath>
       <Private>True</Private>
@@ -131,6 +136,14 @@
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -147,6 +160,10 @@
     </Reference>
     <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -172,6 +189,10 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="WebMatrix.Data, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.3.2.7\lib\net45\WebMatrix.Data.dll</HintPath>
       <Private>True</Private>
@@ -208,9 +229,11 @@
     <Content Include="Areas\CMS_Sale\Image\ThanhPham\A.jpg" />
     <Content Include="Areas\CMS_Sale\Image\ThanhPham\B.jpg" />
     <Content Include="Areas\CMS_Sale\Image\ThanhPham\noimage.gif" />
+    <Content Include="Assets\css\DetailsPos.css" />
     <Content Include="Assets\css\home.css" />
     <Content Include="Assets\css\pos.css" />
     <Content Include="Assets\css\posjsproduct.css" />
+    <Content Include="Assets\css\PrintPos.css" />
     <Content Include="Assets\css\ruang-admin.css" />
     <Content Include="Assets\css\ruang-admin.min.css" />
     <Content Include="Assets\css\warehouse.css" />
@@ -245,10 +268,15 @@
     <Content Include="Assets\img\screenshot\ss1.png" />
     <Content Include="Assets\img\think.svg" />
     <Content Include="Assets\img\undraw_posting_photo.svg" />
+    <Content Include="Assets\jsQR\barcode.wav" />
+    <Content Include="Assets\jsQR\instascan.min.js" />
+    <Content Include="Assets\jsQR\qrcode.js" />
+    <Content Include="Assets\jsQR\quagga.min.js" />
     <Content Include="Assets\js\demo\chart-area-demo.js" />
     <Content Include="Assets\js\demo\chart-bar-demo.js" />
     <Content Include="Assets\js\demo\chart-pie-demo.js" />
     <Content Include="Assets\js\posjs.js" />
+    <Content Include="Assets\js\PosJsV2.js" />
     <Content Include="Assets\js\ruang-admin.js" />
     <Content Include="Assets\js\ruang-admin.min.js" />
     <Content Include="Assets\public\templates\css\ace.min.css" />
@@ -2574,6 +2602,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Gridmvc.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="Global.asax" />
     <Content Include="scripts\ai.0.22.9-build00167.js" />
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
@@ -3135,7 +3164,15 @@
     <Content Include="Areas\Crm\Views\Customer\Edit.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\InOrder\Create.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\PurchaseOrder\Create.cshtml" />
+    <Content Include="scripts\jquery-1.10.2.min.map" />
+    <Content Include="Areas\Administration\Views\Task\Index.cshtml" />
+    <Content Include="Areas\CMS_Sale\Views\POS\View.cshtml" />
+    <Content Include="Areas\CMS_Sale\Views\POS\IndexList.cshtml" />
+    <Content Include="Areas\CMS_Sale\Views\PurchaseOrder\Details.cshtml" />
     <None Include="scripts\jquery-3.0.0-vsdoc.js" />
+    <None Include="scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="scripts\jquery-1.10.2.js" />
+    <Content Include="scripts\jquery-1.10.2.min.js" />
     <Content Include="scripts\jquery-3.0.0.js" />
     <Content Include="scripts\jquery-3.0.0.min.js" />
     <Content Include="scripts\jquery-3.0.0.slim.js" />
@@ -3230,10 +3267,13 @@
     <Content Include="scripts\popper-utils.js.map" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Administration\AdministrationAreaRegistration.cs" />
     <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="Areas\Administration\Controllers\TaskController.cs" />
+    <Compile Include="Areas\Administration\Models\TaskViewModel.cs" />
     <Compile Include="Areas\CMS_Sale\CMS_SaleAreaRegistration.cs" />
     <Compile Include="Areas\CMS_Sale\Controllers\HomeController.cs" />
     <Compile Include="Areas\Administration\Controllers\UserController.cs" />
@@ -3245,8 +3285,10 @@
     <Compile Include="Areas\Administration\Models\LoginViewModel.cs" />
     <Compile Include="Areas\CMS_Sale\Controllers\WarehouseController.cs" />
     <Compile Include="Areas\CMS_Sale\Models\CTPhieuNhapViewModel.cs" />
+    <Compile Include="Areas\CMS_Sale\Models\CTPhieuxuatViewModel.cs" />
     <Compile Include="Areas\CMS_Sale\Models\NguyenLieuViewModel.cs" />
     <Compile Include="Areas\CMS_Sale\Models\PhieuNhapViewModel.cs" />
+    <Compile Include="Areas\CMS_Sale\Models\PhieuXuatViewModel.cs" />
     <Compile Include="Areas\CMS_Sale\Models\POSDetailsViewModel.cs" />
     <Compile Include="Areas\CMS_Sale\Models\POSViewModel.cs" />
     <Compile Include="Areas\CMS_Sale\Models\ThanhPhamViewModel.cs" />
@@ -3268,6 +3310,8 @@
     </Compile>
     <Compile Include="Helpers\Helper.cs" />
     <Compile Include="Helpers\RequestInfo.cs" />
+    <Compile Include="Hubs\CustomerHub.cs" />
+    <Compile Include="Hubs\MyHub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -3305,7 +3349,6 @@
     <Folder Include="Assets\public\templates\upload\phongtt7\.thumbs\image\" />
     <Folder Include="Assets\public\templates\upload\phongtt7\image\" />
     <Folder Include="Controllers\" />
-    <Folder Include="Hubs\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

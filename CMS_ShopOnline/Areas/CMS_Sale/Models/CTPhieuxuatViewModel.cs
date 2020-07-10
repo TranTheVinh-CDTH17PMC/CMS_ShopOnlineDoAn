@@ -5,7 +5,7 @@ using System.Web;
 
 namespace CMS_ShopOnline.Areas.CMS_Sale.Models
 {
-    public class POSDetailsViewModel
+    public class CTPhieuxuatViewModel
     {
         public int Id { get; set; }
 
@@ -17,6 +17,5 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Models
 
         public double? DonGia { get; set; }
         public string Ten { get; set; }
-
     }
 }

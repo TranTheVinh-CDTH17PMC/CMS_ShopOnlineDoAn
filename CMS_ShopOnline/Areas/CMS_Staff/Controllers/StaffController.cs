@@ -2,6 +2,7 @@
 using CMS_Database.Interfaces;
 using CMS_Database.Repositories;
 using CMS_ShopOnline.Areas.CMS_Staff.Models;
+using CMS_ShopOnline.Filter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ using WebMatrix.WebData;
 namespace CMS_ShopOnline.Areas.CMS_Staff.Controllers
 {
     [Authorize]
+    [InitializeSimpleMembership]
     public class StaffController : Controller
     {
         private readonly INhanVien NhanVien;
