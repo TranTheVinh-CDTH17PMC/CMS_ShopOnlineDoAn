@@ -1,9 +1,30 @@
-﻿
+﻿@using CMS_ShopOnline.Areas.CMS_Sale.Models
+@using PagedList.Mvc;
+@model PagedList.IPagedList<PhieuXuatViewModel >
+<link href = "~/Content/PagedList.css" rel = "stylesheet" />
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/ACE_Layout.cshtml";
 }
-
+@helper Delete(string Status)
+{
+    if (Status == "Create")
+    {
+            <span class="badge badge-primary">Khởi tạo</span>
+    }
+    if (Status == "Processing")
+    {
+            <span class="badge badge-secondary">Chế biến</span>
+    }
+    if (Status == "Success")
+    {
+            <span class="badge badge-success">Hoàn thành</span>
+    }
+}
+@helper CheckDate(DateTime date)
+{
+    @date.Date.ToString("dd/MM/yyyy")
+}
 <div class="container-fluid" id="container-wrapper">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Đơn hàng</h1>
@@ -25,41 +46,135 @@
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table align-items-center table-flush">
-                        <thead class="thead-light">
-                            <tr>
-                                <th>Mã phiếu</th>
-                                <th>Ngày bán</th>
-                                <th>Nhân viên bán hàng</th>
-                                <th>Khách hàng</th>
-                                <th>Số lượng</th>
-                                <th>Đơn giá</th>
-                                <th>Trạng thái</th>
-                                <th>Tổng tiền</th>
-                                <th>Ghi chú</th>
-                            </tr>
-                        </thead>
-                        <tbody id="myproducts">
-                            <tr>
-                                <td><a href="#">1</a></td>
-                                <td>30/5/2020</td>
-                                <td>Thoại</td>
-                                <td>Vinh</td>
-                                <td>1</td>
-                                <td>99,000</td>
-                                <td><span class="badge badge-success">Hoàn thành</span></td>
-                                <td>99,000</td>
-                                <td>Không</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="grid-mvc" data-lang="en" data-gridname="" data-selectable="true" data-multiplefilters="false">
+                        <div class="grid-wrap">
+                            <table class="table table-striped grid-table" id="table-grid">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>Mã</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>Ngày bán</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>Nhân viên</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>Khách hàng</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>Tổng tiền</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>Ghi chú</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>Trạng thái</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header text center">
+                                            <div class="grid-header-title">
+                                                <span>Tùy chỉnh</span>
+                                            </div>
+                                        </th>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr class="grid-row ">
+                                            <td class="grid-cell" data-name="">
+                                                <span>NCC @item.Id</span>
+                                            </td>
+                                            <td class="grid-cell" data-name="Ten">@CheckDate(item.NgayTao)</td>
+                                            <td class="grid-cell" data-name="SDT">@item.TenNV</td>
+                                            <td class="grid-cell" data-name="Email">@item.TenKH</td>
+                                            <td class="grid-cell" data-name="DiaChi">@item.TongTien</td>
+                                            <td class="grid-cell" data-name="DiaChi">@item.GhiChu</td>
+                                            <td class="grid-cell" data-name="">@Delete(item.TrangThai)</td>
+                                            <td class="grid-cell text center" data-name="">
+                                                <a href="/Crm/Supplier/Edit/1">
+                                                    <button class="btn btn-primary" title="Chỉnh sửa" type="button">
+                                                        <i class="fas fa-pencil-alt"></i>
+                                                    </button>
+                                                </a>
+                                                <a href="/Crm/Supplier/Edit/1">
+                                                    <button class="btn btn-success" title="Chỉnh sửa" type="button">
+                                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                                    </button>
+                                                </a>
+                                                <button class="btn btn-warning" title="Ngừng kinh doanh" style="margin:-2px" name="IdDelete" type="submit" value="1" onclick="return ConfirmDelete()">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                    
+                                </tbody>
+                            </table>
+                            <div class="grid-footer">
+                                <div class="grid-pager">
+                                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                                    @Html.PagedListPager(Model, page => Url.Action("Index",
+                                    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-footer"></div>
             </div>
         </div>
     </div>
     <!--Row-->
 </div>
+<script src="~/scripts/jquery.signalR-2.4.1.min.js"></script>
+<script src="~/signalr/hubs"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        
+        //notificationFromHub = $.connection.myHub;
+        //// Connect to signalr hub
+
+        //// Notify to client with the recent updates
+        //notificationFromHub.client.updatedPurchaseOder = function (Id,NgayTao,IdNhanVien,IdKhachHang,TenNV,TenKH,GhiChu,TrangThai,TongTien) {
+        //    debugger
+        //    console.log("connection 2222")
+        //    var html = ' <tr class="grid-row "><td class="grid-cell" data-name=""><span>NCC </span></td>';
+        //    html += '<td class="grid-cell" data-name="Ten">1</td>';
+        //    html += '<td class="grid-cell" data-name="SDT">2</td>';
+        //    html += '<td class="grid-cell" data-name="Email">3</td>';
+        //    html += '<td class="grid-cell" data-name="DiaChi">4</td>';
+        //    html += '<td class="grid-cell" data-name="DiaChi">5</td>';
+        //    html += '<td class="grid-cell" data-name="">6</td>';
+        //    html += '<td class="grid-cell text center" data-name="">';
+        //    html += '<a href="/Crm/Supplier/Edit/1"><button class="btn btn-primary" title="Chỉnh sửa" type="button"><i class="fas fa-pencil-alt"></i></button></a>';
+        //    html += '<a href="/Crm/Supplier/Edit/1"><button class="btn btn-success" title="Chỉnh sửa" type="button"><i class="fa fa-eye"></i></button></a>';
+        //    html += '<button class="btn btn-warning" title="Ngừng kinh doanh" style="margin:-2px" name="IdDelete" type="submit" value="1" onclick="return ConfirmDelete()"><i class="fas fa-trash-alt"></i></button></td></tr>';
+        //    $("#table-grid tbody").prepend(html);
+
+        //    //var audioElement = document.createElement('audio');
+        //    //audioElement.setAttribute('src', '/assets/facebookme.mp3');
+        //    //audioElement.play();
+        //};
+        //$.connection.hub.start().done(function () {
+        //    console.log("connection started")
+        //});
+    });
+</script>
 <script>
     function filterFunction() {
         var input, filter, ul, li, tr, i;

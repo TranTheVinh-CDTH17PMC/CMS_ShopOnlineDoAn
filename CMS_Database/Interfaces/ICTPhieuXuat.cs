@@ -9,5 +9,6 @@ namespace CMS_Database.Interfaces
 {
     public interface ICTPhieuXuat:IGenericRepository<CTPhieuXuat>
     {
+        IQueryable<CTPhieuXuat> GetById(int id);
     }
 }

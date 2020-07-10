@@ -8,10 +8,15 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CMS_ShopOnline.Helpers;
+using CMS_ShopOnline.Areas.Crm.Models;
+using CMS_ShopOnline.Areas.Administration.Controllers;
+using CMS_ShopOnline.Filter;
+using CMS_ShopOnline.Hubs;
 
 namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
 {
     [Authorize]
+    [InitializeSimpleMembership]
     public class POSController : Controller
     {
         private readonly INguyenLieu NguyenLieu;
@@ -20,6 +25,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         private readonly IThanhPham ThanhPham;
         private readonly IPhieuXuat PhieuXuat;
         private readonly ICTPhieuXuat CTPhieuXuat;
+        private readonly IKhachHang KhachHang;
         public POSController()
         {
             NguyenLieu = new NguyenLieuRepository();
@@ -27,9 +33,10 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             LoaiSP = new LoaiSPRepository();
             ThanhPham = new ThanhPhamRepository();
             PhieuXuat = new PhieuXuatRepository();
-            CTPhieuXuat = new CTPhieuXuatRepository();
+            CTPhieuXuat = new ICTPhieuXuatRepository();
+            KhachHang = new KhachHangRepository();
         }
-        public POSController(IPhieuXuat _PhieuXuat,ICTPhieuXuat _CTPhieuXuat,INguyenLieu _NguyenLieu, IDonViTinh _DVT, ILoaiSP _LoaiSP,IThanhPham _ThanhPham)
+        public POSController(IKhachHang _KhachHang, IPhieuXuat _PhieuXuat,ICTPhieuXuat _CTPhieuXuat,INguyenLieu _NguyenLieu, IDonViTinh _DVT, ILoaiSP _LoaiSP,IThanhPham _ThanhPham)
         {
             NguyenLieu = _NguyenLieu;
             DVT = _DVT;
@@ -37,6 +44,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             ThanhPham = _ThanhPham;
             PhieuXuat = _PhieuXuat;
             CTPhieuXuat = _CTPhieuXuat;
+            KhachHang = _KhachHang;
         }
         //
         //
@@ -51,6 +59,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         {
             try
             {
+                string ControllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                string Action = this.ControllerContext.RouteData.Values["action"].ToString();
+                string Areas = "CMS_Sale";
                 var _phieuxuat = new PhieuXuat();
                 AutoMapper.Mapper.Map(model, _phieuxuat);
                 _phieuxuat.IdNhanVien = Helper.CurrentUser.Id;
@@ -59,7 +70,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 PhieuXuat.Insert(_phieuxuat);
                 PhieuXuat.Save();
                 var idpx = _phieuxuat.Id;
-                foreach(var item in model.ListPOSDetails)
+                foreach (var item in model.ListPOSDetails)
                 {
                     var _ctphieuxuat = new CTPhieuXuat();
                     _ctphieuxuat.IdThanhPham = item.IdThanhPham;
@@ -69,6 +80,10 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     CTPhieuXuat.Insert(_ctphieuxuat);
                     CTPhieuXuat.Save();
                 }
+                TaskController.CreateTask("Tạo hóa đơn", ControllerName, Action,Areas,Helper.CurrentUser.Id,idpx);
+                var _px = PhieuXuat.SelectById(idpx);
+                string NameNV = Helper.CurrentUser.TenNV;
+                MyHub.PurchaseOder(idpx, _px.NgayTao, _px.IdNhanVien, _px.IdKhachHang, NameNV, model.TenKH , _px.GhiChu, _px.TrangThai, _px.TongTien);
                 return RedirectToAction("Index");
             }
             catch(Exception e)
@@ -82,7 +97,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         }
 
         // GET: CMS_Sale/Default/Create
-        public ActionResult Create()
+        public ActionResult IndexList()
         {
             return View();
         }
@@ -185,6 +200,58 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 TenDVT = item.DonViTinh.Ten,
                 IsDelete = item.IsDelete
             });
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Search(string name)
+        {
+            name = Helper.ChuyenThanhKhongDau(name);
+            var q = ThanhPham.SelectAll().Where(x => x.IsDelete != true && Helper.ChuyenThanhKhongDau(x.Ten).Contains(name)).ToList();
+            var model = q.Select(item => new ThanhPhamViewModel
+            {
+                Id = item.Id,
+                Ten = item.Ten,
+                NgayTao = item.NgayTao,
+                IdLoai = item.IdLoai,
+                TenLoai = item.LoaiSP.Ten,
+                HinhAnh = item.HinhAnh,
+                DonGia = item.DonGia,
+                IdDVT = item.IdDVT,
+                TenDVT = item.DonViTinh.Ten,
+                IsDelete = item.IsDelete
+            }).ToList();
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetNameCustomer(int Id)
+        {
+            var q = KhachHang.SelectAll().Where(x => x.IsDelete != true && x.Id==Id).ToList();
+            var model = q.Select(item => new CustomerViewModel
+            {
+                Id = item.Id,
+                TenKH = item.TenKH,
+                NgayTao = item.NgayTao,
+                SDT = item.SDT,
+                IdNVTao = item.IdNVTao,
+                TenNV = item.NhanVien.TenNV,
+                TongTien = item.TongTien,
+                IsDelete = item.IsDelete
+            }).ToList();
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult SearchCustomer(string name)
+        {
+            name = Helper.ChuyenThanhKhongDau(name);
+            var q = KhachHang.SelectAll().Where(x => x.IsDelete != true && Helper.ChuyenThanhKhongDau(x.TenKH).Contains(name) || x.SDT.Contains(name)).ToList();
+            var model = q.Select(item => new CustomerViewModel
+            {
+                Id = item.Id,
+                TenKH = item.TenKH,
+                NgayTao = item.NgayTao,
+                SDT = item.SDT,
+                IdNVTao = item.IdNVTao,
+                TenNV = item.NhanVien.TenNV,
+                TongTien = item.TongTien,
+                IsDelete = item.IsDelete
+            }).ToList();
             return Json(model, JsonRequestBehavior.AllowGet);
         }
     }

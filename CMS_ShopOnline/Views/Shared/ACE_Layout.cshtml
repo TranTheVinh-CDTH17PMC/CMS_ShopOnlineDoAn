@@ -16,12 +16,16 @@
     <link href="/Assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="/Assets/css/ruang-admin.min.css" rel="stylesheet">
     <link href="~/Content/Gridmvc.css" rel="stylesheet" />
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
     <link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css'>
     <script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script src="~/scripts/jquery-3.0.0.min.js"></script>
+    @*<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>*@
+    
     <link href="~/Assets/vendor/bootstrap/css/CustomPagination.css" rel="stylesheet" />
+    
 </head>
 <body id="page-top">
     <div id="wrapper">
@@ -56,7 +60,7 @@
     <a class="scroll-to-top rounded" href="/Assets/#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-    <script src="/Assets/vendor/jquery/jquery.min.js"></script>
+    @*<script src="/Assets/vendor/jquery/jquery.min.js"></script>*@
     <script src="/Assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/Assets/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="/Assets/js/ruang-admin.min.js"></script>
@@ -66,6 +70,8 @@
     <script src="~/scripts/gridmvc.js"></script>
     <script src="~/scripts/gridmvc.lang.ru.js"></script>
     <script src="~/scripts/gridmvc.min.js"></script>
+
+
     @RenderSection("Scripts", required: false)
     <script>
         $(document).ready(function () {

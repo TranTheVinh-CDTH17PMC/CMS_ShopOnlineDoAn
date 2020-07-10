@@ -150,8 +150,10 @@
     <Compile Include="Entities\PhieuXuat.cs" />
     <Compile Include="Entities\sysdiagrams.cs" />
     <Compile Include="Entities\ThanhPham.cs" />
+    <Compile Include="Interfaces\ICongViec.cs" />
+    <Compile Include="Repositories\CongViecRepository.cs" />
     <Compile Include="Interfaces\ICTPhieuNhap.cs" />
-    <Compile Include="Interfaces\CTPhieuXuatRepository.cs" />
+    <Compile Include="Interfaces\ICTPhieuXuatRepository.cs" />
     <Compile Include="Interfaces\ICTPhieuXuat.cs" />
     <Compile Include="Interfaces\IDonViTinh.cs" />
     <Compile Include="Interfaces\ILoaiNV.cs" />

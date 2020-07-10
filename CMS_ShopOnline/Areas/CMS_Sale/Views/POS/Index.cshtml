@@ -17,27 +17,7 @@
     <link href="/Assets/public/templates/css/jquery-ui.min.css" rel="stylesheet">
     <link href="/Assets/css/pos.css" rel="stylesheet" type="text/css" />
     <link href="/Assets/css/posjsproduct.css" rel="stylesheet" type="text/css" />
-    <!--Start of Zendesk Chat Script-->
-    <script async="" charset="utf-8" src="https://v2.zopim.com/?2Z9j3qQJSSSIytel3Hsn5sCSk4aspfwy" type="text/javascript">
-    </script>
-    <script type="text/javascript">
-        window.$zopim || (function (d, s) {
-            var z = $zopim = function (c) { z._.push(c) }, $ = z.s =
-            d.createElement(s), e = d.getElementsByTagName(s)[0]; z.set = function (o) {
-                z.set.
-                _.push(o)
-            }; z._ = []; z.set._ = []; $.async = !0; $.setAttribute("charset", "utf-8");
-            $.src = "https://v2.zopim.com/?2Z9j3qQJSSSIytel3Hsn5sCSk4aspfwy"; z.t = +new Date; $.
-            type = "text/javascript"; e.parentNode.insertBefore($, e)
-        })(document, "script");
-    </script>
-    <!--End of Zendesk Chat Script-->
-    <script type="text/javascript" src="https://v2.zopim.com/w?2Z9j3qQJSSSIytel3Hsn5sCSk4aspfwy"></script>
-    <style media="print" class="jx_ui_StyleSheet" __jx__id="___$_2" type="text/css">
-        .zopim {
-            display: none !important;
-        }
-    </style>
+    <link href="~/Assets/css/PrintPos.css" rel="stylesheet" type="text/css"/>
     <style>
         .my-custom-scrollbar {
             position: relative;
@@ -76,6 +56,17 @@
             box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
             transform: scale(1.1);
         }
+        .ui-autocomplete-row
+          {
+            padding:8px;
+            background-color: #f4f4f4;
+            border-bottom:1px solid #ccc;
+            font-weight:bold;
+          }
+          .ui-autocomplete-row:hover
+          {
+            background-color: #ddd;
+          }
         /*end content product*/
     </style>
 </head>
@@ -99,7 +90,7 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li>
                                 <label style="margin: 13px 15px; color: white">
-                                    Nhân viên :
+                                    Nhân viên : @Helper.CurrentUser.TenNV
                                 </label>
                             </li>
                             <li style="border-right: 1px solid #E1E1E1; padding-right: 15px;">
@@ -135,17 +126,6 @@
 
                                 <div class="ajax-success-ct"></div>
                             </div>
-                            <!-- Start create employee -->
-                        
-                            <!-- end create employee -->
-                            <!-- Start create function -->
-                            <!-- end create function -->
-                            <!-- Start create group -->
-                        
-                            <!-- end create function -->
-                      
-                            <!-- start create customer -->
-
                             <div class="modal fade" id="create-cust" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -153,18 +133,17 @@
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="End();"><span aria-hidden="true">×</span></button>
                                         </div>
                                         <div class="modal-body">
-                                            <div id="resultado"></div>
-                                            <div id="camera"></div>
+                                            <video id="preview"></video>
                                         </div>
                                     </div>
                                 </div>
                                 <style>
                                     video {
-                                        width: 800px;
+                                        width: 550px;
                                         height: 200px;
                                     }
                                 </style>
-                                <script src="/Assets/quagga.min.js"></script>
+                               
                             </div>
                        
                             <!-- end customer -->
@@ -173,8 +152,9 @@
                                 <div class="row">
                                     <div class="orders-act">
                                         <div class="col-md-7">
+                                            <input type="text" placeholder="Search.." id="txtName" class="form-control marg-bot-10" style="width:70%">
                                             <div class="dropdown">
-                                                <button onclick="myFunction()" class="dropbtn" id="search-pro-box"><i class="fa fa-search"></i> Nhấn tìm kiếm và chọn sản phẩm (F2)</button>
+                                                @*<button onclick="myFunction()" class="dropbtn" id="search-pro-box"><i class="fa fa-search"></i> Nhấn tìm kiếm và chọn sản phẩm (F2)</button>*@
                                                 <div id="myDropdown" class="dropdown-content">
                                                     <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
                                                     <div class="table-wrapper-scroll-y my-custom-scrollbar" style="overflow-x:auto;">
@@ -189,39 +169,12 @@
                                                                 <td><a href="#" style="color:#337ab7">Cappuccino</a></td>
                                                                 <td>45000</td>
                                                             </tr>
-                                                            <tr>
-                                                                <td><img src="/Assets/img/products/kemchese.png" style="width:40px; height:40px" /></td>
-                                                                <td><a href="#" style="color:#337ab7">Cà phê</a></td>
-                                                                <td>35000</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><img src="/Assets/img/products/cake1.png" style="width:40px; height:40px" /></td>
-                                                                <td><a href="#" style="color:#337ab7">Bánh</a></td>
-                                                                <td>55000</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><img src="/Assets/img/products/cappuccino2.png" style="width:40px; height:40px" /></td>
-                                                                <td><a href="#" style="color:#337ab7">Cappuccino</a></td>
-                                                                <td>45000</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><img src="/Assets/img/products/kemchese.png" style="width:40px; height:40px" /></td>
-                                                                <td><a href="#" style="color:#337ab7">Cà phê</a></td>
-                                                                <td>35000</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><img src="/Assets/img/products/cake1.png" style="width:40px; height:40px" /></td>
-                                                                <td><a href="#" style="color:#337ab7">Bánh</a></td>
-                                                                <td>55000</td>
-                                                            </tr>
-
                                                         </table>
                                                     </div>
                                                 </div>
                                             </div>
                                             <!--load sản phẩm-->
                                             <div class="main">
-
                                                     <div id="myBtnContainer">
                                                     <button class="btnproduct active" onclick="GetProducts(0)"  type="button">Tất cả sản phẩm</button>
                                                         @foreach (var item in ViewBag.ListType)
@@ -232,9 +185,6 @@
                                             
                                                 <!-- Portfolio Gallery Grid -->
                                                 <div class="rowproduct" id="rowproduct">
-
-                                                
-                                                
                                                 </div>
                                                 <!-- Load sp js -->
                                                 </div>
@@ -250,7 +200,8 @@
                                                                 </div>
                                                                 <div class="col-md-8">
                                                                     <div class="col-md-10 padd-0" style="position: relative;">
-                                                                        @Html.TextBoxFor(x => x.IdKhachHang, new { @class = "form-control", placeholder = "Tìm khách hàng (F4)", style = "border-radius: 3px 0 0 3px !important;" })
+                                                                        <input class="form-control" name="TenKH" value="" id="dlcustomer" placeholder = "Tìm khách hàng (F4)", style="border-radius: 3px 0 0 3px !important;">
+                                                                        @Html.TextBoxFor(x => x.IdKhachHang, new { type="hidden",@Value = "", @class = "form-control", placeholder = "Tìm khách hàng (F4)", style ="border-radius: 3px 0 0 3px !important;"})
                                                                         <span style="color: red; position: absolute; right: 5px; top:5px; " class="del-cys"></span>
                                                                     </div>
                                                                     <div class="col-md-2 padd-0">
@@ -260,17 +211,6 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            @*<div class="form-group marg-bot-10 clearfix">
-                                                                <div style="padding:0px" class="col-md-4">
-                                                                    <label>NV bán hàng</label>
-                                                                </div>
-                                                                <div class="col-md-8">
-                                                                    <select class="form-control" id="sale_id">
-                                                                        <option value="">--Chọn--</option>
-                                                                        <option value="2">admin</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>*@
                                                             <div class="form-group marg-bot-10 clearfix">
                                                                 <div style="padding:0px" class="col-md-4">
                                                                     <label>Ghi chú</label>
@@ -286,16 +226,15 @@
                                                     <div class="table-wrapper-scroll-y my-custom-scrollbar">
                                                         <div style="overflow-x:auto;" id="listOrderDetail">
                                                             <div class="table-responsive">
-                                                                <table id="myTable" class="table order-list">
+                                                                <table id="myTable" class="table order-list table-bordered table-striped mb-0">
                                                                     <thead class="thead-light" style="background-color:#e7cff7">
                                                                         <tr>
-                                                                            <th>#</th>
-                                                                            <th>Mã SP</th>
-                                                                            <th>Tên SP</th>
-                                                                            <th>Số lượng</th>
-                                                                            <th>Đơn giá</th>
-                                                                            <th>Thành tiền</th>
-                                                                            <th>Hủy</th>
+                                                                            <th scope="col">#</th>
+                                                                            <th scope="col">Tên SP</th>
+                                                                            <th scope="col">Số lượng</th>
+                                                                            <th scope="col">Đơn giá</th>
+                                                                            <th scope="col">Thành tiền</th>
+                                                                            <th scope="col">Hủy</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody class="detailList"></tbody>
@@ -319,20 +258,15 @@
                                                                 </div>
                                                                 <div class="col-md-8">
                                                                     <input type="text" class="form-control text-right txtMoney discount-order" placeholder="0" style="border-radius: 0 !important;">
-                                                                </div>
-                                                            
+                                                                </div>   
                                                             </div>
-                                                            @*<div class="form-group marg-bot-10 clearfix">
-                                                            
-                                                            </div>*@
                                                             <div class="form-group marg-bot-10 clearfix">
                                                                 <div class="col-md-4 padd-right-0">
                                                                     <label>Khách đưa (F8)</label>
                                                                 </div>
                                                                 <div class="col-md-8">
                                                                     <input type="text" id="Custommer" class="form-control text-right txtMoney customer-pay" placeholder="0" style="border-radius: 0 !important;">
-                                                                </div>
-                                                            
+                                                                </div>  
                                                             </div>
                                                             <div class="form-group marg-bot-10 clearfix">
                                                                 <div class="col-md-4">
@@ -340,7 +274,6 @@
                                                                 </div>
                                                                 <div class="col-md-8">
                                                                     @Html.TextBoxFor(x => x.TongTien, new { @class = "form-control text-right", id = "totalafterdiscount", placeholder = "0", style = "border-radius: 0 !important;", @readonly = "true" })
-                                                                    @*<input value="0" type="text" id="totalafterdiscount" class="form-control text-right" placeholder="0" style="border-radius: 0 !important;" readonly>*@
                                                                 </div>
                                                             </div>
                                                             <div class="form-group marg-bot-10 clearfix">
@@ -355,13 +288,12 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
                                                 <div class="col-md-12">
                                                     <div class="btn-groups pull-right" style="margin-bottom: 50px;">
                                                         <button type="submit" class="btn btn-primary" onclick="">
                                                             <i class="fa fa-check"></i> Lưu (F9)
                                                         </button>
-                                                        <button type="button" class="btn btn-primary" onclick="cms_save_orders(4)">
+                                                        <button type="button" class="btn btn-primary">
                                                             <i class="fa fa-print"></i> Lưu và
                                                             in (F10)
                                                         </button>
@@ -389,257 +321,10 @@
         <script src="/Assets/public/templates/js/bootstrap.min.js"></script>
         <script src="/Assets/public/templates/js/ajax.js"></script>
         <script src="/Assets/js/posjs.js"></script>
+        <script src="~/Assets/js/PosJsV2.js"></script>
+        <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
-        <script>
-            var counter = 0;
-            $(document).ready(function () { 
-                GetProducts(0);
-                $('#listOrderDetail').on('change', '.detail_item_qty', function () {
-                    var $this = $(this);
-                    var id = $this.closest('tr').data('id');
-                    TotalMoney(id);
-                    calcTotalAmount();
-                    Excesscash();
-                });
-                $('#listOrderDetail').on('change', '.detail_item_total', function () {
-                    var $this = $(this);
-                    var id = $this.closest('tr').data('id');
-                    TotalMoney(id);
-                    calcTotalAmount();
-                });
-                $("table.order-list").on("click", ".ibtnDel", function (event) {
-                    
-                    
-                    $(this).closest("tr").remove();
-                    $('.detailList tr').each(function (index, tr) {
-                        $(this).find("span.sn").html(index+1);
-                        $(tr).find('.detail_item_qty').attr('name', 'ListPOSDetails['+index+'].SoLuong'); 
-                        $(tr).find('.detail_item_price').attr('name', 'ListPOSDetails['+index+'].DonGia');
-                        $(tr).find('.detail_item_id').attr('name', 'ListPOSDetails['+index+'].IdThanhPham');
-                        
-                    });
-                    debugger
-                    var count = myTable.querySelectorAll("tr").length;
-                    if(count == 1)
-                    {
-                        $('#Custommer').val("");
-                        $('#totalafterdiscount').val("");  
-                        $('.Excesscash').text("0");
-                    }
-                    else
-                    {
-                        calcTotalAmount();
-                    }   
-                }); 
-                $("#Custommer").change(function(){
-                    Excesscash();
-                });
-            });
-            function SelectProducts(id)
-            {
-                
-                $.ajax({
-                    url: "/POS/ListProductsById/",
-                    dataType: "json",
-                    type: "GET",
-                    contentType: 'application/json; charset=utf-8',
-                    data: { Id: id },
-                    success: function (data) {
-                        var count = myTable.querySelectorAll("tr").length;
-                        if (count == null)
-                        {
-                            count = 0;
-                        }
-                        var getid = $("#" + id + "").val();
-                        if (getid == null)
-                        {
-                            var html = "";
-                            $.each(data, function (key, item) {
-                                html += '<tr data-id="' + item.Id + '"><td id="'+item.Id+'"><span class="sn">'+count+'</span></td>';
-                                html += '<td><input class="detail_item_id form-control input-sm" type="text" name="ListPOSDetails['+(count-1)+'].IdThanhPham"  value="'+item.Id+'"></td>';
-                                html += '<td><input class="form-control input-sm" type="text"  value="'+item.Ten+'"></td>';
-                                html += '<td><input id="Count_' + item.Id + '" class="detail_item_qty form-control input-sm" type="number" min="1" name="ListPOSDetails['+(count-1)+'].SoLuong" value="1"></td>';
-                                html += '<td><input id="Price_' + item.Id + '" class="detail_item_price form-control input-sm" type="text" name="ListPOSDetails['+(count-1)+'].DonGia" value="'+ item.DonGia +'"></td>';
-                                html += '<td><p id="Total_' + item.Id + '" class="detail_item_total"></p></td>';
-                                html += '<td><input type="button" class="ibtnDel btn btn-md btn-danger" value="Hủy"></td></tr>';
-                                $("table.order-list").append(html);
-                                TotalMoney(item.Id);
-                                calcTotalAmount();
-                                counter++;
-                                
-                            });
-                        }
-                        else
-                        {
-                            var num1 = $("#Count_" + id + "").val();
-                            var answer = parseInt(num1) + 1;
-                            $("#Count_" + id + "").val(answer);
-                            TotalMoney(id);
-                            calcTotalAmount();
-                        }
-
-                    },
-                    error: function (xhr) {
-                        console.log(xhr);
-                    }
-                });
-            }
-            function GetProducts(id)
-            {
-                $(".col-md-3").remove();
-                $.ajax({
-                    url: "/POS/ListProducts/",
-                    dataType: "json",
-                    type: "GET",
-                    contentType: 'application/json; charset=utf-8',
-                    data: { Id: id },
-                    success: function (data) {
-                        console.log(data);
-                        var html = "";
-                        $.each(data, function (key, item) {
-                            html += '<div class="col-md-3">';
-                            html += '<div class="content">';
-                            html += '<a onclick="SelectProducts('+item.Id+');">';
-                            html += '<img src="/Areas/CMS_Sale/Image/ThanhPham/' + item.HinhAnh + '" alt="Mountains" style="width:100%">';
-                            html += '</a><h4>' + item.Ten + '</h4>';
-                            html += '<p>' + item.DonGia + '</p>';
-                            html += '</div></div>';
-                        });
-                        $("#rowproduct").append(html);
-                    },
-                    error: function (xhr) {
-                        console.log(xhr);
-                    }
-                });
-            }
-            function TotalMoney(id)
-            {
-                var num1 = $("#Count_"+id+"").val();
-                var num2 = $("table.order-list #Price_"+id+"").val();
-                var answer = parseInt(num1) * parseInt(num2);
-                $("table.order-list #Total_" +id+ "").text(answer);
-                //$("table.order-list #Total_" +id+ "").val(answer);
-                Excesscash();
-            }
-            function calcTotalAmount() {
-                var total = 0;
-                var total1 = 0;
-                var selector = '.detailList tr';
-                debugger
-                $('table > tbody  > tr').each(function (index, elem) {
-                    if ($(elem).find('.detail_item_total').text() != '') { 
-                        console.log(total);
-                        console.log(elem);
-                        total = total + parseFloat($(elem).find('.detail_item_total').text());
-                        $("#totalafterdiscount").val(total);
-                        $('input[name="TongTien"]').val(total);
-                       
-                    }
-                });
-                Excesscash();
-            }
-            function Excesscash()
-            {
-                debugger
-                var cus = $("#Custommer").val();
-                var total = $("#totalafterdiscount").val();
-                var sum = cus.replace(",","");
-                var sum1 = total.replace(",","");
-                cus = sum.replace(",","");
-                total = sum1.replace(",","");
-                var answer = parseFloat(cus) - parseFloat(total);
-                $(".Excesscash").text(numeral(answer).format('0,0'));
-                $(".Excesscash").val(numeral(answer).format('0,0'));
-            }
-            //Javascript tìm kiếm sản phẩm
-            function myFunction() {
-                document.getElementById("myDropdown").classList.toggle("show");
-            }
-
-            function filterFunction() {
-                var input, filter, ul, li, tr, i;
-                input = document.getElementById("myInput");
-                filter = input.value.toUpperCase();
-                div = document.getElementById("myDropdown");
-                tr = div.getElementsByTagName("tr");
-                for (i = 0; i < tr.length; i++) {
-                    txtValue = tr[i].textContent || tr[i].innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else  {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
-            $('#search-pro-box').keypress(function (e) {
-                if (e.which == 113) {
-                    e.preventDefault();
-                }
-            });
-            //end tìm kiếm
-
-            //
-            function End() {
-                Quagga.stop();
-            }
-            function Click() {
-                Quagga.init({
-                    inputStream: {
-                        name: "Live",
-                        type: "LiveStream",
-                        target: document.querySelector('#camera')    // Or '#yourElement' (optional)
-                    },
-                    decoder: {
-                        readers: ["code_128_reader"]
-                    }
-                }, function (err) {
-                    if (err) {
-                        console.log(err);
-                        return
-                    }
-                    console.log("Initialization finished. Ready to start");
-                    Quagga.start();
-
-                });
-
-                Quagga.onDetected(function (data) {
-                    debugger
-                    console.log(data.codeResult.code);
-                    var audioElement = document.createElement('audio');
-                    audioElement.setAttribute('src', 'barcode.wav');
-                    audioElement.play();
-                    var text = $("#makh").val(data.codeResult.code);
-                });
-            }
-            //$(function () {
-            //    $("#search-pro-box").autocomplete({
-            //        minLength: 1,
-            //        source: 'orders/cms_autocomplete_products/',
-            //        focus: function (event, ui) {
-            //            $("#search-pro-box").val(ui.item.prd_code);
-            //            return false;
-            //        },
-            //        select: function (event, ui) {
-            //            cms_select_product_sell(ui.item.ID);
-            //            $("#search-pro-box").val('');
-            //            return false;
-            //        }
-            //    }).keyup(function (e) {
-            //        if (e.which === 13) {
-            //            cms_autocomplete_enter_sell();
-            //            $("#search-pro-box").val('');
-            //            $(".ui-menu-item").hide();
-            //        }
-            //    })
-            //        .autocomplete("instance")._renderItem = function (ul, item) {
-            //            return $("<li>")
-            //                .append("<div>" + item.prd_code + " - " + item.prd_name + "</div>")
-            //                .appendTo(ul);
-            //        };
-            //});
-
-            document.addEventListener('keyup', hotkey, false);
-        </script>
+        
         <ul id="ui-id-1" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div>
     </body>
 }

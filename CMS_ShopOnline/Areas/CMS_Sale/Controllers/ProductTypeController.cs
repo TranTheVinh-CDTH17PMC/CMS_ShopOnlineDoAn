@@ -2,6 +2,7 @@
 using CMS_Database.Interfaces;
 using CMS_Database.Repositories;
 using CMS_ShopOnline.Areas.CMS_Sale.Models;
+using CMS_ShopOnline.Filter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,8 @@ using System.Web.Mvc;
 
 namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
 {
+    [Authorize]
+    [InitializeSimpleMembership]
     public class ProductTypeController : Controller
     {
         private readonly IDonViTinh DVT;

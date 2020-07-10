@@ -24,10 +24,11 @@ namespace CMS_Database.Entities
         [StringLength(50)]
         public string GhiChu { get; set; }
 
-        public DateTime? NgayTao { get; set; }
+        public DateTime NgayTao { get; set; }
 
         public double? TongTien { get; set; }
         public string TrangThai { get; set; }
+        public bool? IsDelete { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CTPhieuXuat> CTPhieuXuat { get; set; }
