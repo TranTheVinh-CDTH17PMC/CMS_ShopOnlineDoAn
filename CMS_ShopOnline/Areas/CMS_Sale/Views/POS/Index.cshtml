@@ -49,12 +49,14 @@
             padding: 10px;
             box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
             transition: 0.3s;
-            transition: transform 0.5s;
+            transition: transform 0.3s;
         }
 
         .content:hover {
+            background-color: #337ab7;
+            color:white;
             box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-            transform: scale(1.1);
+            transform: scale(1.05);
         }
         .ui-autocomplete-row
           {
@@ -66,6 +68,9 @@
           .ui-autocomplete-row:hover
           {
             background-color: #ddd;
+          }
+          .detail_item_qty{
+              max-width:80px
           }
         /*end content product*/
     </style>
@@ -152,7 +157,7 @@
                                 <div class="row">
                                     <div class="orders-act">
                                         <div class="col-md-7">
-                                            <input type="text" placeholder="Search.." id="txtName" class="form-control marg-bot-10" style="width:70%">
+                                            <input type="text" placeholder="Tìm kiếm sản phẩm..." id="txtName" class="form-control marg-bot-10" style="width:68.5%">
                                             <div class="dropdown">
                                                 @*<button onclick="myFunction()" class="dropbtn" id="search-pro-box"><i class="fa fa-search"></i> Nhấn tìm kiếm và chọn sản phẩm (F2)</button>*@
                                                 <div id="myDropdown" class="dropdown-content">
@@ -237,7 +242,8 @@
                                                                             <th scope="col">Hủy</th>
                                                                         </tr>
                                                                     </thead>
-                                                                    <tbody class="detailList"></tbody>
+                                                                    <tbody class="detailList">
+                                                                    </tbody>
                                                                 </table>
                                                             </div>
                                                         </div>
@@ -320,9 +326,10 @@
         <script src="/Assets/public/templates/js/respond.min.js"></script>
         <script src="/Assets/public/templates/js/bootstrap.min.js"></script>
         <script src="/Assets/public/templates/js/ajax.js"></script>
+        <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
         <script src="/Assets/js/posjs.js"></script>
         <script src="~/Assets/js/PosJsV2.js"></script>
-        <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+        
         <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
         
         <ul id="ui-id-1" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div>

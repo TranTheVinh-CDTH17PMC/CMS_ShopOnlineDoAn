@@ -1,6 +1,29 @@
 ﻿var counter = 0;
 $(document).ready(function () {
-    GetProducts(0);                
+    GetProducts(0);
+    let scanner = new Instascan.Scanner(
+    {
+        video: document.getElementById('preview')
+    }
+                                    );
+    scanner.addListener('scan', function (content) {
+        var audioElement = document.createElement('audio');
+        audioElement.setAttribute('src', '/Assets/jsQR/barcode.wav');
+        audioElement.play();
+        GetNameCustomer(content);
+        $('#create-cust').modal('toggle');
+    });
+    Instascan.Camera.getCameras().then(cameras => {
+        if (cameras.length > 0) {
+            scanner.start(cameras[0]);
+        } else {
+            console.error("Não existe câmera no dispositivo!");
+        }
+    });
+    function End() {
+        debugger
+        scanner.stop();
+    }
     $('#listOrderDetail').on('change', '.detail_item_qty', function () {
         var $this = $(this);
         var id = $this.closest('tr').data('id');
@@ -159,7 +182,7 @@ function SelectProducts(id)
                     html += '<td><p  class="detail_item_price" type="text">' + item.DonGia + '</p></td>';
                     html += '<td style="display:none;"><input id="Price_' + item.Id + '" class="detail_item_price form-control input-sm" type="text" name="ListPOSDetails[' + (count - 1) + '].DonGia" value="' + item.DonGia + '"></td>';
                     html += '<td><p id="Total_' + item.Id + '" class="detail_item_total"></p></td>';
-                    html += '<td><input type="button" class="ibtnDel btn btn-md btn-danger" value="Hủy"></td></tr>';
+                    html += '<td><i class="ibtnDel fa fa-close" style="font-size:30px;color:red;margin-left:7px;"></i></td></tr>';
                     $("table.order-list").append(html);
                     TotalMoney(item.Id);
                     calcTotalAmount();
@@ -195,7 +218,7 @@ function GetProducts(id)
             console.log(data);
             var html = "";
             $.each(data, function (key, item) {
-                html += '<div class="col-md-3">';
+                html += '<div class="col-md-3" style="padding:10px">';
                 html += '<div class="content">';
                 html += '<a onclick="SelectProducts('+item.Id+');">';
                 html += '<img src="/Areas/CMS_Sale/Image/ThanhPham/' + item.HinhAnh + '" alt="Mountains" style="width:100%">';
@@ -274,27 +297,5 @@ $('#search-pro-box').keypress(function (e) {
         e.preventDefault();
     }
 });
-let scanner = new Instascan.Scanner(
-    {
-        video: document.getElementById('preview')
-    }
-                                    );
-scanner.addListener('scan', function (content) {
-    var audioElement = document.createElement('audio');
-    audioElement.setAttribute('src', '/Assets/jsQR/barcode.wav');
-    audioElement.play();
-    GetNameCustomer(content);
-    $('#create-cust').modal('toggle');
-});
-Instascan.Camera.getCameras().then(cameras => {
-    if (cameras.length > 0) {
-        scanner.start(cameras[0]);
-    } else {
-        console.error("Não existe câmera no dispositivo!");
-    }
-});
-function End() {
-    debugger
-    scanner.stop();
-}
+
 document.addEventListener('keyup', hotkey, false);

@@ -68,6 +68,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     GhiChu = item.GhiChu,
                     TrangThai = item.TrangThai,
                     TongTien = item.TongTien,
+                    IsDelete = item.IsDelete
                 }
             ).ToList().OrderByDescending(x=>x.NgayTao);
             int pageSize = 10;

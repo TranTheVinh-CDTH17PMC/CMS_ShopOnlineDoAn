@@ -2,6 +2,11 @@
 @using PagedList.Mvc;
 @model PagedList.IPagedList<PhieuXuatViewModel >
 <link href = "~/Content/PagedList.css" rel = "stylesheet" />
+<style>
+    .card .table td, .card .table th{
+        padding-right:0;
+    }
+</style>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/ACE_Layout.cshtml";
@@ -112,11 +117,11 @@
                                                     </button>
                                                 </a>
                                                 <a href="/Crm/Supplier/Edit/1">
-                                                    <button class="btn btn-success" title="Chỉnh sửa" type="button">
+                                                    <button class="btn btn-success" title="Xem" type="button">
                                                         <i class="fa fa-eye" aria-hidden="true"></i>
                                                     </button>
                                                 </a>
-                                                <button class="btn btn-warning" title="Ngừng kinh doanh" style="margin:-2px" name="IdDelete" type="submit" value="1" onclick="return ConfirmDelete()">
+                                                <button class="btn btn-warning" title="Ngừng hoạt động" style="margin:-2px" name="IdDelete" type="submit" value="1" onclick="return ConfirmDelete()">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
                                             </td>

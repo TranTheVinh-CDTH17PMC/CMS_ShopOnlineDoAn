@@ -279,6 +279,7 @@
     <Content Include="Assets\js\PosJsV2.js" />
     <Content Include="Assets\js\ruang-admin.js" />
     <Content Include="Assets\js\ruang-admin.min.js" />
+    <Content Include="Assets\music\facebookme.mp3" />
     <Content Include="Assets\public\templates\css\ace.min.css" />
     <Content Include="Assets\public\templates\css\bootstrap-datepicker.css" />
     <Content Include="Assets\public\templates\css\bootstrap-datepicker.min.css" />

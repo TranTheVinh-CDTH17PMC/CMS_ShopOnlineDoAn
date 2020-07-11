@@ -30,7 +30,7 @@ if (Status == "Success")
 <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
      aria-labelledby="alertsDropdown">
     <h6 class="dropdown-header">
-        Alerts Center
+        Thông báo
     </h6>
     @* thông báo *@
     @foreach (var item in ViewBag.listcongviec)
@@ -86,9 +86,9 @@ if (Status == "Success")
             html += '</div> </a>';
             $("#notication").prepend(html);
            
-            //var audioElement = document.createElement('audio');
-            //audioElement.setAttribute('src', '/assets/facebookme.mp3');
-            //audioElement.play();
+            var audioElement = document.createElement('audio');
+            audioElement.setAttribute('src', '~/Assets/mucsic/facebookme.mp3');
+            audioElement.play();
         };
         notificationFromHub.client.updatedPurchaseOder = function (Id, NgayTao, IdNhanVien, IdKhachHang, TenNV, TenKH, GhiChu, TrangThai, TongTien) {
             var today = new Date(NgayTao);
@@ -130,7 +130,7 @@ if (Status == "Success")
             $("#table-grid tbody").prepend(html);
 
             //var audioElement = document.createElement('audio');
-            //audioElement.setAttribute('src', '/assets/facebookme.mp3');
+            //audioElement.setAttribute('src', '/Assets/mucsic/facebookme.mp3');
             //audioElement.play();
         };
         $.connection.hub.start().done(function () {
