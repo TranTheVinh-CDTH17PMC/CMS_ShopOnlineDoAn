@@ -30,8 +30,38 @@ namespace CMS_ShopOnline.Areas.CMS_Staff.Controllers
         }
         //
         // GET: /Staff/Staff/
-        public ActionResult Index()
+        public ActionResult Index(string txtCode)
         {
+            try
+            {
+                IEnumerable<NhanVienViewModel> model = NhanVien.SelectAll().Select(
+                    item => new NhanVienViewModel
+                    {
+                        Id = item.Id,
+                        TenNV = item.TenNV,
+                        NgayTao = item.NgayTao,
+                        IdLoaiNV = item.IdLoaiNV,
+                        TenLoai = item.LoaiNV.TenLoai,
+                        TenTaiKhoan = item.TenTaiKhoan,
+                        Email = item.Email,
+                        DiaChi = item.DiaChi,
+                        SDT = item.SDT,
+                        CMND = item.CMND,
+                        IsDelete = item.IsDelete
+                    }).OrderBy(x => x.Id);
+                if (txtCode != null)
+                {
+                    txtCode = txtCode == "" ? "~" : Helpers.Helper.ChuyenThanhKhongDau(txtCode);
+                    model = model.Where(x => x.IsDelete != true && (Helpers.Helper.ChuyenThanhKhongDau(x.TenNV).Contains(txtCode)));
+                }
+                ViewBag.SuccessMessage = TempData["SuccessMessage"];
+                return View(model);
+            }
+            catch (Exception e)
+            {
+
+            }
+
             return View();
         }
         public ActionResult Create()
@@ -78,7 +108,7 @@ namespace CMS_ShopOnline.Areas.CMS_Staff.Controllers
         }
         public ActionResult Edit(int Id)
         {
-            var user = NhanVien.GetbyId(Id);
+            var user = NhanVien.SelectById(Id);
             if(user!=null)
             {
                 var model = new NhanVienViewModel();
@@ -91,12 +121,14 @@ namespace CMS_ShopOnline.Areas.CMS_Staff.Controllers
         [HttpPost]
         public ActionResult Edit(NhanVienViewModel model)
         {
-            var user = NhanVien.GetbyId(model.Id);
+            var user = NhanVien.SelectById(model.Id);
             if(user!=null)
             {
                 if(user.TenTaiKhoan==model.TenTaiKhoan)
                 {
                     AutoMapper.Mapper.Map(model, user);
+                    user.NgayTao = DateTime.Now;
+                    user.IsDelete = false;
                     NhanVien.Update(user);
                     NhanVien.Save();
                     TempData["SuccessMessage"] = "Create";
@@ -123,6 +155,7 @@ namespace CMS_ShopOnline.Areas.CMS_Staff.Controllers
             }
             else
             {
+               
                 return RedirectToAction("Index");
             }
         }
@@ -135,14 +168,15 @@ namespace CMS_ShopOnline.Areas.CMS_Staff.Controllers
             }
             return false;
         }
-        public ActionResult Delete(int Id)
+        public ActionResult Delete(string IdDelete)
         {
-            var _nhanvien = NhanVien.GetbyId(Id);
-            if (_nhanvien != null)
+            var _nv = NhanVien.SelectById(int.Parse(IdDelete));
+            if (_nv != null)
             {
-                _nhanvien.IsDelete = true;
-                NhanVien.Update(_nhanvien);
+                _nv.IsDelete = true;
+                NhanVien.Update(_nv);
                 NhanVien.Save();
+                return RedirectToAction("Index");
             }
             return View();
         }
