@@ -1,5 +1,8 @@
-﻿@model CMS_ShopOnline.Areas.CMS_Sale.Models.PhieuNhapViewModel
+﻿@using CMS_ShopOnline.Areas.CMS_Sale.Models
 @using CMS_ShopOnline.Helpers;
+@model PhieuNhapViewModel
+@{
+}
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/ACE_Layout.cshtml";
@@ -15,57 +18,25 @@
     .table-wrapper-scroll-y {
         display: block;
     }
+    .ui-autocomplete-row
+          {
+            padding:8px;
+            background-color: #f4f4f4;
+            border-bottom:1px solid #ccc;
+            font-weight:bold;
+          }
+          .ui-autocomplete-row:hover
+          {
+            background-color: #ddd;
+          }
 </style>
+@using (Html.BeginForm(FormMethod.Post))
+{
 <div class="container-fluid" id="container-wrapper">
     <div class="row">
         <div class="col-lg-3">
             <!-- Form Basic -->
-                <div class="dropdown">
-                    <button onclick="myFunction()" class="dropbtn" id="search-pro-box" style="width:293px"><i class="fa fa-search"></i> Tìm kiếm và chọn nguyên liệu(F2)</button>
-                    <div id="myDropdown" class="dropdown-content">
-                        <input type="text" placeholder="Search.." id="myInput" style="background-position: 17px 10px;" onkeyup="filterFunction()">
-                        <div class="table-wrapper-scroll-y my-custom-scrollbar" style="overflow-x:auto;">
-                            <table>
-                                <tr>
-                                    <th>Hình</th>
-                                    <th>Tên</th>
-                                    <th>Giá</th>
-                                </tr>
-                                <tr>
-                                    <td><img src="/Assets/img/products/cappuccino2.png" style="width:40px; height:40px" /></td>
-                                    <td><a href="#" style="color:#337ab7">Cappuccino</a></td>
-                                    <td>45000</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="/Assets/img/products/kemchese.png" style="width:40px; height:40px" /></td>
-                                    <td><a href="#" style="color:#337ab7">Cà phê</a></td>
-                                    <td>35000</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="/Assets/img/products/cake1.png" style="width:40px; height:40px" /></td>
-                                    <td><a href="#" style="color:#337ab7">Bánh</a></td>
-                                    <td>55000</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="/Assets/img/products/cappuccino2.png" style="width:40px; height:40px" /></td>
-                                    <td><a href="#" style="color:#337ab7">Cappuccino</a></td>
-                                    <td>45000</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="/Assets/img/products/kemchese.png" style="width:40px; height:40px" /></td>
-                                    <td><a href="#" style="color:#337ab7">Cà phê</a></td>
-                                    <td>35000</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="/Assets/img/products/cake1.png" style="width:40px; height:40px" /></td>
-                                    <td><a href="#" style="color:#337ab7">Bánh</a></td>
-                                    <td>55000</td>
-                                </tr>
-
-                            </table>
-                        </div>
-                    </div>
-                </div>
+            <input type="text" placeholder="Tìm kiếm nguyên liệu..." id="txtName" class="form-control marg-bot-10">
         </div>
         <div class="col-lg-9">
             <div style="display:flex">
@@ -187,29 +158,40 @@
         </div>
     </div>
 </div>
+}
 <script>
-    function myFunction() {
-        document.getElementById("myDropdown").classList.toggle("show");
-    }
+$(document).ready(function (){
+    $('#txtName').autocomplete({
+        minLength: 1,
+        source: function (request, response) {
+            $.ajax({
+                url: "/InOrder/Search/",
+                dataType: "json",
+                type: "GET",
+                contentType: 'application/json; charset=utf-8',
+                data: { name: request.term },
+                success: function (data) {
+                    response(data);
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            });
+        },
+        focus: updateTextBox,
+        select: function (e, ui) {
+            SelectProducts(ui.item.Id);
+        },
+    })
 
-    function filterFunction() {
-        var input, filter, ul, li, tr, i;
-        input = document.getElementById("myInput");
-        filter = input.value.toUpperCase();
-        div = document.getElementById("myDropdown");
-        tr = div.getElementsByTagName("tr");
-        for (i = 0; i < tr.length; i++) {
-            txtValue = tr[i].textContent || tr[i].innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
-            } else {
-                tr[i].style.display = "none";
-            }
-        }
-    }
-    $('#search-pro-box').keypress(function (e) {
-        if (e.which == 113) {
-            e.preventDefault();
-        }
-    });
+       .autocomplete('instance')._renderItem = function (ul, item) {
+           return $('<li class="ui-autocomplete-row"></li>')
+               .append('<img src="/Areas/CMS_Sale/Image/NguyenLieu/' + item.HinhAnh + '" width="70" />&nbsp;&nbsp;&nbsp;Tên SP : ' + item.Ten + ' - Đơn giá : ' + item.DonGia + '')
+               .appendTo(ul);
+           function updateTextBox(event, ui) {
+               $(this).val(ui.item.Id);
+               return false;
+           }
+       };
+});
 </script>

@@ -30,7 +30,7 @@ namespace CMS_ShopOnline.Areas.CMS_Staff.Controllers
         }
         //
         // GET: /Staff/Staff/
-        public ActionResult Index(string txtCode)
+        public ActionResult Index(string txtCode, string txtName, string txtInfo)
         {
             try
             {
@@ -48,11 +48,20 @@ namespace CMS_ShopOnline.Areas.CMS_Staff.Controllers
                         SDT = item.SDT,
                         CMND = item.CMND,
                         IsDelete = item.IsDelete
-                    }).OrderBy(x => x.Id);
+                    }).OrderBy(x => x.IsDelete);
+                if (txtName != null)
+                {
+                    txtName = txtName == "" ? "~" : Helpers.Helper.ChuyenThanhKhongDau(txtName);
+                    model = model.Where(x => Helpers.Helper.ChuyenThanhKhongDau(x.TenNV).Contains(txtName));
+                }
                 if (txtCode != null)
                 {
                     txtCode = txtCode == "" ? "~" : Helpers.Helper.ChuyenThanhKhongDau(txtCode);
-                    model = model.Where(x => x.IsDelete != true && (Helpers.Helper.ChuyenThanhKhongDau(x.TenNV).Contains(txtCode)));
+                    model = model.Where(x => Helpers.Helper.ChuyenThanhKhongDau(x.SDT).Contains(txtCode));
+                }
+                if (!string.IsNullOrEmpty(txtInfo))
+                {
+                    model = model.Where(x => Helpers.Helper.ChuyenThanhKhongDau(x.TenNV).Contains(Helpers.Helper.ChuyenThanhKhongDau(txtInfo)) || x.SDT.Contains(txtInfo)).ToList();
                 }
                 ViewBag.SuccessMessage = TempData["SuccessMessage"];
                 return View(model);

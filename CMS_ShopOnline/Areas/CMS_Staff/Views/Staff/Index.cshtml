@@ -79,7 +79,7 @@ else
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <div class="col-md-8">
                         <div class="order-search" style="margin: 10px 0px; position: relative;">
-                            @Html.TextBox("txtCode", Request["txtCode"], new { @class = "form-control ui-autocomplete-input", autocomplete = "off", placeholder = "Nhập tên nhân viên..." })
+                            @Html.TextBox("txtInfo", Request["txtInfo"], new { @class = "form-control ui-autocomplete-input", autocomplete = "off", placeholder = "Nhập tên nhân viên hoặc số điện thoại..." })
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -97,7 +97,7 @@ else
                         columns.Add(x => x.TenNV).Titled("Tên nhân viên");                    
                         columns.Add(x => x.TenTaiKhoan).Titled("Tên tài khoản");
                         columns.Add(x => x.TenLoai).Titled("Chức vụ");
-                        columns.Add(x => x.Email).Titled("Email").SetWidth(200);
+                        columns.Add(x => x.Email).Titled("Email");
                         columns.Add(x => x.DiaChi).Titled("Địa chỉ");
                         columns.Add(x => x.SDT).Titled("SĐT");
                         columns.Add(x => x.CMND).Titled("CMND");
