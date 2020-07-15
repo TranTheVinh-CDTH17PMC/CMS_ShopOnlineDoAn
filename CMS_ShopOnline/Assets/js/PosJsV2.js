@@ -272,6 +272,7 @@ function Excesscash()
     var answer = parseFloat(cus) - parseFloat(total);
     $(".Excesscash").text(numeral(answer).format('0,0'));
     $(".Excesscash").val(numeral(answer).format('0,0'));
+    
 }
 //Javascript tìm kiếm sản phẩm
 function myFunction() {

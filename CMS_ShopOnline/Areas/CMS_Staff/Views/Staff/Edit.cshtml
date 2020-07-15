@@ -20,14 +20,14 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Tên Tài Khoản</label>
-                            @Html.TextBoxFor(model => model.TenTaiKhoan, new { @class = "form-control" })
+                            @Html.TextBoxFor(model => model.TenTaiKhoan, new { @class = "form-control", @readonly = "readonly" })
                         </div>
                         <div class="form-group">
                             <label>Mật khẩu</label>
                             @Html.TextBoxFor(model => model.MatKhau, new { @class = "form-control", Type = "password" })
                         </div>
                         <div class="form-group">
-                            <label for="exampleFormControlSelect1">Chọn loại tài khoản</label>
+                            <label for="exampleFormControlSelect1">Loại tài khoản</label>
                             <select class="form-control " data-val="true" data-val-number="The field Loại người dùng must be a number." data-val-required="Bắt buộc nhập" id="IdLoaiNV" name="IdLoaiNV">
                                 <option @(Model.IdLoaiNV == null ? "selected" : "") value="" data-code="">Rỗng</option>
                                 @foreach (var item in Model.listLoaiNV)
@@ -44,7 +44,7 @@
                 <div class="card mb-4">
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="exampleFormControlSelect1">Chứng Minh Nhân Dân</label>
+                            <label for="exampleFormControlSelect1">CMND</label>
                             @Html.TextBoxFor(model => model.CMND, new { @class = "form-control" })
                         </div>
                         <div class="form-group">

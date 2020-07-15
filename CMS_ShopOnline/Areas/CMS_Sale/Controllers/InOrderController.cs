@@ -53,22 +53,27 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         [HttpPost]
         public ActionResult Create(PhieuNhapViewModel model)
         {
-            try
-            {
-                var pn = new PhieuNhap();
-                AutoMapper.Mapper.Map(model, pn);
-                pn.NgayTao = DateTime.Now;
-                pn.IdNhanVien = Helper.CurrentUser.Id;
-                PhieuNhap.Insert(pn);
-                PhieuNhap.Save();
-                ViewBag.Message = String.Format("Thêm mới thành công!!!");
-                return RedirectToAction("Index");
-            }
-            catch (Exception e)
-            {
-                e.Message.ToString();
-            }
             return View();
+        }
+        public ActionResult Search(string name)
+        {
+            name = Helper.ChuyenThanhKhongDau(name);
+            var q = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && Helper.ChuyenThanhKhongDau(x.Ten).Contains(name)).ToList();
+            var model = q.Select(item => new NguyenLieuViewModel
+            {
+                Id = item.Id,
+                Ten = item.Ten,
+                NgayNhap = item.NgayNhap,
+                IdLoai = item.IdLoai,
+                TenLoai = item.LoaiSP.Ten,
+                HinhAnh = item.HinhAnh,
+                DonGia = item.DonGia,
+                IdDVT = item.IdDVT,
+                TenDVT = item.DonViTinh.Ten,
+                SoLuongKho = item.SoLuongKho,
+                IsDelete = item.IsDelete
+            }).ToList();
+            return Json(model, JsonRequestBehavior.AllowGet);
         }
     }
 }

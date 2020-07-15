@@ -1,12 +1,69 @@
-﻿
+﻿@using CMS_ShopOnline.Areas.CMS_Staff.Models
+@model IEnumerable<NhanVienViewModel>
+@using GridMvc.Html
+@using CMS_ShopOnline.Helpers
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/ACE_Layout.cshtml";
 }
+@if (ViewBag.SuccessMessage != null)
+{
+    <script>
+        $(document).ready(function () {
+	    'use strict';
+		swal({
+		title: 'Thông báo!!!',
+		text: 'Thành công',
+		type: 'success',
+		button: {
+			text: "Continue",
+			value: true,
+			visible: true,
+			className: "btn btn-primary"
+				}
+		})
+});
 
+    </script>
+}
+@helper ButtonEdit(int Id)
+{
+    <a href="@Url.Action("Edit","Staff",new { @Id = Id })">
+        <button class="btn btn-primary" title="Chỉnh sửa" style="margin-left:-8px;margin-right:9px;" type="button">
+            <i class="fas fa-pencil-alt"></i>
+        </button>
+    </a>
+}
+@helper ButtonDelete(int Id)
+{
+    <button class="btn btn-warning" title="Ngừng hoạt động" style="margin:-2px" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmDelete()"> <i class="fas fa-trash-alt"></i></button>
+}
+@helper Ma(int Id)
+{
+    <span>NV @Id</span>
+}
+@helper Delete(bool? Status)
+{
+    if (Status == false)
+    {
+
+        <span class="badge badge-primary">Hoạt động</span>
+}
+else
+{
+        <span class="badge badge-warning">Nghỉ việc</span>
+}
+}
 <div class="container-fluid" id="container-wrapper">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Nhân viên</h1>
+        <div style="display:flex">
+            <h1 class="h3 mb-0 text-gray-800">Nhân viên</h1>
+            <a href="@Url.Action("Create", "Staff", new { area ="CMS_Staff" })">
+                <button type="button" class="btn btn-primary" title="Thêm nhân viên" style="margin-left:10px">
+                    <i class="fa fa-plus-circle"></i> Thêm
+                </button>
+            </a>
+        </div>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="./">Trang chủ</a></li>
             <li class="breadcrumb-item">Nhân viên</li>
@@ -17,46 +74,42 @@
         <div class="col-lg-12 mb-4">
             <!-- Simple Tables -->
             <div class="card">
+                @using (Html.BeginForm("Index", "Staff", FormMethod.Post))
+                {
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <div class="col-md-8">
                         <div class="order-search" style="margin: 10px 0px; position: relative;">
-                            <input type="text" class="form-control ui-autocomplete-input" onkeyup="filterFunction()" placeholder="Nhập mã hoặc tên nhân viên..." id="search-pro-box" autocomplete="off">
+                            @Html.TextBox("txtInfo", Request["txtInfo"], new { @class = "form-control ui-autocomplete-input", autocomplete = "off", placeholder = "Nhập tên nhân viên hoặc số điện thoại..." })
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <a href="@Url.Action("Create", "Staff", new { area ="CMS_Staff" })">
-                            <button type="button" class="btn btn-primary">
-                                <i class="fa fa-plus-circle"></i> Nhân viên
-                            </button>
-                        </a>
+                        
                     </div>
                 </div>
+                }
+                @using (Html.BeginForm("Delete", "Staff", FormMethod.Post))
+                {
                 <div class="table-responsive">
-                    <table class="table align-items-center table-flush">
-                        <thead class="thead-light">
-                            <tr>
-                                <th>Tên nhân viên</th>
-                                <th>Mã đăng nhập</th>
-                                <th>Nhóm người dùng</th>
-                                <th>Số điện thoại</th>
-                                <th>Email</th>
-                                <th>Địa chỉ</th>
-                                <th>Trạng thái</th>
-                            </tr>
-                        </thead>
-                        <tbody id="myproducts">
-                            <tr>
-                                <td><a href="#">Nguyễn B</a></td>
-                                <td>454545a4da5s4d</td>
-                                <td>Thu ngân</td>
-                                <td>0985674123</td>
-                                <td>nguyen@gmail.com</td>
-                                <td>HCM</td>
-                                <td><span class="badge badge-success">Đang hoạt động</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                        @Html.Grid(Model).Columns(columns =>
+                    {
+                        columns.Add().Titled("Mã").SetWidth(5).Sanitized(false).Encoded(false).RenderValueAs(x => Ma(x.Id));
+                        columns.Add(x => x.NgayTao).Sanitized(false).Titled("Ngày tạo").Format("{0:dd/MM/yyyy}");
+                        columns.Add(x => x.TenNV).Titled("Tên nhân viên");                    
+                        columns.Add(x => x.TenTaiKhoan).Titled("Tên tài khoản");
+                        columns.Add(x => x.TenLoai).Titled("Chức vụ");
+                        columns.Add(x => x.Email).Titled("Email");
+                        columns.Add(x => x.DiaChi).Titled("Địa chỉ");
+                        columns.Add(x => x.SDT).Titled("SĐT");
+                        columns.Add(x => x.CMND).Titled("CMND");
+                        columns.Add().Titled("Trạng thái").Sanitized(false).Encoded(false).RenderValueAs(x => Delete(x.IsDelete));
+                        columns.Add().Titled("Tùy chỉnh").Css("text center")
+                            .Encoded(false)
+                            .Sanitized(false)
+                            .SetWidth(100)
+                            .RenderValueAs(x => (ButtonEdit(x.Id)).ToString() + (ButtonDelete(x.Id)).ToString());
+                    }).WithPaging(5)
                 </div>
+                }
                 <div class="card-footer"></div>
             </div>
         </div>
@@ -64,21 +117,28 @@
     <!--Row-->
 </div>
 <script>
-    function filterFunction() {
-        var input, filter, ul, li, tr, i;
-        input = document.getElementById("search-pro-box");
-        filter = input.value.toUpperCase();
-        div = document.getElementById("myproducts");
-        tr = div.getElementsByTagName("tr");
-        for (i = 0; i < tr.length; i++) {
-            txtValue = tr[i].textContent || tr[i].innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
+    //function filterFunction() {
+    //    var input, filter, ul, li, tr, i;
+    //    input = document.getElementById("search-pro-box");
+    //    filter = input.value.toUpperCase();
+    //    div = document.getElementById("myproducts");
+    //    tr = div.getElementsByTagName("tr");
+    //    for (i = 0; i < tr.length; i++) {
+    //        txtValue = tr[i].textContent || tr[i].innerText;
+    //        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+    //            tr[i].style.display = "";
 
-            } else {
-                tr[i].style.display = "none";
-            }
-        }
+    //        } else {
+    //            tr[i].style.display = "none";
+    //        }
+    //    }
+    //}
+    function ConfirmDelete() {
+        var x = confirm("Bạn có chắc muốn xóa item đã chọn ?");
+        if (x)
+            return true;
+        else
+            return false;
     }
 </script>
 
