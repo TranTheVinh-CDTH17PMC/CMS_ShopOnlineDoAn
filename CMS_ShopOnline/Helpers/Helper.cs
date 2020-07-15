@@ -67,6 +67,16 @@ namespace CMS_ShopOnline.Helpers
 
                 return null;
             }
+            set
+            {
+                var ListRequest = HttpContext.Current.Application["ListRequest"] as List<RequestInfo>;
+                if (ListRequest != null)
+                {
+                    var r = ListRequest.Where(item => item.User != null && item.User.TenTaiKhoan == WebSecurity.CurrentUserName).FirstOrDefault();
+                    if (r != null)
+                        r.User = value;
+                }
+            }
         }
         public static string ChuyenThanhKhongDau(string s)
         {

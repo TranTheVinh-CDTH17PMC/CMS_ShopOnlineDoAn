@@ -11,6 +11,7 @@ namespace CMS_ShopOnline.Hubs
     [HubName("myHub")]
     public class MyHub : Hub
     {
+        private static IHubContext context = GlobalHost.ConnectionManager.GetHubContext<MyHub>();
         public static List<UserOnline> UserOnlines = new List<UserOnline>();
         
         public override System.Threading.Tasks.Task OnConnected()
@@ -78,13 +79,11 @@ namespace CMS_ShopOnline.Hubs
         public static void Noti(string NameTask, string Controller, string Action,string Areas, string UserIDCreate,int? Idtask ,string DateTime,int IdPx)
         {
             var listStaffCanView = UserOnlines.Select(x => x.ConnectionID).ToList();
-            IHubContext context = GlobalHost.ConnectionManager.GetHubContext<MyHub>();
             context.Clients.Clients(listStaffCanView).updatedClients(NameTask, Controller, Action, Areas, UserIDCreate, Idtask, DateTime,IdPx);  
         }
         public static void PurchaseOder(int? Id, DateTime NgayTao,int? IdNhanVien, int? IdKhachHang, string TenNV, string TenKH, string GhiChu, string TrangThai, double? TongTien)
         {
             var listStaffCanView = UserOnlines.Select(x => x.ConnectionID).ToList();
-            IHubContext context = GlobalHost.ConnectionManager.GetHubContext<MyHub>();
             context.Clients.Clients(listStaffCanView).updatedPurchaseOder(Id,  NgayTao,  IdNhanVien,  IdKhachHang,  TenNV,  TenKH, GhiChu ,  TrangThai,  TongTien);  
         }
         public class UserOnline

@@ -1,8 +1,14 @@
-﻿
+﻿@using CMS_ShopOnline.Areas.Administration.Models
+@model IEnumerable<TaskViewModel>
 @{
     Layout = null;
    
 }
+<style>
+    .card .table td, .card .table th {
+        padding-right: 0;
+    }
+</style>
 @helper Delete(string Status)
 {
 if (Status == "Create")
@@ -25,7 +31,7 @@ if (Status == "Success")
 <a class="nav-link dropdown-toggle" href="" id="alertsDropdown" role="button" data-toggle="dropdown"
    aria-haspopup="true" aria-expanded="false">
     <i class="fas fa-bell fa-fw"></i>
-    <span class="badge badge-danger badge-counter">@Enumerable.Count(ViewBag.listcongviec)</span>
+    <span class="badge badge-danger badge-counter">@Model.Count()</span>
 </a>
 <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
      aria-labelledby="alertsDropdown">
@@ -33,9 +39,9 @@ if (Status == "Success")
         Thông báo
     </h6>
     @* thông báo *@
-    @foreach (var item in ViewBag.listcongviec)
+    @foreach (var item in Model.ToList())
     {
-        <a class="dropdown-item d-flex align-items-center" href="@Url.Action("Details", "PurchaseOrder", new { area ="CMS_Sale",id=item.IdPhieuXuat })" id="noticolor[@item.Id]">
+        <a class="dropdown-item d-flex align-items-center" onclick="Checkseen(@item.Id)" href="@Url.Action("Details", "PurchaseOrder", new { area = "CMS_Sale", id = item.IdPhieuXuat })" id="noticolor[@item.Id]" style="background-color:@item.Color;">
             <div class="mr-3">
                 <div class="icon-circle bg-primary">
                 <i class="fas fa-file-alt text-white"></i>
@@ -67,14 +73,13 @@ if (Status == "Success")
 <script src="~/scripts/jquery.signalR-2.4.1.min.js"></script>
 <script src="~/signalr/hubs"></script>
 <script type="text/javascript">
-
     $(document).ready(function () {
         notificationFromHub = $.connection.myHub;
-        notificationFromHub.client.updatedClients = function (NameTask, Controller, Action, Areas, UserIDCreate, Idtask, DateTime) {
+        notificationFromHub.client.updatedClients = function (NameTask, Controller, Action, Areas, UserIDCreate, Idtask, DateTime, IdPx) {
             var x = $('#alertsDropdown span').text();
             var count = parseInt(x) + 1;
             $('#alertsDropdown span').text(count);
-            var html = '<a class="dropdown-item d-flex align-items-center" href="../Tasks/Details/' + Idtask + '" id="noticolor[' + Idtask + ']">';
+            var html = '<a class="dropdown-item d-flex align-items-center" onclick="Checkseen('+IdPx+')" href="CMS_Sale/PurchaseOrder/Details/' + IdPx + '" id="noticolor[' + Idtask + ']" style="background-color:#E6E6FA;>';
             html += '<div class="mr-3">';
             html += '<div class="icon-circle bg-primary">';
             html += '<i class="fas fa-file-alt text-white"></i>';
@@ -85,9 +90,8 @@ if (Status == "Success")
             html += '<span class="font-weight-bold">' + NameTask + '</span>';
             html += '</div> </a>';
             $("#notication").prepend(html);
-           
             var audioElement = document.createElement('audio');
-            audioElement.setAttribute('src', '~/Assets/mucsic/facebookme.mp3');
+            audioElement.setAttribute('src', '/Assets/jsQR/facebookme.mp3');
             audioElement.play();
         };
         notificationFromHub.client.updatedPurchaseOder = function (Id, NgayTao, IdNhanVien, IdKhachHang, TenNV, TenKH, GhiChu, TrangThai, TongTien) {
@@ -136,4 +140,20 @@ if (Status == "Success")
         $.connection.hub.start().done(function () {
         });
     });
+    function Checkseen(id)
+    {
+        $.ajax({
+            url: "/Administration/Task/CheckSeenNoti/",
+            dataType: "json",
+            type: "GET",
+            contentType: 'application/json; charset=utf-8',
+            data: { Id: id },
+            success: function (data) {
+
+            },
+            error: function (xhr) {
+                console.log(xhr);
+            }
+        });
+    }
 </script>

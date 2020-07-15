@@ -140,6 +140,7 @@
     <Compile Include="Entities\CTPhieuXuat.cs" />
     <Compile Include="Entities\DBConnection.cs" />
     <Compile Include="Entities\DonViTinh.cs" />
+    <Compile Include="Entities\DTTT.cs" />
     <Compile Include="Entities\KhachHang.cs" />
     <Compile Include="Entities\LoaiNV.cs" />
     <Compile Include="Entities\LoaiSP.cs" />

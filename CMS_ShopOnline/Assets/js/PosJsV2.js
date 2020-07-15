@@ -1,6 +1,7 @@
 ﻿var counter = 0;
 $(document).ready(function () {
     GetProducts(0);
+    notificationFromHub = $.connection.myHub;
     let scanner = new Instascan.Scanner(
     {
         video: document.getElementById('preview')

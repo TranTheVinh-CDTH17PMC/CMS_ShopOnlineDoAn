@@ -29,6 +29,7 @@ namespace CMS_Database.Entities
         public string Area { get; set; }
 
         public bool? IsDelete { get; set; }
+        public bool? Seen { get; set; }
 
         public virtual NhanVien NhanVien { get; set; }
     }

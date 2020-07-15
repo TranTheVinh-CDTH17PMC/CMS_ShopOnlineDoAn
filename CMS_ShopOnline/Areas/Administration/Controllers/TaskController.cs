@@ -4,6 +4,7 @@ using CMS_ShopOnline.Areas.Administration.Models;
 using CMS_ShopOnline.Hubs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace CMS_ShopOnline.Areas.Administration.Controllers
@@ -23,8 +24,32 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
         // GET: Administration/CongViec
         public ActionResult Index()
         {
-            ViewBag.listcongviec = CongViec.GetAll();
-            return View();
+            Delete();
+            IEnumerable<TaskViewModel> model = CongViec.SelectAll().Where(x => x.IsDelete != true).Select(
+                item => new TaskViewModel
+                {
+                    Id = item.Id,
+                    IdPhieuXuat = item.IdPhieuXuat,
+                    Ten = item.Ten,
+                    IdNhanVien = item.IdNhanVien,
+                    NgayTao = item.NgayTao,
+                    Action = item.Action,
+                    Controller = item.Controller,
+                    Area = item.Area,
+                    IsDelete = item.IsDelete,
+                    Seen = item.Seen,
+                    Color = CheckSeen(item.Seen),
+                }).Take(5).OrderByDescending(x=>x.NgayTao);
+            return View(model);
+        }
+        public string CheckSeen(bool? seen)
+        {
+            string color = "white";
+            if (seen == false)
+            {
+                color = "#E6E6FA";
+            }
+            return color;
         }
         public static void CreateTask(string NameTask, string Controller, string Action, string Areas, int UserIDCreate,int IdPx)
         {
@@ -57,7 +82,7 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
             var q = _CongViec.SelectAll();
             foreach(var item in q)
             {
-                if( ngay(item.NgayTao) >= 2)
+                if( ngay(item.NgayTao) >= 2 && item.Seen==true)
                 {
                     _CongViec.Delete(item.Id);
                     _CongViec.Save();
@@ -71,6 +96,14 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
             TimeSpan diff1 = datetimenow.Subtract(ngaynhap);
             i = diff1.Days;
             return i;
+        }
+        public ActionResult CheckSeenNoti(int Id)
+        {
+            var task = CongViec.SelectById(Id);
+            task.Seen = true;
+            CongViec.Update(task);
+            CongViec.Save();
+            return Json("", JsonRequestBehavior.AllowGet);
         }
         // GET: Administration/CongViec/Details/5
         public ActionResult Details(int id)

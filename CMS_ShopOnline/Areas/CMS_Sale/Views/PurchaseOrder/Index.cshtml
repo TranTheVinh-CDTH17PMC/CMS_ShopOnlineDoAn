@@ -116,12 +116,12 @@
                                                         <i class="fas fa-pencil-alt"></i>
                                                     </button>
                                                 </a>
-                                                <a href="/Crm/Supplier/Edit/1">
+                                                <a href="/CMS_Sale/PurchaseOrder/Details/@item.Id">
                                                     <button class="btn btn-success" title="Xem" type="button">
                                                         <i class="fa fa-eye" aria-hidden="true"></i>
                                                     </button>
                                                 </a>
-                                                <button class="btn btn-warning" title="Ngừng hoạt động" style="margin:-2px" name="IdDelete" type="submit" value="1" onclick="return ConfirmDelete()">
+                                                <button class="btn btn-warning" title="Xóa hóa đơn" style="margin:-2px" name="IdDelete" type="submit" value="1" onclick="return ConfirmDelete()">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
                                             </td>
@@ -148,37 +148,16 @@
 <script src="~/scripts/jquery.signalR-2.4.1.min.js"></script>
 <script src="~/signalr/hubs"></script>
 <script type="text/javascript">
-
     $(document).ready(function () {
         
-        //notificationFromHub = $.connection.myHub;
-        //// Connect to signalr hub
-
-        //// Notify to client with the recent updates
-        //notificationFromHub.client.updatedPurchaseOder = function (Id,NgayTao,IdNhanVien,IdKhachHang,TenNV,TenKH,GhiChu,TrangThai,TongTien) {
-        //    debugger
-        //    console.log("connection 2222")
-        //    var html = ' <tr class="grid-row "><td class="grid-cell" data-name=""><span>NCC </span></td>';
-        //    html += '<td class="grid-cell" data-name="Ten">1</td>';
-        //    html += '<td class="grid-cell" data-name="SDT">2</td>';
-        //    html += '<td class="grid-cell" data-name="Email">3</td>';
-        //    html += '<td class="grid-cell" data-name="DiaChi">4</td>';
-        //    html += '<td class="grid-cell" data-name="DiaChi">5</td>';
-        //    html += '<td class="grid-cell" data-name="">6</td>';
-        //    html += '<td class="grid-cell text center" data-name="">';
-        //    html += '<a href="/Crm/Supplier/Edit/1"><button class="btn btn-primary" title="Chỉnh sửa" type="button"><i class="fas fa-pencil-alt"></i></button></a>';
-        //    html += '<a href="/Crm/Supplier/Edit/1"><button class="btn btn-success" title="Chỉnh sửa" type="button"><i class="fa fa-eye"></i></button></a>';
-        //    html += '<button class="btn btn-warning" title="Ngừng kinh doanh" style="margin:-2px" name="IdDelete" type="submit" value="1" onclick="return ConfirmDelete()"><i class="fas fa-trash-alt"></i></button></td></tr>';
-        //    $("#table-grid tbody").prepend(html);
-
-        //    //var audioElement = document.createElement('audio');
-        //    //audioElement.setAttribute('src', '/assets/facebookme.mp3');
-        //    //audioElement.play();
-        //};
-        //$.connection.hub.start().done(function () {
-        //    console.log("connection started")
-        //});
     });
+    function ConfirmDelete() {
+        var x = confirm("Bạn có chắc muốn xóa item đã chọn ?");
+        if (x)
+            return true;
+        else
+            return false;
+    }
 </script>
 <script>
     function filterFunction() {

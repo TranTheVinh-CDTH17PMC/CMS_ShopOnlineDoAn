@@ -61,9 +61,11 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
         }
         public ActionResult LogOff()
         {
+            Helpers.Helper.CurrentUser = null;
             WebSecurity.Logout();
 
             HttpContext.Application.Contents.Remove("TaiKhoanLogin");
+            HttpContext.Application.Contents.Remove("ListRequest");
 
             return RedirectToAction("Login", "User", new { @area = "Administration" });
         }

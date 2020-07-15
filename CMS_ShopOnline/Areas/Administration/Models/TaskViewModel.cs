@@ -13,6 +13,8 @@ namespace CMS_ShopOnline.Areas.Administration.Models
         public string Ten { get; set; }
 
         public int? IdNhanVien { get; set; }
+        public int? IdPhieuXuat { get; set; }
+
 
         public DateTime? NgayTao { get; set; }
 
@@ -23,8 +25,10 @@ namespace CMS_ShopOnline.Areas.Administration.Models
 
 
         public string Area { get; set; }
+        public string Color { get; set; }
 
         public bool? IsDelete { get; set; }
+        public bool? Seen { get; set; }
 
     }
 }
