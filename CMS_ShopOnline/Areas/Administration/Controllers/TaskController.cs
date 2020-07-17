@@ -39,7 +39,7 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
                     IsDelete = item.IsDelete,
                     Seen = item.Seen,
                     Color = CheckSeen(item.Seen),
-                }).Take(5).OrderByDescending(x=>x.NgayTao);
+                }).OrderByDescending(x=>x.NgayTao).Take(5);
             return View(model);
         }
         public string CheckSeen(bool? seen)
@@ -66,6 +66,7 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
                 task.Action = Action;
                 task.Area = Areas;
                 task.IsDelete = false;
+                task.Seen = false;
                 _CongViec.Insert(task);
                 _CongViec.Save();
                 MyHub.Noti(NameTask, Controller, Action, Areas,Helpers.Helper.CurrentUser.TenNV, task.Id, Convert.ToString(task.NgayTao), IdPx);

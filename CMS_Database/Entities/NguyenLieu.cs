@@ -17,7 +17,7 @@ namespace CMS_Database.Entities
 
         public int Id { get; set; }
 
-        public DateTime? NgayTao { get; set; }
+        public DateTime NgayTao { get; set; }
         public DateTime NgayNhap { get; set; }
 
         public int? IdLoai { get; set; }

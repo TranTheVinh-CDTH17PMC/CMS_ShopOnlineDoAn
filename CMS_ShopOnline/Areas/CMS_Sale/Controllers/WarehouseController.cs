@@ -185,11 +185,14 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 {
                     model.HinhAnh = _nguyenlieu.HinhAnh;
                 }
-
                 float vOut = Convert.ToSingle(model.DonGia);
                 _nguyenlieu.DonGia = vOut;
-                AutoMapper.Mapper.Map(model, _nguyenlieu);
+                _nguyenlieu.Ten = model.Ten;
+                _nguyenlieu.IdLoai = model.IdLoai;
+                _nguyenlieu.IdDVT = model.IdDVT;
+                _nguyenlieu.HinhAnh = model.HinhAnh;
                 _nguyenlieu.IsDelete = false;
+                _nguyenlieu.NgayTao = DateTime.Now;
                 NguyenLieu.Update(_nguyenlieu);
                 NguyenLieu.Save();
                 TempData["SuccessMessage"] = "Edit";

@@ -38,6 +38,12 @@ namespace CMS_ShopOnline.Areas.CMS_Sale
 
             AutoMapper.Mapper.CreateMap<CMS_Database.Entities.PhieuXuat, PhieuXuatViewModel>();
             AutoMapper.Mapper.CreateMap<PhieuXuatViewModel, CMS_Database.Entities.PhieuXuat>();
+
+            AutoMapper.Mapper.CreateMap<CMS_Database.Entities.PhieuNhap, PhieuNhapViewModel>();
+            AutoMapper.Mapper.CreateMap<PhieuNhapViewModel, CMS_Database.Entities.PhieuNhap>();
+
+            AutoMapper.Mapper.CreateMap<CMS_Database.Entities.CTPhieuNhap, CTPhieuNhapViewModel>();
+            AutoMapper.Mapper.CreateMap<CTPhieuNhapViewModel, CMS_Database.Entities.CTPhieuNhap>();
         }
     }
 }
