@@ -30,13 +30,8 @@ namespace CMS_ShopOnline.Helpers
             if (ListRequest == null)
                 ListRequest = new List<RequestInfo>();
             var ip = HttpContext.Current.Request.UserHostAddress;
-            var requestInfo = ListRequest.Where(x => x.IP == ip).FirstOrDefault();
-           if (requestInfo == null &&WebSecurity.CurrentUserName!=null && WebSecurity.CurrentUserName != "")
-            {
-                requestInfo = ListRequest.Where(x => x.IP == ip && x.User.TenTaiKhoan == WebSecurity.CurrentUserName).FirstOrDefault();
-            }
-           
-            if (requestInfo != null && WebSecurity.IsAuthenticated && requestInfo.User != null && requestInfo.User.TenTaiKhoan != WebSecurity.CurrentUserName)
+            var requestInfo = ListRequest.Where(x=>x.IP == ip).FirstOrDefault();
+            if (requestInfo != null && WebSecurity.IsAuthenticated && requestInfo.User != null && requestInfo.User.TenTaiKhoan != WebSecurity.CurrentUserName.ToLower())
             {
                 requestInfo = null;
             }
@@ -61,11 +56,12 @@ namespace CMS_ShopOnline.Helpers
                 var ListRequest = HttpContext.Current.Application["ListRequest"] as List<RequestInfo>;
                 if (ListRequest != null)
                 {
-                    INhanVien _nhanvien = new NhanVienRepository();
-                    var user1 = _nhanvien.GetByUserName(WebSecurity.CurrentUserName);
-                    if (user1 != null)
+                    var user1 = ListRequest.Where(item => item.User != null)
+                        .Select(item => item.User);
+                    var count = user1.Count();
+                    if (user1 != null && user1.Count() > 0)
                     {
-                        return user1; // trừ 1 vì list bắt đầu là số 0
+                        return user1.ElementAt(user1.Count() - 1); // trừ 1 vì list bắt đầu là số 0
                     }
                 }
 
