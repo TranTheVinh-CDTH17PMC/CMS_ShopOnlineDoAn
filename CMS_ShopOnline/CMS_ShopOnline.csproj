@@ -3162,13 +3162,13 @@
     <Content Include="Areas\CMS_Sale\Views\ProductType\CreateType.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\ProductType\Index.cshtml" />
     <Content Include="Areas\Crm\Views\Customer\Edit.cshtml" />
-    <Content Include="Areas\CMS_Sale\Views\InOrder\Create.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\PurchaseOrder\Create.cshtml" />
     <Content Include="scripts\jquery-1.10.2.min.map" />
     <Content Include="Areas\Administration\Views\Task\Index.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\POS\View.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\POS\IndexList.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\PurchaseOrder\Details.cshtml" />
+    <Content Include="Areas\CMS_Sale\Views\InOrder\Create.cshtml" />
     <None Include="scripts\jquery-3.0.0-vsdoc.js" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
