@@ -104,12 +104,12 @@
                                             <td class="grid-cell" data-name="">
                                                 <span>NCC @item.Id</span>
                                             </td>
-                                            <td class="grid-cell" data-name="Ten">@CheckDate(item.NgayTao)</td>
-                                            <td class="grid-cell" data-name="SDT">@item.TenNV</td>
-                                            <td class="grid-cell" data-name="Email">@item.TenKH</td>
-                                            <td class="grid-cell" data-name="DiaChi">@item.TongTien</td>
-                                            <td class="grid-cell" data-name="DiaChi">@item.GhiChu</td>
-                                            <td class="grid-cell" data-name="">@Delete(item.TrangThai)</td>
+                                            <td class="grid-cell" data-name="NgayTao">@CheckDate(item.NgayTao)</td>
+                                            <td class="grid-cell" data-name="TenNV">@item.TenNV</td>
+                                            <td class="grid-cell" data-name="TenKH">@item.TenKH</td>
+                                            <td class="grid-cell" data-name="TongTien">@item.TongTien</td>
+                                            <td class="grid-cell" data-name="GhiChu">@item.GhiChu</td>
+                                            <td class="grid-cell" data-name="TrangThai">@Delete(item.TrangThai)</td>
                                             <td class="grid-cell text center" data-name="">
                                                 <a href="/Crm/Supplier/Edit/1">
                                                     <button class="btn btn-primary" title="Chỉnh sửa" type="button">
@@ -132,7 +132,7 @@
                             </table>
                             <div class="grid-footer">
                                 <div class="grid-pager">
-                                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                                    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) trên @Model.PageCount
                                     @Html.PagedListPager(Model, page => Url.Action("Index",
                                     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
                                 </div>
@@ -157,24 +157,5 @@
             return true;
         else
             return false;
-    }
-</script>
-<script>
-    function filterFunction() {
-        var input, filter, ul, li, tr, i;
-        input = document.getElementById("search-pro-box");
-        filter = input.value.toUpperCase();
-        div = document.getElementById("myproducts");
-        tr = div.getElementsByTagName("tr");
-        for (i = 0; i < tr.length; i++) {
-            txtValue = tr[i].textContent || tr[i].innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
-
-            } else {
-                tr[i].style.display = "none";
-            }
-
-        }
     }
 </script>

@@ -73,6 +73,25 @@
               max-width:80px
           }
         /*end content product*/
+        /*swal alert*/
+         .swal-button {
+          padding: 7px 19px;
+          border-radius: 2px;
+          background-color: #4962B3;
+          font-size: 12px;
+          border: 1px solid #3e549a;
+          text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+        }
+        .swal-text {
+          background-color: #FEFAE3;
+          padding: 17px;
+          border: 1px solid #F0E1A1;
+          display: block;
+          margin: 22px;
+          text-align: center;
+          color: #61534e;
+        }
+/*end*/
     </style>
 </head>
 @using (Html.BeginForm(FormMethod.Post))
@@ -296,7 +315,7 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="btn-groups pull-right" style="margin-bottom: 50px;">
-                                                        <button type="submit" class="btn btn-primary" onclick="">
+                                                        <button type="submit" class="btn btn-primary" id="Save">
                                                             <i class="fa fa-check"></i> Lưu (F9)
                                                         </button>
                                                         <button type="button" class="btn btn-primary">
@@ -330,13 +349,44 @@
         <script src="~/scripts/jquery.signalR-2.4.1.min.js"></script>
         <script src="~/signalr/hubs"></script>
         <script src="/Assets/js/posjs.js"></script>
-
         <script src="~/Assets/js/PosJsV2.js"></script>
-        
+        <script src = "https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
         <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
         
         <ul id="ui-id-1" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div>
     </body>
 }
 </html>
+<script type="text/javascript">
+    $("#Save").click(function () {
+        debugger
+        var dlcustomer = $("#dlcustomer").val();
+        var Custommer = $("#Custommer").val();
+        var detailList = $('.detailList').find('tr').length;
+        if (detailList == 0) {
+            swal({
+                text: "Chưa chọn sản phẩm!",
+                icon: "warning",
+                button: "Đồng ý",
+            });
+            return false;
+        }
+        if (dlcustomer == "") {
+            swal({
+                text: "Chưa nhập tên khách hàng!",
+                icon: "warning",
+                button: "Đồng ý",
+            });
+            return false;
+        }
+        if (Custommer == "") {
+            swal({
+                text: "Chưa nhập số tiền!",
+                icon: "warning",
+                button: "Đồng ý",
+            });
+            return false;
+        }    
+    });
+</script>
 

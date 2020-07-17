@@ -274,6 +274,7 @@ function Excesscash()
     $(".Excesscash").val(numeral(answer).format('0,0'));
     
 }
+
 //Javascript tìm kiếm sản phẩm
 function myFunction() {
     document.getElementById("myDropdown").classList.toggle("show");
