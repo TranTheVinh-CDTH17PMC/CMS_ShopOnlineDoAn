@@ -39,7 +39,6 @@ namespace CMS_ShopOnline.Hubs
 
         public override System.Threading.Tasks.Task OnDisconnected(bool stopCalled)
         {
-
             if (stopCalled)
             {
                 if (UserOnlines.Any(x => x.ConnectionID == Context.ConnectionId))
@@ -79,7 +78,7 @@ namespace CMS_ShopOnline.Hubs
         public static void Noti(string NameTask, string Controller, string Action,string Areas, string UserIDCreate,int? Idtask ,string DateTime,int IdPx)
         {
             var listStaffCanView = UserOnlines.Select(x => x.ConnectionID).ToList();
-            context.Clients.Clients(listStaffCanView).updatedClients(NameTask, Controller, Action, Areas, UserIDCreate, Idtask, DateTime,IdPx);  
+            context.Clients.All.updatedClients(NameTask, Controller, Action, Areas, UserIDCreate, Idtask, DateTime,IdPx);  
         }
         public static void PurchaseOder(int? Id, DateTime NgayTao,int? IdNhanVien, int? IdKhachHang, string TenNV, string TenKH, string GhiChu, string TrangThai, double? TongTien)
         {

@@ -78,8 +78,12 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     _ctphieuxuat.DonGia = item.DonGia;
                     _ctphieuxuat.IdPhieuXuat = idpx;
                     CTPhieuXuat.Insert(_ctphieuxuat);
-                    CTPhieuXuat.Save();
+                    CTPhieuXuat.Save();                   
                 }
+                var _kh = KhachHang.SelectById(_phieuxuat.IdKhachHang);
+                _kh.TongTien += _phieuxuat.TongTien;
+                KhachHang.Update(_kh);
+                KhachHang.Save(); 
                 TaskController.CreateTask("Tạo hóa đơn", ControllerName, Action,Areas,Helper.CurrentUser.Id,idpx);
                 var _px = PhieuXuat.SelectById(idpx);
                 string NameNV = Helper.CurrentUser.TenNV;
