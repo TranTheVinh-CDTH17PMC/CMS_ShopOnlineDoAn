@@ -136,11 +136,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\CongViec.cs" />
+    <Compile Include="Entities\CTHoaDon.cs" />
     <Compile Include="Entities\CTPhieuNhap.cs" />
     <Compile Include="Entities\CTPhieuXuat.cs" />
     <Compile Include="Entities\DBConnection.cs" />
     <Compile Include="Entities\DonViTinh.cs" />
     <Compile Include="Entities\DTTT.cs" />
+    <Compile Include="Entities\HoaDon.cs" />
     <Compile Include="Entities\KhachHang.cs" />
     <Compile Include="Entities\LoaiNV.cs" />
     <Compile Include="Entities\LoaiSP.cs" />
@@ -151,6 +153,10 @@
     <Compile Include="Entities\PhieuXuat.cs" />
     <Compile Include="Entities\sysdiagrams.cs" />
     <Compile Include="Entities\ThanhPham.cs" />
+    <Compile Include="Interfaces\ICTHoaDon.cs" />
+    <Compile Include="Interfaces\IHoaDon.cs" />
+    <Compile Include="Repositories\CTHoaDonRepository.cs" />
+    <Compile Include="Repositories\HoaDonRepository.cs" />
     <Compile Include="Interfaces\ICongViec.cs" />
     <Compile Include="Interfaces\ICTPhieuNhapRepository.cs" />
     <Compile Include="Repositories\CongViecRepository.cs" />

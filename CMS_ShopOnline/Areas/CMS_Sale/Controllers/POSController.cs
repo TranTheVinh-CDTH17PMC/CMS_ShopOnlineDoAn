@@ -26,6 +26,8 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         private readonly IPhieuXuat PhieuXuat;
         private readonly ICTPhieuXuat CTPhieuXuat;
         private readonly IKhachHang KhachHang;
+        private readonly IHoaDon HoaDon;
+        private readonly ICTHoaDon CTHoaDon;
         public POSController()
         {
             NguyenLieu = new NguyenLieuRepository();
@@ -35,16 +37,20 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             PhieuXuat = new PhieuXuatRepository();
             CTPhieuXuat = new ICTPhieuXuatRepository();
             KhachHang = new KhachHangRepository();
+            HoaDon = new HoaDonRepository();
+            CTHoaDon = new CTHoaDonRepository();
         }
-        public POSController(IKhachHang _KhachHang, IPhieuXuat _PhieuXuat,ICTPhieuXuat _CTPhieuXuat,INguyenLieu _NguyenLieu, IDonViTinh _DVT, ILoaiSP _LoaiSP,IThanhPham _ThanhPham)
+        public POSController(ICTHoaDon _CTHoaDon, IKhachHang _KhachHang, IPhieuXuat _hoadon,ICTPhieuXuat _CTPhieuXuat,INguyenLieu _NguyenLieu, IDonViTinh _DVT, ILoaiSP _LoaiSP,IThanhPham _ThanhPham, IHoaDon _HoaDon)
         {
             NguyenLieu = _NguyenLieu;
             DVT = _DVT;
             LoaiSP = _LoaiSP;
             ThanhPham = _ThanhPham;
-            PhieuXuat = _PhieuXuat;
+            PhieuXuat = _hoadon;
             CTPhieuXuat = _CTPhieuXuat;
             KhachHang = _KhachHang;
+            HoaDon = _HoaDon;
+            CTHoaDon = _CTHoaDon;
         }
         //
         //
@@ -62,28 +68,32 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 string ControllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 string Action = this.ControllerContext.RouteData.Values["action"].ToString();
                 string Areas = "CMS_Sale";
-                var _phieuxuat = new PhieuXuat();
-                AutoMapper.Mapper.Map(model, _phieuxuat);
-                _phieuxuat.IdNhanVien = Helper.CurrentUser.Id;
-                _phieuxuat.TrangThai = "Create";
-                _phieuxuat.NgayTao = DateTime.Now;
-                PhieuXuat.Insert(_phieuxuat);
-                PhieuXuat.Save();
-                var idpx = _phieuxuat.Id;
+                var _hoadon = new HoaDon();
+                AutoMapper.Mapper.Map(model, _hoadon);
+                _hoadon.IdNhanVien = Helper.CurrentUser.Id;
+                _hoadon.TrangThai = "Create";
+                _hoadon.NgayTao = DateTime.Now;
+                HoaDon.Insert(_hoadon);
+                HoaDon.Save();
+                var idhd = _hoadon.Id;
                 foreach (var item in model.ListPOSDetails)
                 {
-                    var _ctphieuxuat = new CTPhieuXuat();
-                    _ctphieuxuat.IdThanhPham = item.IdThanhPham;
-                    _ctphieuxuat.SoLuong = item.SoLuong;
-                    _ctphieuxuat.DonGia = item.DonGia;
-                    _ctphieuxuat.IdPhieuXuat = idpx;
-                    CTPhieuXuat.Insert(_ctphieuxuat);
-                    CTPhieuXuat.Save();
+                    var _cthoadon = new CTHoaDon();
+                    _cthoadon.IdThanhPham = item.IdThanhPham;
+                    _cthoadon.SoLuong = item.SoLuong;
+                    _cthoadon.DonGia = item.DonGia;
+                    _cthoadon.IdHoaDon = idhd;
+                    CTHoaDon.Insert(_cthoadon);
+                    CTHoaDon.Save();
                 }
-                TaskController.CreateTask("Tạo hóa đơn", ControllerName, Action,Areas,Helper.CurrentUser.Id,idpx);
-                var _px = PhieuXuat.SelectById(idpx);
+                var _kh = KhachHang.SelectById(_hoadon.IdKhachHang);
+                _kh.TongTien += _hoadon.TongTien;
+                KhachHang.Update(_kh);
+                KhachHang.Save();
+                TaskController.CreateTask("Tạo hóa đơn", ControllerName, Action,Areas,Helper.CurrentUser.Id, idhd);
+                var _px = HoaDon.SelectById(idhd);
                 string NameNV = Helper.CurrentUser.TenNV;
-                MyHub.PurchaseOder(idpx, _px.NgayTao, _px.IdNhanVien, _px.IdKhachHang, NameNV, model.TenKH , _px.GhiChu, _px.TrangThai, _px.TongTien);
+                MyHub.PurchaseOder(idhd, _px.NgayTao, _px.IdNhanVien, _px.IdKhachHang, NameNV, model.TenKH , _px.GhiChu, _px.TrangThai, _px.TongTien);
                 return RedirectToAction("Index");
             }
             catch(Exception e)

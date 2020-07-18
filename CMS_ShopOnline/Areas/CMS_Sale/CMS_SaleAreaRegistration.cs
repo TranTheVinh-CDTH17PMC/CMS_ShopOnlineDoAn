@@ -30,11 +30,14 @@ namespace CMS_ShopOnline.Areas.CMS_Sale
             AutoMapper.Mapper.CreateMap<CMS_Database.Entities.ThanhPham, ThanhPhamViewModel>();
             AutoMapper.Mapper.CreateMap<ThanhPhamViewModel, CMS_Database.Entities.ThanhPham>();
 
-            AutoMapper.Mapper.CreateMap<CMS_Database.Entities.PhieuXuat, POSViewModel>();
-            AutoMapper.Mapper.CreateMap<POSViewModel, CMS_Database.Entities.PhieuXuat>();
+            AutoMapper.Mapper.CreateMap<CMS_Database.Entities.HoaDon, POSViewModel>();
+            AutoMapper.Mapper.CreateMap<POSViewModel, CMS_Database.Entities.HoaDon>();
 
-            AutoMapper.Mapper.CreateMap<CMS_Database.Entities.CTPhieuXuat, POSDetailsViewModel>();
-            AutoMapper.Mapper.CreateMap<POSDetailsViewModel, CMS_Database.Entities.CTPhieuXuat>();
+            AutoMapper.Mapper.CreateMap<CMS_Database.Entities.HoaDon, HoaDonViewModel>();
+            AutoMapper.Mapper.CreateMap<HoaDonViewModel, CMS_Database.Entities.HoaDon>();
+
+            AutoMapper.Mapper.CreateMap<CMS_Database.Entities.CTHoaDon, POSDetailsViewModel>();
+            AutoMapper.Mapper.CreateMap<POSDetailsViewModel, CMS_Database.Entities.CTHoaDon>();
 
             AutoMapper.Mapper.CreateMap<CMS_Database.Entities.PhieuXuat, PhieuXuatViewModel>();
             AutoMapper.Mapper.CreateMap<PhieuXuatViewModel, CMS_Database.Entities.PhieuXuat>();
@@ -44,6 +47,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale
 
             AutoMapper.Mapper.CreateMap<CMS_Database.Entities.CTPhieuNhap, CTPhieuNhapViewModel>();
             AutoMapper.Mapper.CreateMap<CTPhieuNhapViewModel, CMS_Database.Entities.CTPhieuNhap>();
+
+            AutoMapper.Mapper.CreateMap<CMS_Database.Entities.CTHoaDon, CTHoaDonViewModel>();
+            AutoMapper.Mapper.CreateMap<CTHoaDonViewModel, CMS_Database.Entities.CTHoaDon>();
         }
     }
 }
