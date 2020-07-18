@@ -9,6 +9,6 @@ namespace CMS_Database.Interfaces
 {
     public interface ICTPhieuNhap : IGenericRepository<CTPhieuNhap>
     {
-
+        IQueryable<CTPhieuNhap> GetById(int id);
     }
 }

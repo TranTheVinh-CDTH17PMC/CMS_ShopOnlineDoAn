@@ -230,7 +230,7 @@
                                                                     </div>
                                                                     <div class="col-md-2 padd-0">
                                                                         <button type="button" data-toggle="modal" onclick="Click();" data-target="#create-cust" class="btn btn-primary" style="border-radius: 0 3px 3px 0; box-shadow: none; padding: 7px 11px;">
-                                                                            +
+                                                                            <i class="fa fa-camera" style="font-size:20px"></i>
                                                                         </button>
                                                                     </div>
                                                                 </div>
@@ -361,7 +361,6 @@
     $("#Save").click(function () {
         debugger
         var dlcustomer = $("#dlcustomer").val();
-        var Custommer = $("#Custommer").val();
         var detailList = $('.detailList').find('tr').length;
         if (detailList == 0) {
             swal({
@@ -374,14 +373,6 @@
         if (dlcustomer == "") {
             swal({
                 text: "Chưa nhập tên khách hàng!",
-                icon: "warning",
-                button: "Đồng ý",
-            });
-            return false;
-        }
-        if (Custommer == "") {
-            swal({
-                text: "Chưa nhập số tiền!",
                 icon: "warning",
                 button: "Đồng ý",
             });

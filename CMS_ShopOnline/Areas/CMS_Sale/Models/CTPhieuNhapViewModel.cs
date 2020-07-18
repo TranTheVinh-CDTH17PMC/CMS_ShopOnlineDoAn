@@ -10,8 +10,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Models
     {
         public int Id { get; set; }
         public int? IdNguyenLieu { get; set; }
+        public string Ten { get; set; }
         public int? IdPhieuNhap { get; set; }
-        public int Soluong { get; set; }
+        public int? Soluong { get; set; }
         public double? DonGia { get; set; }
 
     }

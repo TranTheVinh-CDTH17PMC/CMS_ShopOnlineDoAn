@@ -10,13 +10,20 @@
 {
     @date.Date.ToString("dd/MM/yyyy")
 }
+@helper Delete(bool? Status)
+{
+if (Status == false)
+{
+        <span class="badge badge-primary">Hoạt động</span>
+}
+}
 <div class="container-fluid" id="container-wrapper">
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <div style="display:flex">
         <h1 class="h3 mb-0 text-gray-800">Nhập hàng</h1>
         <a href="@Url.Action("Create", "InOrder", new { area ="CMS_Sale" })">
             <button type="button" class="btn btn-primary" title="Thêm phiếu nhập" style="margin-left:10px">
-                Thêm <i class="fa fa-plus-circle"></i>
+                Thêm mới <i class="fa fa-plus-circle"></i>
             </button>
         </a>
     </div>
@@ -55,27 +62,12 @@
                                     </th>
                                     <th class="grid-header">
                                         <div class="grid-header-title">
-                                            <span>Nguyên liệu</span>
-                                        </div>
-                                    </th>
-                                    <th class="grid-header">
-                                        <div class="grid-header-title">
                                             <span>Nhân viên</span>
                                         </div>
                                     </th>
                                     <th class="grid-header">
                                         <div class="grid-header-title">
                                             <span>Nhà cung cấp</span>
-                                        </div>
-                                    </th>
-                                    <th class="grid-header">
-                                        <div class="grid-header-title">
-                                            <span>Số lượng</span>
-                                        </div>
-                                    </th>
-                                    <th class="grid-header">
-                                        <div class="grid-header-title">
-                                            <span>Đơn giá</span>
                                         </div>
                                     </th>
                                     <th class="grid-header">
@@ -100,48 +92,45 @@
                                     </th>
                             </thead>
                             <tbody>
-                                @*@foreach (var item in Model)
-                                {*@
+                                @foreach (var item in Model)
+                                {
                                     <tr class="grid-row ">
                                         <td class="grid-cell" data-name="">
-                                            <span>NCC 1</span>
+                                            <span>NCC @item.Id</span>
                                         </td>
-                                        <td class="grid-cell" data-name="NgayNhap">1</td>
-                                        <td class="grid-cell" data-name="NguyenLieu">2</td>
-                                        <td class="grid-cell" data-name="NhanVien">3</td>
-                                        <td class="grid-cell" data-name="NhaCungCap">4</td>
-                                        <td class="grid-cell" data-name="SoLuong">5</td>
-                                        <td class="grid-cell" data-name="DonGia">6</td>
-                                        <td class="grid-cell" data-name="TongTien">7</td>
-                                        <td class="grid-cell" data-name="GhiChu">8</td>
-                                        <td class="grid-cell" data-name="TrangThai">9</td>
+                                        <td class="grid-cell" data-name="NgayNhap">@CheckDate(item.NgayTao)</td>
+                                        <td class="grid-cell" data-name="NhanVien">@item.TenNV</td>
+                                        <td class="grid-cell" data-name="NhaCungCap">@item.Ten</td>
+                                        <td class="grid-cell" data-name="TongTien">@item.TongTien</td>
+                                        <td class="grid-cell" data-name="GhiChu">@item.GhiChu</td>
+                                        <td class="grid-cell" data-name="TrangThai">@Delete(item.IsDelete)</td>
                                         <td class="grid-cell text center" data-name="">
                                             <a href="/Crm/Supplier/Edit/1">
                                                 <button class="btn btn-primary" title="Chỉnh sửa" type="button">
                                                     <i class="fas fa-pencil-alt"></i>
                                                 </button>
                                             </a>
-                                            <a href="@*/CMS_Sale/PurchaseOrder/Details/@item.Id*@">
-                                                <button class="btn btn-success" title="Xem" type="button">
+                                            <a href="/CMS_Sale/InOrder/Details/@item.Id">
+                                                <button class="btn btn-success" title="Xem chi tiết" type="button">
                                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                                 </button>
                                             </a>
-                                            <button class="btn btn-warning" title="Xóa hóa đơn" style="margin:-2px" name="IdDelete" type="submit" value="1" onclick="return ConfirmDelete()">
+                                            <button class="btn btn-warning" title="Xóa phiếu nhập" style="margin:-2px" name="IdDelete" type="submit" value="1" onclick="return ConfirmDelete()">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
                                         </td>
                                     </tr>
-                                @*}*@
+                                }
 
                             </tbody>
                         </table>
-                        @*<div class="grid-footer">
+                        <div class="grid-footer">
                             <div class="grid-pager">
                                 Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) trên @Model.PageCount
                                 @Html.PagedListPager(Model, page => Url.Action("Index",
                                     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
                             </div>
-                        </div>*@
+                        </div>
                     </div>
                 </div>
 
@@ -151,5 +140,19 @@
 </div>
 <!--Row-->
 </div>
+<script src="~/scripts/jquery.signalR-2.4.1.min.js"></script>
+<script src="~/signalr/hubs"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+    function ConfirmDelete() {
+        var x = confirm("Bạn có chắc muốn xóa item đã chọn ?");
+        if (x)
+            return true;
+        else
+            return false;
+    }
+</script>
 
 

@@ -4,6 +4,7 @@ using CMS_Database.Interfaces;
 using CMS_Database.Repositories;
 using CMS_ShopOnline.Areas.CMS_Sale.Models;
 using CMS_ShopOnline.Filter;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             NguyenLieu = new NguyenLieuRepository();
             NhaCungCap = new NhaCungCapRepository();
             PhieuNhap = new PhieuNhapRepository();
-            CTPhieuNhap = new CTPhieuNhapRepository();
+            CTPhieuNhap = new ICTPhieuPhapRepository();
         }
         public InOrderController(INguyenLieu _nl, INhaCungCap _ncc, IPhieuNhap _pn, ICTPhieuNhap _ctpn,ILoaiSP _loaisp)
         {
@@ -41,9 +42,55 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         }
         //
         // GET: /CMS_Sale/InOrder/
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            return View();
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.CurrentFilter = searchString;
+            IEnumerable<PhieuNhapViewModel> model = PhieuNhap.SelectAll().Where(x => x.IsDetele != true).Select(
+                item => new PhieuNhapViewModel
+                {
+                    Id = item.Id,
+                    IdNhanVien = item.IdNhanVien,
+                    IdNhaCungCap = item.IdNhaCungCap,
+                    NgayTao = item.NgayTao,
+                    TenNV = item.NhanVien.TenNV,
+                    Ten = item.NhaCungCap.Ten,
+                    GhiChu = item.GhiChu,
+                    TongTien = item.TongTien,
+                    IsDelete = item.IsDetele
+                }
+            ).ToList().OrderByDescending(x => x.NgayTao);
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(model.ToPagedList(pageNumber, pageSize));
+        }
+        public ActionResult Details(int id)
+        {
+            var px = PhieuNhap.SelectById(id);
+            PhieuNhapViewModel model = new PhieuNhapViewModel();
+            AutoMapper.Mapper.Map(px, model);
+            model.Ten = px.NhaCungCap.Ten;
+            model.TenNV = px.NhanVien.TenNV;
+            var details = CTPhieuNhap.GetById(px.Id).Select(
+                item => new CTPhieuNhapViewModel
+                {
+                    Id = item.Id,
+                    IdNguyenLieu = item.IdNguyenLieu,
+                    Ten = item.NguyenLieu.Ten,
+                    IdPhieuNhap = item.IdPhieuNhap,
+                    Soluong = item.SoLuong,
+                    DonGia = item.DonGia,
+                }).ToList();
+            model.ListCTPhieuNhap = details;
+            return View(model);
         }
         public ActionResult Create()
         {

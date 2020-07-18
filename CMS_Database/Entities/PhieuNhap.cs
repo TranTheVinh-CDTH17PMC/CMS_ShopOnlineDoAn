@@ -19,7 +19,7 @@ namespace CMS_Database.Entities
 
         public int? IdNhaCungCap { get; set; }
 
-        public DateTime? NgayTao { get; set; }
+        public DateTime NgayTao { get; set; }
 
         public int? IdNhanVien { get; set; }
 

@@ -79,11 +79,6 @@
                                 @Html.TextBox("txtCode", Request["txtCode"], new { @class = "form-control ui-autocomplete-input", autocomplete = "off", placeholder = "Nhập tên nhà cung cấp..." })
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <button class="btn btn-primary" type="submit">
-                                <i class="fa fa-search"></i> Tìm kiếm
-                            </button>
-                        </div>
                     </div>
                 }
                 @using (Html.BeginForm("Delete", "Supplier", FormMethod.Post))

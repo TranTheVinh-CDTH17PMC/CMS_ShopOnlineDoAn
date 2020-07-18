@@ -152,6 +152,7 @@
     <Compile Include="Entities\sysdiagrams.cs" />
     <Compile Include="Entities\ThanhPham.cs" />
     <Compile Include="Interfaces\ICongViec.cs" />
+    <Compile Include="Interfaces\ICTPhieuNhapRepository.cs" />
     <Compile Include="Repositories\CongViecRepository.cs" />
     <Compile Include="Interfaces\ICTPhieuNhap.cs" />
     <Compile Include="Interfaces\ICTPhieuXuatRepository.cs" />
@@ -165,7 +166,6 @@
     <Compile Include="Interfaces\IPhieuNhap.cs" />
     <Compile Include="Interfaces\IPhieuXuat.cs" />
     <Compile Include="Interfaces\IThanhPham.cs" />
-    <Compile Include="Repositories\CTPhieuNhapRepository.cs" />
     <Compile Include="Repositories\DonViTinhRepository.cs" />
     <Compile Include="Repositories\LoaiSPRepository.cs" />
     <Compile Include="Repositories\NguyenLieuRepository.cs" />
