@@ -12,7 +12,7 @@ namespace CMS_Database.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public KhachHang()
         {
-            PhieuXuat = new HashSet<PhieuXuat>();
+            HoaDon = new HashSet<HoaDon>();
         }
 
         public int Id { get; set; }
@@ -34,6 +34,6 @@ namespace CMS_Database.Entities
         public virtual NhanVien NhanVien { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PhieuXuat> PhieuXuat { get; set; }
+        public virtual ICollection<HoaDon> HoaDon { get; set; }
     }
 }

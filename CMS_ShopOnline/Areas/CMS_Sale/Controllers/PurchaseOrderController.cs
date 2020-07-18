@@ -22,6 +22,8 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         private readonly IPhieuXuat PhieuXuat;
         private readonly ICTPhieuXuat CTPhieuXuat;
         private readonly IKhachHang KhachHang;
+        private readonly IHoaDon HoaDon;
+        private readonly ICTHoaDon CTHoaDon;
         public PurchaseOrderController()
         {
             NguyenLieu = new NguyenLieuRepository();
@@ -31,8 +33,10 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             PhieuXuat = new PhieuXuatRepository();
             CTPhieuXuat = new ICTPhieuXuatRepository();
             KhachHang = new KhachHangRepository();
+            HoaDon = new HoaDonRepository();
+            CTHoaDon = new CTHoaDonRepository();
         }
-        public PurchaseOrderController(IKhachHang _KhachHang, IPhieuXuat _PhieuXuat, ICTPhieuXuat _CTPhieuXuat, INguyenLieu _NguyenLieu, IDonViTinh _DVT, ILoaiSP _LoaiSP, IThanhPham _ThanhPham)
+        public PurchaseOrderController(IHoaDon _HoaDon, ICTHoaDon _CTHoaDon, IKhachHang _KhachHang, IPhieuXuat _PhieuXuat, ICTPhieuXuat _CTPhieuXuat, INguyenLieu _NguyenLieu, IDonViTinh _DVT, ILoaiSP _LoaiSP, IThanhPham _ThanhPham)
         {
             NguyenLieu = _NguyenLieu;
             DVT = _DVT;
@@ -41,6 +45,8 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             PhieuXuat = _PhieuXuat;
             CTPhieuXuat = _CTPhieuXuat;
             KhachHang = _KhachHang;
+            HoaDon = _HoaDon;
+            CTHoaDon = _CTHoaDon;
         }
         //
         // GET: /CMS_Sale/PurchaseOrder/
@@ -56,8 +62,8 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             }
             ViewBag.CurrentSort = sortOrder;
             ViewBag.CurrentFilter = searchString;
-            IEnumerable<PhieuXuatViewModel> model = PhieuXuat.SelectAll().Where(x => x.IsDelete != true).Select(
-                item => new PhieuXuatViewModel
+            IEnumerable<HoaDonViewModel> model = HoaDon.SelectAll().Where(x => x.IsDelete != true).Select(
+                item => new HoaDonViewModel
                 {
                     Id = item.Id,
                     IdNhanVien = item.IdNhanVien,
@@ -81,18 +87,18 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         }
         public ActionResult Details(int id)
         {
-            var px = PhieuXuat.SelectById(id);
-            PhieuXuatViewModel model = new PhieuXuatViewModel();
+            var px = HoaDon.SelectById(id);
+            HoaDonViewModel model = new HoaDonViewModel();
             AutoMapper.Mapper.Map(px, model);
             model.TenKH = px.KhachHang.TenKH;
             model.TenNV = px.NhanVien.TenNV;
-            var details = CTPhieuXuat.GetById(px.Id).Select(
-                item => new POSDetailsViewModel
+            var details = CTHoaDon.GetById(px.Id).Select(
+                item => new CTHoaDonViewModel
                 {
                     Id = item.Id,
                     IdThanhPham = item.IdThanhPham,
                     Ten = item.ThanhPham.Ten,
-                    IdPhieuXuat = item.IdPhieuXuat,
+                    IdHoaDon = item.IdHoaDon,
                     SoLuong = item.SoLuong,
                     DonGia = item.DonGia,
                 }).ToList();
@@ -103,19 +109,19 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         {
             if(Submit != null)
             {
-                var px = PhieuXuat.SelectById(int.Parse(Submit));
+                var px = HoaDon.SelectById(int.Parse(Submit));
                 if (px.TrangThai == "Create")
                 {
                     px.TrangThai = "Processing";
-                    PhieuXuat.Update(px);
-                    PhieuXuat.Save();
+                    HoaDon.Update(px);
+                    HoaDon.Save();
                     return RedirectToAction("Details", "PurchaseOrder", new { id = int.Parse(Submit) });
                 }
                 if (px.TrangThai== "Processing")
                 {
                     px.TrangThai = "Success";
-                    PhieuXuat.Update(px);
-                    PhieuXuat.Save();
+                    HoaDon.Update(px);
+                    HoaDon.Save();
                     return RedirectToAction("Details", "PurchaseOrder", new { id = int.Parse(Submit) });
                 }  
             }

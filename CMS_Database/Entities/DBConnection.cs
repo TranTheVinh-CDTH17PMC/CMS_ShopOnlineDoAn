@@ -27,6 +27,8 @@ namespace CMS_Database.Entities
         public virtual DbSet<PhieuXuat> PhieuXuat { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<ThanhPham> ThanhPham { get; set; }
+        public virtual DbSet<HoaDon> HoaDon { get; set; }
+        public virtual DbSet<CTHoaDon> CTHoaDon { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -41,7 +43,7 @@ namespace CMS_Database.Entities
                 .HasForeignKey(e => e.IdDVT);
 
             modelBuilder.Entity<KhachHang>()
-                .HasMany(e => e.PhieuXuat)
+                .HasMany(e => e.HoaDon)
                 .WithOptional(e => e.KhachHang)
                 .HasForeignKey(e => e.IdKhachHang);
 
@@ -90,6 +92,11 @@ namespace CMS_Database.Entities
                 .WithOptional(e => e.NhanVien)
                 .HasForeignKey(e => e.IdNhanVien);
 
+            modelBuilder.Entity<NhanVien>()
+               .HasMany(e => e.HoaDon)
+               .WithOptional(e => e.NhanVien)
+               .HasForeignKey(e => e.IdNhanVien);
+
             modelBuilder.Entity<PhieuNhap>()
                 .HasMany(e => e.CTPhieuNhap)
                 .WithOptional(e => e.PhieuNhap)
@@ -101,9 +108,13 @@ namespace CMS_Database.Entities
                 .HasForeignKey(e => e.IdPhieuXuat);
 
             modelBuilder.Entity<ThanhPham>()
-                .HasMany(e => e.CTPhieuXuat)
+                .HasMany(e => e.CTHoaDon)
                 .WithOptional(e => e.ThanhPham)
                 .HasForeignKey(e => e.IdThanhPham);
+            modelBuilder.Entity<HoaDon>()
+               .HasMany(e => e.CTHoaDon)
+               .WithOptional(e => e.HoaDon)
+               .HasForeignKey(e => e.IdHoaDon);
         }
     }
 }

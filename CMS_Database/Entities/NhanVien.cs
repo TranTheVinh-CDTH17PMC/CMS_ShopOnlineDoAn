@@ -16,6 +16,7 @@ namespace CMS_Database.Entities
             KhachHang = new HashSet<KhachHang>();
             PhieuNhap = new HashSet<PhieuNhap>();
             PhieuXuat = new HashSet<PhieuXuat>();
+            HoaDon = new HashSet<HoaDon>();
         }
 
         public int Id { get; set; }
@@ -58,5 +59,7 @@ namespace CMS_Database.Entities
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PhieuXuat> PhieuXuat { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HoaDon> HoaDon { get; set; }
     }
 }

@@ -3284,8 +3284,10 @@
     <Compile Include="Areas\CMS_Sale\Controllers\PurchaseOrderController.cs" />
     <Compile Include="Areas\Administration\Models\LoginViewModel.cs" />
     <Compile Include="Areas\CMS_Sale\Controllers\WarehouseController.cs" />
+    <Compile Include="Areas\CMS_Sale\Models\CTHoaDonViewModel.cs" />
     <Compile Include="Areas\CMS_Sale\Models\CTPhieuNhapViewModel.cs" />
     <Compile Include="Areas\CMS_Sale\Models\CTPhieuxuatViewModel.cs" />
+    <Compile Include="Areas\CMS_Sale\Models\HoaDonViewModel.cs" />
     <Compile Include="Areas\CMS_Sale\Models\NguyenLieuViewModel.cs" />
     <Compile Include="Areas\CMS_Sale\Models\PhieuNhapViewModel.cs" />
     <Compile Include="Areas\CMS_Sale\Models\PhieuXuatViewModel.cs" />
