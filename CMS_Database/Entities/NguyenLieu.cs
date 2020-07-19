@@ -13,6 +13,7 @@ namespace CMS_Database.Entities
         public NguyenLieu()
         {
             CTPhieuNhap = new HashSet<CTPhieuNhap>();
+            CTPhieuXuat = new HashSet<CTPhieuXuat>();
         }
 
         public int Id { get; set; }
@@ -37,6 +38,7 @@ namespace CMS_Database.Entities
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CTPhieuNhap> CTPhieuNhap { get; set; }
+        public virtual ICollection<CTPhieuXuat> CTPhieuXuat { get; set; }
 
         public virtual DonViTinh DonViTinh { get; set; }
 

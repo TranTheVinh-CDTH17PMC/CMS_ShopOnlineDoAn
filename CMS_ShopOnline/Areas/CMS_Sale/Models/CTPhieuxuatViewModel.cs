@@ -9,7 +9,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Models
     {
         public int Id { get; set; }
 
-        public int? IdThanhPham { get; set; }
+        public int? IdNguyenLieu { get; set; }
 
         public int? IdPhieuXuat { get; set; }
 

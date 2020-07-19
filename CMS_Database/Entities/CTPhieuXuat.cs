@@ -11,7 +11,7 @@ namespace CMS_Database.Entities
     {
         public int Id { get; set; }
 
-        public int? IdThanhPham { get; set; }
+        public int? IdNguyenLieu { get; set; }
 
         public int? IdPhieuXuat { get; set; }
 

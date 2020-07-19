@@ -3170,6 +3170,7 @@
     <Content Include="Areas\CMS_Sale\Views\PurchaseOrder\Details.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\InOrder\Create.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\InOrder\Details.cshtml" />
+    <Content Include="Areas\CMS_Sale\Views\OutOrder\Create.cshtml" />
     <None Include="scripts\jquery-3.0.0-vsdoc.js" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
@@ -3279,6 +3280,7 @@
     <Compile Include="Areas\CMS_Sale\Controllers\HomeController.cs" />
     <Compile Include="Areas\Administration\Controllers\UserController.cs" />
     <Compile Include="Areas\CMS_Sale\Controllers\InOrderController.cs" />
+    <Compile Include="Areas\CMS_Sale\Controllers\OutOrderController.cs" />
     <Compile Include="Areas\CMS_Sale\Controllers\POSController.cs" />
     <Compile Include="Areas\CMS_Sale\Controllers\ProductsController.cs" />
     <Compile Include="Areas\CMS_Sale\Controllers\ProductTypeController.cs" />
