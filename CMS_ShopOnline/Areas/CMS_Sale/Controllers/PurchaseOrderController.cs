@@ -25,6 +25,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         private readonly IHoaDon HoaDon;
         private readonly ICTHoaDon CTHoaDon;
         private readonly ITemplatePrint TemplatePrint;
+        private readonly INhanVien NhanVien;
         public PurchaseOrderController()
         {
             NguyenLieu = new NguyenLieuRepository();
@@ -37,8 +38,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             HoaDon = new HoaDonRepository();
             CTHoaDon = new CTHoaDonRepository();
             TemplatePrint = new TemplatePrintRepository();
+            NhanVien = new NhanVienRepository();
         }
-        public PurchaseOrderController(ITemplatePrint _TemplatePrint, IHoaDon _HoaDon, ICTHoaDon _CTHoaDon, IKhachHang _KhachHang, IPhieuXuat _PhieuXuat, ICTPhieuXuat _CTPhieuXuat, INguyenLieu _NguyenLieu, IDonViTinh _DVT, ILoaiSP _LoaiSP, IThanhPham _ThanhPham)
+        public PurchaseOrderController(INhanVien _NhanVien, ITemplatePrint _TemplatePrint, IHoaDon _HoaDon, ICTHoaDon _CTHoaDon, IKhachHang _KhachHang, IPhieuXuat _PhieuXuat, ICTPhieuXuat _CTPhieuXuat, INguyenLieu _NguyenLieu, IDonViTinh _DVT, ILoaiSP _LoaiSP, IThanhPham _ThanhPham)
         {
             NguyenLieu = _NguyenLieu;
             DVT = _DVT;
@@ -50,10 +52,11 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             HoaDon = _HoaDon;
             CTHoaDon = _CTHoaDon;
             TemplatePrint = _TemplatePrint;
+            NhanVien = _NhanVien;
         }
         //
         // GET: /CMS_Sale/PurchaseOrder/
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult Index(int? idnv,int? id,string sortOrder, string currentFilter, string searchString, int? page)
         {
             if (searchString != null)
             {
@@ -80,6 +83,15 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     IsDelete = item.IsDelete
                 }
             ).ToList().OrderByDescending(x=>x.NgayTao);
+            ViewBag.nhanvien = NhanVien.SelectAll();
+            if (idnv!=null)
+            {
+                model = model.Where(x => x.IdNhanVien == idnv).ToList();
+            }
+            if (id != null)
+            {
+                model = model.Where(x => x.Id.ToString().Contains(id.ToString())).ToList();
+            }
             int pageSize = 10;
             int pageNumber = (page ?? 1);
             return View(model.ToPagedList(pageNumber, pageSize));
@@ -130,7 +142,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             }
             return View();
         }
-        public ActionResult Print(string name, bool ExportExcel)
+        public ActionResult Print(int? idnv, int? id,string name, bool ExportExcel)
         {
             var model = TemplatePrint.SelectById(1);
             IEnumerable<HoaDonViewModel> modellist = HoaDon.SelectAll().Where(x => x.IsDelete != true).Select(
@@ -148,6 +160,14 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     IsDelete = item.IsDelete
                 }
             ).OrderByDescending(x => x.NgayTao);
+            if (idnv != null)
+            {
+                modellist = modellist.Where(x => x.IdNhanVien == idnv).ToList();
+            }
+            if (id != null)
+            {
+                modellist = modellist.Where(x => x.IdNhanVien == id).ToList();
+            }
             model.Content = model.Content.Replace("{Table}", BuildHtml(modellist));
             model.Content = model.Content.Replace("{NamePrint}", "Danh sach hoa don");
             if (ExportExcel)

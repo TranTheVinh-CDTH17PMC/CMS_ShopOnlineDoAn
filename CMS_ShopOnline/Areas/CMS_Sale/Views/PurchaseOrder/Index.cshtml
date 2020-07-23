@@ -43,15 +43,26 @@
         <div class="col-lg-12 mb-4">
             <!-- Simple Tables -->
             <div class="card">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <div class="col-md-8">
-                        <div class="order-search" style="margin: 10px 0px; position: relative;">
-                            <input type="text" class="form-control ui-autocomplete-input" onkeyup="filterFunction()" placeholder="Nhập mã phiếu hoặc tên khách hàng..." id="search-pro-box" autocomplete="off">
+                @using (Html.BeginForm("Index", "PurchaseOrder", FormMethod.Get))
+                {
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <div class="col-md-8">
+                            <div class="order-search" style="margin: 10px 0px; position: relative;display:flex">
+                                <input type="text" class="form-control" placeholder="Nhập mã..." id="search-pro-box" autocomplete="off" name="id">
+                                <select class="form-control" name="idnv" id="idnv">
+                                    <option value="">Nhân viên</option>
+                                    @foreach (var item in ViewBag.nhanvien)
+                                    {
+                                        <option value="@item.Id">@item.TenNV</option>
+                                    }
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                            <button type="button" class="btn btn-primary" onclick="openpoupmy(false);">PDF</button>
+                            <button type="button" class="btn btn-primary" onclick="openpoupmy(true);">Excel</button>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-primary" onclick="openpoupmy(false);">PDF</button>
-                    <button type="button" class="btn btn-primary" onclick="openpoupmy(true);">Excel</button>
-                </div>
+                }
                 <div class="table-responsive">
                     <div class="grid-mvc" data-lang="en" data-gridname="" data-selectable="true" data-multiplefilters="false">
                         <div class="grid-wrap">
@@ -151,7 +162,9 @@
 <script src="~/signalr/hubs"></script>
 <script>
     function openpoupmy(value) {
-        newwindow = window.open('/CMS_Sale/PurchaseOrder/Print?name=abc&ExportExcel=' + value + '', 'print', 'height=500,width=500');
+        var idnv = getUrlVars()["idnv"];
+        var id = getUrlVars()["id"];
+        newwindow = window.open('/CMS_Sale/PurchaseOrder/Print?id='+id+'&ExportExcel=' + value + '&idnv='+idnv+'', 'print', 'height=500,width=500');
                 setTimeout(function () {
                 }, 500);
             }

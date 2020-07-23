@@ -87,15 +87,34 @@
         <div class="col-lg-12 mb-4">
             <!-- Simple Tables -->
             <div class="card">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <div class="col-md-12">
-                        <div class="order-search" style="margin: 10px 0px; position: relative;">
-                            <input type="text" class="form-control ui-autocomplete-input" onkeyup="filterFunction()" placeholder="Nhập mã hoặc tên..." id="search-pro-box" autocomplete="off">
+                @using (Html.BeginForm("Index", "Warehouse", FormMethod.Get))
+                {
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <div class="col-md-8">
+                            <div class="order-search" style="margin: 10px 0px; position: relative;display:flex">
+                                <input type="text" class="form-control" placeholder="Nhập mã hoặc tên..." id="search-pro-box" autocomplete="off" name="name">
+                                <select class="form-control" name="idloai" id="idloai">
+                                    <option value="">Nhà cung cấp</option>
+                                    @foreach (var item in ViewBag.loai)
+                                    {
+                                        <option value="@item.Id">@item.Ten</option>
+                                    }
+                                </select>
+                                <select class="form-control" name="iddvt" id="iddvt">
+                                    <option value="">Nhân viên</option>
+                                    @foreach (var item in ViewBag.dvt)
+                                    {
+                                        <option value="@item.Id">@item.Ten</option>
+                                    }
+                                </select>
+
+                            </div>
+                            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                            <button type="button" class="btn btn-primary" onclick="openpoupmy(false);">PDF</button>
+                            <button type="button" class="btn btn-primary" onclick="openpoupmy(true);">Excel</button>
                         </div>
-                        <button type="button" class="btn btn-primary" onclick="openpoupmy(false);">PDF</button>
-                        <button type="button" class="btn btn-primary" onclick="openpoupmy(true);">Excel</button>
                     </div>
-                </div>
+                }
                 @using (Html.BeginForm("Delete", "Warehouse", FormMethod.Post))
                 {
                     <div class="table-responsive">
@@ -107,141 +126,34 @@
                        .SetWidth(100)
                        .RenderValueAs(x => (ButtonEdit(x.Id)).ToString() + (ButtonDelete(x.Id)).ToString());
                        columns.Add().Titled("Mã").SetWidth(5).Sanitized(false).Encoded(false).RenderValueAs(x => Ma(x.Id));
-                       columns.Add().Encoded(false).Sanitized(false).Titled("Hình ảnh").RenderValueAs(x=>Image(x.HinhAnh));
+                       columns.Add().Encoded(false).Sanitized(false).Titled("Hình ảnh").RenderValueAs(x => Image(x.HinhAnh));
                        columns.Add().Sanitized(false).Encoded(false).Titled("Ngày nhập").Format("{0:dd/MM/yyyy}").RenderValueAs(x => CheckDate(x.NgayNhap));
                        columns.Add(x => x.Ten).Titled("Tên nguyên liệu");
                        columns.Add(x => x.TenDVT).Titled("ĐVT");
                        columns.Add(x => x.TenLoai).Titled("Loại");
-                       columns.Add(x => x.SoLuongKho).Titled("SL kho");
-                       columns.Add(x => x.DonGia).Titled("Đơn giá nhập");
+                       columns.Add(x => x.SoLuongKho).Titled("SL kho").Sortable(true);
+                       columns.Add(x => x.DonGia).Titled("Đơn giá nhập").Sortable(true);
                        columns.Add().Titled("Trạng thái").Sanitized(false).Encoded(false).RenderValueAs(x => Delete(x.IsDelete));
                    }).WithPaging(5)
                     </div>
                 }
-                @*<div class="table-responsive">
-                    <div id="hangcon" class="tabcontent">
-                        <table class="table align-items-center table-flush">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>Mã SP</th>
-                                    <th>Sản phẩm</th>
-                                    <th>Số lượng</th>
-                                    <th>Vốn tồn kho</th>
-                                    <th>Giá trị tồn</th>
-                                </tr>
-                            </thead>
-                            <tbody id="myproducts">
-                                <tr>
-                                    <td><a href="#">1</a></td>
-                                    <td>Sting</td>
-                                    <td>50</td>
-                                    <td>50000</td>
-                                    <td>100000</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>*@
-                @*<div class="table-responsive">
-                    <div id="tonkho" class="tabcontent">
-                        <table class="table align-items-center table-flush">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>Mã SP</th>
-                                    <th>Sản phẩm</th>
-                                    <th>Số lượng</th>
-                                    <th>Vốn tồn kho</th>
-                                    <th>Giá trị tồn</th>
-                                </tr>
-                            </thead>
-                            <tbody id="myproducts">
-                                <tr>
-                                    <td><a href="#">1</a></td>
-                                    <td>Bánh 1</td>
-                                    <td>50</td>
-                                    <td>60000</td>
-                                    <td>90000</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="card-footer"></div>*@
             </div>
         </div>
     </div>
-    @*<div id="all" class="tabcontent">
-        <h3>Tất cả sản phẩm</h3>
-        <p>Error</p>
-    </div>
-    <div id="hangcon" class="tabcontent">
-        <h3>hangcon</h3>
-        <p>hangcon is the capital city of England.</p>
-    </div>
-
-    <div id="tonkho" class="tabcontent">
-        <h3>tonkho</h3>
-        <p>tonkho is the capital of France.</p>
-    </div>
-
-    <div id="hethang" class="tabcontent">
-        <h3>hethang</h3>
-        <p>hethang is the capital of Japan.</p>
-    </div>
-    <div id="hangloi" class="tabcontent">
-        <h3>hangloi</h3>
-        <p>hangloi is the capital of Japan.</p>
-    </div>*@
-    <!-- Sidebar -->
 </div>
 <script>
     function openpoupmy(value) {
-        newwindow = window.open('/CMS_Sale/Warehouse/Print?name=abc&ExportExcel='+value+'', 'print', 'height=500,width=500');
+        var name = getUrlVars()["name"];
+        var idloai = getUrlVars()["idloai"];
+        var iddvt = getUrlVars()["iddvt"];
+        newwindow = window.open('/CMS_Sale/Warehouse/Print?name='+name+'&ExportExcel='+value+'&idloai='+idloai+'&&iddvt='+iddvt+'', 'print', 'height=500,width=500');
                 setTimeout(function () {
                 }, 500);
             }
-
-</script>
-<script>
     $(".tablinks").click(function () {
         $(this).siblings().removeClass('active')
         $(this).addClass('active');
     });
-    //function openSP(evt, cityName) {
-    //    var i, tabcontent, tablinks;
-    //    tabcontent = document.getElementsByClassName("table table-striped grid-table");
-    //    for (i = 0; i < tabcontent.length; i++) {
-    //        tabcontent[i].style.display = "none";
-    //    }
-    //    tablinks = document.getElementsByClassName("tablinks");
-    //    for (i = 0; i < tablinks.length; i++) {
-    //        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    //    }
-    //    document.getElementById(cityName).style.display = "block";
-    //    evt.currentTarget.className += " active";
-    //}
-
-    //// Get the element with id="tabSP" and click on it
-    //document.getElementById("tabSP").click();
-    ////
-    ////search
-    //function filterFunction() {
-    //    var input, filter, ul, li, tr, i;
-    //    input = document.getElementById("search-pro-box");
-    //    filter = input.value.toUpperCase();
-    //    div = document.getElementById("myproducts");
-    //    tr = div.getElementsByTagName("tr");
-    //    for (i = 0; i < tr.length; i++) {
-    //        txtValue = tr[i].textContent || tr[i].innerText;
-    //        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-    //            tr[i].style.display = "";
-                
-    //        } else {
-    //            tr[i].style.display = "none";
-    //        }
-            
-    //    }
-    //}
     function ConfirmDelete() {
         var x = confirm("Bạn có chắc muốn xóa item đã chọn ?");
         if (x)

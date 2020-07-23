@@ -1,7 +1,13 @@
 ﻿@using CMS_ShopOnline.Areas.CMS_Sale.Models
 @using PagedList.Mvc;
-@model PagedList.IPagedList<PhieuNhapViewModel>
+@model IEnumerable<PhieuNhapViewModel>
+@using GridMvc.Html
 <link href="~/Content/PagedList.css" rel="stylesheet" />
+<style>
+    .card .table td, .card .table th {
+        padding-right: 0;
+    }
+</style>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/ACE_Layout.cshtml";
@@ -17,6 +23,29 @@ if (Status == false)
         <span class="badge badge-primary">Hoạt động</span>
 }
 }
+@helper ButtonEdit(int Id)
+{
+    <a href="@Url.Action("Edit","InOrder",new { @Id = Id })">
+        <button class="btn btn-primary" title="Chỉnh sửa" style="margin-left:-8px;margin-right:9px;" type="button"><i class="fas fa-pencil-alt"></i></button>
+    </a>
+}
+@helper ButtonDetails(int Id)
+{
+    <a href="@Url.Action("Details","InOrder",new { @Id = Id })">
+        <button class="btn btn-success" title="Chi tiết" style="margin-left:-8px;margin-right:9px;" type="button"><i class="fa fa-eye" aria-hidden="true"></i></button>
+    </a>
+}
+
+@helper ButtonDelete(int Id)
+{
+    <button class="btn btn-warning" title="Ngừng kinh doanh" style="margin:-2px" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmDelete()"> <i class="fas fa-trash-alt"></i></button>
+}
+
+@helper Ma(int Id)
+{
+    <span>SP @Id</span>
+}
+
 <div class="container-fluid" id="container-wrapper">
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <div style="display:flex">
@@ -37,105 +66,48 @@ if (Status == false)
     <div class="col-lg-12 mb-4">
         <!-- Simple Tables -->
         <div class="card">
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <div class="col-md-8">
-                    <div class="order-search" style="margin: 10px 0px; position: relative;">
-                        <input type="text" class="form-control ui-autocomplete-input" onkeyup="filterFunction()" placeholder="Nhập mã phiếu..." id="search-pro-box" autocomplete="off">
-                    </div>
-                </div>
-                <button type="button" class="btn btn-primary" onclick="openpoupmy(false);">PDF</button>
-                <button type="button" class="btn btn-primary" onclick="openpoupmy(true);">Excel</button>
-            </div>
-            <div class="table-responsive">
-                <div class="grid-mvc" data-lang="en" data-gridname="" data-selectable="true" data-multiplefilters="false">
-                    <div class="grid-wrap">
-                        <table class="table table-striped grid-table" id="table-grid">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th class="grid-header">
-                                        <div class="grid-header-title">
-                                            <span>Mã</span>
-                                        </div>
-                                    </th>
-                                    <th class="grid-header">
-                                        <div class="grid-header-title">
-                                            <span>Ngày nhập</span>
-                                        </div>
-                                    </th>
-                                    <th class="grid-header">
-                                        <div class="grid-header-title">
-                                            <span>Nhân viên</span>
-                                        </div>
-                                    </th>
-                                    <th class="grid-header">
-                                        <div class="grid-header-title">
-                                            <span>Nhà cung cấp</span>
-                                        </div>
-                                    </th>
-                                    <th class="grid-header">
-                                        <div class="grid-header-title">
-                                            <span>Tổng tiền</span>
-                                        </div>
-                                    </th>
-                                    <th class="grid-header">
-                                        <div class="grid-header-title">
-                                            <span>Ghi chú</span>
-                                        </div>
-                                    </th>
-                                    <th class="grid-header">
-                                        <div class="grid-header-title">
-                                            <span>Trạng thái</span>
-                                        </div>
-                                    </th>
-                                    <th class="grid-header text center">
-                                        <div class="grid-header-title">
-                                            <span>Tùy chỉnh</span>
-                                        </div>
-                                    </th>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model)
-                                {
-                                    <tr class="grid-row ">
-                                        <td class="grid-cell" data-name="">
-                                            <span>NCC @item.Id</span>
-                                        </td>
-                                        <td class="grid-cell" data-name="NgayNhap">@CheckDate(item.NgayTao)</td>
-                                        <td class="grid-cell" data-name="NhanVien">@item.TenNV</td>
-                                        <td class="grid-cell" data-name="NhaCungCap">@item.Ten</td>
-                                        <td class="grid-cell" data-name="TongTien">@item.TongTien</td>
-                                        <td class="grid-cell" data-name="GhiChu">@item.GhiChu</td>
-                                        <td class="grid-cell" data-name="TrangThai">@Delete(item.IsDelete)</td>
-                                        <td class="grid-cell text center" data-name="">
-                                            <a href="/Crm/Supplier/Edit/1">
-                                                <button class="btn btn-primary" title="Chỉnh sửa" type="button">
-                                                    <i class="fas fa-pencil-alt"></i>
-                                                </button>
-                                            </a>
-                                            <a href="/CMS_Sale/InOrder/Details/@item.Id">
-                                                <button class="btn btn-success" title="Xem chi tiết" type="button">
-                                                    <i class="fa fa-eye" aria-hidden="true"></i>
-                                                </button>
-                                            </a>
-                                            <button class="btn btn-warning" title="Xóa phiếu nhập" style="margin:-2px" name="IdDelete" type="submit" value="1" onclick="return ConfirmDelete()">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                }
-
-                            </tbody>
-                        </table>
-                        <div class="grid-footer">
-                            <div class="grid-pager">
-                                Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) trên @Model.PageCount
-                                @Html.PagedListPager(Model, page => Url.Action("Index",
-                                    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+            @using(Html.BeginForm("Index", "InOrder", FormMethod.Get))
+            {
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between" >
+                    <div class="col-md-8">
+                            <div class="order-search" style="margin: 10px 0px; position: relative;display:flex">
+                                <input type="text" class="form-control" placeholder="Nhập mã phiếu..." id="search-pro-box" autocomplete="off" name="name">
+                                <select class="form-control" name="idncc" id="idncc">
+                                    <option value="">Nhà cung cấp</option>
+                                    @foreach (var item in ViewBag.ncc)
+                                    {
+                                        <option value="@item.Id">@item.Ten</option>
+                                    }
+                                </select>
+                                <select class="form-control" name="idnv" id="idnv">
+                                    <option value="">Nhân viên</option>
+                                    @foreach (var item in ViewBag.nhanvien)
+                                    {
+                                        <option value="@item.Id">@item.TenNV</option>
+                                    }
+                                </select>  
                             </div>
-                        </div>
+                        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                        <button type="button" class="btn btn-primary" onclick="openpoupmy(false);">PDF</button>
+                        <button type="button" class="btn btn-primary" onclick="openpoupmy(true);">Excel</button>
                     </div>
                 </div>
-
+            }
+            <div class="table-responsive">
+                @Html.Grid(Model).Columns(columns =>
+           {
+               columns.Add().Titled("Mã").SetWidth(5).Sanitized(false).Encoded(false).RenderValueAs(x => Ma(x.Id));
+               columns.Add(x => x.NgayTao).Sanitized(false).Titled("Ngày tạo").Format("{0:dd/MM/yyyy}");
+               columns.Add(x => x.TenNV).Titled("Nhân viên");
+               columns.Add(x => x.Ten).Titled("Nhà CC");
+               columns.Add(x => x.TongTien).Titled("Tổng tiền").Sortable(true);
+               columns.Add().Titled("Trạng thái").Sanitized(false).Encoded(false).RenderValueAs(x => Delete(x.IsDelete));
+               columns.Add().Titled("Tùy chỉnh").Css("text center")
+                  .Encoded(false)
+                  .Sanitized(false)
+                  .SetWidth(100)
+                  .RenderValueAs(x => (ButtonEdit(x.Id)).ToString() + (ButtonDelete(x.Id)).ToString() + (ButtonDetails(x.Id)).ToString());
+           }).WithPaging(5)
             </div>
         </div>
     </div>
@@ -145,8 +117,12 @@ if (Status == false)
 <script src="~/scripts/jquery.signalR-2.4.1.min.js"></script>
 <script src="~/signalr/hubs"></script>
 <script>
+
+    var name = getUrlVars()["name"];
+    var idncc = getUrlVars()["idncc"];
+    var idnv = getUrlVars()["idnv"];
     function openpoupmy(value) {
-        newwindow = window.open('/CMS_Sale/InOrder/Print?name=abc&ExportExcel=' + value + '', 'print', 'height=500,width=500');
+        newwindow = window.open('/CMS_Sale/InOrder/Print?ExportExcel=' + value + '&name=' + name + '&idncc='+idncc+'&idnv='+idnv+'', 'print', 'height=500,width=500');
                 setTimeout(function () {
                 }, 500);
             }

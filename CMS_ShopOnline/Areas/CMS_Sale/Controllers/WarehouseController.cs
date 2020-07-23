@@ -39,9 +39,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         }
         //
         // GET: /CMS_Sale/Warehouse/
-        public ActionResult Index(string hangcon, string tonkho, string saphethang,string hethang,string all)
+        public ActionResult Index(string name,int? iddvt,int ? idloai, string hangcon, string tonkho, string saphethang,string hethang,string all)
         {
-            
+            var idten = Helpers.Helper.ChuyenThanhKhongDau(name);
             int i = 0;
             ViewBag.countAll = NguyenLieu.SelectAll().Count();
             ViewBag.countHangCon = NguyenLieu.SelectAll().Where(x => x.SoLuongKho > 0).Count();
@@ -63,7 +63,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     IsDelete = item.IsDelete,
                     NgayNhap = item.NgayNhap
                 }).OrderByDescending(x=>x.Id);
-            if(hangcon!=null)
+            ViewBag.loai = LoaiSP.SelectAll().Where(x => x.IsDelete != true);
+            ViewBag.dvt = DVT.SelectAll().Where(x => x.IsDelete != true);
+            if (hangcon!=null)
             {
                 model = model.Where(x => x.SoLuongKho > 0 && x.IsDelete != true);
             }
@@ -82,6 +84,18 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             if (all != null)
             {
                 model = model.Where(x=>x.IsDelete != true);
+            }
+            if(iddvt!=null)
+            {
+                model = model.Where(x => x.IsDelete != true && x.IdDVT == iddvt);
+            }
+            if (idloai != null)
+            {
+                model = model.Where(x => x.IsDelete != true && x.IdLoai == idloai);
+            }
+            if(idten!=null && idten!="")
+            {
+                model = model.Where(x => x.IsDelete != true && x.Id.ToString().Contains(idten) || Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(idten));
             }
             return View(model);
         }
@@ -221,8 +235,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             }
             return View();
         }
-        public ActionResult Print(string name,bool ExportExcel)
+        public ActionResult Print(string name,bool ExportExcel, int? iddvt, int? idloai)
         {
+            var idten = Helpers.Helper.ChuyenThanhKhongDau(name);
             var model = TemplatePrint.SelectById(1);
             IEnumerable<NguyenLieuViewModel> modellist = NguyenLieu.SelectAll().Where(x => x.IsDelete != true).Select(
                item => new NguyenLieuViewModel
@@ -239,6 +254,18 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                    IsDelete = item.IsDelete,
                    NgayNhap = item.NgayNhap
                }).OrderByDescending(x => x.NgayTao);
+            if (iddvt != null)
+            {
+                modellist = modellist.Where(x => x.IsDelete != true && x.IdDVT == iddvt);
+            }
+            if (idloai != null)
+            {
+                modellist = modellist.Where(x => x.IsDelete != true && x.IdLoai == idloai);
+            }
+            if (idten != null && idten != "")
+            {
+                modellist = modellist.Where(x => x.IsDelete != true && x.Id.ToString().Contains(idten) || Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(idten));
+            }
             model.Content = model.Content.Replace("{Table}", BuildHtml(modellist));
             model.Content = model.Content.Replace("{NamePrint}", "Danh sach kho hang");
             if (ExportExcel)
