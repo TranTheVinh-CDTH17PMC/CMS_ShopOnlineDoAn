@@ -1,0 +1,184 @@
+﻿@using CMS_ShopOnline.Areas.CMS_Sale.Models
+@using PagedList.Mvc;
+@model PagedList.IPagedList<NguyenLieuViewModel>
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+@using GridMvc.Html
+@{
+    ViewBag.Title = "BaoCaoTonKho";
+    Layout = "~/Views/Shared/ACE_Layout.cshtml";
+    var i = 1;
+    DateTime aDateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+    // Cộng thêm 1 tháng và trừ đi một ngày.
+    DateTime retDateTime = aDateTime.AddDays(7).AddDays(-1);
+}
+
+@helper Delete(bool? Status)
+{
+if (Status == false)
+{
+        <span class="badge badge-primary">Hoạt động</span>
+}
+}
+@helper Image(string img)
+{
+    if (img == null)
+    {
+            <img src="~/Areas/CMS_Sale/Image/NguyenLieu/noimage.gif" style="width:60px; height:60px">
+    }
+    else
+    {
+            <img src="~/Areas/CMS_Sale/Image/NguyenLieu/@img" style="width:60px; height:60px">
+    }
+}
+@helper CheckDate(DateTime date)
+{
+if (date == new DateTime(2010, 10, 10, 1, 1, 1))
+{
+        <span class="badge badge-warning">Khởi tạo</span>
+}
+else
+{
+        @date.Date.ToString("dd/MM/yyyy")
+}
+}
+
+<div class="container-fluid" id="container-wrapper">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Báo cáo tồn kho</h1>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="./">Trang chủ</a></li>
+            <li class="breadcrumb-item">Quản lý</li>
+            <li class="breadcrumb-item active" aria-current="page"></li>
+        </ol>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 mb-4">
+            <!-- Simple Tables -->
+            <div class="card">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <div class="col-md-8">
+                        @using (Html.BeginForm("BaoCaoTonKho", "SaleReport", FormMethod.Get))
+                        {
+                            <div class="order-search" style="margin: 10px 0px; position: relative;display:flex">
+                                <span class="input-daterange input-group date" style="margin-right:5px">
+                                    @Html.TextBox("StartDate", Request["StartDate"] != null ? Request["StartDate"] : aDateTime.ToString("dd/MM/yyyy"), new { @class = "form-control form_datetime", autocomplete = "off", placeholder = "Từ ngày", @type = "date" })
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-exchange" style="padding: 10px;"></i>
+                                    </span>
+                                    @Html.TextBox("EndDate", Request["EndDate"] != null ? Request["EndDate"] : retDateTime.ToString("dd/MM/yyyy"), new { @class = "form-control form_datetime", autocomplete = "off", placeholder = "Đến ngày", @type = "date" })
+                                </span>
+                                <button type="submit" class="btn btn-primary">Search</button>
+                                <button type="button" class="btn btn-primary" onclick="openpoupmy(false);">PDF</button>
+                                <button type="button" class="btn btn-primary" onclick="openpoupmy(true);">Excel</button>
+                                @*<input type="text" class="form-control ui-autocomplete-input" onkeyup="filterFunction()" placeholder="Nhập mã phiếu hoặc tên khách hàng..." id="search-pro-box" autocomplete="off">*@
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <div class="grid-mvc" data-lang="en" data-gridname="" data-selectable="true" data-multiplefilters="false">
+                        <div class="grid-wrap">
+                            <table class="table table-striped grid-table" id="table-grid">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>STT</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>Mã</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>Ngày nhập</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>Tên loại</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>Tên</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>ĐVT</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>Số lượng kho</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>Đơn giá</span>
+                                            </div>
+                                        </th>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr class="grid-row ">
+                                            <td class="grid-cell" data-name="">@i</td>
+                                            <td class="grid-cell" data-name="">
+                                                <span>@item.Id</span>
+                                            </td>
+                                            <td class="grid-cell" data-name="GhiChu">@CheckDate(@item.NgayNhap)</td>
+                                            <td class="grid-cell" data-name="GhiChu">@item.Ten</td>
+                                            <td class="grid-cell" data-name="TongTien">@item.TenLoai</td>
+                                            <td class="grid-cell" data-name="TenKH">@item.TenDVT</td>
+                                            <td class="grid-cell" data-name="TenNV">@item.SoLuongKho</td>
+                                            <td class="grid-cell" data-name="TenNV">@item.DonGia</td>
+                                        </tr>
+                                        i++;
+                                    }
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>Tổng tiền :</td>
+                                        <td>@ViewBag.tongtien</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <div class="grid-footer">
+                                <div class="grid-pager">
+                                    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) trên @Model.PageCount
+                                    @Html.PagedListPager(Model, page => Url.Action("Index",
+                                    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Row-->
+</div>
+
+
+<script>
+    function openpoupmy(value) {
+        debugger
+        var sd = $("#StartDate").val();
+        var ed = $("#EndDate").val();
+        newwindow = window.open('/CMS_Sale/SaleReport/ExportToExcel?name=baocaotonkho&StartDate=' + sd + '&EndDate=' + ed + '&ExportExcel='+value+'', 'print', 'height=500,width=500');
+
+                setTimeout(function () {
+                }, 500);
+            }
+
+</script>

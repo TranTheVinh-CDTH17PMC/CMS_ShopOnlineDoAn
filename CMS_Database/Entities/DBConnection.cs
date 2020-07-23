@@ -29,7 +29,10 @@ namespace CMS_Database.Entities
         public virtual DbSet<ThanhPham> ThanhPham { get; set; }
         public virtual DbSet<HoaDon> HoaDon { get; set; }
         public virtual DbSet<CTHoaDon> CTHoaDon { get; set; }
-
+        public virtual DbSet<PhanQuyen> PhanQuyen { get; set; }
+        public virtual DbSet<ListController> ListController { get; set; }
+        public virtual DbSet<TemplatePrint> TemplatePrint { get; set; }
+        
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<DonViTinh>()
@@ -66,6 +69,10 @@ namespace CMS_Database.Entities
                 .HasMany(e => e.CTPhieuNhap)
                 .WithOptional(e => e.NguyenLieu)
                 .HasForeignKey(e => e.IdNguyenLieu);
+            modelBuilder.Entity<NguyenLieu>()
+               .HasMany(e => e.CTPhieuXuat)
+               .WithOptional(e => e.NguyenLieu)
+               .HasForeignKey(e => e.IdNguyenLieu);
 
             modelBuilder.Entity<NhaCungCap>()
                 .HasMany(e => e.PhieuNhap)
@@ -111,6 +118,10 @@ namespace CMS_Database.Entities
                 .HasMany(e => e.CTHoaDon)
                 .WithOptional(e => e.ThanhPham)
                 .HasForeignKey(e => e.IdThanhPham);
+            modelBuilder.Entity<NguyenLieu>()
+                .HasMany(e => e.CTPhieuXuat)
+                .WithOptional(e => e.NguyenLieu)
+                .HasForeignKey(e => e.IdNguyenLieu);
             modelBuilder.Entity<HoaDon>()
                .HasMany(e => e.CTHoaDon)
                .WithOptional(e => e.HoaDon)

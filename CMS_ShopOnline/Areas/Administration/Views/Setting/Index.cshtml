@@ -1,0 +1,133 @@
+﻿@using CMS_ShopOnline.Areas.Administration.Models
+@model IEnumerable<PhanQuyenViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/ACE_Layout.cshtml";
+    var i = 0;
+}
+<style>
+    .custom-checkbox {
+        min-height: 1rem;
+        padding-left: 0;
+        margin-right: 0;
+        cursor: pointer;
+    }
+
+        .custom-checkbox .custom-control-indicator {
+            content: "";
+            display: inline-block;
+            position: relative;
+            width: 30px;
+            height: 10px;
+            background-color: #818181;
+            border-radius: 15px;
+            margin-right: 10px;
+            -webkit-transition: background .3s ease;
+            transition: background .3s ease;
+            vertical-align: middle;
+            margin: 0 16px;
+            box-shadow: none;
+        }
+
+            .custom-checkbox .custom-control-indicator:after {
+                content: "";
+                position: absolute;
+                display: inline-block;
+                width: 18px;
+                height: 18px;
+                background-color: white;
+                border-radius: 21px;
+                box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.4);
+                left: -2px;
+                top: -4px;
+                -webkit-transition: left .3s ease, background .3s ease, box-shadow .1s ease;
+                transition: left .3s ease, background .3s ease, box-shadow .1s ease;
+            }
+
+        .custom-checkbox .custom-control-input:checked ~ .custom-control-indicator {
+            background-color: #6466f9;
+            background-image: none;
+            box-shadow: none !important;
+        }
+
+            .custom-checkbox .custom-control-input:checked ~ .custom-control-indicator:after {
+                background-color: #6466f9;
+                left: 15px;
+            }
+
+        .custom-checkbox .custom-control-input:focus ~ .custom-control-indicator {
+            box-shadow: none !important;
+        }
+</style>
+@using (Html.BeginForm(FormMethod.Post))
+{
+    <div class="container-fluid" id="container-wrapper">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <div class="table-responsive">
+                <table class="table table-striped grid-table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Tên Controller</th>
+                            @foreach (var item in ViewBag.LoaiNV)
+                            {
+                                <th>@item.TenLoai</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item1 in Model)
+                        {
+                            <tr>
+                                <td>@item1.ControllerName</td>
+                                @foreach (var item2 in item1.LDetailsPhanQuyen)
+                                {
+                                    <td>
+                                        <label class="custom-control custom-checkbox">
+                                            @if (item2.IsDelete == false)
+                                            {
+                                                <input type="checkbox" class="custom-control-input" value="false" name="LDetailsPhanQuyen[@i].IsDelete" checked="checked" onclick="getValue(@item2.Id,this.value);">
+                                            }
+                                            @if (item2.IsDelete == true)
+                                            {
+                                                <input type="checkbox" class="custom-control-input" value="true" name="LDetailsPhanQuyen[@i].IsDelete" onclick="getValue(@item2.Id,this.value);">
+                                            }
+                                            @*<span class="custom-control-indicator"></span>
+                                        <input type="checkbox" class="custom-control-input" value="true" checked>*@
+                                            <span class="custom-control-indicator"></span>
+                                        </label>
+                                    </td>
+                                    i++;
+                                }
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+            <script>
+                function getValue(id,value) {
+                    $.ajax({
+                        url: "/Setting/Details/",
+                        dataType: "json",
+                        type: "GET",
+                        contentType: 'application/json; charset=utf-8',
+                        data: { id: id,value:value },
+                        success: function (data) {
+                            response(data);
+                        },
+                        error: function (err) {
+
+                        }
+                    });
+                    //if (value == "true") {
+                    //    $(this).val('false');
+                    //}
+                    //if (value == "false") {
+                    //    $(this).val('true');
+                    //}
+                }
+            </script>
+

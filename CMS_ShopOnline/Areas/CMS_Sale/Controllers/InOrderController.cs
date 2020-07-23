@@ -24,6 +24,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         private readonly IPhieuNhap PhieuNhap;
         private readonly ICTPhieuNhap CTPhieuNhap;
         private readonly ILoaiSP LoaiSP;
+        private readonly ITemplatePrint TemplatePrint;
         public InOrderController()
         {
             LoaiSP = new LoaiSPRepository();
@@ -31,14 +32,16 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             NhaCungCap = new NhaCungCapRepository();
             PhieuNhap = new PhieuNhapRepository();
             CTPhieuNhap = new ICTPhieuPhapRepository();
+            TemplatePrint = new TemplatePrintRepository();
         }
-        public InOrderController(INguyenLieu _nl, INhaCungCap _ncc, IPhieuNhap _pn, ICTPhieuNhap _ctpn,ILoaiSP _loaisp)
+        public InOrderController(ITemplatePrint _TemplatePrint,INguyenLieu _nl, INhaCungCap _ncc, IPhieuNhap _pn, ICTPhieuNhap _ctpn,ILoaiSP _loaisp)
         {
             LoaiSP = _loaisp;
             NguyenLieu = _nl;
             NhaCungCap = _ncc;
             PhieuNhap = _pn;
             CTPhieuNhap = _ctpn;
+            TemplatePrint = _TemplatePrint;
         }
         //
         // GET: /CMS_Sale/InOrder/
@@ -99,6 +102,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 listNguyenLieu = NguyenLieu.SelectAll().Where(x => x.IsDelete != true),
                 listNhaCungCap = NhaCungCap.SelectAll().Where(x => x.IsDelete != true)
             };
+            
             ViewBag.listloai = LoaiSP.SelectAll().Where(x => x.IsDelete != true).ToList();
             return View(model);
         }
@@ -184,6 +188,56 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 IsDelete = item.IsDelete
             });
             return Json(model, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Print(string name, bool ExportExcel)
+        {
+            var model = TemplatePrint.SelectById(1);
+            IEnumerable<PhieuNhapViewModel> modellist = PhieuNhap.SelectAll().Where(x => x.IsDetele != true).Select(
+                item => new PhieuNhapViewModel
+                {
+                    Id = item.Id,
+                    IdNhanVien = item.IdNhanVien,
+                    IdNhaCungCap = item.IdNhaCungCap,
+                    NgayTao = item.NgayTao,
+                    TenNV = item.NhanVien.TenNV,
+                    Ten = item.NhaCungCap.Ten,
+                    GhiChu = item.GhiChu,
+                    TongTien = item.TongTien,
+                    IsDelete = item.IsDetele
+                }
+            ).OrderByDescending(x => x.NgayTao);
+            model.Content = model.Content.Replace("{Table}", BuildHtml(modellist));
+            model.Content = model.Content.Replace("{NamePrint}", "Danh sach phieu nhap");
+            if (ExportExcel)
+            {
+                Response.AppendHeader("content-disposition", "attachment;filename=" + DateTime.Now.ToString("yyyyMMdd") + "PhieuNhap" + ".xls");
+                Response.Charset = "";
+                Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.Write(model.Content);
+                Response.End();
+            }
+            return View(model);
+        }
+        string BuildHtml(IEnumerable<PhieuNhapViewModel> ls)
+        {
+            var i = 1;
+            string list = "<thead><tr>";
+            list = "<th>STT</th><th class=\"desc\">Mã</th>\r\n";
+            list += " <th>Ngày tạo</th><th>Tên NCC</th><th>Tên NV</th><th>Tổng tiền</th></thead><tbody>\r\n";
+            foreach (var item in ls)
+            {
+                list += "<tr><td class=\"service\">" + i + "</td>\r\n";
+                list += "<td class=\"desc\">" + item.Id + "</td>\r\n";
+                list += " <td class=\"qty\">" + item.NgayTao + "</td>\r\n";
+                list += " <td class=\"qty\">" + item.Ten + "</td>\r\n";
+                list += " <td class=\"qty\">" + item.TenNV + "</td>\r\n";
+                list += "<td class=\"total\">" + item.TongTien + "</td>\r\n";
+                list += "</tr>\r\n";
+                i++;
+            }
+            list += "<tr><td colspan=\"6\"class=\"grand total\"></td>\r\n";
+            return list;
         }
     }
 }

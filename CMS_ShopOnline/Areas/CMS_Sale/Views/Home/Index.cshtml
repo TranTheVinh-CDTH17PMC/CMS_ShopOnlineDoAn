@@ -16,29 +16,29 @@
         <!--Grid-->
         <div class="column">
             <div class="card" style="background-color:#8bc34a">
-                <h3>Doanh số <i class="fas fa-chart-bar" style="font-size:24px; float:right "></i></h3>
-                <p>449,500</p>
+                <h3>Tổng thu<i class="fas fa-chart-bar" style="font-size:24px; float:right "></i></h3>
+                <p>@ViewBag.tongthu</p>
             </div>
         </div>
 
         <div class="column">
             <div class="card" style="background-color:#0277bd">
-                <h3>Lãi gộp <i class="far fa-fw fa-window-maximize" style="font-size: 24px; float:right"></i></h3>
-                <p>220,000</p>
+                <h3>Tổng chi <i class="far fa-fw fa-window-maximize" style="font-size: 24px; float:right"></i></h3>
+                <p>@ViewBag.tongchi</p>
             </div>
         </div>
 
         <div class="column">
             <div class="card" style="background-color:#ffc107">
                 <h3>Số đơn hàng <i class="far fa-calendar-alt" style="font-size:24px;float:right"></i></h3>
-                <p>ĐHTB:99,000</p>
+                <p>ĐHTB:@ViewBag.tongdonhang</p>
             </div>
         </div>
 
         <div class="column">
             <div class="card" style="background-color:#d32f2f">
                 <h3>Kho <i class="fas fa-warehouse" style="font-size: 24px; float: right"></i></h3>
-                <p>300</p>
+                <p>@ViewBag.tonghang</p>
             </div>
         </div>
         <!-- Doanh số-->
@@ -73,38 +73,21 @@
                     <h6 class="m-0 font-weight-bold text-primary">TIỀN BẠC</h6>
                 </div>
                 <div class="dropdown" style="text-align:right;margin-top:-43px">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton"
+                    <button class="btn btn-default" type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       Hôm nay
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Hôm qua</a>
-                        <a class="dropdown-item" href="#">Hôm nay</a>
-                        <a class="dropdown-item" href="#">7 ngày gần đây</a>
-                        <a class="dropdown-item" href="#">Tháng này</a>
-                        <a class="dropdown-item" href="#">Tháng trước</a>
-                    </div>
                 </div>
                 <div class="card-body">
-                    <p style="color:black">Tiền thu bán hàng: <b style="float:right">199,000</b></p>
-                    <p style="color:black">Khách tạm ứng, đặt hàng: <b style="float:right">0</b></p>
+                    <p style="color:black">Tiền thu bán hàng: <b style="float:right">@ViewBag.tongthuhn</b></p>
                     <hr class="sidebar-divider">
-                    <a href="#demo1" data-toggle="collapse">Tổng thu:<i class="fa fa-caret-down"></i><b style="float:right">0</b></a>
-                    <div id="demo1" class="collapse"><br />
-                        <p style="color: black; text-indent: 20px">Thu bán hàng: <b style="float:right">0</b></p>
-                        <p style="color: black; text-indent: 20px">Thu trả nhà cung cấp: <b style="float:right">0</b></p>
-                        <p style="color: black; text-indent: 20px">Gốp vốn: <b style="float:right">0</b></p>
-                        <p style="color: black; text-indent: 20px">Thu khác: <b style="float:right">0</b></p>
-                    </div>
+                    <a href="#demo1" data-toggle="collapse">Tổng thu:<b style="float:right">@ViewBag.tongthuhn</b></a>
+                    
                     <hr class="sidebar-divider">
-                    <a href="#demo2" data-toggle="collapse" style="color:red">Tổng chi:<i class="fa fa-caret-down"></i><b style="float:right">0</b></a>
-                    <div id="demo2" class="collapse"><br />
-                        <p style="color: black; text-indent: 20px">Mua hàng: <b style="float:right">0</b></p>
-                        <p style="color: black; text-indent: 20px; ">Chi phí: <b style="float:right">0</b></p>
-                        <p style="color: black; text-indent: 20px">Chi phí khác: <b style="float:right">0</b></p>
-                    </div>
+                    <a href="#demo2" data-toggle="collapse" style="color:red">Tổng chi:<b style="float:right">@ViewBag.tongchihn</b></a>
+                    
                     <hr class="sidebar-divider">
-                    <p style="color:black"><i>(Thu - Chi):</i><b style="float:right">0</b></p>
+                    <p style="color:black"><i>(Thu - Chi):</i><b style="float:right">@ViewBag.thuchi</b></p>
                 </div>
             </div>
         </div>
@@ -114,9 +97,9 @@
                     <h6 class="m-0 font-weight-bold text-primary">TÌNH TRẠNG KHO</h6>
                 </div>
                 <div class="card-body">
-                    <p style="color:black">Hàng còn trong kho: <b style="float:right">300</b></p>
-                    <p style="color:black">Hết hàng: <b style="float: right; color:#d32f2f">53</b></p>
-                    <p style="color:black">Hàng bị lỗi kho: <b style="float:right">0</b></p>      
+                    <p style="color:black">Hàng còn trong kho: <b style="float:right">@ViewBag.countHangCon</b></p>
+                    <p style="color:black">Sắp hết hàng: <b style="float:right">@ViewBag.countSapHetHang</b></p>
+                    <p style="color:black">Hết hàng: <b style="float: right; color:#d32f2f">@ViewBag.countHetHang</b></p>      
                 </div>
             </div>
         </div>

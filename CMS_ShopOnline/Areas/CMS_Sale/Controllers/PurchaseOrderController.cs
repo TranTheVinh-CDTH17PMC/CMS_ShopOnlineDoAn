@@ -24,6 +24,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         private readonly IKhachHang KhachHang;
         private readonly IHoaDon HoaDon;
         private readonly ICTHoaDon CTHoaDon;
+        private readonly ITemplatePrint TemplatePrint;
         public PurchaseOrderController()
         {
             NguyenLieu = new NguyenLieuRepository();
@@ -35,8 +36,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             KhachHang = new KhachHangRepository();
             HoaDon = new HoaDonRepository();
             CTHoaDon = new CTHoaDonRepository();
+            TemplatePrint = new TemplatePrintRepository();
         }
-        public PurchaseOrderController(IHoaDon _HoaDon, ICTHoaDon _CTHoaDon, IKhachHang _KhachHang, IPhieuXuat _PhieuXuat, ICTPhieuXuat _CTPhieuXuat, INguyenLieu _NguyenLieu, IDonViTinh _DVT, ILoaiSP _LoaiSP, IThanhPham _ThanhPham)
+        public PurchaseOrderController(ITemplatePrint _TemplatePrint, IHoaDon _HoaDon, ICTHoaDon _CTHoaDon, IKhachHang _KhachHang, IPhieuXuat _PhieuXuat, ICTPhieuXuat _CTPhieuXuat, INguyenLieu _NguyenLieu, IDonViTinh _DVT, ILoaiSP _LoaiSP, IThanhPham _ThanhPham)
         {
             NguyenLieu = _NguyenLieu;
             DVT = _DVT;
@@ -47,6 +49,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             KhachHang = _KhachHang;
             HoaDon = _HoaDon;
             CTHoaDon = _CTHoaDon;
+            TemplatePrint = _TemplatePrint;
         }
         //
         // GET: /CMS_Sale/PurchaseOrder/
@@ -126,6 +129,57 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 }  
             }
             return View();
+        }
+        public ActionResult Print(string name, bool ExportExcel)
+        {
+            var model = TemplatePrint.SelectById(1);
+            IEnumerable<HoaDonViewModel> modellist = HoaDon.SelectAll().Where(x => x.IsDelete != true).Select(
+                item => new HoaDonViewModel
+                {
+                    Id = item.Id,
+                    IdNhanVien = item.IdNhanVien,
+                    IdKhachHang = item.IdKhachHang,
+                    NgayTao = item.NgayTao,
+                    TenNV = item.NhanVien.TenNV,
+                    TenKH = item.KhachHang.TenKH,
+                    GhiChu = item.GhiChu,
+                    TrangThai = item.TrangThai,
+                    TongTien = item.TongTien,
+                    IsDelete = item.IsDelete
+                }
+            ).OrderByDescending(x => x.NgayTao);
+            model.Content = model.Content.Replace("{Table}", BuildHtml(modellist));
+            model.Content = model.Content.Replace("{NamePrint}", "Danh sach hoa don");
+            if (ExportExcel)
+            {
+                Response.AppendHeader("content-disposition", "attachment;filename=" + DateTime.Now.ToString("yyyyMMdd") + "HoaDon" + ".xls");
+                Response.Charset = "";
+                Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.Write(model.Content);
+                Response.End();
+            }
+            return View(model);
+        }
+        string BuildHtml(IEnumerable<HoaDonViewModel> ls)
+        {
+            var i = 1;
+            string list = "<thead><tr>";
+            list = "<th>STT</th><th class=\"desc\">Mã</th>\r\n";
+            list += " <th>Ngày tạo</th><th>Tên NV</th><th>Tên KH</th><th>Tổng tiền</th></thead><tbody>\r\n";
+            foreach (var item in ls)
+            {
+                list += "<tr><td class=\"service\">" + i + "</td>\r\n";
+                list += "<td class=\"desc\">" + item.Id + "</td>\r\n";
+                list += " <td class=\"qty\">" + item.NgayTao + "</td>\r\n";
+                list += " <td class=\"qty\">" + item.TenNV + "</td>\r\n";
+                list += " <td class=\"unit\">" + item.TenKH + "</td>\r\n";
+                list += "<td class=\"total\">" + item.TongTien + "</td>\r\n";
+                list += "</tr>\r\n";
+                i++;
+            }
+            list += "<tr><td colspan=\"6\"class=\"grand total\"></td>\r\n";
+            return list;
         }
     }
 }

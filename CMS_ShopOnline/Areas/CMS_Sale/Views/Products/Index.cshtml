@@ -76,6 +76,8 @@
                                 <option>Nước ngọt các loại</option>
                             </select>
                         </div>
+                        <button type="button" class="btn btn-primary" onclick="openpoupmy(false);">PDF</button>
+                        <button type="button" class="btn btn-primary" onclick="openpoupmy(true);">Excel</button>
                     </div>
                 }
                 @using (Html.BeginForm("Delete", "Products", FormMethod.Post))
@@ -151,6 +153,14 @@
         </div>
         <!--Row-->
     </div>
+<script>
+    function openpoupmy(value) {
+        newwindow = window.open('/CMS_Sale/Products/Print?name=abc&ExportExcel=' + value + '', 'print', 'height=500,width=500');
+                setTimeout(function () {
+                }, 500);
+            }
+
+</script>
     <script>
         //function filterFunction() {
         //    var input, filter, ul, li, tr, i;

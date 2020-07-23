@@ -136,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\CongViec.cs" />
+    <Compile Include="Entities\ListController.cs" />
     <Compile Include="Entities\CTHoaDon.cs" />
     <Compile Include="Entities\CTPhieuNhap.cs" />
     <Compile Include="Entities\CTPhieuXuat.cs" />
@@ -149,12 +150,19 @@
     <Compile Include="Entities\NguyenLieu.cs" />
     <Compile Include="Entities\NhaCungCap.cs" />
     <Compile Include="Entities\NhanVien.cs" />
+    <Compile Include="Entities\PhanQuyen.cs" />
     <Compile Include="Entities\PhieuNhap.cs" />
     <Compile Include="Entities\PhieuXuat.cs" />
     <Compile Include="Entities\sysdiagrams.cs" />
+    <Compile Include="Entities\TemplatePrint.cs" />
     <Compile Include="Entities\ThanhPham.cs" />
+    <Compile Include="Entities\TopSanPhamBanCham.cs" />
+    <Compile Include="Entities\TopSanPhamBanChay.cs" />
     <Compile Include="Interfaces\ICTHoaDon.cs" />
     <Compile Include="Interfaces\IHoaDon.cs" />
+    <Compile Include="Interfaces\IListController.cs" />
+    <Compile Include="Interfaces\IPhanQuyen.cs" />
+    <Compile Include="Interfaces\ITemplatePrint.cs" />
     <Compile Include="Repositories\CTHoaDonRepository.cs" />
     <Compile Include="Repositories\HoaDonRepository.cs" />
     <Compile Include="Interfaces\ICongViec.cs" />
@@ -173,6 +181,7 @@
     <Compile Include="Interfaces\IPhieuXuat.cs" />
     <Compile Include="Interfaces\IThanhPham.cs" />
     <Compile Include="Repositories\DonViTinhRepository.cs" />
+    <Compile Include="Repositories\ListControllerRepository.cs" />
     <Compile Include="Repositories\LoaiSPRepository.cs" />
     <Compile Include="Repositories\NguyenLieuRepository.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />
@@ -183,8 +192,10 @@
     <Compile Include="Repositories\KhachHangRepository.cs" />
     <Compile Include="Repositories\NhaCungCapRepository.cs" />
     <Compile Include="Repositories\NhanVienRepository.cs" />
+    <Compile Include="Repositories\PhanQuyenRepository.cs" />
     <Compile Include="Repositories\PhieuNhapRepository.cs" />
     <Compile Include="Repositories\PhieuXuatRepository.cs" />
+    <Compile Include="Repositories\TemplatePrintRepository.cs" />
     <Compile Include="Repositories\ThanhPhamRepository.cs" />
   </ItemGroup>
   <ItemGroup />

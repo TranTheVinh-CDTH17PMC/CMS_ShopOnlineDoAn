@@ -22,19 +22,22 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         private readonly IPhieuXuat PhieuXuat;
         private readonly ICTPhieuXuat CTPhieuXuat;
         private readonly ILoaiSP LoaiSP;
+        private readonly ITemplatePrint TemplatePrint;
         public OutOrderController()
         {
             LoaiSP = new LoaiSPRepository();
             NguyenLieu = new NguyenLieuRepository();
             PhieuXuat = new PhieuXuatRepository();
             CTPhieuXuat = new ICTPhieuXuatRepository();
+            TemplatePrint = new TemplatePrintRepository();
         }
-        public OutOrderController(INguyenLieu _nl, IPhieuXuat _px, ICTPhieuXuat _ctpx, ILoaiSP _loaisp)
+        public OutOrderController(ITemplatePrint _TemplatePrint,INguyenLieu _nl, IPhieuXuat _px, ICTPhieuXuat _ctpx, ILoaiSP _loaisp)
         {
             LoaiSP = _loaisp;
             NguyenLieu = _nl;
             PhieuXuat = _px;
             CTPhieuXuat = _ctpx;
+            TemplatePrint = _TemplatePrint;
         }
         // GET: CMS_Sale/OutOrder
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
@@ -128,7 +131,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 TaskController.CreateTask("Tạo phiếu xuất", ControllerName, Action, Areas, Helper.CurrentUser.Id, idpx);
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception e)
             {
 
             }
@@ -175,6 +178,53 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 IsDelete = item.IsDelete
             });
             return Json(model, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Print(string name, bool ExportExcel)
+        {
+            var model = TemplatePrint.SelectById(1);
+            IEnumerable<PhieuXuatViewModel> modellist = PhieuXuat.SelectAll().Where(x => x.IsDelete != true).Select(
+                item => new PhieuXuatViewModel
+                {
+                    Id = item.Id,
+                    IdNhanVien = item.IdNhanVien,
+                    NgayTao = item.NgayTao,
+                    TenNV = item.NhanVien.TenNV,
+                    GhiChu = item.GhiChu,
+                    TongTien = item.TongTien,
+                    IsDelete = item.IsDelete
+                }
+            ).OrderByDescending(x => x.NgayTao);
+            model.Content = model.Content.Replace("{Table}", BuildHtml(modellist));
+            model.Content = model.Content.Replace("{NamePrint}", "Danh sach phieu xuat");
+            if (ExportExcel)
+            {
+                Response.AppendHeader("content-disposition", "attachment;filename=" + DateTime.Now.ToString("yyyyMMdd") + "PhieuXuat" + ".xls");
+                Response.Charset = "";
+                Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.Write(model.Content);
+                Response.End();
+            }
+            return View(model);
+        }
+        string BuildHtml(IEnumerable<PhieuXuatViewModel> ls)
+        {
+            var i = 1;
+            string list = "<thead><tr>";
+            list = "<th>STT</th><th class=\"desc\">Mã</th>\r\n";
+            list += " <th>Ngày tạo</th><th>Tên NV</th><th>Tổng tiền</th></thead><tbody>\r\n";
+            foreach (var item in ls)
+            {
+                list += "<tr><td class=\"service\">" + i + "</td>\r\n";
+                list += "<td class=\"desc\">" + item.Id + "</td>\r\n";
+                list += " <td class=\"qty\">" + item.NgayTao + "</td>\r\n";
+                list += " <td class=\"qty\">" + item.TenNV + "</td>\r\n";
+                list += "<td class=\"total\">" + item.TongTien + "</td>\r\n";
+                list += "</tr>\r\n";
+                i++;
+            }
+            list += "<tr><td colspan=\"5\"class=\"grand total\"></td>\r\n";
+            return list;
         }
     }
 }

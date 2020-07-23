@@ -79,7 +79,7 @@ if (Status == "Success")
             var x = $('#alertsDropdown span').text();
             var count = parseInt(x) + 1;
             $('#alertsDropdown span').text(count);
-            var html = '<a class="dropdown-item d-flex align-items-center" onclick="Checkseen('+IdPx+')" href="CMS_Sale/PurchaseOrder/Details/' + IdPx + '" id="noticolor[' + Idtask + ']" style="background-color:#E6E6FA;>';
+            var html = '<a class="dropdown-item d-flex align-items-center" onclick="Checkseen('+Idtask+')" href="CMS_Sale/PurchaseOrder/Details/' + IdPx + '" id="noticolor[' + Idtask + ']" style="background-color:#E6E6FA;>';
             html += '<div class="mr-3">';
             html += '<div class="icon-circle bg-primary">';
             html += '<i class="fas fa-file-alt text-white"></i>';
