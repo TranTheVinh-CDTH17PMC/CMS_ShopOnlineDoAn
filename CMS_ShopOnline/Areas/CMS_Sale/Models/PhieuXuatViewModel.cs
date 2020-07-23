@@ -18,7 +18,6 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Models
         public string TenKH { get; set; }
         public DateTime NgayTao { get; set; }
         public string TenNV { get; set; }
-        public string TrangThai { get; set; }
         public double? TongTien { get; set; }
         public bool? IsDelete { get; set; }
         public List<CTPhieuxuatViewModel> ListCTPhieuXuat { get; set; }
