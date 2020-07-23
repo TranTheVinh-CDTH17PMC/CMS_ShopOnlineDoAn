@@ -25,6 +25,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         private readonly ICTPhieuNhap CTPhieuNhap;
         private readonly ILoaiSP LoaiSP;
         private readonly ITemplatePrint TemplatePrint;
+        private readonly INhanVien NhanVien;
         public InOrderController()
         {
             LoaiSP = new LoaiSPRepository();
@@ -33,8 +34,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             PhieuNhap = new PhieuNhapRepository();
             CTPhieuNhap = new ICTPhieuPhapRepository();
             TemplatePrint = new TemplatePrintRepository();
+            NhanVien = new NhanVienRepository();
         }
-        public InOrderController(ITemplatePrint _TemplatePrint,INguyenLieu _nl, INhaCungCap _ncc, IPhieuNhap _pn, ICTPhieuNhap _ctpn,ILoaiSP _loaisp)
+        public InOrderController(INhanVien _NhanVien, ITemplatePrint _TemplatePrint,INguyenLieu _nl, INhaCungCap _ncc, IPhieuNhap _pn, ICTPhieuNhap _ctpn,ILoaiSP _loaisp)
         {
             LoaiSP = _loaisp;
             NguyenLieu = _nl;
@@ -42,21 +44,12 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             PhieuNhap = _pn;
             CTPhieuNhap = _ctpn;
             TemplatePrint = _TemplatePrint;
+            NhanVien = _NhanVien;
         }
         //
         // GET: /CMS_Sale/InOrder/
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult Index(int? name,int? idncc,int? idnv)
         {
-            if (searchString != null)
-            {
-                page = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
-            ViewBag.CurrentSort = sortOrder;
-            ViewBag.CurrentFilter = searchString;
             IEnumerable<PhieuNhapViewModel> model = PhieuNhap.SelectAll().Where(x => x.IsDetele != true).Select(
                 item => new PhieuNhapViewModel
                 {
@@ -71,9 +64,21 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     IsDelete = item.IsDetele
                 }
             ).ToList().OrderByDescending(x => x.NgayTao);
-            int pageSize = 10;
-            int pageNumber = (page ?? 1);
-            return View(model.ToPagedList(pageNumber, pageSize));
+            ViewBag.ncc = NhaCungCap.SelectAll().Where(x => x.IsDelete != true);
+            ViewBag.nhanvien = NhanVien.SelectAll();
+            if(name!=null && name!=0)
+            {
+                model = model.Where(x => x.Id == name);
+            }
+            if (idncc != null && idncc != 0)
+            {
+                model = model.Where(x => x.IdNhaCungCap== idncc);
+            }
+            if (idnv != null && idnv != 0)
+            {
+                model = model.Where(x => x.IdNhanVien == idnv);
+            }
+            return View(model);
         }
         public ActionResult Details(int id)
         {
@@ -189,7 +194,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             });
             return Json(model, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult Print(string name, bool ExportExcel)
+        public ActionResult Print(bool ExportExcel,int? name, int? idncc, int? idnv)
         {
             var model = TemplatePrint.SelectById(1);
             IEnumerable<PhieuNhapViewModel> modellist = PhieuNhap.SelectAll().Where(x => x.IsDetele != true).Select(
@@ -206,8 +211,21 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     IsDelete = item.IsDetele
                 }
             ).OrderByDescending(x => x.NgayTao);
+            if (name != null && name != 0)
+            {
+                modellist = modellist.Where(x => x.Id == name);
+            }
+            if (idncc != null && idncc != 0)
+            {
+                modellist = modellist.Where(x => x.IdNhaCungCap == idncc);
+            }
+            if (idnv != null && idnv != 0)
+            {
+                modellist = modellist.Where(x => x.IdNhanVien == idnv);
+            }
             model.Content = model.Content.Replace("{Table}", BuildHtml(modellist));
             model.Content = model.Content.Replace("{NamePrint}", "Danh sach phieu nhap");
+           
             if (ExportExcel)
             {
                 Response.AppendHeader("content-disposition", "attachment;filename=" + DateTime.Now.ToString("yyyyMMdd") + "PhieuNhap" + ".xls");

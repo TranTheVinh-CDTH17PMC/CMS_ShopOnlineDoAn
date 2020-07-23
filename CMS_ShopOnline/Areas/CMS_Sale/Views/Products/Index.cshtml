@@ -60,7 +60,7 @@
             <div class="col-lg-12 mb-4">
                 <!-- Simple Tables -->
                 <div class="card">
-                @using (Html.BeginForm("Index", "Products",FormMethod.Post))
+                @using (Html.BeginForm("Index", "Products",FormMethod.Get))
                 {
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <div class="col-md-9">
@@ -101,53 +101,6 @@
                        }).WithPaging(5)
                         </div>
                     }
-                    @*<div class="table-responsive">
-                        <table class="table align-items-center table-flush">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>Sản phẩm</th>
-                                    <th>Mã sản phẩm</th>
-                                    <th>SL</th>
-                                    <th>Giá nhập</th>
-                                    <th>Giá bán</th>
-                                    <th>
-                                        <select class="custom-select">
-                                            <option>Nhóm hàng</option>
-                                            <option>Tất cả</option>
-                                            <option>Cafe</option>
-                                            <option>Đồ ăn</option>
-                                            <option>Nước ngọt</option>
-                                        </select>
-                                    </th>
-                                    <th>Hình</th>
-                                    <th>
-                                        <select class="custom-select">
-                                            <option>Loại hàng</option>
-                                            <option>Tất cả</option>
-                                            <option>Sản phẩm</option>
-                                            <option>SP có thuộc tính</option>
-                                        </select>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody id="myproducts">
-                                <tr>
-                                    <td>Cappuccino</td>
-                                    <td><a href="#">SP001</a></td>
-                                    <td>1</td>
-                                    <td>30000</td>
-                                    <td>42000</td>
-                                    <td>Cafe</td>
-                                    <td><img src="/Assets/img/products/cappuccino.png" style="width:60px; height:60px" /></td>
-                                    <td style="display:flex">
-                                        <button class="btn btn-primary" title="Chỉnh sửa" style="margin:5px"><i class="fas fa-pencil-alt"></i></button>
-                                        <button class="btn btn-warning" title="Ngừng kinh doanh" style="margin:5px"> <i class="fas fa-trash-alt"></i></button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>*@
-                    @*<div class="card-footer"></div>*@
                 </div>
             </div>
         </div>
