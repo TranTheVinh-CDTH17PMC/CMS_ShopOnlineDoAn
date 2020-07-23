@@ -3171,6 +3171,8 @@
     <Content Include="Areas\CMS_Sale\Views\InOrder\Create.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\InOrder\Details.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\OutOrder\Create.cshtml" />
+    <Content Include="Areas\CMS_Sale\Views\OutOrder\Index.cshtml" />
+    <Content Include="Areas\CMS_Sale\Views\OutOrder\Details.cshtml" />
     <None Include="scripts\jquery-3.0.0-vsdoc.js" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
