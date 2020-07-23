@@ -22,17 +22,20 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         private readonly ILoaiSP LoaiSP;
         private DateTime datetimenow = DateTime.Now;
         private DateTime datetimesetting = new DateTime(2010,10,10,1,1,1);
+        private readonly ITemplatePrint TemplatePrint;
         public WarehouseController()
         {
             NguyenLieu = new NguyenLieuRepository();
             DVT = new DonViTinhRepository();
             LoaiSP = new LoaiSPRepository();
+            TemplatePrint = new TemplatePrintRepository();
         }
-        public WarehouseController(INguyenLieu _NguyenLieu, IDonViTinh _DVT, ILoaiSP _LoaiSP)
+        public WarehouseController(INguyenLieu _NguyenLieu, IDonViTinh _DVT, ILoaiSP _LoaiSP, ITemplatePrint _TemplatePrint)
         {
             NguyenLieu = _NguyenLieu;
             DVT = _DVT;
             LoaiSP = _LoaiSP;
+            TemplatePrint = _TemplatePrint;
         }
         //
         // GET: /CMS_Sale/Warehouse/
@@ -217,6 +220,59 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 return RedirectToAction("Index");
             }
             return View();
+        }
+        public ActionResult Print(string name,bool ExportExcel)
+        {
+            var model = TemplatePrint.SelectById(1);
+            IEnumerable<NguyenLieuViewModel> modellist = NguyenLieu.SelectAll().Where(x => x.IsDelete != true).Select(
+               item => new NguyenLieuViewModel
+               {
+                   Id = item.Id,
+                   TenLoai = item.LoaiSP.Ten,
+                   IdLoai = item.IdLoai,
+                   Ten = item.Ten,
+                   HinhAnh = item.HinhAnh,
+                   TenDVT = item.DonViTinh.Ten,
+                   IdDVT = item.IdDVT,
+                   DonGia = item.DonGia,
+                   SoLuongKho = item.SoLuongKho,
+                   IsDelete = item.IsDelete,
+                   NgayNhap = item.NgayNhap
+               }).OrderByDescending(x => x.NgayTao);
+            model.Content = model.Content.Replace("{Table}", BuildHtml(modellist));
+            model.Content = model.Content.Replace("{NamePrint}", "Danh sach kho hang");
+            if (ExportExcel)
+            {
+                Response.AppendHeader("content-disposition", "attachment;filename=" + DateTime.Now.ToString("yyyyMMdd") + "Nguyenlieu" + ".xls");
+                Response.Charset = "";
+                Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.Write(model.Content);
+                Response.End();
+            }
+            return View(model);
+        }
+        string BuildHtml(IEnumerable<NguyenLieuViewModel> ls)
+        {
+            var i = 1;
+            string list = "<thead><tr>";
+            list = "<th>STT</th><th class=\"desc\">Mã</th>\r\n";
+            list += " <th>Ngày nhập</th><th>Tên</th><th>Tên loại</th><th>ĐVT</th><th>Số lượng kho</th><th>Đơn giá</th></thead><tbody>\r\n";
+            foreach (var item in ls)
+            {
+                list += "<tr><td class=\"service\">" + i + "</td>\r\n";
+                list += "<td class=\"desc\">" + item.Id + "</td>\r\n";
+                list += " <td class=\"unit\">" + item.NgayNhap + "</td>\r\n";
+                list += " <td class=\"qty\">" + item.Ten + "</td>\r\n";
+                list += " <td class=\"qty\">" + item.TenLoai + "</td>\r\n";
+                list += "<td class=\"total\">" + item.TenDVT + "</td>\r\n";
+                list += "<td class=\"total\">" + item.SoLuongKho + "</td>\r\n";
+                list += "<td class=\"total\">" + item.DonGia + "</td>\r\n";
+                list += "</tr>\r\n";
+                i++;
+            }
+            list += "<tr><td colspan=\"8\"class=\"grand total\"></td>\r\n";
+            return list;
         }
     }
 }

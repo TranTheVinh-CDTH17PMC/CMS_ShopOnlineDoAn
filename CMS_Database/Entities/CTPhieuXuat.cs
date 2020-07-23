@@ -22,6 +22,5 @@ namespace CMS_Database.Entities
         public virtual PhieuXuat PhieuXuat { get; set; }
 
         public virtual NguyenLieu NguyenLieu { get; set; }
-        public virtual ThanhPham ThanhPham { get; set; }
     }
 }

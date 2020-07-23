@@ -19,17 +19,20 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         private readonly IThanhPham ThanhPham;
         private readonly IDonViTinh DVT;
         private readonly ILoaiSP LoaiSP;
+        private readonly ITemplatePrint TemplatePrint;
         public ProductsController()
         {
             ThanhPham = new ThanhPhamRepository();
             DVT = new DonViTinhRepository();
             LoaiSP = new LoaiSPRepository();
+            TemplatePrint = new TemplatePrintRepository();
         }
-        public ProductsController(IThanhPham _ThanhPham, IDonViTinh _DVT, ILoaiSP _LoaiSP)
+        public ProductsController(IThanhPham _ThanhPham, IDonViTinh _DVT, ILoaiSP _LoaiSP, ITemplatePrint _TemplatePrint)
         {
             ThanhPham = _ThanhPham;
             DVT = _DVT;
             LoaiSP = _LoaiSP;
+            TemplatePrint = _TemplatePrint;
         }
         //
         // GET: /CMS_Sale/Products/
@@ -193,5 +196,54 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             }
             return View();
         }
-	}
+        public ActionResult Print(string name, bool ExportExcel)
+        {
+            var model = TemplatePrint.SelectById(1);
+            IEnumerable<ThanhPhamViewModel> modellist = ThanhPham.SelectAll().Where(x => x.IsDelete != true).Select(
+               item => new ThanhPhamViewModel
+               {
+                   Id = item.Id,
+                   TenLoai = item.LoaiSP.Ten,
+                   IdLoai = item.IdLoai,
+                   Ten = item.Ten,
+                   HinhAnh = item.HinhAnh,
+                   TenDVT = item.DonViTinh.Ten,
+                   IdDVT = item.IdDVT,
+                   DonGia = item.DonGia,
+                   IsDelete = item.IsDelete
+               }).OrderByDescending(x => x.NgayTao);
+            model.Content = model.Content.Replace("{Table}", BuildHtml(modellist));
+            model.Content = model.Content.Replace("{NamePrint}", "Danh sach thanh pham");
+            if (ExportExcel)
+            {
+                Response.AppendHeader("content-disposition", "attachment;filename=" + DateTime.Now.ToString("yyyyMMdd") + "ThanhPham" + ".xls");
+                Response.Charset = "";
+                Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.Write(model.Content);
+                Response.End();
+            }
+            return View(model);
+        }
+        string BuildHtml(IEnumerable<ThanhPhamViewModel> ls)
+        {
+            var i = 1;
+            string list = "<thead><tr>";
+            list = "<th>STT</th><th class=\"desc\">Mã</th>\r\n";
+            list += "<th>Tên</th><th>Tên loại</th><th>ĐVT</th><th>Đơn giá</th></thead><tbody>\r\n";
+            foreach (var item in ls)
+            {
+                list += "<tr><td class=\"service\">" + i + "</td>\r\n";
+                list += "<td class=\"desc\">" + item.Id + "</td>\r\n";
+                list += " <td class=\"qty\">" + item.Ten + "</td>\r\n";
+                list += " <td class=\"qty\">" + item.TenLoai + "</td>\r\n";
+                list += "<td class=\"total\">" + item.TenDVT + "</td>\r\n";
+                list += "<td class=\"total\">" + item.DonGia + "</td>\r\n";
+                list += "</tr>\r\n";
+                i++;
+            }
+            list += "<tr><td colspan=\"6\"class=\"grand total\"></td>\r\n";
+            return list;
+        }
+    }
 }

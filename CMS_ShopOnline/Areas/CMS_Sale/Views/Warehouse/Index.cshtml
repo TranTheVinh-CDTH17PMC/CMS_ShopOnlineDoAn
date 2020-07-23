@@ -92,6 +92,8 @@
                         <div class="order-search" style="margin: 10px 0px; position: relative;">
                             <input type="text" class="form-control ui-autocomplete-input" onkeyup="filterFunction()" placeholder="Nhập mã hoặc tên..." id="search-pro-box" autocomplete="off">
                         </div>
+                        <button type="button" class="btn btn-primary" onclick="openpoupmy(false);">PDF</button>
+                        <button type="button" class="btn btn-primary" onclick="openpoupmy(true);">Excel</button>
                     </div>
                 </div>
                 @using (Html.BeginForm("Delete", "Warehouse", FormMethod.Post))
@@ -192,6 +194,14 @@
     </div>*@
     <!-- Sidebar -->
 </div>
+<script>
+    function openpoupmy(value) {
+        newwindow = window.open('/CMS_Sale/Warehouse/Print?name=abc&ExportExcel='+value+'', 'print', 'height=500,width=500');
+                setTimeout(function () {
+                }, 500);
+            }
+
+</script>
 <script>
     $(".tablinks").click(function () {
         $(this).siblings().removeClass('active')

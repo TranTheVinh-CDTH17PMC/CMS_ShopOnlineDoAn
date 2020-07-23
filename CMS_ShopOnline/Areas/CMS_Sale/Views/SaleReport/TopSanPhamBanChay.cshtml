@@ -1,0 +1,144 @@
+﻿@using CMS_Database.Entities
+@using PagedList.Mvc;
+@model PagedList.IPagedList<TopSanPhamBanChay>
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "TopSanPhamBanChay";
+    Layout = "~/Views/Shared/ACE_Layout.cshtml";
+    var i = 1;
+    DateTime aDateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+    // Cộng thêm 1 tháng và trừ đi một ngày.
+    DateTime retDateTime = aDateTime.AddDays(7).AddDays(-1);
+}
+@helper Delete(bool? Status)
+{
+    if (Status == false)
+    {
+            <span class="badge badge-primary">Hoạt động</span>
+    }
+    if (Status == true)
+    {
+            <span class="badge badge-info">Ngừng Hoạt động</span>
+    }       
+}
+<div class="container-fluid" id="container-wrapper">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Top 5 sản phẩm bán chạy</h1>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="./">Trang chủ</a></li>
+            <li class="breadcrumb-item">Quản lý</li>
+            <li class="breadcrumb-item active" aria-current="page"></li>
+        </ol>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 mb-4">
+            <!-- Simple Tables -->
+            <div class="card">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <div class="col-md-8">
+                        @using (Html.BeginForm("TopSanPhamBanChay", "SaleReport", FormMethod.Get))
+                        {
+                            <div class="order-search" style="margin: 10px 0px; position: relative;display:flex">
+                                <span class="input-daterange input-group date" style="margin-right:5px">
+                                    @Html.TextBox("StartDate", Request["StartDate"] != null ? Request["StartDate"] : aDateTime.ToString("dd/MM/yyyy"), new { @class = "form-control form_datetime", autocomplete = "off", placeholder = "Từ ngày", @type = "date" })
+                                    <span class="input-group-addon" style="padding: 10px;">
+                                        <i class="fa fa-exchange"></i>
+                                    </span>
+                                    @Html.TextBox("EndDate", Request["EndDate"] != null ? Request["EndDate"] : retDateTime.ToString("dd/MM/yyyy"), new { @class = "form-control form_datetime", autocomplete = "off", placeholder = "Đến ngày", @type = "date" })
+                                </span>
+                                <button type="submit" class="btn btn-primary">Search</button>
+                                <button type="button" class="btn btn-primary" onclick="openpoupmy(false);">PDF</button>
+                                <button type="button" class="btn btn-primary" onclick="openpoupmy(true);">Excel</button>
+                                @*<input type="text" class="form-control ui-autocomplete-input" onkeyup="filterFunction()" placeholder="Nhập mã phiếu hoặc tên khách hàng..." id="search-pro-box" autocomplete="off">*@
+                            </div>
+
+                        }
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <div class="grid-mvc" data-lang="en" data-gridname="" data-selectable="true" data-multiplefilters="false">
+                        <div class="grid-wrap">
+                            <table class="table table-striped grid-table" id="table-grid">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>STT</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>Mã</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>Tên</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>Đơn giá</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>ĐVT</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>Loại</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>Tổng số lượng</span>
+                                            </div>
+                                        </th>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr class="grid-row ">
+                                            <td class="grid-cell" data-name="">@i</td>
+                                            <td class="grid-cell" data-name="">
+                                                <span>@item.Id</span>
+                                            </td>
+                                            <td class="grid-cell" data-name="TenNV">@item.Ten</td>
+                                            <td class="grid-cell" data-name="TenNV">@item.DonGia</td>
+                                            <td class="grid-cell" data-name="TenKH">@item.IdDVT</td>
+                                            <td class="grid-cell" data-name="TongTien">@item.IdLoai</td>
+                                            <td class="grid-cell" data-name="GhiChu">@item.Tongsl</td>
+                                        </tr>
+                                        i++;
+                                    }
+                                </tbody>
+                            </table>
+                            <div class="grid-footer">
+                                <div class="grid-pager">
+                                    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) trên @Model.PageCount
+                                    @Html.PagedListPager(Model, page => Url.Action("Index",
+                                    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Row-->
+</div>
+<script>
+    function openpoupmy(value) {
+        debugger
+        var sd = $("#StartDate").val();
+        var ed = $("#EndDate").val();
+        newwindow = window.open('/CMS_Sale/SaleReport/ExportToExcel?name=spbanchay&StartDate=' + sd + '&EndDate=' + ed + '&ExportExcel=' + value + '', 'print', 'height=500,width=500');
+
+                setTimeout(function () {
+                }, 500);
+            }
+
+</script>

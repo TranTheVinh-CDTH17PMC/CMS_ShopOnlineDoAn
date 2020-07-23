@@ -1,9 +1,11 @@
-﻿using CMS_Database.Interfaces;
+﻿using CMS_Database.Entities;
+using CMS_Database.Interfaces;
 using CMS_Database.Repositories;
 using CMS_ShopOnline.Areas.Administration.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using WebMatrix.WebData;
@@ -13,9 +15,39 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
     public class UserController : Controller
     {
         private readonly INhanVien _NhanVien = new NhanVienRepository();
+        private readonly IPhanQuyen _PhanQuyen = new PhanQuyenRepository();
+        private readonly IListController _ListController = new ListControllerRepository();
+        private readonly ILoaiNV _LoaiNV = new LoaiNVRepository();
         // GET: CMS_Sale/NhanVien
         public ActionResult Login()
         {
+            Assembly asm = Assembly.GetExecutingAssembly();
+
+            var controllerTypes = from t in asm.GetExportedTypes()
+                                  where typeof(IController).IsAssignableFrom(t)
+                                  select t;
+            foreach(var item in controllerTypes)
+            {
+                var ctl = new ListController();
+                ctl.ControllerName = item.Name.Replace("Controller", "");
+                ctl.IsDelete = false;
+                _ListController.Insert(ctl);
+                _ListController.Save();
+            }
+            var getlistctl = _ListController.SelectAll().Where(x => x.IsDelete != true);
+            var getlistrole = _LoaiNV.SelectAll().Where(x => x.IsDelete != true);
+            foreach(var itemrole in getlistrole)
+            {
+                foreach(var itemctl in getlistctl)
+                {
+                    var pq = new PhanQuyen();
+                    pq.IdControllerName = itemctl.Id;
+                    pq.IdRole = itemrole.Id;
+                    pq.IsDelete = false;
+                    _PhanQuyen.Insert(pq);
+                    _PhanQuyen.Save();
+                }
+            }
             return View();
         }
         [HttpPost]
@@ -69,5 +101,6 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
 
             return RedirectToAction("Login", "User", new { @area = "Administration" });
         }
+      
     }
 }

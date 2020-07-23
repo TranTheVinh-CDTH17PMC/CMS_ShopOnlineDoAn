@@ -65,9 +65,9 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">BÁO CÁO</h6>
                 <a class="collapse-item" href="simple-tables.html">Doanh số</a>
-                <a class="collapse-item" href="datatables.html">Hàng hóa</a>
-                <a class="collapse-item" href="datatables.html">Tồn kho</a>
-                <a class="collapse-item" href="datatables.html">Lợi nhuận</a>
+                <a class="collapse-item" href="@Url.Action("BaoCaoTonKho", "SaleReport", new { area ="CMS_Sale" })"> Báo Cáo Tồn kho</a>
+                <a class="collapse-item" href="@Url.Action("TopSanPhamBanChay", "SaleReport", new { area ="CMS_Sale" })">Sản phẩm bán chạy</a>
+                <a class="collapse-item" href="@Url.Action("TopSanPhamKhongBanChay", "SaleReport", new { area ="CMS_Sale" })">Sản phẩm bán chậm</a>
                 <a class="collapse-item" href="datatables.html">Lãi lỗ</a>
             </div>
         </div>
@@ -86,7 +86,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Nhân viên</h6>
                 <a class="collapse-item" href="@Url.Action("Index", "Staff", new { area ="CMS_Staff" })">Nhân viên</a>
-                <a class="collapse-item" href="login.html">Cửa hàng</a>
+                <a class="collapse-item" href="@Url.Action("Index", "Setting", new { area ="Administration" })">Phân quyền</a>
                 <a class="collapse-item" href="register.html">Bán hàng</a>
                 <a class="collapse-item" href="404.html">Mẫu in</a>
                 <a class="collapse-item" href="blank.html">Gói dịch vụ</a>
