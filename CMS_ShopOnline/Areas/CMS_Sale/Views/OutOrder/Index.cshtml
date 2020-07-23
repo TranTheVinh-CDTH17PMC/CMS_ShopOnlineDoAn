@@ -1,0 +1,152 @@
+﻿@using CMS_ShopOnline.Areas.CMS_Sale.Models
+@using PagedList.Mvc;
+@model PagedList.IPagedList<PhieuXuatViewModel>
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/ACE_Layout.cshtml";
+}
+
+@helper CheckDate(DateTime date)
+{
+    @date.Date.ToString("dd/MM/yyyy")
+}
+@helper Delete(bool? Status)
+{
+if (Status == false)
+{
+        <span class="badge badge-primary">Hoạt động</span>
+}
+}
+<div class="container-fluid" id="container-wrapper">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div style="display:flex">
+            <h1 class="h3 mb-0 text-gray-800">Xuất hàng</h1>
+            <a href="@Url.Action("Create", "OutOrder", new { area ="CMS_Sale" })">
+                <button type="button" class="btn btn-primary" title="Thêm phiếu xuất" style="margin-left:10px">
+                    Thêm mới <i class="fa fa-plus-circle"></i>
+                </button>
+            </a>
+        </div>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="./">Trang chủ</a></li>
+            <li class="breadcrumb-item">Quản lý</li>
+            <li class="breadcrumb-item active" aria-current="page">Xuất hàng</li>
+        </ol>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 mb-4">
+            <!-- Simple Tables -->
+            <div class="card">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <div class="col-md-8">
+                        <div class="order-search" style="margin: 10px 0px; position: relative;">
+                            <input type="text" class="form-control ui-autocomplete-input" onkeyup="filterFunction()" placeholder="Nhập mã phiếu..." id="search-pro-box" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <div class="grid-mvc" data-lang="en" data-gridname="" data-selectable="true" data-multiplefilters="false">
+                        <div class="grid-wrap">
+                            <table class="table table-striped grid-table" id="table-grid">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>Mã</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>Ngày xuất</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>Nhân viên</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>Tổng tiền</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>Ghi chú</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>Trạng thái</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header text center">
+                                            <div class="grid-header-title">
+                                                <span>Tùy chỉnh</span>
+                                            </div>
+                                        </th>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr class="grid-row ">
+                                            <td class="grid-cell" data-name="">
+                                                <span>PX @item.Id</span>
+                                            </td>
+                                            <td class="grid-cell" data-name="NgayNhap">@CheckDate(item.NgayTao)</td>
+                                            <td class="grid-cell" data-name="NhanVien">@item.TenNV</td>
+                                            <td class="grid-cell" data-name="TongTien">@item.TongTien</td>
+                                            <td class="grid-cell" data-name="GhiChu">@item.GhiChu</td>
+                                            <td class="grid-cell" data-name="TrangThai">@Delete(item.IsDelete)</td>
+                                            <td class="grid-cell text center" data-name="">
+                                                <a href="/Crm/Supplier/Edit/1">
+                                                    <button class="btn btn-primary" title="Chỉnh sửa" type="button">
+                                                        <i class="fas fa-pencil-alt"></i>
+                                                    </button>
+                                                </a>
+                                                <a href="/CMS_Sale/OutOrder/Details/@item.Id">
+                                                    <button class="btn btn-success" title="Xem chi tiết" type="button">
+                                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                                    </button>
+                                                </a>
+                                                <button class="btn btn-warning" title="Xóa phiếu xuất" style="margin:-2px" name="IdDelete" type="submit" value="1" onclick="return ConfirmDelete()">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                            <div class="grid-footer">
+                                <div class="grid-pager">
+                                    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) trên @Model.PageCount
+                                    @Html.PagedListPager(Model, page => Url.Action("Index",
+                                    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Row-->
+</div>
+<script src="~/scripts/jquery.signalR-2.4.1.min.js"></script>
+<script src="~/signalr/hubs"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+    function ConfirmDelete() {
+        var x = confirm("Bạn có chắc muốn xóa item đã chọn ?");
+        if (x)
+            return true;
+        else
+            return false;
+    }
+</script>
+

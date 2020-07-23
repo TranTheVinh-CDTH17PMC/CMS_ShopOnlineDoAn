@@ -176,7 +176,7 @@ function SelectProducts(id)
             {
                 var html = "";
                 $.each(data, function (key, item) {
-                    html += '<tr data-id="' + item.Id + '"><td id="'+item.Id+'"><span class="sn">'+count+'</span></td>';
+                    html += '<tr data-id="' + item.Id + '"><td id="'+item.Id+'" style="text-align:center"><span class="sn">'+count+'</span></td>';
                     html += '<td style="display:none;"><input class="detail_item_id form-control input-sm" name="ListPOSDetails[' + (count - 1) + '].IdThanhPham"  value="' + item.Id + '"></td>';
                     html += '<td><p type="text">' + item.Ten + '</p></td>';
                     html += '<td><input id="Count_' + item.Id + '" class="detail_item_qty form-control input-sm" type="number" min="1" name="ListPOSDetails[' + (count - 1) + '].SoLuong" value="1"></td>';

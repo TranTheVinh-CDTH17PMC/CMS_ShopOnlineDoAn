@@ -40,9 +40,52 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             TemplatePrint = _TemplatePrint;
         }
         // GET: CMS_Sale/OutOrder
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            return View();
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.CurrentFilter = searchString;
+            IEnumerable<PhieuXuatViewModel> model = PhieuXuat.SelectAll().Where(x => x.IsDelete != true).Select(
+                item => new PhieuXuatViewModel
+                {
+                    Id = item.Id,
+                    IdNhanVien = item.IdNhanVien,
+                    NgayTao = item.NgayTao,
+                    TenNV = item.NhanVien.TenNV,
+                    GhiChu = item.GhiChu,
+                    TongTien = item.TongTien,
+                    IsDelete = item.IsDelete
+                }
+            ).ToList().OrderByDescending(x => x.NgayTao);
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(model.ToPagedList(pageNumber, pageSize));
+        }
+        public ActionResult Details(int id)
+        {
+            var px = PhieuXuat.SelectById(id);
+            PhieuXuatViewModel model = new PhieuXuatViewModel();
+            AutoMapper.Mapper.Map(px, model);
+            model.TenNV = px.NhanVien.TenNV;
+            var details = CTPhieuXuat.GetById(px.Id).Select(
+                item => new CTPhieuxuatViewModel
+                {
+                    Id = item.Id,
+                    IdNguyenLieu = item.IdNguyenLieu,
+                    Ten = item.NguyenLieu.Ten,
+                    IdPhieuXuat = item.IdPhieuXuat,
+                    SoLuong = item.SoLuong,
+                    DonGia = item.DonGia,
+                }).ToList();
+            model.ListCTPhieuXuat = details;
+            return View(model);
         }
         public ActionResult Create()
         {

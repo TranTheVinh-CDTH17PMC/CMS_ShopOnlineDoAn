@@ -3186,6 +3186,8 @@
     <Content Include="Areas\CMS_Sale\Views\InOrder\Create.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\InOrder\Details.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\OutOrder\Create.cshtml" />
+    <Content Include="Areas\CMS_Sale\Views\OutOrder\Index.cshtml" />
+    <Content Include="Areas\CMS_Sale\Views\OutOrder\Details.cshtml" />
     <Content Include="Areas\Administration\Views\Setting\Index.cshtml" />
     <Content Include="Areas\Administration\Views\Setting\NotPage.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\SaleReport\TopSanPhamBanChay.cshtml" />

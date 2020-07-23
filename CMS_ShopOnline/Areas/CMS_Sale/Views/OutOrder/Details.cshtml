@@ -1,0 +1,57 @@
+﻿@model CMS_ShopOnline.Areas.CMS_Sale.Models.PhieuXuatViewModel
+@using CMS_ShopOnline.Helpers
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/ACE_Layout.cshtml";
+    int count = 1;
+}
+
+@helper CheckDate(DateTime date)
+{
+    @date.Date.ToString("dd/MM/yyyy")
+}
+<link href="~/Assets/css/DetailsPos.css" rel="stylesheet" />
+<div class="container-fluid" id="container-wrapper">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-3">
+                <div class="p-4 text-center text-white text-lg rounded-top" style="background-color:#FAAC58"><span class="text-uppercase">Mã phiếu xuất - </span><span class="text-medium">@Model.Id</span></div>
+                <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
+                    <div class="w-100 text-center py-1 px-2"><span class="text-medium">Nhân viên xuất:</span> @Model.TenNV</div>
+                    <div class="w-100 text-center py-1 px-2"><span class="text-medium">Tổng tiền:</span> @Model.TongTien</div>
+                    <div class="w-100 text-center py-1 px-2"><span class="text-medium">Ngày tạo:</span> @CheckDate(Model.NgayTao)</div>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Mã PX </th>
+                                <th scope="col">Tên nguyên liệu</th>
+                                <th scope="col">Số lượng</th>
+                                <th scope="col">Đơn giá </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ListCTPhieuXuat)
+                            {
+
+                                <tr>
+                                    <th scope="row">@count</th>
+                                    <td>@item.IdPhieuXuat</td>
+                                    <td>@item.Ten</td>
+                                    <td>@item.SoLuong</td>
+                                    <td>@item.DonGia</td>
+                                </tr>
+                                count++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
