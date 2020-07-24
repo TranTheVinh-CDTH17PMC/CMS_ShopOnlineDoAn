@@ -7,6 +7,7 @@
     .card .table td, .card .table th {
         padding-right: 0;
     }
+    
 </style>
 @{
     ViewBag.Title = "Index";
@@ -26,19 +27,19 @@ if (Status == false)
 @helper ButtonEdit(int Id)
 {
     <a href="@Url.Action("Edit","InOrder",new { @Id = Id })">
-        <button class="btn btn-primary" title="Chỉnh sửa" style="margin-left:-8px;margin-right:9px;" type="button"><i class="fas fa-pencil-alt"></i></button>
+        <button class="btn btn-primary" title="Chỉnh sửa" style="margin-left:-19px;margin-right:3px;" type="button"><i class="fas fa-pencil-alt"></i></button>
     </a>
 }
 @helper ButtonDetails(int Id)
 {
     <a href="@Url.Action("Details","InOrder",new { @Id = Id })">
-        <button class="btn btn-success" title="Chi tiết" style="margin-left:-8px;margin-right:9px;" type="button"><i class="fa fa-eye" aria-hidden="true"></i></button>
+        <button class="btn btn-success" title="Chi tiết" style="margin-right:3px;" type="button"><i class="fa fa-eye" aria-hidden="true"></i></button>
     </a>
 }
 
 @helper ButtonDelete(int Id)
 {
-    <button class="btn btn-warning" title="Ngừng kinh doanh" style="margin:-2px" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmDelete()"> <i class="fas fa-trash-alt"></i></button>
+    <button class="btn btn-warning" title="Ngừng kinh doanh" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmDelete()"> <i class="fas fa-trash-alt"></i></button>
 }
 
 @helper Ma(int Id)
@@ -52,7 +53,7 @@ if (Status == false)
         <h1 class="h3 mb-0 text-gray-800">Nhập hàng</h1>
         <a href="@Url.Action("Create", "InOrder", new { area ="CMS_Sale" })">
             <button type="button" class="btn btn-primary" title="Thêm phiếu nhập" style="margin-left:10px">
-                Thêm mới <i class="fa fa-plus-circle"></i>
+                Thêm mới <i class="fa fa-plus"></i>
             </button>
         </a>
     </div>
@@ -66,36 +67,42 @@ if (Status == false)
     <div class="col-lg-12 mb-4">
         <!-- Simple Tables -->
         <div class="card">
-            @using(Html.BeginForm("Index", "InOrder", FormMethod.Get))
+            @using (Html.BeginForm("Index", "InOrder", FormMethod.Get))
             {
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between" >
-                    <div class="col-md-8">
-                            <div class="order-search" style="margin: 10px 0px; position: relative;display:flex">
-                                <input type="text" class="form-control" placeholder="Nhập mã phiếu..." id="search-pro-box" autocomplete="off" name="name">
-                                <select class="form-control" name="idncc" id="idncc">
-                                    <option value="">Nhà cung cấp</option>
-                                    @foreach (var item in ViewBag.ncc)
-                                    {
-                                        <option value="@item.Id">@item.Ten</option>
-                                    }
-                                </select>
-                                <select class="form-control" name="idnv" id="idnv">
-                                    <option value="">Nhân viên</option>
-                                    @foreach (var item in ViewBag.nhanvien)
-                                    {
-                                        <option value="@item.Id">@item.TenNV</option>
-                                    }
-                                </select>  
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <div class="col-md-8">
-                    <div class="order-search" style="margin: 10px 0px; position: relative;">
-                        <input type="text" class="form-control ui-autocomplete-input" onkeyup="filterFunction()" placeholder="Nhập mã phiếu..." id="search-pro-box" autocomplete="off">
+                    <div class="col-md-3">
+                        <div class="order-search" style="margin: 10px 0px; position: relative;display:flex">
+                            <input type="text" class="form-control" placeholder="Nhập mã phiếu..." id="search-pro-box" autocomplete="off" name="name">
+                        </div>
                     </div>
-                </div>
-                <button type="button" class="btn btn-primary" onclick="openpoupmy(false);">PDF</button>
-                <button type="button" class="btn btn-primary" onclick="openpoupmy(true);">Excel</button>
-            </div>
-            <div class="table-responsive">
+                    <div class="col-md-3">
+                        <select class="form-control" name="idncc" id="idncc">
+                            <option value="">Nhà cung cấp</option>
+                            @foreach (var item in ViewBag.ncc)
+                            {
+                                <option value="@item.Id">@item.Ten</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-control" name="idnv" id="idnv">
+                            <option value="">Nhân viên</option>
+                            @foreach (var item in ViewBag.nhanvien)
+                            {
+                                <option value="@item.Id">@item.TenNV</option>
+                            }
+                        </select>
+                    </div>
+                        @*<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <div class="col-md-8">
+                <div class="order-search" style="margin: 10px 0px; position: relative;">
+                    <input type="text" class="form-control ui-autocomplete-input" onkeyup="filterFunction()" placeholder="Nhập mã phiếu..." id="search-pro-box" autocomplete="off">*@
+                    <button type="submit" class="btn btn-primary" style="width: 8%;border: 1px solid grey;border-left: none;"><i class="fa fa-search"></i></button>
+                    <button type="button" class="btn btn-primary" onclick="openpoupmy(false);"><i class="fa fa-file-pdf-o" style="font-size:16px"> PDF</i></button>
+                    <button type="button" class="btn btn-primary" onclick="openpoupmy(true);"><i class="fa fa-file-excel-o" style="font-size:16px"> Excel</i></button>
+                    </div>
+            
+            @*<div class="table-responsive">
                 <div class="grid-mvc" data-lang="en" data-gridname="" data-selectable="true" data-multiplefilters="false">
                     <div class="grid-wrap">
                         <table class="table table-striped grid-table" id="table-grid">
@@ -174,40 +181,40 @@ if (Status == false)
                                 }
 
                             </tbody>
-                        </table>
+                        </table>*@
                         <div class="grid-footer">
-                            <div class="grid-pager">
+                            @*<div class="grid-pager">
                                 Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) trên @Model.PageCount
                                 @Html.PagedListPager(Model, page => Url.Action("Index",
                                     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
-                            </div>
-                        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                            </div>*@
+                        @*<button type="submit" class="btn btn-primary">Tìm kiếm</button>
                         <button type="button" class="btn btn-primary" onclick="openpoupmy(false);">PDF</button>
-                        <button type="button" class="btn btn-primary" onclick="openpoupmy(true);">Excel</button>
+                        <button type="button" class="btn btn-primary" onclick="openpoupmy(true);">Excel</button>*@
                     </div>
-                </div>
+               
             }
             <div class="table-responsive">
                 @Html.Grid(Model).Columns(columns =>
            {
-               columns.Add().Titled("Mã").SetWidth(5).Sanitized(false).Encoded(false).RenderValueAs(x => Ma(x.Id));
+               columns.Add().Titled("Mã").Sanitized(false).Encoded(false).RenderValueAs(x => Ma(x.Id));
                columns.Add(x => x.NgayTao).Sanitized(false).Titled("Ngày tạo").Format("{0:dd/MM/yyyy}");
                columns.Add(x => x.TenNV).Titled("Nhân viên");
                columns.Add(x => x.Ten).Titled("Nhà CC");
                columns.Add(x => x.TongTien).Titled("Tổng tiền").Sortable(true);
                columns.Add().Titled("Trạng thái").Sanitized(false).Encoded(false).RenderValueAs(x => Delete(x.IsDelete));
-               columns.Add().Titled("Tùy chỉnh").Css("text center")
+               columns.Add().Titled("Tùy chỉnh").Css("style = display:flex")
                   .Encoded(false)
                   .Sanitized(false)
-                  .SetWidth(100)
-                  .RenderValueAs(x => (ButtonEdit(x.Id)).ToString() + (ButtonDelete(x.Id)).ToString() + (ButtonDetails(x.Id)).ToString());
+                  .SetWidth(150)
+                  .RenderValueAs(x => (ButtonEdit(x.Id)).ToString() + (ButtonDetails(x.Id)).ToString() + (ButtonDelete(x.Id)).ToString());
            }).WithPaging(5)
             </div>
         </div>
     </div>
 </div>
-<!--Row-->
 </div>
+<!--Row-->
 <script src="~/scripts/jquery.signalR-2.4.1.min.js"></script>
 <script src="~/signalr/hubs"></script>
 <script>
