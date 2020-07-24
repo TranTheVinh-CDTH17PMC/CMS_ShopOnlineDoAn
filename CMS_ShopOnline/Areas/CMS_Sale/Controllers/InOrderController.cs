@@ -232,7 +232,10 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 Response.Charset = "";
                 Response.Cache.SetCacheability(HttpCacheability.NoCache);
                 Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title></head ><body>";
+                Response.Write(html);
                 Response.Write(model.Content);
+                Response.Write("</body></html>");
                 Response.End();
             }
             return View(model);

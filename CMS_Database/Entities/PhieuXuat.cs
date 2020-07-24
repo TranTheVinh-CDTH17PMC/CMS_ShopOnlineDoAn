@@ -27,7 +27,6 @@ namespace CMS_Database.Entities
         public DateTime NgayTao { get; set; }
 
         public double? TongTien { get; set; }
-        public string TrangThai { get; set; }
         public bool? IsDelete { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
