@@ -213,8 +213,12 @@ namespace CMS_ShopOnline.Areas.CMS_Staff.Controllers
             LoaiNV.Save();
             return View();
         }
-        public ActionResult EditType()
+        public ActionResult EditType(int ?id)
         {
+            var model = new LoainvViewModel();
+            var lnv = LoaiNV.SelectById(id);
+            model.TenLoai = lnv.TenLoai;
+            model.Id = lnv.Id;
             return View();
         }
         public ActionResult EditType(LoainvViewModel model)
@@ -224,6 +228,18 @@ namespace CMS_ShopOnline.Areas.CMS_Staff.Controllers
             lnv.IsDelete = false;
             LoaiNV.Update(lnv);
             LoaiNV.Save();
+            return View();
+        }
+        public ActionResult DeleteType(string IdDelete)
+        {
+            var _nv = LoaiNV.SelectById(int.Parse(IdDelete));
+            if (_nv != null)
+            {
+                _nv.IsDelete = true;
+                LoaiNV.Update(_nv);
+                LoaiNV.Save();
+                return RedirectToAction("Index");
+            }
             return View();
         }
     }
