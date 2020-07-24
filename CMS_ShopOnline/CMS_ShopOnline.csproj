@@ -3331,6 +3331,7 @@
     <Compile Include="Areas\CMS_Sale\Models\ThanhPhamViewModel.cs" />
     <Compile Include="Areas\CMS_Sale\Models\TypeViewModel.cs" />
     <Compile Include="Areas\CMS_Sale\Models\UnitViewModel.cs" />
+    <Compile Include="Areas\CMS_Staff\Controllers\UserTypeController.cs" />
     <Compile Include="Areas\CMS_Staff\Models\NhanVienViewModel.cs" />
     <Compile Include="Areas\Crm\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Crm\Controllers\SupplierController.cs" />
@@ -3379,6 +3380,7 @@
     <Folder Include="Areas\CMS_Account\Views\Shared\" />
     <Folder Include="Areas\CMS_Sale\Image\SanPham\" />
     <Folder Include="Areas\CMS_Staff\Views\Shared\" />
+    <Folder Include="Areas\CMS_Staff\Views\UserType\" />
     <Folder Include="Areas\Crm\Views\Shared\" />
     <Folder Include="Assets\music\" />
     <Folder Include="Assets\public\templates\upload\.thumbs\image\" />

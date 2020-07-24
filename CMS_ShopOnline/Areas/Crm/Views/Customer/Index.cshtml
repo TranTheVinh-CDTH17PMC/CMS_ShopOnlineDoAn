@@ -53,8 +53,9 @@
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <div class="col-md-8">
                         <div class="order-search" style="margin: 10px 0px; position: relative;">
-                            @Html.TextBox("txtCode", Request["txtCode"], new { @class = "form-control ui-autocomplete-input", autocomplete = "off", placeholder = "Nhập tên khách hàng..." })
+                            @Html.TextBox("txtCode", Request["txtCode"], new { @class = "form-control ui-autocomplete-input", autocomplete = "off", placeholder = "Nhập tên mã,tên hoặc sdt..." })
                         </div>
+                        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
                     </div>
                 </div>
             }
@@ -68,7 +69,7 @@
                        columns.Add(x => x.NgayTao).Sanitized(false).Titled("Ngày tạo").Format("{0:dd/MM/yyyy}");
                        columns.Add(x => x.TenNV).Titled("Nhân viên tạo");
                        columns.Add(x => x.SDT).Titled("Số điện thoại");
-                       columns.Add(x => x.TongTien).Titled("Tổng tiền");
+                       columns.Add(x => x.TongTien).Titled("Tổng tiền").Sortable(true);
                        columns.Add().Titled("Trạng thái").Sanitized(false).Encoded(false).RenderValueAs(x => Delete(x.IsDelete));
                        columns.Add().Titled("Tùy chỉnh").Css("text center")
                        .Encoded(false)

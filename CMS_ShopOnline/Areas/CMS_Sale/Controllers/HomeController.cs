@@ -72,18 +72,18 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             {
                 tongtienchihn += +item.TongTien;
             }
-            var tongthu = HoaDon.SelectAll().Where(x => x.NgayTao >= endDate && x.NgayTao <= startDate);
+            var tongthu = HoaDon.SelectAll().Where(x => x.NgayTao >= endDate && x.NgayTao <= startDate || x.NgayTao >= datenow);
             
             foreach (var item in tongthu)
             {
                 tongtienthu += + item.TongTien;
             }
-            var tongchi = PhieuNhap.SelectAll().Where(x => x.NgayTao >= endDate && x.NgayTao <= startDate);
+            var tongchi = PhieuNhap.SelectAll().Where(x => x.NgayTao >= endDate && x.NgayTao <= startDate || x.NgayTao >= datenow);
             foreach (var item in tongchi)
             {
                 tongtienchi += +item.TongTien;
             }
-            ViewBag.tongdonhang = HoaDon.SelectAll().Where(x => x.NgayTao >= endDate && x.NgayTao <= startDate).Count();
+            ViewBag.tongdonhang = HoaDon.SelectAll().Where(x => x.NgayTao >= endDate && x.NgayTao <= startDate || x.NgayTao >= datenow).Count();
             ViewBag.countHangCon = NguyenLieu.SelectAll().Where(x => x.SoLuongKho > 0).Count();
             ViewBag.tonghang = NguyenLieu.SelectAll().Count();
             ViewBag.tongthu = tongtienthu;
