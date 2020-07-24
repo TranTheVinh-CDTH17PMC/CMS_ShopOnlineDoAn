@@ -86,14 +86,20 @@ if (Status == false)
                                         <option value="@item.Id">@item.TenNV</option>
                                     }
                                 </select>  
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            </div>
+                        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                        <button type="button" class="btn btn-primary" onclick="openpoupmy(false);">PDF</button>
+                        <button type="button" class="btn btn-primary" onclick="openpoupmy(true);">Excel</button>
+                    </div>
+                </div>
+            }
+            @*<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <div class="col-md-8">
                     <div class="order-search" style="margin: 10px 0px; position: relative;">
                         <input type="text" class="form-control ui-autocomplete-input" onkeyup="filterFunction()" placeholder="Nhập mã phiếu..." id="search-pro-box" autocomplete="off">
                     </div>
                 </div>
-                <button type="button" class="btn btn-primary" onclick="openpoupmy(false);">PDF</button>
-                <button type="button" class="btn btn-primary" onclick="openpoupmy(true);">Excel</button>
+               
             </div>
             <div class="table-responsive">
                 <div class="grid-mvc" data-lang="en" data-gridname="" data-selectable="true" data-multiplefilters="false">
@@ -185,8 +191,8 @@ if (Status == false)
                         <button type="button" class="btn btn-primary" onclick="openpoupmy(false);">PDF</button>
                         <button type="button" class="btn btn-primary" onclick="openpoupmy(true);">Excel</button>
                     </div>
-                </div>
-            }
+                </div>*@
+
             <div class="table-responsive">
                 @Html.Grid(Model).Columns(columns =>
            {

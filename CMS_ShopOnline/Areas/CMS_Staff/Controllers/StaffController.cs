@@ -189,6 +189,42 @@ namespace CMS_ShopOnline.Areas.CMS_Staff.Controllers
             }
             return View();
         }
-
+        public ActionResult IndexType()
+        {
+            IEnumerable<LoainvViewModel> model = LoaiNV.SelectAll().Select(
+                    item => new LoainvViewModel
+                    {
+                        Id = item.Id,
+                        TenLoai = item.TenLoai,
+                        IsDelete = item.IsDelete
+                    }).OrderBy(x => x.IsDelete);
+            return View(model);
+        }
+        public ActionResult CreateType()
+        {
+            return View();
+        }
+        public ActionResult CreateType(LoainvViewModel model)
+        {
+            var lnv = new LoaiNV();
+            lnv.TenLoai = model.TenLoai;
+            lnv.IsDelete = false;
+            LoaiNV.Insert(lnv);
+            LoaiNV.Save();
+            return View();
+        }
+        public ActionResult EditType()
+        {
+            return View();
+        }
+        public ActionResult EditType(LoainvViewModel model)
+        {
+            var lnv = LoaiNV.SelectById(model.Id);
+            lnv.TenLoai = model.TenLoai;
+            lnv.IsDelete = false;
+            LoaiNV.Update(lnv);
+            LoaiNV.Save();
+            return View();
+        }
     }
 }

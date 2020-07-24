@@ -76,8 +76,9 @@
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <div class="col-md-8">
                             <div class="order-search" style="margin: 10px 0px; position: relative;">
-                                @Html.TextBox("txtCode", Request["txtCode"], new { @class = "form-control ui-autocomplete-input", autocomplete = "off", placeholder = "Nhập tên nhà cung cấp..." })
+                                @Html.TextBox("txtCode", Request["txtCode"], new { @class = "form-control ui-autocomplete-input", autocomplete = "off", placeholder = "Nhập tên mã,tên hoặc sdt..." })
                             </div>
+                            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
                         </div>
                     </div>
                 }

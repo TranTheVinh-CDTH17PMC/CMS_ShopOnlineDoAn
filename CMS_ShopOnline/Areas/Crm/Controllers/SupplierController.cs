@@ -53,8 +53,9 @@ namespace CMS_ShopOnline.Areas.Crm.Controllers
                 }).OrderBy(x=>x.Id);
             if (txtCode != null)
             {
-                txtCode = txtCode == "" ? "~" : Helpers.Helper.ChuyenThanhKhongDau(txtCode);
-                model = model.Where(x => x.IsDelete != true && (Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(txtCode)));
+                model = model.Where(x => x.IsDelete != true && (Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(Helpers.Helper.ChuyenThanhKhongDau(txtCode))
+                    || x.Id.ToString().Contains(Helpers.Helper.ChuyenThanhKhongDau(txtCode)))
+                    || (Helpers.Helper.ChuyenThanhKhongDau(x.SDT).Contains(Helpers.Helper.ChuyenThanhKhongDau(txtCode))));
             }
             ViewBag.SuccessMessage = TempData["SuccessMessage"];
             return View(model);
