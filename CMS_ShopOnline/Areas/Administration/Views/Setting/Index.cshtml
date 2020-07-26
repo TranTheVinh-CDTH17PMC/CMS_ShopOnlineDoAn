@@ -1,5 +1,5 @@
 ﻿@using CMS_ShopOnline.Areas.Administration.Models
-@model IEnumerable<PhanQuyenViewModel>
+@model  IEnumerable<PhanQuyenViewModel>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/ACE_Layout.cshtml";
@@ -62,72 +62,95 @@
 @using (Html.BeginForm(FormMethod.Post))
 {
     <div class="container-fluid" id="container-wrapper">
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <div class="table-responsive">
-                <table class="table table-striped grid-table">
-                    <thead class="thead-light">
-                        <tr>
-                            <th>Tên Controller</th>
-                            @foreach (var item in ViewBag.LoaiNV)
-                            {
-                                <th>@item.TenLoai</th>
-                            }
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item1 in Model)
-                        {
-                            <tr>
-                                <td>@item1.ControllerName</td>
-                                @foreach (var item2 in item1.LDetailsPhanQuyen)
-                                {
-                                    <td>
-                                        <label class="custom-control custom-checkbox">
-                                            @if (item2.IsDelete == false)
-                                            {
-                                                <input type="checkbox" class="custom-control-input" value="false" name="LDetailsPhanQuyen[@i].IsDelete" checked="checked" onclick="getValue(@item2.Id,this.value);">
-                                            }
-                                            @if (item2.IsDelete == true)
-                                            {
-                                                <input type="checkbox" class="custom-control-input" value="true" name="LDetailsPhanQuyen[@i].IsDelete" onclick="getValue(@item2.Id,this.value);">
-                                            }
-                                            @*<span class="custom-control-indicator"></span>
-                                        <input type="checkbox" class="custom-control-input" value="true" checked>*@
-                                            <span class="custom-control-indicator"></span>
-                                        </label>
-                                    </td>
-                                    i++;
-                                }
+            <button class="btn btn-mini btn-primary" type="submit" name="Submit" value="" style="margin-bottom: 10px;">
+                <i class="ace-icon fa fa-save"></i> Xác nhận 
+            </button>
 
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <div class="table-responsive">
+                    <table class="table table-striped grid-table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Tên chức năng | Loại tài khoản</th>
+                                @foreach (var item in ViewBag.LoaiNV)
+                                {
+                                    <th>@item.TenLoai<label class="custom-control custom-checkbox"><input id="selectAll" type="checkbox" class="custom-control-input" onclick="selectid(@item.Id)"><span class="custom-control-indicator"></span></label></th>
+                                }
                             </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                        </thead>
+                        <tbody>
+                            @foreach(var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.ControllerName</td>
+                                   @foreach(var item2 in item.DetailsPhanQuyen)
+                                    {
+                                        <td>
+                                            <label class="custom-control custom-checkbox">
+                                                <input name="DetailsPhanQuyen[@i].Id" value="@item2.Id" type="hidden">
+                                                <input name="DetailsPhanQuyen[@i].IdControllerName" value="@item2.IdControllerName" type="hidden">
+                                                <input name="DetailsPhanQuyen[@i].IdRole" value="@item2.IdRole" type="hidden">
+                                                @if (item2.IsDelete == false)
+                                                {
+                                                    <input class="custom-control-input" checked="checked" data-val="true" data-val-required="The IsDelete field is required." id="item2_IsDelete" name="DetailsPhanQuyen[@i].IsDelete" type="checkbox" value="false">
+                                                    <input name="DetailsPhanQuyen[@i].IsDelete" type="hidden" value="true">
+                                                }
+                                                @if (item2.IsDelete == true)
+                                                {
+                                                    <input class="custom-control-input" id="item2_IsDelete" name="DetailsPhanQuyen[@i].IsDelete" type="checkbox" value="false">
+                                                    <input name="DetailsPhanQuyen[@i].IsDelete" type="hidden" value="true">
+                                                }
+                                                @*<span class="custom-control-indicator"></span>
+                                            <input type="checkbox" class="custom-control-input" value="true" checked>*@
+                                                <span class="custom-control-indicator"></span>
+                                            </label>
+                                        </td>
+                                       i++;
+                                   }
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>              
     </div>
 }
-            <script>
-                function getValue(id,value) {
-                    $.ajax({
-                        url: "/Setting/Details/",
-                        dataType: "json",
-                        type: "GET",
-                        contentType: 'application/json; charset=utf-8',
-                        data: { id: id,value:value },
-                        success: function (data) {
-                            response(data);
-                        },
-                        error: function (err) {
+    <script>
 
-                        }
-                    });
-                    //if (value == "true") {
-                    //    $(this).val('false');
-                    //}
-                    //if (value == "false") {
-                    //    $(this).val('true');
-                    //}
+
+
+        $('#selectAll').click(function () {
+            $('#item2_IsDelete[1]').prop('checked', this.checked);
+        });
+        function Value(element)
+        {
+            debugger
+            if (element.value == "True")
+            {
+                $(this).val('False');
+            }
+            else
+            {
+                $(this).val('True');
+            }
+
+        }
+        function getValue(id,value) {
+            $.ajax({
+                url: "/Setting/Details/",
+                dataType: "json",
+                type: "GET",
+                contentType: 'application/json; charset=utf-8',
+                data: { id: id,value:value },
+                success: function (data) {
+                    response(data);
+                },
+                error: function (err) {
+
                 }
-            </script>
+            });
+
+        }
+    </script>
 

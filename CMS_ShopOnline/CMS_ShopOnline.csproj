@@ -3332,6 +3332,7 @@
     <Compile Include="Areas\CMS_Sale\Models\TypeViewModel.cs" />
     <Compile Include="Areas\CMS_Sale\Models\UnitViewModel.cs" />
     <Compile Include="Areas\CMS_Staff\Controllers\UserTypeController.cs" />
+    <Compile Include="Areas\CMS_Staff\Models\LoainvViewModel.cs" />
     <Compile Include="Areas\CMS_Staff\Models\NhanVienViewModel.cs" />
     <Compile Include="Areas\Crm\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Crm\Controllers\SupplierController.cs" />

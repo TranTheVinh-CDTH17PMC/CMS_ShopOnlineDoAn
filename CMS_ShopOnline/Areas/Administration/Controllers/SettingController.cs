@@ -33,7 +33,7 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var model = ListController.SelectAll().Select(
+            IEnumerable<PhanQuyenViewModel> model = ListController.SelectAll().Select(
                 item => new PhanQuyenViewModel
                 {
                     Id = item.Id,
@@ -50,8 +50,14 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
         [HttpPost]
         public ActionResult Index(PhanQuyenViewModel model)
         {
-           
-            return View();
+           foreach(var item in model.DetailsPhanQuyen)
+            {
+                var _pq = PhanQuyen.SelectById(item.Id);
+                _pq.IsDelete = item.IsDelete;
+                PhanQuyen.Update(_pq);
+                PhanQuyen.Save();
+            }
+            return RedirectToAction("Index");
         }
         public IEnumerable<DetailsPhanQuyenViewModel> Getphanquyen(int? name)
         {

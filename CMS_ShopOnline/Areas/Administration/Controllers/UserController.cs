@@ -26,7 +26,7 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
             //var controllerTypes = from t in asm.GetExportedTypes()
             //                      where typeof(IController).IsAssignableFrom(t)
             //                      select t;
-            //foreach(var item in controllerTypes)
+            //foreach (var item in controllerTypes)
             //{
             //    var ctl = new ListController();
             //    ctl.ControllerName = item.Name.Replace("Controller", "");
@@ -36,9 +36,9 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
             //}
             //var getlistctl = _ListController.SelectAll().Where(x => x.IsDelete != true);
             //var getlistrole = _LoaiNV.SelectAll().Where(x => x.IsDelete != true);
-            //foreach(var itemrole in getlistrole)
+            //foreach (var itemrole in getlistrole)
             //{
-            //    foreach(var itemctl in getlistctl)
+            //    foreach (var itemctl in getlistctl)
             //    {
             //        var pq = new PhanQuyen();
             //        pq.IdControllerName = itemctl.Id;
