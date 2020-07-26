@@ -34,7 +34,7 @@
             <h1 class="h3 mb-0 text-gray-800">Khách hàng</h1>
             <a href="@Url.Action("Create", "Customer", new { area ="Crm" })">
                 <button type="button" class="btn btn-primary" title="Thêm khách hàng" style="margin-left:10px">
-                    <i class="fa fa-plus-circle"></i> Thêm
+                    Thêm mới <i class="fa fa-plus"></i> 
                 </button>
             </a>
         </div>
@@ -53,9 +53,11 @@
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <div class="col-md-8">
                         <div class="order-search" style="margin: 10px 0px; position: relative;">
-                            @Html.TextBox("txtCode", Request["txtCode"], new { @class = "form-control ui-autocomplete-input", autocomplete = "off", placeholder = "Nhập tên mã,tên hoặc sdt..." })
+                            @Html.TextBox("txtCode", Request["txtCode"], new { @class = "form-control ui-autocomplete-input", autocomplete = "off", placeholder = "Nhập mã tên khách hàng hoặc số điện thoại..." })
                         </div>
-                        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-primary" style="width: 25%;border: 1px solid grey;border-left: none;"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
             }

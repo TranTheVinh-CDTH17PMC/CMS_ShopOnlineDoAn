@@ -106,7 +106,7 @@ if (Status == false)
                columns.Add().Titled("Mã").Sanitized(false).Encoded(false).RenderValueAs(x => Ma(x.Id));
                columns.Add(x => x.NgayTao).Sanitized(false).Titled("Ngày tạo").Format("{0:dd/MM/yyyy}");
                columns.Add(x => x.TenNV).Titled("Nhân viên");
-               columns.Add(x => x.Ten).Titled("Nhà CC");
+               columns.Add(x => x.Ten).Titled("Nhà cung cấp");
                columns.Add(x => x.TongTien).Titled("Tổng tiền").Sortable(true);
                columns.Add().Titled("Trạng thái").Sanitized(false).Encoded(false).RenderValueAs(x => Delete(x.IsDelete));
                columns.Add().Titled("Tùy chỉnh").Css("style = display:flex")

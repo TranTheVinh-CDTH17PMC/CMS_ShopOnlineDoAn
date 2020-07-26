@@ -228,8 +228,6 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                    DonGia = item.DonGia,
                    IsDelete = item.IsDelete
                }).OrderByDescending(x => x.NgayTao);
-            model.Content = model.Content.Replace("{Table}", BuildHtml(modellist));
-            model.Content = model.Content.Replace("{NamePrint}", "Danh sach thanh pham");
             if (IdLoaiSP != null)
             {
                 modellist = modellist.Where(x => x.IdLoai == IdLoaiSP).ToList();
@@ -250,13 +248,18 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 //txtCode = txtCode == "" ? "~" : Helpers.Helper.ChuyenThanhKhongDau(txtCode);
                 //model = model.Where(x => x.IsDelete != true && (Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(txtCode)));
             }
+            model.Content = model.Content.Replace("{Table}", BuildHtml(modellist));
+            model.Content = model.Content.Replace("{NamePrint}", "Danh Sách Sản Phẩm");           
             if (ExportExcel)
             {
                 Response.AppendHeader("content-disposition", "attachment;filename=" + DateTime.Now.ToString("yyyyMMdd") + "ThanhPham" + ".xls");
                 Response.Charset = "";
                 Response.Cache.SetCacheability(HttpCacheability.NoCache);
                 Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title></head ><body>";
+                Response.Write(html);
                 Response.Write(model.Content);
+                Response.Write("</body></html>");
                 Response.End();
             }
             return View(model);

@@ -55,7 +55,7 @@
             <h1 class="h3 mb-0 text-gray-800">Nguyên liệu</h1>
             <a href="@Url.Action("Create", "Warehouse", new { area = "CMS_Sale" })">
                 <button type="button" class="btn btn-primary" title="Thêm nguyên liệu" style="margin-left:10px">
-                    Thêm <i class="fa fa-plus-circle"></i>
+                    Thêm mới <i class="fa fa-plus"></i>
                 </button>
             </a>
         </div>
@@ -90,35 +90,41 @@
                 @using (Html.BeginForm("Index", "Warehouse", FormMethod.Get))
                 {
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <div class="order-search" style="margin: 10px 0px; position: relative;display:flex">
-                                <input type="text" class="form-control" placeholder="Nhập mã hoặc tên..." id="search-pro-box" autocomplete="off" name="name">
-                                <select class="form-control" name="idloai" id="idloai">
-                                    <option value="">Nhà cung cấp</option>
-                                    @foreach (var item in ViewBag.loai)
-                                    {
-                                        <option value="@item.Id">@item.Ten</option>
-                                    }
-                                </select>
-                                <select class="form-control" name="iddvt" id="iddvt">
-                                    <option value="">Nhân viên</option>
-                                    @foreach (var item in ViewBag.dvt)
-                                    {
-                                        <option value="@item.Id">@item.Ten</option>
-                                    }
-                                </select>
-
+                                <input type="text" class="form-control" placeholder="Nhập mã hoặc tên nguyên liệu..." id="search-pro-box" autocomplete="off" name="name">
                             </div>
-                            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-                            <button type="button" class="btn btn-primary" onclick="openpoupmy(false);">PDF</button>
-                            <button type="button" class="btn btn-primary" onclick="openpoupmy(true);">Excel</button>
                         </div>
+                        
                     </div>
-                }
-                @using (Html.BeginForm("Delete", "Warehouse", FormMethod.Post))
+                    <div class="card-header d-flex flex-row align-items-center justify-content-between">
+                        <div class="col-md-4">
+                            <select class="form-control" name="idloai" id="idloai">
+                                <option value="">Tìm theo loại</option>
+                                @foreach (var item in ViewBag.loai)
+                                {
+                                    <option value="@item.Id">@item.Ten</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control" name="iddvt" id="iddvt">
+                                <option value="">Tìm theo ĐVT</option>
+                                @foreach (var item in ViewBag.dvt)
+                                {
+                                    <option value="@item.Id">@item.Ten</option>
+                                }
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 8%;border: 1px solid grey;border-left: none;"><i class="fa fa-search"></i></button>
+                        <button type="button" class="btn btn-primary" onclick="openpoupmy(false);"><i class="fa fa-file-pdf-o" style="font-size:16px"> PDF</i></button>
+                        <button type="button" class="btn btn-primary" onclick="openpoupmy(true);"><i class="fa fa-file-excel-o" style="font-size:16px"> Excel</i></button>
+                        </div>
+                        }
+                        @using (Html.BeginForm("Delete", "Warehouse", FormMethod.Post))
                 {
-                    <div class="table-responsive">
-                        @Html.Grid(Model).Columns(columns =>
+                            <div class="table-responsive">
+                                @Html.Grid(Model).Columns(columns =>
                    {
                        columns.Add().Titled("Tùy chỉnh").Css("text center")
                        .Encoded(false)
@@ -135,9 +141,9 @@
                        columns.Add(x => x.DonGia).Titled("Đơn giá nhập").Sortable(true);
                        columns.Add().Titled("Trạng thái").Sanitized(false).Encoded(false).RenderValueAs(x => Delete(x.IsDelete));
                    }).WithPaging(5)
+                            </div>
+                        }
                     </div>
-                }
-            </div>
         </div>
     </div>
 </div>

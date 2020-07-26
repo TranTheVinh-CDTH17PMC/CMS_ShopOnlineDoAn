@@ -60,7 +60,7 @@
                                 }
                             </select>
                         </div>
-                        <button class="btn btn-mini btn-primary" type="submit" name="Submit">
+                        <button class="btn btn-mini btn-primary" id="Save" type="submit" name="Submit">
                             <i class="ace-icon fa fa-save"></i> Lưu
                         </button>
                     </div>
@@ -70,6 +70,45 @@
     </div>
 }
 <script type="text/javascript">
+    //validation
+    $("#Save").click(function () {
+        var tensp = $("#Ten").val();
+        var dongia = $("#DonGia").val();
+        var loaisp = $("#IdLoai").find("option:selected").val();
+        var dvt = $("#IdDVT").find("option:selected").val();
+        if (tensp == "") {
+            swal({
+                text: "Chưa nhập tên sản phẩm!",
+                icon: "warning",
+                button: "Đồng ý",
+            });
+            return false;
+        }
+        if (dongia == "") {
+            swal({
+                text: "Chưa nhập đơn giá!",
+                icon: "warning",
+                button: "Đồng ý",
+            });
+            return false;
+        }
+        if (loaisp == "") {
+            swal({
+                text: "Chưa chọn phân loại!",
+                icon: "warning",
+                button: "Đồng ý",
+            });
+            return false;
+        }
+        if (dvt == "") {
+            swal({
+                text: "Chưa chọn đơn vị tính!",
+                icon: "warning",
+                button: "Đồng ý",
+            });
+            return false;
+        }
+    });
     /* The uploader form */
     $(function () {
         $(":file").change(function () {

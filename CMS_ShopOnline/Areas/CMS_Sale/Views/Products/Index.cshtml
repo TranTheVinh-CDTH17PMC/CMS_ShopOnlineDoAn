@@ -87,7 +87,7 @@
                         <div class="table-responsive">
                             @Html.Grid(Model).Columns(columns =>
                         {
-                           columns.Add().Titled("Mã").SetWidth(5).Sanitized(false).Encoded(false).RenderValueAs(x => Ma(x.Id));
+                           columns.Add().Titled("Mã").Sanitized(false).Encoded(false).RenderValueAs(x => Ma(x.Id));
                            columns.Add(x => x.Ten).Titled("Tên sản phẩm");
                            columns.Add().Encoded(false).Sanitized(false).Titled("Hình ảnh").RenderValueAs(x => Image(x.HinhAnh));
                            columns.Add(x => x.NgayTao).Sanitized(false).Titled("Ngày tạo").Format("{0:dd/MM/yyyy}");
@@ -98,7 +98,7 @@
                            columns.Add().Titled("Tùy chỉnh").Css("text center")
                               .Encoded(false)
                               .Sanitized(false)
-                              .SetWidth(100)
+                              .SetWidth(150)
                               .RenderValueAs(x => (ButtonEdit(x.Id)).ToString() + (ButtonDelete(x.Id)).ToString());
                        }).WithPaging(5)
                         </div>
@@ -109,31 +109,15 @@
         <!--Row-->
     </div>
 <script>
+    //print
     function openpoupmy(value) {
-        newwindow = window.open('/CMS_Sale/Products/Print?name=abc&ExportExcel=' + value + '', 'print', 'height=500,width=500');
-                setTimeout(function () {
-                }, 500);
-            }
-
-</script>
-    <script>
-        //function filterFunction() {
-        //    var input, filter, ul, li, tr, i;
-        //    input = document.getElementById("search-pro-box");
-        //    filter = input.value.toUpperCase();
-        //    div = document.getElementById("myproducts");
-        //    tr = div.getElementsByTagName("tr");
-        //    for (i = 0; i < tr.length; i++) {
-        //        txtValue = tr[i].textContent || tr[i].innerText;
-        //        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        //            tr[i].style.display = "";
-
-        //        } else {
-        //            tr[i].style.display = "none";
-        //        }
-
-        //    }
-        //}
+        var IdLoaiSP = getUrlVars()["IdLoaiSP"];
+        var txtInfo = getUrlVars()["txtInfo"];
+        newwindow = window.open('/CMS_Sale/Products/Print?txtInfo=' + txtInfo + '&ExportExcel=' + value + '&IdLoaiSP=' + IdLoaiSP + '', 'print', 'height=500,width=500');
+        setTimeout(function () {
+        }, 500);
+    }
+    //delete
         function ConfirmDelete() {
             var x = confirm("Bạn có chắc muốn xóa item đã chọn ?");
             if (x)
@@ -141,5 +125,5 @@
             else
                 return false;
         }
-    </script>
+</script>
 

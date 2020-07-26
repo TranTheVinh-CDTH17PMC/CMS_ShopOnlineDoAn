@@ -48,7 +48,7 @@ if (Status == false)
                     </div>
                     <div class="col-md-3">
                         <select class="form-control" name="idnv" id="idnv">
-                            <option value="">Nhân viên</option>
+                            <option value="">Tìm theo nhân viên</option>
                             @foreach (var item in ViewBag.nhanvien)
                             {
                                 <option value="@item.Id">@item.TenNV</option>
@@ -125,7 +125,7 @@ if (Status == false)
                                                         <i class="fa fa-eye" aria-hidden="true"></i>
                                                     </button>
                                                 </a>
-                                                <button class="btn btn-warning" title="Xóa phiếu xuất" style="margin:-2px" name="IdDelete" type="submit" value="1" onclick="return ConfirmDelete()">
+                                                <button class="btn btn-warning" title="Xóa phiếu xuất" name="IdDelete" type="submit" value="1" onclick="return ConfirmDelete()">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
                                             </td>
