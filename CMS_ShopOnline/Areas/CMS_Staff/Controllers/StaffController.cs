@@ -30,7 +30,7 @@ namespace CMS_ShopOnline.Areas.CMS_Staff.Controllers
         }
         //
         // GET: /Staff/Staff/
-        public ActionResult Index(string txtCode, string txtName, string txtInfo)
+        public ActionResult Index(int? IdLoaiNV, string txtCode, string txtName, string txtInfo)
         {
             try
             {
@@ -49,6 +49,11 @@ namespace CMS_ShopOnline.Areas.CMS_Staff.Controllers
                         CMND = item.CMND,
                         IsDelete = item.IsDelete
                     }).OrderBy(x => x.IsDelete);
+                ViewBag.LoaiNV = LoaiNV.SelectAll();
+                if (IdLoaiNV != null)
+                {
+                    model = model.Where(x => x.IdLoaiNV == IdLoaiNV).ToList();
+                }
                 if (txtName != null)
                 {
                     txtName = txtName == "" ? "~" : Helpers.Helper.ChuyenThanhKhongDau(txtName);

@@ -40,7 +40,7 @@ $(document).ready(function () {
     });
     $("table.order-list").on("click", ".ibtnDel", function (event) {
                     
-                    
+                    debugger
         $(this).closest("tr").remove();
         $('.detailList tr').each(function (index, tr) {
             $(this).find("span.sn").html(index+1);

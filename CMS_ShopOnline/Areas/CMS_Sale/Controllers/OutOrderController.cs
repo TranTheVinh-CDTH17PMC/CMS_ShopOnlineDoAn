@@ -23,6 +23,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         private readonly ICTPhieuXuat CTPhieuXuat;
         private readonly ILoaiSP LoaiSP;
         private readonly ITemplatePrint TemplatePrint;
+        private readonly INhanVien NhanVien;
         public OutOrderController()
         {
             LoaiSP = new LoaiSPRepository();
@@ -30,17 +31,19 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             PhieuXuat = new PhieuXuatRepository();
             CTPhieuXuat = new ICTPhieuXuatRepository();
             TemplatePrint = new TemplatePrintRepository();
+            NhanVien = new NhanVienRepository();
         }
-        public OutOrderController(ITemplatePrint _TemplatePrint,INguyenLieu _nl, IPhieuXuat _px, ICTPhieuXuat _ctpx, ILoaiSP _loaisp)
+        public OutOrderController(ITemplatePrint _TemplatePrint,INguyenLieu _nl, IPhieuXuat _px, ICTPhieuXuat _ctpx, ILoaiSP _loaisp, INhanVien _NhanVien)
         {
             LoaiSP = _loaisp;
             NguyenLieu = _nl;
             PhieuXuat = _px;
             CTPhieuXuat = _ctpx;
             TemplatePrint = _TemplatePrint;
+            NhanVien = _NhanVien;
         }
         // GET: CMS_Sale/OutOrder
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, int? idnv)
         {
             if (searchString != null)
             {
@@ -64,6 +67,11 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     IsDelete = item.IsDelete
                 }
             ).ToList().OrderByDescending(x => x.NgayTao);
+            ViewBag.nhanvien = NhanVien.SelectAll();
+            if (idnv != null && idnv != 0)
+            {
+                model = model.Where(x => x.IdNhanVien == idnv);
+            }
             int pageSize = 10;
             int pageNumber = (page ?? 1);
             return View(model.ToPagedList(pageNumber, pageSize));
@@ -179,7 +187,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             });
             return Json(model, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult Print(string name, bool ExportExcel)
+        public ActionResult Print(string name, bool ExportExcel, int? idnv)
         {
             var model = TemplatePrint.SelectById(1);
             IEnumerable<PhieuXuatViewModel> modellist = PhieuXuat.SelectAll().Where(x => x.IsDelete != true).Select(
@@ -194,6 +202,10 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     IsDelete = item.IsDelete
                 }
             ).OrderByDescending(x => x.NgayTao);
+            if (idnv != null && idnv != 0)
+            {
+                modellist = modellist.Where(x => x.IdNhanVien == idnv);
+            }
             model.Content = model.Content.Replace("{Table}", BuildHtml(modellist));
             model.Content = model.Content.Replace("{NamePrint}", "Danh sach phieu xuat");
             if (ExportExcel)

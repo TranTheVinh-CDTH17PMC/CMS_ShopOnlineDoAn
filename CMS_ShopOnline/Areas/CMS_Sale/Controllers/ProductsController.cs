@@ -36,7 +36,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         }
         //
         // GET: /CMS_Sale/Products/
-        public ActionResult Index(string txtCode)
+        public ActionResult Index(string txtInfo,int? IdLoaiSP, string txtName, string txtTenLoai)
         {
             try
             {
@@ -54,10 +54,26 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     TenDVT = item.DonViTinh.Ten,
                     IsDelete = item.IsDelete
                 }).OrderBy(x => x.Id);
-                if (txtCode != null)
+                ViewBag.LoaiSP = LoaiSP.SelectAll();
+                if (IdLoaiSP != null)
                 {
-                    txtCode = txtCode == "" ? "~" : Helpers.Helper.ChuyenThanhKhongDau(txtCode);
-                    model = model.Where(x => x.IsDelete != true && (Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(txtCode)));
+                    model = model.Where(x => x.IdLoai == IdLoaiSP).ToList();
+                }
+                if (txtName != null)
+                {
+                    txtName = txtName == "" ? "~" : Helpers.Helper.ChuyenThanhKhongDau(txtName);
+                    model = model.Where(x => Helpers.Helper.ChuyenThanhKhongDau(x.Ten).ToString().Contains(txtName.ToString())).ToList();
+                }
+                if (txtTenLoai != null)
+                {
+                    txtTenLoai = txtTenLoai == "" ? "~" : Helpers.Helper.ChuyenThanhKhongDau(txtTenLoai);
+                    model = model.Where(x => Helpers.Helper.ChuyenThanhKhongDau(x.TenLoai).ToString().Contains(txtTenLoai.ToString())).ToList();
+                }
+                if (!string.IsNullOrEmpty(txtInfo))
+                {
+                    model = model.Where(x => Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(Helpers.Helper.ChuyenThanhKhongDau(txtInfo)) || Helpers.Helper.ChuyenThanhKhongDau(x.TenLoai).Contains(txtInfo)).ToList();
+                    //txtCode = txtCode == "" ? "~" : Helpers.Helper.ChuyenThanhKhongDau(txtCode);
+                    //model = model.Where(x => x.IsDelete != true && (Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(txtCode)));
                 }
                 ViewBag.SuccessMessage = TempData["SuccessMessage"];
                 return View(model);
@@ -196,7 +212,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             }
             return View();
         }
-        public ActionResult Print(string name, bool ExportExcel)
+        public ActionResult Print(int? IdLoaiSP, string txtInfo, string txtName, string txtTenLoai, bool ExportExcel)
         {
             var model = TemplatePrint.SelectById(1);
             IEnumerable<ThanhPhamViewModel> modellist = ThanhPham.SelectAll().Where(x => x.IsDelete != true).Select(
@@ -212,15 +228,38 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                    DonGia = item.DonGia,
                    IsDelete = item.IsDelete
                }).OrderByDescending(x => x.NgayTao);
+            if (IdLoaiSP != null)
+            {
+                modellist = modellist.Where(x => x.IdLoai == IdLoaiSP).ToList();
+            }
+            if (txtName != null)
+            {
+                txtName = txtName == "" ? "~" : Helpers.Helper.ChuyenThanhKhongDau(txtName);
+                modellist = modellist.Where(x => Helpers.Helper.ChuyenThanhKhongDau(x.Ten).ToString().Contains(txtName.ToString())).ToList();
+            }
+            if (txtTenLoai != null)
+            {
+                txtTenLoai = txtTenLoai == "" ? "~" : Helpers.Helper.ChuyenThanhKhongDau(txtTenLoai);
+                modellist = modellist.Where(x => Helpers.Helper.ChuyenThanhKhongDau(x.TenLoai).ToString().Contains(txtTenLoai.ToString())).ToList();
+            }
+            if (!string.IsNullOrEmpty(txtInfo))
+            {
+                modellist = modellist.Where(x => Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(Helpers.Helper.ChuyenThanhKhongDau(txtInfo)) || Helpers.Helper.ChuyenThanhKhongDau(x.TenLoai).Contains(txtInfo)).ToList();
+                //txtCode = txtCode == "" ? "~" : Helpers.Helper.ChuyenThanhKhongDau(txtCode);
+                //model = model.Where(x => x.IsDelete != true && (Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(txtCode)));
+            }
             model.Content = model.Content.Replace("{Table}", BuildHtml(modellist));
-            model.Content = model.Content.Replace("{NamePrint}", "Danh sach thanh pham");
+            model.Content = model.Content.Replace("{NamePrint}", "Danh Sách Sản Phẩm");           
             if (ExportExcel)
             {
                 Response.AppendHeader("content-disposition", "attachment;filename=" + DateTime.Now.ToString("yyyyMMdd") + "ThanhPham" + ".xls");
                 Response.Charset = "";
                 Response.Cache.SetCacheability(HttpCacheability.NoCache);
                 Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title></head ><body>";
+                Response.Write(html);
                 Response.Write(model.Content);
+                Response.Write("</body></html>");
                 Response.End();
             }
             return View(model);

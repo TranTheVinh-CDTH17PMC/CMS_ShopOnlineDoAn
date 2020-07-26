@@ -60,7 +60,7 @@ else
             <h1 class="h3 mb-0 text-gray-800">Nhân viên</h1>
             <a href="@Url.Action("Create", "Staff", new { area ="CMS_Staff" })">
                 <button type="button" class="btn btn-primary" title="Thêm nhân viên" style="margin-left:10px">
-                    <i class="fa fa-plus-circle"></i> Thêm
+                    Thêm mới <i class="fa fa-plus"></i>
                 </button>
             </a>
         </div>
@@ -81,11 +81,17 @@ else
                         <div class="order-search" style="margin: 10px 0px; position: relative;">
                             @Html.TextBox("txtInfo", Request["txtInfo"], new { @class = "form-control ui-autocomplete-input", autocomplete = "off", placeholder = "Nhập tên nhân viên hoặc số điện thoại..." })
                         </div>
-                        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
                     </div>
-                    <div class="col-md-4">
-                        
+                    <div class="col-md-3">
+                        <select class="form-control" name="IdLoaiNV" id="IdLoaiNV">
+                            <option value="">Tìm theo chức vụ</option>
+                            @foreach (var item in ViewBag.LoaiNV)
+                            {
+                                <option value="@item.Id">@item.TenLoai</option>
+                            }
+                        </select>
                     </div>
+                    <button type="submit" class="btn btn-primary" style="width: 8%;border: 1px solid grey;border-left: none;"><i class="fa fa-search"></i></button>
                 </div>
                 }
                 @using (Html.BeginForm("Delete", "Staff", FormMethod.Post))
