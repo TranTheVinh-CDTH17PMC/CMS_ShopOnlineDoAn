@@ -39,7 +39,7 @@
                             <label for="exampleFormControlInput1">Tổng tiền</label>
                             @Html.TextBoxFor(model => model.TongTien, new { @class = "form-control", @readonly = "readonly",@Value ="0" })
                         </div>
-                        <button class="btn btn-mini btn-primary" type="submit" name="Submit">
+                        <button class="btn btn-mini btn-primary" id="Save" type="submit" name="Submit">
                             <i class="ace-icon fa fa-save"></i> Lưu
                         </button>
                     </div>
@@ -48,4 +48,25 @@
         </div>
     </div>
 }
-
+<script>
+    $("#Save").click(function () {
+        var tenkh = $('#TenKH').val();
+        var sdt = $('#SDT').val();
+        if (tenkh == "") {
+            swal({
+                text: "Chưa nhập tên khách hàng!",
+                icon: "warning",
+                button: "Đồng ý",
+            });
+            return false;
+        }
+        if (sdt == "") {
+            swal({
+                text: "Chưa nhập số điện thoại!",
+                icon: "warning",
+                button: "Đồng ý",
+            });
+            return false;
+        }
+    });
+</script>
