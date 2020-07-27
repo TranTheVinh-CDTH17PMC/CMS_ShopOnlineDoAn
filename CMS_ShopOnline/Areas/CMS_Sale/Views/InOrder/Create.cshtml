@@ -110,7 +110,7 @@
                                @Html.TextAreaFor(x => x.GhiChu, new { @class = "form-control", rows = "2", style = "border-radius: 0;" })
                             </div>
                             <div class="btn-groups pull-right" style="margin-left: 30px;float:right;padding-top:10px">
-                                <button type="submit" class="btn btn-primary" onclick="">
+                                <button type="submit" class="btn btn-primary" id="Save">
                                     <i class="fa fa-check"></i> Lưu (F9)
                                 </button>
                                 <button type="button" class="btn btn-primary" onclick="cms_save_orders(4)">
@@ -133,6 +133,19 @@
     </div>
 }
 <script>
+    //check null
+    $("#Save").click(function () {
+        var detailList = $('.detailList').find('tr').length;
+        if (detailList == 0) {
+            swal({
+                text: "Chưa chọn nguyên liệu nhập!",
+                icon: "warning",
+                button: "Đồng ý",
+            });
+            return false;
+        }
+    });
+    //
     var counter = 0;
     $(document).ready(function () {
         $('#selectloai').on('change', function () {

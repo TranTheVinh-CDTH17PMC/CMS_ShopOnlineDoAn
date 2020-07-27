@@ -21,7 +21,7 @@
                                 <label>Tên loại sản phẩm</label>
                                 @Html.TextBoxFor(model => model.Ten, new { @class = "form-control" })
                             </div>
-                            <button class="btn btn-mini btn-primary" type="submit" name="Submit">
+                            <button class="btn btn-mini btn-primary" id="Save" type="submit" name="Submit">
                                 <i class="ace-icon fa fa-save"></i> Lưu
                             </button>
                         </div>
@@ -44,7 +44,7 @@
                             <label for="exampleFormControlInput1">Tên đơn vị tính</label>
                             @Html.TextBoxFor(model => model.Ten, new { @class = "form-control" })
                         </div>
-                        <button class="btn btn-mini btn-primary" type="submit" name="Submit">
+                        <button class="btn btn-mini btn-primary" id="Save2" type="submit" name="Submit">
                             <i class="ace-icon fa fa-save"></i> Lưu
                         </button>
                     </div>
@@ -53,4 +53,28 @@
             </div>
     </div>
 </div>
+<script>
+    $("#Save").click(function () {
+        var tenloai = $('#Ten').val();
+        if (tenloai == "") {
+            swal({
+                text: "Chưa nhập tên loại sản phẩm!",
+                icon: "warning",
+                button: "Đồng ý",
+            });
+            return false;
+        }
+    });
+    $("#Save2").click(function () {
+        var dvt = $('#Ten').val();
+        if (dvt == "") {
+            swal({
+                text: "Chưa nhập tên đơn vị tính!",
+                icon: "warning",
+                button: "Đồng ý",
+            });
+            return false;
+        }
+    });
+</script>
 

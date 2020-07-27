@@ -59,7 +59,7 @@
                                 <label for="exampleFormControlSelect1">Email</label>
                                 @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
                             </div>
-                            <button class="btn btn-mini btn-primary" type="submit" name="Submit">
+                            <button class="btn btn-mini btn-primary" id="Save" type="submit" name="Submit">
                                 <i class="ace-icon fa fa-save"></i> Lưu
                             </button>
                     </div>
@@ -68,6 +68,66 @@
         </div>
     </div>
 }
+<script>
+    $("#Save").click(function () {
+        var tennv = $('#TenNV').val();
+        var tentk = $('#TenTaiKhoan').val();
+        var matkhau = $('#MatKhau').val();
+        var sdt = $('#SDT').val();
+        var cmnd = $('#CMND').val();
+        var loainv = $("#IdLoaiNV").find("option:selected").val();
+        if (tennv == "") {
+            swal({
+                text: "Chưa nhập tên nhân viên!",
+                icon: "warning",
+                button: "Đồng ý",
+            });
+            return false;
+        }
+        if (tentk == "") {
+            swal({
+                text: "Chưa nhập tên tài khoản!",
+                icon: "warning",
+                button: "Đồng ý",
+            });
+            return false;
+        }
+        if (matkhau == "") {
+            swal({
+                text: "Chưa nhập mật khẩu!",
+                icon: "warning",
+                button: "Đồng ý",
+            });
+            return false;
+        }
+        if (loainv == "") {
+            swal({
+                text: "Chưa chọn loại nhân viên!",
+                icon: "warning",
+                button: "Đồng ý",
+            });
+            return false;
+        }
+        if (cmnd == "") {
+            swal({
+                text: "Chưa nhập số CMND!",
+                icon: "warning",
+                button: "Đồng ý",
+            });
+            return false;
+        }
+        if (sdt == "") {
+            swal({
+                text: "Chưa nhập số điện thoại!",
+                icon: "warning",
+                button: "Đồng ý",
+            });
+            return false;
+        }
+        
+    });
+</script>
+
 
 
 

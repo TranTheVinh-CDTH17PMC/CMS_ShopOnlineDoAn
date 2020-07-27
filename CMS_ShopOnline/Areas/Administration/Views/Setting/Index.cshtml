@@ -63,7 +63,7 @@
 {
     <div class="container-fluid" id="container-wrapper">
             <button class="btn btn-mini btn-primary" type="submit" name="Submit" value="" style="margin-bottom: 10px;">
-                <i class="ace-icon fa fa-save"></i> Xác nhận 
+                <i class="ace-icon fa fa-save"></i> Lưu lại
             </button>
 
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -71,10 +71,11 @@
                     <table class="table table-striped grid-table">
                         <thead class="thead-light">
                             <tr>
-                                <th>Tên chức năng | Loại tài khoản</th>
+                                <th><i class='fas fa-arrow-down'></i> Tên chức năng | Loại tài khoản <i class='fas fa-arrow-right'></i></th>
                                 @foreach (var item in ViewBag.LoaiNV)
                                 {
                                     <th>@item.TenLoai<label class="custom-control custom-checkbox"><input id="@item.Id" type="checkbox" class="custom-control-input phanquyenall" onchange="selectid(@item.Id);"><span class="custom-control-indicator"></span></label></th>
+                                    <th>@item.TenLoai@*<label class="custom-control custom-checkbox"><input id="selectAll" type="checkbox" class="custom-control-input" onclick="selectid(@item.Id)"><span class="custom-control-indicator"></span></label>*@</th>
                                 }
                             </tr>
                         </thead>

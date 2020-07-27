@@ -37,13 +37,13 @@
                 <div class="card mb-4">
                     <div class="card-body">
                         <div class="form-group">
-                            <label>Đơn giá nhập</label>
+                            <label>Đơn giá</label>
                             @Html.TextBoxFor(model => model.DonGia, new { @class = "form-control", Type = "number" })
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Phân loại</label>
                             <select class="form-control " data-val="true" data-val-number="The field Loại người dùng must be a number." data-val-required="Bắt buộc nhập" id="IdLoai" name="IdLoai">
-                                <option @(Model.IdLoai == null ? "selected" : "") value="" data-code="">-Chọn Loại-</option>
+                                <option @(Model.IdLoai == null ? "selected" : "") value="" data-code="">-Chọn loại-</option>
                                 @foreach (var item in Model.listLoaiSP)
                                 {
                                     <option @(Model.IdLoai == item.Id ? "selected" : "") value="@item.Id">@item.Ten</option>
@@ -53,14 +53,14 @@
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Đơn vị tính</label>
                             <select class="form-control " data-val="true" data-val-number="The field Loại người dùng must be a number." data-val-required="Bắt buộc nhập" id="IdDVT" name="IdDVT">
-                                <option @(Model.IdDVT == null ? "selected" : "") value="" data-code="">-Chọn Đơn Vị Tính-</option>
+                                <option @(Model.IdDVT == null ? "selected" : "") value="" data-code="">-Chọn đơn vị tính-</option>
                                 @foreach (var item in Model.listDVT)
                                 {
                                     <option @(Model.IdDVT == item.Id ? "selected" : "") value="@item.Id">@item.Ten</option>
                                 }
                             </select>
                         </div>
-                        <button class="btn btn-mini btn-primary" type="submit" name="Submit">
+                        <button class="btn btn-mini btn-primary" id="Save" type="submit" name="Submit">
                             <i class="ace-icon fa fa-save"></i> Lưu
                         </button>
                     </div>
@@ -70,6 +70,45 @@
     </div>
 }
 <script type="text/javascript">
+    //validation
+    $("#Save").click(function () {
+        var tensp = $("#Ten").val();
+        var dongia = $("#DonGia").val();
+        var loaisp = $("#IdLoai").find("option:selected").val();
+        var dvt = $("#IdDVT").find("option:selected").val();
+        if (tensp == "") {
+            swal({
+                text: "Chưa nhập tên nguyên liệu!",
+                icon: "warning",
+                button: "Đồng ý",
+            });
+            return false;
+        }
+        if (dongia == "") {
+            swal({
+                text: "Chưa nhập đơn giá!",
+                icon: "warning",
+                button: "Đồng ý",
+            });
+            return false;
+        }
+        if (loaisp == "") {
+            swal({
+                text: "Chưa chọn phân loại!",
+                icon: "warning",
+                button: "Đồng ý",
+            });
+            return false;
+        }
+        if (dvt == "") {
+            swal({
+                text: "Chưa chọn đơn vị tính!",
+                icon: "warning",
+                button: "Đồng ý",
+            });
+            return false;
+        }
+    });
     /* The uploader form */
     $(function () {
         $(":file").change(function () {
