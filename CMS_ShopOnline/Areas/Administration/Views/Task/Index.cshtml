@@ -38,13 +38,14 @@ if (Status == "Success")
     <h6 class="dropdown-header">
         Thông báo
     </h6>
+    <div id="notication"></div>
     @* thông báo *@
     @foreach (var item in Model.ToList())
     {
         <a class="dropdown-item d-flex align-items-center" onclick="Checkseen(@item.Id)" href="@Url.Action("Details", "PurchaseOrder", new { area = "CMS_Sale", id = item.IdPhieuXuat })" id="noticolor[@item.Id]" style="background-color:@item.Color;">
             <div class="mr-3">
                 <div class="icon-circle bg-primary">
-                <i class="fas fa-file-alt text-white"></i>
+                    <i class="fas fa-file-alt text-white"></i>
                 </div>
             </div>
             <div>
@@ -64,7 +65,7 @@ if (Status == "Success")
             </div>
         </a>*@
     }    
-    <div id="notication"></div>
+    
     @* end *@
     <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
     
@@ -79,7 +80,7 @@ if (Status == "Success")
             var x = $('#alertsDropdown span').text();
             var count = parseInt(x) + 1;
             $('#alertsDropdown span').text(count);
-            var html = '<a class="dropdown-item d-flex align-items-center" onclick="Checkseen('+Idtask+')" href="CMS_Sale/PurchaseOrder/Details/' + IdPx + '" id="noticolor[' + Idtask + ']" style="background-color:#E6E6FA;>';
+            var html = '<a class="dropdown-item d-flex align-items-center" onclick="Checkseen('+Idtask+')" href="CMS_Sale/PurchaseOrder/Details/' + IdPx + '" id="noticolor[' + Idtask + ']" style="background-color:#E6E6FA;">';
             html += '<div class="mr-3">';
             html += '<div class="icon-circle bg-primary">';
             html += '<i class="fas fa-file-alt text-white"></i>';

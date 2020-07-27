@@ -235,9 +235,14 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             }
             return View();
         }
-        public ActionResult Print(string name,bool ExportExcel, int? iddvt, int? idloai)
+        public ActionResult Print(string name,bool ExportExcel, int? iddvt, int? idloai,string hangcon, string tonkho, string saphethang, string hethang, string all)
         {
             var idten = Helpers.Helper.ChuyenThanhKhongDau(name);
+            var hangcon1 = Helpers.Helper.ChuyenThanhKhongDau(hangcon);
+            var tonkho1 = Helpers.Helper.ChuyenThanhKhongDau(tonkho);
+            var saphethang1 = Helpers.Helper.ChuyenThanhKhongDau(saphethang);
+            var hethang1 = Helpers.Helper.ChuyenThanhKhongDau(hethang);
+            var all1 = Helpers.Helper.ChuyenThanhKhongDau(all);
             var model = TemplatePrint.SelectById(1);
             IEnumerable<NguyenLieuViewModel> modellist = NguyenLieu.SelectAll().Where(x => x.IsDelete != true).Select(
                item => new NguyenLieuViewModel
@@ -254,6 +259,26 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                    IsDelete = item.IsDelete,
                    NgayNhap = item.NgayNhap
                }).OrderByDescending(x => x.NgayTao);
+            if (hangcon1 != null && hangcon1!= "undefined")
+            {
+                modellist = modellist.Where(x => x.SoLuongKho > 0 && x.IsDelete != true);
+            }
+            if (tonkho1 != null && tonkho1 != "undefined")
+            {
+                modellist = modellist.Where(x => x.IsDelete != true && ngay(x.NgayNhap) > 30 && x.SoLuongKho > 20 && x.NgayNhap != datetimesetting);
+            }
+            if (saphethang1 != null && saphethang1 != "undefined")
+            {
+                modellist = modellist.Where(x => x.SoLuongKho >= 1 && x.SoLuongKho <= 5 && x.IsDelete != true);
+            }
+            if (hethang1 != null && hethang1 != "undefined")
+            {
+                modellist = modellist.Where(x => x.SoLuongKho == 0 && x.IsDelete != true && x.NgayNhap != datetimesetting);
+            }
+            if (all1 != null && all1 != "undefined")
+            {
+                modellist = modellist.Where(x => x.IsDelete != true);
+            }
             if (iddvt != null)
             {
                 modellist = modellist.Where(x => x.IsDelete != true && x.IdDVT == iddvt);
@@ -262,7 +287,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             {
                 modellist = modellist.Where(x => x.IsDelete != true && x.IdLoai == idloai);
             }
-            if (idten != null && idten != "")
+            if (idten != null && idten != "" && idten != "undefined")
             {
                 modellist = modellist.Where(x => x.IsDelete != true && x.Id.ToString().Contains(idten) || Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(idten));
             }

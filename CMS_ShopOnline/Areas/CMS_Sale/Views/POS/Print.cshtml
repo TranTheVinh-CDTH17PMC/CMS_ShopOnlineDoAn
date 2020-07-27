@@ -1,0 +1,48 @@
+﻿@model CMS_Database.Entities.TemplatePrint
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Print</title>
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+            background: #ffffff;
+        }
+        div,p,a,li,td {
+            -webkit-text-size-adjust: none;
+        }
+
+        body {
+            width: 88mm;
+            height: 100%;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        p {
+            padding: 0 !important;
+            margin-top: 0 !important;
+            margin-right: 0 !important;
+            margin-bottom: 0 !important;
+            margin-left: 0 !important;
+        }
+
+        .visibleMobile {
+            display: none;
+        }
+
+        .hiddenMobile {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    @Html.Raw(Model.Content)
+</body>
+</html>
+<script>
+</script>

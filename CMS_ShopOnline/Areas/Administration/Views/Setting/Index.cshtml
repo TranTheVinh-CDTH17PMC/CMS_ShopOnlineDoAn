@@ -74,7 +74,7 @@
                                 <th>Tên chức năng | Loại tài khoản</th>
                                 @foreach (var item in ViewBag.LoaiNV)
                                 {
-                                    <th>@item.TenLoai<label class="custom-control custom-checkbox"><input id="selectAll" type="checkbox" class="custom-control-input" onclick="selectid(@item.Id)"><span class="custom-control-indicator"></span></label></th>
+                                    <th>@item.TenLoai<label class="custom-control custom-checkbox"><input id="@item.Id" type="checkbox" class="custom-control-input phanquyenall" onchange="selectid(@item.Id);"><span class="custom-control-indicator"></span></label></th>
                                 }
                             </tr>
                         </thead>
@@ -92,12 +92,12 @@
                                                 <input name="DetailsPhanQuyen[@i].IdRole" value="@item2.IdRole" type="hidden">
                                                 @if (item2.IsDelete == false)
                                                 {
-                                                    <input class="custom-control-input" checked="checked" data-val="true" data-val-required="The IsDelete field is required." id="item2_IsDelete" name="DetailsPhanQuyen[@i].IsDelete" type="checkbox" value="false">
+                                                    <input class="custom-control-input @item2.IdRole" checked="checked" data-val="true" data-val-required="The IsDelete field is required." id="item2_IsDelete" name="DetailsPhanQuyen[@i].IsDelete" type="checkbox" value="false">
                                                     <input name="DetailsPhanQuyen[@i].IsDelete" type="hidden" value="true">
                                                 }
                                                 @if (item2.IsDelete == true)
                                                 {
-                                                    <input class="custom-control-input" id="item2_IsDelete" name="DetailsPhanQuyen[@i].IsDelete" type="checkbox" value="false">
+                                                    <input class="custom-control-input @item2.IdRole" id="item2_IsDelete" name="DetailsPhanQuyen[@i].IsDelete" type="checkbox" value="false">
                                                     <input name="DetailsPhanQuyen[@i].IsDelete" type="hidden" value="true">
                                                 }
                                                 @*<span class="custom-control-indicator"></span>
@@ -119,10 +119,11 @@
     <script>
 
 
-
-        $('#selectAll').click(function () {
-            $('#item2_IsDelete[1]').prop('checked', this.checked);
-        });
+        function selectid(id)
+        {
+            debugger
+            $("."+id+"").prop("checked",$("#"+id+"").prop("checked"));
+        }
         function Value(element)
         {
             debugger

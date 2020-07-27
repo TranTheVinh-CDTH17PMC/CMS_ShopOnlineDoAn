@@ -157,6 +157,10 @@
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Select.Pdf, Version=20.1.0.0, Culture=neutral, PublicKeyToken=e0ae9f6e27a97018, processorArchitecture=MSIL">
+      <HintPath>..\packages\Select.Pdf.20.1.0\lib\net40\Select.Pdf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -2619,6 +2623,7 @@
     <Content Include="Content\Gridmvc.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Global.asax" />
+    <Content Include="NativeLibs\X64\libwkhtmltox.dll" />
     <Content Include="scripts\ai.0.22.9-build00167.js" />
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Grid.mvc.readme" />
@@ -3198,7 +3203,9 @@
     <Content Include="Areas\CMS_Sale\Views\PurchaseOrder\Print.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\InOrder\Print.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\OutOrder\Print.cshtml" />
-    <Content Include="Areas\CMS_Sale\Views\Products\Print.cshtml" />
+    <Content Include="Areas\CMS_Sale\Views\POS\Print.cshtml" />
+    <Content Include="NativeLibs\X64\libwkhtmltox.so" />
+    <Content Include="NativeLibs\X64\libwkhtmltox.dylib" />
     <None Include="scripts\jquery-3.0.0-vsdoc.js" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\jquery-1.10.2.js" />

@@ -66,7 +66,7 @@
         </ol>
     </div>
     <!-- Sidebar -->
-    @using (Html.BeginForm("Index", "Warehouse", FormMethod.Post))
+    @using (Html.BeginForm("Index", "Warehouse", FormMethod.Get))
     {
         <div class="tab">
             <h5 style="margin-left:20px;margin-top:20px;"><b>NGUYÊN LIỆU</b></h5>
@@ -152,7 +152,12 @@
         var name = getUrlVars()["name"];
         var idloai = getUrlVars()["idloai"];
         var iddvt = getUrlVars()["iddvt"];
-        newwindow = window.open('/CMS_Sale/Warehouse/Print?name='+name+'&ExportExcel='+value+'&idloai='+idloai+'&&iddvt='+iddvt+'', 'print', 'height=500,width=500');
+        var hangcon = getUrlVars()["hangcon"];
+        var tonkho = getUrlVars()["tonkho"];
+        var saphethang = getUrlVars()["saphethang"];
+        var hethang = getUrlVars()["hethang"];
+        var all = getUrlVars()["all"];
+        newwindow = window.open('/CMS_Sale/Warehouse/Print?name=' + name + '&ExportExcel=' + value + '&idloai=' + idloai + '&iddvt=' + iddvt + '&hangcon=' + hangcon + '&tonkho=' + tonkho + '&saphethang=' + saphethang + '&hethang=' + hethang + '&all=' + all + '', 'print', 'height=500,width=500');
                 setTimeout(function () {
                 }, 500);
             }

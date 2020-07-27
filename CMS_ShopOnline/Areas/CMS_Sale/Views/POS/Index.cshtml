@@ -3,6 +3,7 @@
 @model POSViewModel
 @{
 }
+
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -356,7 +357,20 @@
     </body>
 }
 </html>
+@if (ViewBag.SuccessMessage != null)
+{
+    <script>
+        $(document).ready(function () {
+            newwindow = window.open('/CMS_Sale/POS/Print?id=' + @ViewBag.SuccessMessage + '', 'print', 'height=500,width=500');
+            setTimeout(function () {
+            }, 500);
+        });
+    </script>
+}
 <script type="text/javascript">
+    $("#Print").click(function () {
+       
+    });
     $("#Save").click(function () {
         debugger
         var dlcustomer = $("#dlcustomer").val();
@@ -376,7 +390,8 @@
                 button: "Đồng ý",
             });
             return false;
-        }    
+        }
+        
     });
 </script>
 

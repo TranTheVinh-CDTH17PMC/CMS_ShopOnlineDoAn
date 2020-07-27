@@ -12,6 +12,7 @@ using CMS_ShopOnline.Areas.Crm.Models;
 using CMS_ShopOnline.Areas.Administration.Controllers;
 using CMS_ShopOnline.Filter;
 using CMS_ShopOnline.Hubs;
+using SelectPdf;
 
 namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
 {
@@ -28,6 +29,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         private readonly IKhachHang KhachHang;
         private readonly IHoaDon HoaDon;
         private readonly ICTHoaDon CTHoaDon;
+        private readonly ITemplatePrint TemplatePrint;
         public POSController()
         {
             NguyenLieu = new NguyenLieuRepository();
@@ -39,8 +41,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             KhachHang = new KhachHangRepository();
             HoaDon = new HoaDonRepository();
             CTHoaDon = new CTHoaDonRepository();
+            TemplatePrint = new TemplatePrintRepository();
         }
-        public POSController(ICTHoaDon _CTHoaDon, IKhachHang _KhachHang, IPhieuXuat _hoadon,ICTPhieuXuat _CTPhieuXuat,INguyenLieu _NguyenLieu, IDonViTinh _DVT, ILoaiSP _LoaiSP,IThanhPham _ThanhPham, IHoaDon _HoaDon)
+        public POSController(ITemplatePrint _TemplatePrint, ICTHoaDon _CTHoaDon, IKhachHang _KhachHang, IPhieuXuat _hoadon,ICTPhieuXuat _CTPhieuXuat,INguyenLieu _NguyenLieu, IDonViTinh _DVT, ILoaiSP _LoaiSP,IThanhPham _ThanhPham, IHoaDon _HoaDon)
         {
             NguyenLieu = _NguyenLieu;
             DVT = _DVT;
@@ -51,13 +54,15 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             KhachHang = _KhachHang;
             HoaDon = _HoaDon;
             CTHoaDon = _CTHoaDon;
+            TemplatePrint = _TemplatePrint;
         }
         //
         //
         // GET: /CMS_Sale/POS/
         public ActionResult Index()
         {
-            ViewBag.ListType = LoaiSP.SelectAll().Where(x => x.IsDelete != true);  
+            ViewBag.ListType = LoaiSP.SelectAll().Where(x => x.IsDelete != true);
+            ViewBag.SuccessMessage = TempData["SuccessMessage"];
             return View();
         }
         [HttpPost]
@@ -94,12 +99,54 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 var _px = HoaDon.SelectById(idhd);
                 string NameNV = Helper.CurrentUser.TenNV;
                 MyHub.PurchaseOder(idhd, _px.NgayTao, _px.IdNhanVien, _px.IdKhachHang, NameNV, model.TenKH , _px.GhiChu, _px.TrangThai, _px.TongTien);
+                TempData["SuccessMessage"] = idhd;
                 return RedirectToAction("Index");
             }
             catch(Exception e)
             {
                 return View();
             }
+        }
+        public ActionResult Print(int? id)
+        {
+            var model = TemplatePrint.SelectById(2);
+            var px = HoaDon.SelectById(id);
+            HoaDonViewModel modellist = new HoaDonViewModel();
+            AutoMapper.Mapper.Map(px, modellist);
+            modellist.TenKH = px.KhachHang.TenKH;
+            modellist.TenNV = px.NhanVien.TenNV;
+            var details = CTHoaDon.GetById(px.Id).Select(
+                item => new CTHoaDonViewModel
+                {
+                    Id = item.Id,
+                    IdThanhPham = item.IdThanhPham,
+                    Ten = item.ThanhPham.Ten,
+                    IdHoaDon = item.IdHoaDon,
+                    SoLuong = item.SoLuong,
+                    DonGia = item.DonGia,
+                }).ToList();
+            modellist.ListPOSDetails = details;
+            model.Content = model.Content.Replace("{DataTable}", BuildHtml(details));
+            model.Content = model.Content.Replace("{MAHD}", id.ToString());
+            model.Content = model.Content.Replace("{Tongtam}", modellist.TongTien.ToString());
+            model.Content = model.Content.Replace("{Khuyenmai}","0");
+            model.Content = model.Content.Replace("{Tongtien}", modellist.TongTien.ToString());
+            return View(model);
+        }
+        string BuildHtml(List<CTHoaDonViewModel> model)
+        {
+            string list = null;
+            var i = 1;
+            foreach(var item in model)
+            {
+                list += "<tr><td style=\"font-size: 12px; font-family:'Open Sans',sans-serif;color:#646a6e; line-height:18px; vertical-align:top;padding:10px0;\">"+i+"</td>\r\n";
+                list += "<td style=\"font-size: 12px; font-family:'Open Sans',sans-serif;color:#646a6e; line-height:18px; vertical-align:top;padding:10px0;\" class=\"article\">" + item.Ten + "</td>\r\n";
+                list += "<td style=\"font-size: 14px; font-family:'Open Sans',sans-serif;color:#646a6e; line-height:18px; vertical-align:top;padding:10px0;\"><small>" + item.DonGia + "</small></td>\r\n";
+                list += "<td style=\"font-size: 12px; font-family:'Open Sans',sans-serif;color:#646a6e; line-height:18px; vertical-align:top;padding:10px0;\" align=\"center\">" + item.SoLuong + "</td>\r\n";
+                list += "<td style=\"font-size: 12px; font-family:'Open Sans',sans-serif;color:#1e2b33; line-height:18px; vertical-align:top;padding:10px0;\" align=\"right\">" + item.SoLuong * item.DonGia + "</td></tr>\r\n";
+                i++;
+            }
+            return list;
         }
         public ActionResult Details(int id)
         {
