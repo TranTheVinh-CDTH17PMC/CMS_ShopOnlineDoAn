@@ -233,14 +233,126 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             i = diff1.Days;
             return i;
         }
-        public ActionResult ExportToExcel(string name,string startDate, string endDate,bool ExportExcel)
+        public ActionResult ExportToExcel(string name,string startDate, string endDate,bool ExportExcel, string s_month, string s_year)
         {
             DateTime d_startDate, d_endDate;
             Encoding encoding;
             try
             {
                 var model = TemplatePrint.SelectById(1);
-                if(name=="baocaotonkho")
+                if (name == "doanhthutheothang")
+                {
+                    List<SelectListItem> Year = new List<SelectListItem>();
+                    DateTime d_year;
+                    double? tongtien = 0;
+                    var year = DateTime.Now.Year;
+                    for (int i = year - 3; i <= year + 3; i++)
+                    {
+                        Year.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                    }
+                    if (s_year != null && s_year != "")
+                    {
+                        var modellist = _db.Database.SqlQuery<DoanhThuTheoTungThang>("exec DoanhThuTheoThang @Year", new SqlParameter("@Year", year)).ToList();
+                        model.Content = model.Content.Replace("{Table}", BuildHtmlDoanhthutheothang(modellist));
+                        model.Content = model.Content.Replace("{NamePrint}", "Báo cáo doanh thu theo tháng");
+                        if (ExportExcel)
+                        {
+                            encoding = Encoding.UTF8;
+                            Response.AppendHeader("content-disposition", "attachment;filename=" + DateTime.Now.ToString("yyyyMMdd") + "DoanhThuTheoThang" + ".xls");
+                            Response.Charset = "";
+                            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                            var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title></head ><body>";
+                            Response.Write(html);
+                            Response.Write(model.Content);
+                            Response.Write("</body></html>");
+                            Response.End();
+                        }
+                        return View(model);
+
+                    }
+                    else
+                    {
+                        var modellist = _db.Database.SqlQuery<DoanhThuTheoTungThang>("exec DoanhThuTheoThang @Year", new SqlParameter("@Year", year)).ToList();
+                        model.Content = model.Content.Replace("{Table}", BuildHtmlDoanhthutheothang(modellist));
+                        model.Content = model.Content.Replace("{NamePrint}", "Báo cáo doanh thu theo tháng");
+                        if (ExportExcel)
+                        {
+                            encoding = Encoding.UTF8;
+                            Response.AppendHeader("content-disposition", "attachment;filename=" + DateTime.Now.ToString("yyyyMMdd") + "DoanhThuTheoThang" + ".xls");
+                            Response.Charset = "";
+                            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                            var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title></head ><body>";
+                            Response.Write(html);
+                            Response.Write(model.Content);
+                            Response.Write("</body></html>");
+                            Response.End();
+                        }
+                        return View(model);
+                    }
+                }
+                if (name == "doanhthutheongay")
+                {
+                    List<SelectListItem> Year = new List<SelectListItem>();
+                    List<SelectListItem> Month = new List<SelectListItem>();
+                    DateTime d_year;
+                    double? tongtien = 0;
+                    var year = DateTime.Now.Year;
+                    var month = DateTime.Now.Month;
+                    for (int i = year - 3; i <= year + 3; i++)
+                    {
+                        Year.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                    }
+                    for (int i = 1; i <= 12; i++)
+                    {
+                        Month.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                    }
+                    if (s_year != null && s_year != "" && s_month != null && s_month != "")
+                    {
+
+                            var modellist = _db.Database.SqlQuery<DoanhThuTheoTungNgay>("exec DoanhThuTheoNgay @Month,@Year", new SqlParameter("@Month", month), new SqlParameter("@Year", year)).ToList();
+                            model.Content = model.Content.Replace("{Table}", BuildHtmlDoanhthutheotungngay(modellist));
+                            model.Content = model.Content.Replace("{NamePrint}", "Báo cáo doanh thu theo ngày");
+                            if (ExportExcel)
+                            {
+                                encoding = Encoding.UTF8;
+                                Response.AppendHeader("content-disposition", "attachment;filename=" + DateTime.Now.ToString("yyyyMMdd") + "DoanhThuTheoNgay" + ".xls");
+                                Response.Charset = "";
+                                Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                                var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title></head ><body>";
+                                Response.Write(html);
+                                Response.Write(model.Content);
+                                Response.Write("</body></html>");
+                                Response.End();
+                            }
+                            return View(model);
+                        
+                    }
+                    else
+                    {
+                        var modellist = _db.Database.SqlQuery<DoanhThuTheoTungNgay>("exec DoanhThuTheoNgay @Month,@Year", new SqlParameter("@Month", month), new SqlParameter("@Year", year)).ToList();
+                        model.Content = model.Content.Replace("{Table}", BuildHtmlDoanhthutheotungngay(modellist));
+                        model.Content = model.Content.Replace("{NamePrint}", "Báo cáo doanh thu theo ngày");
+                        if (ExportExcel)
+                        {
+                            encoding = Encoding.UTF8;
+                            Response.AppendHeader("content-disposition", "attachment;filename=" + DateTime.Now.ToString("yyyyMMdd") + "DoanhThuTheoNgay" + ".xls");
+                            Response.Charset = "";
+                            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                            var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title></head ><body>";
+                            Response.Write(html);
+                            Response.Write(model.Content);
+                            Response.Write("</body></html>");
+                            Response.End();
+                        }
+                        return View(model);
+                    }
+
+                }
+                if (name=="baocaotonkho")
                 {
                     IEnumerable<NguyenLieuViewModel> modellist = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && ngay(x.NgayNhap) > 30 && x.SoLuongKho > 20 && x.NgayNhap != datetimesetting).Select(
                      item => new NguyenLieuViewModel
@@ -330,7 +442,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                         return View(model);
                     }
                    
-                }
+                }                
                 if (name == "spbankhongchay")
                 {
                     if (startDate == null && endDate == null || startDate == "" && endDate == "")
@@ -457,6 +569,44 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 list += "<td class=\"total\">" + item.IdDVT + "</td>\r\n";
                 list += " <td class=\"qty\">" + item.IdLoai + "</td>\r\n";
                 list += "<td class=\"total\">" + item.Tongsl + "</td>\r\n";
+                list += "</tr>\r\n";
+                i++;
+            }
+            return list;
+        }
+        string BuildHtmlDoanhthutheotungngay(List<DoanhThuTheoTungNgay> ls)
+        {
+            double? tongbill = 0;
+            var i = 1;
+            string list = "<thead><tr>";
+            list = "<th>STT</th>";
+            list += "<th>Ngày</th><th>Tổng tiền thu</th><th>Tổng tiền chi</th><th>Tiền lãi</th></thead><tbody>\r\n";
+            foreach (var item in ls)
+            {
+                list += "<tr><td class=\"service\">" + i + "</td>\r\n";
+                list += "<td class=\"desc\">" + item.Ngay+ "</td>\r\n";
+                list += " <td class=\"unit\">" + item.Tongthu + "</td>\r\n";
+                list += " <td class=\"unit\">" + item.Tongchi + "</td>\r\n";
+                list += "<td class=\"total\">" + item.Loinhuan + "</td>\r\n";
+                list += "</tr>\r\n";
+                i++;
+            }
+            return list;
+        }
+        string BuildHtmlDoanhthutheothang(List<DoanhThuTheoTungThang> ls)
+        {
+            double? tongbill = 0;
+            var i = 1;
+            string list = "<thead><tr>";
+            list = "<th>STT</th>";
+            list += "<th>Tháng</th><th>Tổng tiền thu</th><th>Tổng tiền chi</th><th>Tiền lãi</th></thead><tbody>\r\n";
+            foreach (var item in ls)
+            {
+                list += "<tr><td class=\"service\">" + i + "</td>\r\n";
+                list += "<td class=\"desc\">" + item.Thang + "</td>\r\n";
+                list += " <td class=\"unit\">" + item.Tongthu + "</td>\r\n";
+                list += " <td class=\"unit\">" + item.Tongchi + "</td>\r\n";
+                list += "<td class=\"total\">" + item.Loinhuan + "</td>\r\n";
                 list += "</tr>\r\n";
                 i++;
             }
