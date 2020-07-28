@@ -46,18 +46,43 @@
                             <label for="exampleFormControlSelect2">Quận/Huyện</label>
                             @Html.DropDownListFor(model => model.Quan, (IEnumerable<SelectListItem>)ViewBag.QuanHuyen, "- Chọn Quận/Huyện -", new { @class = "form-control" })
                         </div>
-                        <button class="btn btn-mini btn-primary" type="submit" name="Submit" onclick="showSwal('success-message')">
+                        <button class="btn btn-mini btn-primary" id="Save" type="submit" name="Submit" onclick="showSwal('success-message')">
                             <i class="ace-icon fa fa-save"></i> Lưu
                         </button>
-                        @using (Html.BeginForm("Delete", "Supplier",new { Id=4}))
-                        {
-                            <button class="btn btn-mini btn-primary" type="submit" name="Delete">
-                                <i class="ace-icon fa fa-save"></i> Xóa
-                            </button>
-                        }
                     </div>
                 </div>
             </div>
         </div>
     </div>
 }
+<script>
+    $("#Save").click(function () {
+        var tenncc = $('#Ten').val();
+        var sdt = $('#SDT').val();
+        var diachi = $('#DiaChi').val();
+        if (tenncc == "") {
+            swal({
+                text: "Chưa nhập tên nhà cung cấp!",
+                icon: "warning",
+                button: "Đồng ý",
+            });
+            return false;
+        }
+        if (sdt == "") {
+            swal({
+                text: "Chưa nhập số điện thoại!",
+                icon: "warning",
+                button: "Đồng ý",
+            });
+            return false;
+        }
+        if (diachi == "") {
+            swal({
+                text: "Chưa nhập địa chỉ!",
+                icon: "warning",
+                button: "Đồng ý",
+            });
+            return false;
+        }
+    });
+</script>
