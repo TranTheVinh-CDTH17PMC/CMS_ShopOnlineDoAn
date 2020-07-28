@@ -193,7 +193,7 @@
         })
     .autocomplete('instance')._renderItem = function (ul, item) {
         return $('<li class="ui-autocomplete-row"></li>')
-            .append('<img src="/Areas/CMS_Sale/Image/NguyenLieu/' + item.HinhAnh + '" width="40" />&nbsp;&nbsp;&nbsp;Tên SP : ' + item.Ten + ' - Đơn giá : ' + item.DonGia + '')
+            .append('<img src="/Areas/CMS_Sale/Image/NguyenLieu/' + item.HinhAnh + '" width="40" />&nbsp;&nbsp;&nbsp;Tên SP : ' + item.Ten + ' - Đơn giá : ' + item.DonGia + ' - SL kho : ' + item.SoLuongKho + '')
             .appendTo(ul);
         function updateTextBox(event, ui) {
             $(this).val(ui.item.Id);
@@ -243,7 +243,7 @@
                         html += '<tr data-id="' + item.Id + '"><td id="' + item.Id + '"><span class="sn">' + count + '</span></td>';
                         html += '<td style="display:none;"><input class="detail_item_id form-control input-sm" name="ListCTPhieuXuat[' + (count - 1) + '].IdNguyenLieu"  value="' + item.Id + '"></td>';
                         html += '<td><p type="text">' + item.Ten + '</p></td>';
-                        html += '<td><input id="Count_' + item.Id + '" class="detail_item_qty form-control input-sm" type="number" min="1" name="ListCTPhieuXuat[' + (count - 1) + '].SoLuong" value="1"></td>';
+                        html += '<td><input id="Count_' + item.Id + '" class="detail_item_qty form-control input-sm" type="number" min="1" name="ListCTPhieuXuat[' + (count - 1) + '].SoLuong" value="1" onchange="Checksl(this);"></td>';
                         html += '<td><p  class="detail_item_price" type="text">' + item.DonGia + '</p></td>';
                         html += '<td style="display:none;"><input id="Price_' + item.Id + '" class="detail_item_price form-control input-sm" type="text" name="ListCTPhieuXuat[' + (count - 1) + '].DonGia" value="' + item.DonGia + '"></td>';
                         html += '<td><p id="Total_' + item.Id + '" class="detail_item_total"></p></td>';
@@ -289,6 +289,29 @@
                 $("#totalafterdiscount").val(total);
                 $('input[name="TongTien"]').val(total);
 
+            }
+        });
+    }
+    function Checksl(id)
+    {
+        debugger
+        var sl = id.value;
+        var check = id.id;
+        var masp = check.replace("Count_", "");
+        $.ajax({
+            url: "/OutOrder/Checksl/",
+            dataType: "json",
+            type: "GET",
+            contentType: 'application/json; charset=utf-8',
+            data: { id:masp },
+            success: function (data) {
+                if(data<sl)
+                {
+                    $("#Count_" + masp + "").val(data);
+                }
+            },
+            error: function (err) {
+                alert(err);
             }
         });
     }

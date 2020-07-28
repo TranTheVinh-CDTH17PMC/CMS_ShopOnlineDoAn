@@ -9,6 +9,6 @@ namespace CMS_Database.Interfaces
 {
     public interface INguyenLieu:IGenericRepository<NguyenLieu>
     {
-
+        int? GetSLbyId(int id);
     }
 }

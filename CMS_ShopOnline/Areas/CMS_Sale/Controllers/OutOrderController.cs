@@ -169,6 +169,11 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             }).ToList();
             return Json(model, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult Checksl(int id)
+        {
+            var q = NguyenLieu.GetSLbyId(id);
+            return Json(q, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult ListProductsById(int Id)
         {
             var q = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && x.Id == Id).ToList();

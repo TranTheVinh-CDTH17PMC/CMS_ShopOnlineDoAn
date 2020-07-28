@@ -271,7 +271,10 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                         Response.Charset = "";
                         Response.Cache.SetCacheability(HttpCacheability.NoCache);
                         Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                        var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title></head ><body>";
+                        Response.Write(html);
                         Response.Write(model.Content);
+                        Response.Write("</body></html>");
                         Response.End();
                     }
                     return View(model);
@@ -369,7 +372,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     {
                         var modellist = _db.Database.SqlQuery<TopSanPhamBanCham>("exec topsanphambancham @batdau,@ketthuc", new SqlParameter("@batdau", startDate), new SqlParameter("@ketthuc", endDate)).ToList();
                         model.Content = model.Content.Replace("{Table}", BuildHtmlspbancham(modellist));
-                        model.Content = model.Content.Replace("{NamePrint}", "Top san pham ban cham");
+                        model.Content = model.Content.Replace("{NamePrint}", "Top 5 sản phẩm bán chậm");
+                        model.Content = model.Content.Replace("{NameStaff}", Helpers.Helper.CurrentUser.TenNV);
+                        model.Content = model.Content.Replace("{Datetime}",DateTime.Now.Date.ToString("dd/MM/yyyy"));
                         if (ExportExcel)
                         {
                             encoding = Encoding.UTF8;
@@ -377,7 +382,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                             Response.Charset = "";
                             Response.Cache.SetCacheability(HttpCacheability.NoCache);
                             Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                            var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title></head ><body>";
+                            var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title><style>body{font-size: 25pt;}table{border-collapse: collapse;width: 70%;}table, th, td {border: 1px solid black;}th{ text-align: center;}td{ text-align: center;}th, td {padding: 15px;}</style></head><body>";
                             Response.Write(html);
                             Response.Write(model.Content);
                             Response.Write("</body></html>");
@@ -450,13 +455,13 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             list += "<th>Tên</th> <th>Đơn giá</th><th>ĐVT</th><th>Loại</th><th>Tổng số lượng</th></thead><tbody>\r\n";
             foreach (var item in ls)
             {
-                list += "<tr><td class=\"service\">" + i + "</td>\r\n";
-                list += "<td class=\"desc\">" + item.Id + "</td>\r\n";
-                list += " <td class=\"unit\">" + item.Ten + "</td>\r\n";
-                list += " <td class=\"unit\">" + item.DonGia + "</td>\r\n";
-                list += "<td class=\"total\">" + item.IdDVT + "</td>\r\n";
-                list += " <td class=\"qty\">" + item.IdLoai + "</td>\r\n";
-                list += "<td class=\"total\">" + item.Tongsl + "</td>\r\n";
+                list += "<tr><td>" + i + "</td>\r\n";
+                list += "<td >" + item.Id + "</td>\r\n";
+                list += " <td >" + item.Ten + "</td>\r\n";
+                list += " <td >" + item.DonGia + "</td>\r\n";
+                list += "<td >" + item.IdDVT + "</td>\r\n";
+                list += " <td >" + item.IdLoai + "</td>\r\n";
+                list += "<td >" + item.Tongsl + "</td>\r\n";
                 list += "</tr>\r\n";
                 i++;
             }
