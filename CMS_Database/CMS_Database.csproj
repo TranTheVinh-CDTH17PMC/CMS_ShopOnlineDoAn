@@ -136,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\CongViec.cs" />
+    <Compile Include="Entities\DoanhThuTheoTungThang.cs" />
     <Compile Include="Entities\ListController.cs" />
     <Compile Include="Entities\CTHoaDon.cs" />
     <Compile Include="Entities\CTPhieuNhap.cs" />

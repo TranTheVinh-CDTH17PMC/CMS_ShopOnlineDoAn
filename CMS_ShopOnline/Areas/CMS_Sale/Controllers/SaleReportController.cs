@@ -166,6 +166,31 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             int pageNumber = (page ?? 1);
             return View(model.ToPagedList(pageNumber, pageSize));
         }
+        public ActionResult BaoCaoDoanhThuTheoThang(string s_year)
+        {
+            List<SelectListItem> Year = new List<SelectListItem>();
+            DateTime d_year;
+            double? tongtien = 0;
+            var year = DateTime.Now.Year;
+            for (int i = year - 3; i <= year + 3; i++)
+            {
+                Year.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+            }
+            var model = _db.Database.SqlQuery<DoanhThuTheoTungThang>("exec DoanhThuTheoThang @Year", new SqlParameter("@Year", year)).ToList();
+            if (s_year!=null && s_year!="")
+            {
+                model = _db.Database.SqlQuery<DoanhThuTheoTungThang>("exec DoanhThuTheoThang @Year", new SqlParameter("@Year", s_year)).ToList();
+                year = Int32.Parse(s_year);
+            }
+            foreach(var item in model)
+            {
+                tongtien += item.Loinhuan;
+            }
+            ViewBag.year = Year.ToList();
+            ViewBag.isyear = year.ToString();
+            ViewBag.tongtien = tongtien;
+            return View(model);
+        }
         public int ngay(DateTime ngaynhap)
         {
             int i = 0;

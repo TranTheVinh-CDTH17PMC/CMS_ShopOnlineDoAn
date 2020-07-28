@@ -1,0 +1,151 @@
+﻿@model IEnumerable<CMS_Database.Entities.DoanhThuTheoTungThang>
+
+@{
+    ViewBag.Title = "BaoCaoDoanhThuTheoThang";
+    Layout = "~/Views/Shared/ACE_Layout.cshtml";
+    var i = 1;
+}
+
+
+@helper Delete(bool? Status)
+{
+if (Status == false)
+{
+        <span class="badge badge-primary">Hoạt động</span>
+}
+}
+@helper Image(string img)
+{
+if (img == null)
+{
+        <img src="~/Areas/CMS_Sale/Image/NguyenLieu/noimage.gif" style="width:60px; height:60px">
+}
+else
+{
+        <img src="~/Areas/CMS_Sale/Image/NguyenLieu/@img" style="width:60px; height:60px">
+}
+}
+@helper CheckDate(DateTime date)
+{
+if (date == new DateTime(2010, 10, 10, 1, 1, 1))
+{
+        <span class="badge badge-warning">Khởi tạo</span>
+}
+else
+{
+        @date.Date.ToString("dd/MM/yyyy")
+}
+}
+
+<div class="container-fluid" id="container-wrapper">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Báo cáo tồn kho</h1>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="./">Trang chủ</a></li>
+            <li class="breadcrumb-item">Quản lý</li>
+            <li class="breadcrumb-item active" aria-current="page"></li>
+        </ol>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 mb-4">
+            <!-- Simple Tables -->
+            <div class="card">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <div class="col-md-8">
+                        @using (Html.BeginForm("BaoCaoDoanhThuTheoThang", "SaleReport", FormMethod.Get))
+                        {
+                            <div class="order-search" style="margin: 10px 0px; position: relative;display:flex">
+                                <select class="form-control " data-val="true" data-val-number="The field Loại người dùng must be a number." data-val-required="Bắt buộc nhập" id="s_year" name="s_year">
+                                    @foreach (var item in ViewBag.year)
+                                    {
+                                        <option @(ViewBag.isyear == item.Value ? "selected" : "") value="@item.Value">@item.Text</option>
+                                    }
+                                </select>
+                                <button type="submit" class="btn btn-primary">Search</button>
+                                <button type="button" class="btn btn-primary" onclick="openpoupmy(false);">PDF</button>
+                                <button type="button" class="btn btn-primary" onclick="openpoupmy(true);">Excel</button>
+                                @*<input type="text" class="form-control ui-autocomplete-input" onkeyup="filterFunction()" placeholder="Nhập mã phiếu hoặc tên khách hàng..." id="search-pro-box" autocomplete="off">*@
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <div class="grid-mvc" data-lang="en" data-gridname="" data-selectable="true" data-multiplefilters="false">
+                        <div class="grid-wrap">
+                            <table class="table table-striped grid-table" id="table-grid">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>STT</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>Tháng</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>Tổng tiền thu F0</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>Tổng tiền chi F1</span>
+                                            </div>
+                                        </th>
+                                        <th class="grid-header">
+                                            <div class="grid-header-title">
+                                                <span>Tiền lãi (F0-F1)</span>
+                                            </div>
+                                        </th>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr class="grid-row ">
+                                            <td class="grid-cell" data-name="">@i</td>
+                                            <td class="grid-cell" data-name="">
+                                                <span>Tháng : @item.Thang</span>
+                                            </td>
+                                            <td class="grid-cell" data-name="GhiChu">@item.Tongthu</td>
+                                            <td class="grid-cell" data-name="TongTien">@item.Tongchi</td>
+                                            <td class="grid-cell" data-name="TenKH">@item.Loinhuan</td>
+                                        </tr>
+                                        i++;
+                                    }
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>Tổng tiền :</td>
+                                        <td>@ViewBag.tongtien</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Row-->
+</div>
+
+
+<script>
+    function openpoupmy(value) {
+        debugger
+        var sd = $("#StartDate").val();
+        var ed = $("#EndDate").val();
+        newwindow = window.open('/CMS_Sale/SaleReport/ExportToExcel?name=baocaotonkho&StartDate=' + sd + '&EndDate=' + ed + '&ExportExcel='+value+'', 'print', 'height=500,width=500');
+
+                setTimeout(function () {
+                }, 500);
+            }
+
+</script>
+

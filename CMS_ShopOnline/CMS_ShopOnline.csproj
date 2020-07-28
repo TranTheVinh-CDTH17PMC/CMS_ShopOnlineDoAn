@@ -299,6 +299,7 @@
     <Content Include="Assets\js\ruang-admin.js" />
     <Content Include="Assets\js\ruang-admin.min.js" />
     <Content Include="Assets\jsQR\facebookme.mp3" />
+    <Content Include="Assets\js\simple.money.format.js" />
     <Content Include="Assets\public\templates\css\ace.min.css" />
     <Content Include="Assets\public\templates\css\bootstrap-datepicker.css" />
     <Content Include="Assets\public\templates\css\bootstrap-datepicker.min.css" />
@@ -3206,6 +3207,8 @@
     <Content Include="Areas\CMS_Sale\Views\POS\Print.cshtml" />
     <Content Include="NativeLibs\X64\libwkhtmltox.so" />
     <Content Include="NativeLibs\X64\libwkhtmltox.dylib" />
+    <Content Include="Areas\CMS_Sale\Views\Products\Print.cshtml" />
+    <Content Include="Areas\CMS_Sale\Views\SaleReport\BaoCaoDoanhThuTheoThang.cshtml" />
     <None Include="scripts\jquery-3.0.0-vsdoc.js" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
