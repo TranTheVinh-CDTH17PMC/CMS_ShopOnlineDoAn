@@ -47,34 +47,33 @@ else
         <h1 class="h3 mb-0 text-gray-800">Báo cáo tồn kho</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="./">Trang chủ</a></li>
-            <li class="breadcrumb-item">Quản lý</li>
-            <li class="breadcrumb-item active" aria-current="page"></li>
+            <li class="breadcrumb-item">Báo cáo</li>
+            <li class="breadcrumb-item active" aria-current="page">Tồn kho</li>
         </ol>
     </div>
     <div class="row">
         <div class="col-lg-12 mb-4">
             <!-- Simple Tables -->
             <div class="card">
+                @using (Html.BeginForm("BaoCaoTonKho", "SaleReport", FormMethod.Get))
+                {
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <div class="col-md-8">
-                        @using (Html.BeginForm("BaoCaoTonKho", "SaleReport", FormMethod.Get))
-                        {
-                            <div class="order-search" style="margin: 10px 0px; position: relative;display:flex">
-                                <span class="input-daterange input-group date" style="margin-right:5px">
-                                    @Html.TextBox("StartDate", Request["StartDate"] != null ? Request["StartDate"] : aDateTime.ToString("dd/MM/yyyy"), new { @class = "form-control form_datetime", autocomplete = "off", placeholder = "Từ ngày", @type = "date" })
-                                    <span class="input-group-addon">
-                                        <i class="fa fa-exchange" style="padding: 10px;"></i>
-                                    </span>
-                                    @Html.TextBox("EndDate", Request["EndDate"] != null ? Request["EndDate"] : retDateTime.ToString("dd/MM/yyyy"), new { @class = "form-control form_datetime", autocomplete = "off", placeholder = "Đến ngày", @type = "date" })
-                                </span>
-                                <button type="submit" class="btn btn-primary">Search</button>
-                                <button type="button" class="btn btn-primary" onclick="openpoupmy(false);">PDF</button>
-                                <button type="button" class="btn btn-primary" onclick="openpoupmy(true);">Excel</button>
-                                @*<input type="text" class="form-control ui-autocomplete-input" onkeyup="filterFunction()" placeholder="Nhập mã phiếu hoặc tên khách hàng..." id="search-pro-box" autocomplete="off">*@
-                            </div>
-                        }
+                    <div class="col-md-5">
+                        <span class="input-daterange input-group date" style="margin-right:5px">
+                            @Html.TextBox("StartDate", Request["StartDate"] != null ? Request["StartDate"] : aDateTime.ToString("dd/MM/yyyy"), new { @class = "form-control form_datetime", autocomplete = "off", placeholder = "Từ ngày", @type = "date" })
+                            <span class="input-group-addon">
+                                <i class="fa fa-exchange" style="padding: 10px;"></i>
+                            </span>
+                            @Html.TextBox("EndDate", Request["EndDate"] != null ? Request["EndDate"] : retDateTime.ToString("dd/MM/yyyy"), new { @class = "form-control form_datetime", autocomplete = "off", placeholder = "Đến ngày", @type = "date" })
+                        </span>
                     </div>
-                </div>
+                    <div class="col-md-7">
+                        <button type="submit" class="btn btn-primary" style="width: 14%;border: 1px solid grey;border-left: none;"><i class="fa fa-search"></i></button>
+                        <button type="button" class="btn btn-primary" onclick="openpoupmy(false);"><i class="fa fa-file-pdf-o" style="font-size:16px"> PDF</i></button>
+                        <button type="button" class="btn btn-primary" onclick="openpoupmy(true);"><i class="fa fa-file-excel-o" style="font-size:16px"> Excel</i></button>
+                    </div>
+                    </div>
+                }
                 <div class="table-responsive">
                     <div class="grid-mvc" data-lang="en" data-gridname="" data-selectable="true" data-multiplefilters="false">
                         <div class="grid-wrap">

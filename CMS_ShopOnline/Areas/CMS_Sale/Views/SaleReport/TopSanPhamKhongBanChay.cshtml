@@ -27,105 +27,105 @@ if (Status == true)
         <h1 class="h3 mb-0 text-gray-800">Top 5 sản phẩm bán chậm</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="./">Trang chủ</a></li>
-            <li class="breadcrumb-item">Quản lý</li>
-            <li class="breadcrumb-item active" aria-current="page"></li>
+            <li class="breadcrumb-item">Báo cáo</li>
+            <li class="breadcrumb-item active" aria-current="page">Sản phẩm bán chậm</li>
         </ol>
     </div>
     <div class="row">
         <div class="col-lg-12 mb-4">
             <!-- Simple Tables -->
             <div class="card">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <div class="col-md-8">
-                        @using (Html.BeginForm("TopSanPhamKhongBanChay", "SaleReport", FormMethod.Get))
-                        {
-                            <div class="order-search" style="margin: 10px 0px; position: relative;display:flex">
+                <div class="card">
+                    @using (Html.BeginForm("TopSanPhamKhongBanChay", "SaleReport", FormMethod.Get))
+                    {
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <div class="col-md-5">
                                 <span class="input-daterange input-group date" style="margin-right:5px">
                                     @Html.TextBox("StartDate", Request["StartDate"] != null ? Request["StartDate"] : aDateTime.ToString("dd/MM/yyyy"), new { @class = "form-control form_datetime", autocomplete = "off", placeholder = "Từ ngày", @type = "date" })
-                                    <span class="input-group-addon" style="padding: 10px;">
-                                        <i class="fa fa-exchange"></i>
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-exchange" style="padding: 10px;"></i>
                                     </span>
                                     @Html.TextBox("EndDate", Request["EndDate"] != null ? Request["EndDate"] : retDateTime.ToString("dd/MM/yyyy"), new { @class = "form-control form_datetime", autocomplete = "off", placeholder = "Đến ngày", @type = "date" })
                                 </span>
-                                <button type="submit" class="btn btn-primary">Search</button>
-                                <button type="button" class="btn btn-primary" onclick="openpoupmy(false);">PDF</button>
-                                <button type="button" class="btn btn-primary" onclick="openpoupmy(true);">Excel</button>
-                                @*<input type="text" class="form-control ui-autocomplete-input" onkeyup="filterFunction()" placeholder="Nhập mã phiếu hoặc tên khách hàng..." id="search-pro-box" autocomplete="off">*@
                             </div>
-                        }
-                    </div>
-                </div>
-                <div class="table-responsive">
-                    <div class="grid-mvc" data-lang="en" data-gridname="" data-selectable="true" data-multiplefilters="false">
-                        <div class="grid-wrap">
-                            <table class="table table-striped grid-table" id="table-grid">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th class="grid-header">
-                                            <div class="grid-header-title">
-                                                <span>STT</span>
-                                            </div>
-                                        </th>
-                                        <th class="grid-header">
-                                            <div class="grid-header-title">
-                                                <span>Mã</span>
-                                            </div>
-                                        </th>
-                                        <th class="grid-header">
-                                            <div class="grid-header-title">
-                                                <span>Tên</span>
-                                            </div>
-                                        </th>
-                                        <th class="grid-header">
-                                            <div class="grid-header-title">
-                                                <span>Đơn giá</span>
-                                            </div>
-                                        </th>
-                                        <th class="grid-header">
-                                            <div class="grid-header-title">
-                                                <span>ĐVT</span>
-                                            </div>
-                                        </th>
-                                        <th class="grid-header">
-                                            <div class="grid-header-title">
-                                                <span>Loại</span>
-                                            </div>
-                                        </th>
-                                        <th class="grid-header">
-                                            <div class="grid-header-title">
-                                                <span>Tổng số lượng</span>
-                                            </div>
-                                        </th>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model)
-                                    {
-                                        <tr class="grid-row ">
-                                            <td class="grid-cell" data-name="">@i</td>
-                                            <td class="grid-cell" data-name="">
-                                                <span>@item.Id</span>
-                                            </td>
-                                            <td class="grid-cell" data-name="TenNV">@item.Ten</td>
-                                            <td class="grid-cell" data-name="TenNV">@item.DonGia</td>
-                                            <td class="grid-cell" data-name="TenKH">@item.IdDVT</td>
-                                            <td class="grid-cell" data-name="TongTien">@item.IdLoai</td>
-                                            <td class="grid-cell" data-name="GhiChu">@item.Tongsl</td>
-                                        </tr>
-                                        i++;
-                                    }
-                                </tbody>
-                            </table>
-                            <div class="grid-footer">
-                                <div class="grid-pager">
-                                    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) trên @Model.PageCount
-                                    @Html.PagedListPager(Model, page => Url.Action("Index",
+                            <div class="col-md-7">
+                                <button type="submit" class="btn btn-primary" style="width: 14%;border: 1px solid grey;border-left: none;"><i class="fa fa-search"></i></button>
+                                <button type="button" class="btn btn-primary" onclick="openpoupmy(false);"><i class="fa fa-file-pdf-o" style="font-size:16px"> PDF</i></button>
+                                <button type="button" class="btn btn-primary" onclick="openpoupmy(true);"><i class="fa fa-file-excel-o" style="font-size:16px"> Excel</i></button>
+                            </div>
+                        </div>
+                    }
+                    <div class="table-responsive">
+                        <div class="grid-mvc" data-lang="en" data-gridname="" data-selectable="true" data-multiplefilters="false">
+                            <div class="grid-wrap">
+                                <table class="table table-striped grid-table" id="table-grid">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="grid-header">
+                                                <div class="grid-header-title">
+                                                    <span>STT</span>
+                                                </div>
+                                            </th>
+                                            <th class="grid-header">
+                                                <div class="grid-header-title">
+                                                    <span>Mã</span>
+                                                </div>
+                                            </th>
+                                            <th class="grid-header">
+                                                <div class="grid-header-title">
+                                                    <span>Tên</span>
+                                                </div>
+                                            </th>
+                                            <th class="grid-header">
+                                                <div class="grid-header-title">
+                                                    <span>Đơn giá</span>
+                                                </div>
+                                            </th>
+                                            <th class="grid-header">
+                                                <div class="grid-header-title">
+                                                    <span>ĐVT</span>
+                                                </div>
+                                            </th>
+                                            <th class="grid-header">
+                                                <div class="grid-header-title">
+                                                    <span>Loại</span>
+                                                </div>
+                                            </th>
+                                            <th class="grid-header">
+                                                <div class="grid-header-title">
+                                                    <span>Tổng số lượng</span>
+                                                </div>
+                                            </th>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr class="grid-row ">
+                                                <td class="grid-cell" data-name="">@i</td>
+                                                <td class="grid-cell" data-name="">
+                                                    <span>@item.Id</span>
+                                                </td>
+                                                <td class="grid-cell" data-name="TenNV">@item.Ten</td>
+                                                <td class="grid-cell" data-name="TenNV">@item.DonGia</td>
+                                                <td class="grid-cell" data-name="TenKH">@item.IdDVT</td>
+                                                <td class="grid-cell" data-name="TongTien">@item.IdLoai</td>
+                                                <td class="grid-cell" data-name="GhiChu">@item.Tongsl</td>
+                                            </tr>
+                                            i++;
+                                        }
+                                    </tbody>
+                                </table>
+                                <div class="grid-footer">
+                                    <div class="grid-pager">
+                                        Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) trên @Model.PageCount
+                                        @Html.PagedListPager(Model, page => Url.Action("Index",
                                     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
     <!--Row-->
