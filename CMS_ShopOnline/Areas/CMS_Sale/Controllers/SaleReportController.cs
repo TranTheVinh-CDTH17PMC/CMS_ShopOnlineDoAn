@@ -191,6 +191,41 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             ViewBag.tongtien = tongtien;
             return View(model);
         }
+        public ActionResult BaoCaoDoanhThuTheoNgay(string s_year,string s_month)
+        {
+            List<SelectListItem> Year = new List<SelectListItem>();
+            List<SelectListItem> Month = new List<SelectListItem>();
+            DateTime d_year;
+            double? tongtien = 0;
+            var year = DateTime.Now.Year;
+            var month = DateTime.Now.Month;
+            for (int i = year - 3; i <= year + 3; i++)
+            {
+                Year.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+            }
+            for (int i = 1; i <= 12; i++)
+            {
+                Month.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+            }
+            var model = _db.Database.SqlQuery<DoanhThuTheoTungNgay>("exec DoanhThuTheoNgay @Month,@Year", new SqlParameter("@Month", month), new SqlParameter("@Year", year)).ToList();
+            if (s_year != null && s_year != "" && s_month != null && s_month != "")
+            {
+                model = _db.Database.SqlQuery<DoanhThuTheoTungNgay>("exec DoanhThuTheoNgay @Month,@Year", new SqlParameter("@Month", s_month), new SqlParameter("@Year", s_year)).ToList();
+                year = Int32.Parse(s_year);
+                month = Int32.Parse(s_month);
+            }
+            
+            foreach (var item in model)
+            {
+                tongtien += item.Loinhuan;
+            }
+            ViewBag.year = Year.ToList();
+            ViewBag.moth = Month.ToList();
+            ViewBag.isyear = year.ToString();
+            ViewBag.ismonth = month.ToString();
+            ViewBag.tongtien = tongtien;
+            return View(model);
+        }
         public int ngay(DateTime ngaynhap)
         {
             int i = 0;

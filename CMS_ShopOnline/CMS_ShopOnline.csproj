@@ -3209,6 +3209,7 @@
     <Content Include="NativeLibs\X64\libwkhtmltox.dylib" />
     <Content Include="Areas\CMS_Sale\Views\Products\Print.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\SaleReport\BaoCaoDoanhThuTheoThang.cshtml" />
+    <Content Include="Areas\CMS_Sale\Views\SaleReport\BaoCaoDoanhThuTheoNgay.cshtml" />
     <None Include="scripts\jquery-3.0.0-vsdoc.js" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
