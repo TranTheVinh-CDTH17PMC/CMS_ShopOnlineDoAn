@@ -12,15 +12,9 @@
         $(document).ready(function () {
 	    'use strict';
 		swal({
-		title: 'Thông báo!!!',
-		text: 'Thành công',
-		type: 'success',
-		button: {
-			text: "Continue",
-			value: true,
-			visible: true,
-			className: "btn btn-primary"
-				}
+		    title: 'Thành công!',
+		    icon: 'success',
+		    button:'Đồng ý',
 		})
 });
 
@@ -110,22 +104,6 @@
     <!--Row-->
 </div>
 <script>
-    //function filterFunction() {
-    //    var input, filter, ul, li, tr, i;
-    //    input = document.getElementById("search-pro-box");
-    //    filter = input.value.toUpperCase();
-    //    div = document.getElementById("myproducts");
-    //    tr = div.getElementsByTagName("tr");
-    //    for (i = 0; i < tr.length; i++) {
-    //        txtValue = tr[i].textContent || tr[i].innerText;
-    //        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-    //            tr[i].style.display = "";
-
-    //        } else {
-    //            tr[i].style.display = "none";
-    //        }
-    //    }
-    //}
     function Delete(id) {
         if (confirm('Bạn có chắc muốn xóa item đã chọn ?')) {
             $.post("@Url.Action("Delete", "Supplier", new { area = "Crm" })", 

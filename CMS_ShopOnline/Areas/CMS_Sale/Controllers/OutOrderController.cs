@@ -74,6 +74,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             }
             int pageSize = 10;
             int pageNumber = (page ?? 1);
+            ViewBag.SuccessMessage = TempData["SuccessMessage"];
             return View(model.ToPagedList(pageNumber, pageSize));
         }
         public ActionResult Details(int id)

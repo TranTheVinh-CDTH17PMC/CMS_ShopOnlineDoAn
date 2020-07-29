@@ -6,6 +6,20 @@
     IEnumerable<TypeViewModel> ListType = ViewBag.ListType;
     IEnumerable<UnitViewModel> ListUnit = ViewBag.ListUnit;
 }
+@if (ViewBag.SuccessMessage != null)
+{
+    <script>
+        $(document).ready(function () {
+	    'use strict';
+		swal({
+		    title: 'Thành công!',
+		    icon: 'success',
+		    button:'Đồng ý',
+		})
+});
+
+    </script>
+}
 @helper ButtonEdit(string name,bool IsType,int id)
 {
     if (IsType == true)

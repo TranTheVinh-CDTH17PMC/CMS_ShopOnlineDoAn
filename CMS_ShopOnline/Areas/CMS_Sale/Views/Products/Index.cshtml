@@ -5,6 +5,20 @@
     Layout = "~/Views/Shared/ACE_Layout.cshtml";
 }
 @using GridMvc.Html
+@if (ViewBag.SuccessMessage != null)
+{
+    <script>
+        $(document).ready(function () {
+	    'use strict';
+		swal({
+		    title: 'Thành công!',
+		    icon: 'success',
+		    button:'Đồng ý',
+		})
+});
+
+    </script>
+}
     @helper ButtonEdit(int Id)
     {
         <a href="@Url.Action("Edit","Products",new { @Id = Id })">
@@ -31,14 +45,14 @@
     }
     @helper Image(string img)
     {
-    if (img == null)
-    {
-        <img src="~/Areas/CMS_Sale/Image/ThanhPham/noimage.gif" style="width:60px; height:60px">
-    }
-    else
-    {
-        <img src="~/Areas/CMS_Sale/Image/ThanhPham/@img" style="width:60px; height:60px">
-    }
+        if (img == null)
+        {
+            <img src="~/Areas/CMS_Sale/Image/ThanhPham/noimage.gif" style="width:60px; height:60px">
+        }
+        else
+        {
+            <img src="~/Areas/CMS_Sale/Image/ThanhPham/@img" style="width:60px; height:60px">
+        }
     }
     <div class="container-fluid" id="container-wrapper">
         <div class="d-sm-flex align-items-center justify-content-between mb-4">

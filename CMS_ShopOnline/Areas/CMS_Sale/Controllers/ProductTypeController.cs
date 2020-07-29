@@ -46,6 +46,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     IsDelete = item.IsDelete,
                 });
             ViewBag.ListUnit = ListUnit;
+            ViewBag.SuccessMessage = TempData["SuccessMessage"];
             return View();
         }
 

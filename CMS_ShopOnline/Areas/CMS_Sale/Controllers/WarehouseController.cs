@@ -97,6 +97,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             {
                 model = model.Where(x => x.IsDelete != true && x.Id.ToString().Contains(idten) || Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(idten));
             }
+            ViewBag.SuccessMessage = TempData["SuccessMessage"];
             return View(model);
         }
         public int ngay(DateTime ngaynhap)

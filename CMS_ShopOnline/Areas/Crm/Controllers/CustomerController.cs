@@ -27,6 +27,8 @@ namespace CMS_ShopOnline.Areas.Crm.Controllers
         // GET: /Crm/Customer/
         public ActionResult Index(string txtCode)
         {
+            try
+            {
                 IEnumerable<CustomerViewModel> model = khachhang.SelectAll().Where(x => x.IsDelete != true).Select(
                     item => new CustomerViewModel
                     {
@@ -41,14 +43,20 @@ namespace CMS_ShopOnline.Areas.Crm.Controllers
                     }).OrderBy(x => x.Id);
                 if (txtCode != null)
                 {
-                    model = model.Where(x => x.IsDelete != true && (Helpers.Helper.ChuyenThanhKhongDau(x.TenKH).Contains(Helpers.Helper.ChuyenThanhKhongDau(txtCode)) 
+                    model = model.Where(x => x.IsDelete != true && (Helpers.Helper.ChuyenThanhKhongDau(x.TenKH).Contains(Helpers.Helper.ChuyenThanhKhongDau(txtCode))
                     || x.Id.ToString().Contains(Helpers.Helper.ChuyenThanhKhongDau(txtCode)))
                     || (Helpers.Helper.ChuyenThanhKhongDau(x.SDT).Contains(Helpers.Helper.ChuyenThanhKhongDau(txtCode))));
                 }
 
                 ViewBag.SuccessMessage = TempData["SuccessMessage"];
                 return View(model);
-            
+            }
+            catch (Exception e)
+            {
+
+            }
+            return View();
+
         }
         public ActionResult Details(int id)
         {
