@@ -77,6 +77,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             {
                 model = model.Where(x => x.IdNhanVien == idnv);
             }
+            ViewBag.SuccessMessage = TempData["SuccessMessage"];
             return View(model);
         }
         public ActionResult Details(int id)

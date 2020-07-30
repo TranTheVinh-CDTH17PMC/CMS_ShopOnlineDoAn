@@ -91,9 +91,8 @@ namespace CMS_ShopOnline.Areas.Crm.Controllers
             }
             catch(Exception e)
             {
-
+                return View();
             }
-            return View();
         }
 
         // GET: Crm/Supplier/Edit/5

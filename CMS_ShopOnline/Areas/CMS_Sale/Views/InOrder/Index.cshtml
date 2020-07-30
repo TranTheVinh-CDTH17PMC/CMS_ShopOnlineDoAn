@@ -9,6 +9,20 @@
     }
     
 </style>
+@if (ViewBag.SuccessMessage != null)
+{
+    <script>
+        $(document).ready(function () {
+	    'use strict';
+		swal({
+		    title: 'Thành công!',
+		    icon: 'success',
+		    button:'Đồng ý',
+		})
+});
+
+    </script>
+}
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/ACE_Layout.cshtml";

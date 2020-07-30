@@ -3211,6 +3211,8 @@
     <Content Include="Areas\CMS_Sale\Views\SaleReport\BaoCaoDoanhThuTheoThang.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\SaleReport\BaoCaoDoanhThuTheoNgay.cshtml" />
     <Content Include="Areas\Administration\Views\SettingPoint\Create.cshtml" />
+    <Content Include="Areas\CMS_Staff\Views\UserType\Create.cshtml" />
+    <Content Include="Areas\CMS_Staff\Views\UserType\Index.cshtml" />
     <None Include="scripts\jquery-3.0.0-vsdoc.js" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
@@ -3394,7 +3396,6 @@
     <Folder Include="Areas\CMS_Account\Views\Shared\" />
     <Folder Include="Areas\CMS_Sale\Image\SanPham\" />
     <Folder Include="Areas\CMS_Staff\Views\Shared\" />
-    <Folder Include="Areas\CMS_Staff\Views\UserType\" />
     <Folder Include="Areas\Crm\Views\Shared\" />
     <Folder Include="Assets\music\" />
     <Folder Include="Assets\public\templates\upload\.thumbs\image\" />

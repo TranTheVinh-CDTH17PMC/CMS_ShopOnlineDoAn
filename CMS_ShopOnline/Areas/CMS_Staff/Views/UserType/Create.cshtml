@@ -1,0 +1,34 @@
+﻿@model CMS_ShopOnline.Areas.CMS_Staff.Models.LoainvViewModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/ACE_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    <div class="container-fluid" id="container-wrapper">
+        <div class="row">
+
+            <div class="col-lg-6">
+                <!-- Form Basic -->
+                    <div class="card mb-4">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">Tạo mới loại nhân viên</h6>
+                        </div>
+                        <div class="card-body" style="margin-top:-13px">
+                            <div class="form-group">
+                                <label>Tên loại nhân viên</label>
+                                @Html.TextBoxFor(model => model.TenLoai, new { @class = "form-control" })
+                            </div>
+                            <button class="btn btn-mini btn-primary" id="Save" type="submit" name="Submit">
+                                <i class="ace-icon fa fa-save"></i> Lưu
+                            </button>
+                        </div>
+
+                    </div>        
+            </div>
+        </div>
+    </div>
+}
+
+

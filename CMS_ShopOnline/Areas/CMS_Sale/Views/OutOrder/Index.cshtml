@@ -6,7 +6,20 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/ACE_Layout.cshtml";
 }
+@if (ViewBag.SuccessMessage != null)
+{
+    <script>
+        $(document).ready(function () {
+	    'use strict';
+		swal({
+		    title: 'Thành công!',
+		    icon: 'success',
+		    button:'Đồng ý',
+		})
+});
 
+    </script>
+}
 @helper CheckDate(DateTime date)
 {
     @date.Date.ToString("dd/MM/yyyy")

@@ -6,6 +6,20 @@
 }
 @using GridMvc.Html
 <link href="/Assets/css/warehouse.css" rel="stylesheet" type="text/css" />
+@if (ViewBag.SuccessMessage != null)
+{
+    <script>
+        $(document).ready(function () {
+	    'use strict';
+		swal({
+		    title: 'Thành công!',
+		    icon: 'success',
+		    button:'Đồng ý',
+		})
+});
+
+    </script>
+}
 @helper ButtonEdit(int Id)
 {
     <a href="@Url.Action("Edit","Warehouse",new { @Id = Id })">

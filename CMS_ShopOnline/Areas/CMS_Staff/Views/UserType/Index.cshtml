@@ -1,0 +1,118 @@
+﻿@using CMS_ShopOnline.Areas.CMS_Staff.Models
+@using GridMvc.Html
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/ACE_Layout.cshtml";
+    IEnumerable<LoainvViewModel> ListType = ViewBag.ListType;
+}
+@if (ViewBag.SuccessMessage != null)
+{
+    <script>
+        $(document).ready(function () {
+	    'use strict';
+		swal({
+		    title: 'Thành công!',
+		    icon: 'success',
+		    button:'Đồng ý',
+		})
+});
+
+    </script>
+}
+@helper ButtonEdit(string name, int id)
+{
+        <button onclick="NameType('@name',@id)" class="btn btn-primary" title="Chỉnh sửa" style="margin-left:-8px;margin-right:9px;" type="button" data-toggle="modal" data-target="#myModalType">
+            <i class="fas fa-pencil-alt"></i>
+        </button>
+}
+@helper ButtonDelete(int Id)
+{
+    <button class="btn btn-warning" title="Xóa" style="margin:-2px" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmDelete()"> <i class="fas fa-trash-alt"></i></button>
+}
+@helper Delete(bool? Status)
+{
+if (Status == false)
+{
+        <span class="badge badge-primary">Hoạt động</span>
+}
+}
+<div class="container">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div style="display:flex;">
+
+            <a href="@Url.Action("Create", "UserType", new { area ="CMS_Staff" })">
+                <button type="button" class="btn btn-primary" title="Thêm mới" style="margin-left:10px">
+                    Thêm mới <i class="fa fa-plus"></i>
+                </button>
+            </a>
+        </div>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="./">Trang chủ</a></li>
+            <li class="breadcrumb-item">Thiết lập</li>
+            <li class="breadcrumb-item active" aria-current="page">Loại nhân viên</li>
+        </ol>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <h1 class="h3 mb-0 text-gray-800" style="padding-bottom:10px">Loại nhân viên</h1>
+            @using (Html.BeginForm("Delete", "UserType", FormMethod.Post))
+            {
+                <div class="table-responsive">
+                 @Html.Grid(ListType).Columns(columns =>
+            {
+                columns.Add(x => x.TenLoai).Titled("Tên loại nhân viên");
+                columns.Add().Titled("Trạng thái").Sanitized(false).Encoded(false).RenderValueAs(x => Delete(x.IsDelete));
+                columns.Add().Titled("Tùy chỉnh").Css("text center")
+                 .Encoded(false)
+                 .Sanitized(false)
+                 .SetWidth(100)
+                 .RenderValueAs(x => (ButtonEdit(x.TenLoai, x.Id)).ToString() + (ButtonDelete(x.Id)).ToString());
+            }).WithPaging(5)
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<div class="modal" id="myModalType">
+    <div class="modal-dialog">
+        @using (Html.BeginForm("Edit", "UserType", FormMethod.Post))
+        {
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Chỉnh sửa</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body mx-3">
+                    <div class="md-form mb-5">
+                        <label data-error="wrong" data-success="right" for="defaultForm-email">Tên loại</label>
+                        <input id="NameType" class="form-control validate" name="NameUnit">
+                    </div>
+                    <button class="btn btn-mini btn-primary" type="submit" name="SubmitType" id="btnNameType">
+                        <i class="ace-icon fa fa-save"></i> Lưu
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<script>
+    function ConfirmDelete() {
+        var x = confirm("Bạn có chắc muốn xóa item đã chọn ?");
+        if (x)
+            return true;
+        else
+            return false;
+    };
+    function NameType(name,id)
+    {
+        debugger
+        $('#NameType').val(name);
+        $('#btnNameType').val(id);
+    }
+</script>
+
+
+
