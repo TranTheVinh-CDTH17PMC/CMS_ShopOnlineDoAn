@@ -14,7 +14,6 @@ using System.Web.Mvc;
 namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
 {
     [Authorize]
-    [InitializeSimpleMembership]
     public class WarehouseController : Controller
     {
         private readonly INguyenLieu NguyenLieu;
@@ -292,14 +291,19 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 modellist = modellist.Where(x => x.IsDelete != true && x.Id.ToString().Contains(idten) || Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(idten));
             }
             model.Content = model.Content.Replace("{Table}", BuildHtml(modellist));
-            model.Content = model.Content.Replace("{NamePrint}", "Danh sach kho hang");
+            model.Content = model.Content.Replace("{NamePrint}", "Danh sách kho hàng");
+            model.Content = model.Content.Replace("{NameStaff}", Helpers.Helper.CurrentUser.TenNV);
+            model.Content = model.Content.Replace("{Datetime}", DateTime.Now.Date.ToString("dd/MM/yyyy"));
             if (ExportExcel)
             {
                 Response.AppendHeader("content-disposition", "attachment;filename=" + DateTime.Now.ToString("yyyyMMdd") + "Nguyenlieu" + ".xls");
                 Response.Charset = "";
                 Response.Cache.SetCacheability(HttpCacheability.NoCache);
                 Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title><style>body{font-size: 25pt;}table{border-collapse: collapse;width: 70%;}table, th, td {border: 1px solid black;}th{ text-align: center;}td{ text-align: center;}th, td {padding: 15px;}</style></head><body>";
+                Response.Write(html);
                 Response.Write(model.Content);
+                Response.Write("</body></html>");
                 Response.End();
             }
             return View(model);

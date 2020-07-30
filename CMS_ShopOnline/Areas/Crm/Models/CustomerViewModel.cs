@@ -15,6 +15,9 @@ namespace CMS_ShopOnline.Areas.Crm.Models
         public string TenNV { get; set; }
         public string SDT { get; set; }
         public double? TongTien { get; set; }
+        public double? SoDiemToiDa { get; set; }
+        public double? SoDiem{ get; set; }
+        public double? SoTien { get; set; }
         public bool? IsDelete { get; set; }
     }
 }

@@ -138,6 +138,7 @@
     <Compile Include="Entities\CongViec.cs" />
     <Compile Include="Entities\DoanhThuTheoTungNgay.cs" />
     <Compile Include="Entities\DoanhThuTheoTungThang.cs" />
+    <Compile Include="Entities\DoiDiem.cs" />
     <Compile Include="Entities\ListController.cs" />
     <Compile Include="Entities\CTHoaDon.cs" />
     <Compile Include="Entities\CTPhieuNhap.cs" />
@@ -160,12 +161,14 @@
     <Compile Include="Entities\ThanhPham.cs" />
     <Compile Include="Entities\TopSanPhamBanCham.cs" />
     <Compile Include="Entities\TopSanPhamBanChay.cs" />
+    <Compile Include="Interfaces\IDoiDiem.cs" />
     <Compile Include="Interfaces\ICTHoaDon.cs" />
     <Compile Include="Interfaces\IHoaDon.cs" />
     <Compile Include="Interfaces\IListController.cs" />
     <Compile Include="Interfaces\IPhanQuyen.cs" />
     <Compile Include="Interfaces\ITemplatePrint.cs" />
     <Compile Include="Repositories\CTHoaDonRepository.cs" />
+    <Compile Include="Repositories\DoiDiemRepository.cs" />
     <Compile Include="Repositories\HoaDonRepository.cs" />
     <Compile Include="Interfaces\ICongViec.cs" />
     <Compile Include="Interfaces\ICTPhieuNhapRepository.cs" />

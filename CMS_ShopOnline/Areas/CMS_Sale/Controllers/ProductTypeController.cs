@@ -12,7 +12,6 @@ using System.Web.Mvc;
 namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
 {
     [Authorize]
-    [InitializeSimpleMembership]
     public class ProductTypeController : Controller
     {
         private readonly IDonViTinh DVT;

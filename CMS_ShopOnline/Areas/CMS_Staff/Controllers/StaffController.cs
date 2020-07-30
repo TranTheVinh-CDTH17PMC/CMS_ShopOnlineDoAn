@@ -13,7 +13,6 @@ using WebMatrix.WebData;
 namespace CMS_ShopOnline.Areas.CMS_Staff.Controllers
 {
     [Authorize]
-    [InitializeSimpleMembership]
     public class StaffController : Controller
     {
         private readonly INhanVien NhanVien;

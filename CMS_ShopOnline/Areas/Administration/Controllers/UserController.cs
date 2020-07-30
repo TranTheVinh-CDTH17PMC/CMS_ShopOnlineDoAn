@@ -101,6 +101,11 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
 
             return RedirectToAction("Login", "User", new { @area = "Administration" });
         }
-      
+        [Authorize]
+        public ActionResult NotPage()
+        {
+            return View();
+        }
+
     }
 }

@@ -95,7 +95,7 @@ if (Status == "Success")
             audioElement.setAttribute('src', '/Assets/jsQR/facebookme.mp3');
             audioElement.play();
         };
-        notificationFromHub.client.updatedPurchaseOder = function (Id, NgayTao, IdNhanVien, IdKhachHang, TenNV, TenKH, GhiChu, TrangThai, TongTien) {
+        notificationFromHub.client.updatedPurchaseOder = function (Id, NgayTao, IdNhanVien, IdKhachHang, TenNV, TenKH, GhiChu, TrangThai, TongTien,TongKM) {
             var today = new Date(NgayTao);
             var dd = today.getDate();
             var mm = today.getMonth() + 1;
@@ -126,10 +126,11 @@ if (Status == "Success")
             html += '<td class="grid-cell" data-name="SDT">' + TenNV + '</td>';
             html += '<td class="grid-cell" data-name="Email">' + TenKH + '</td>';
             html += '<td class="grid-cell" data-name="DiaChi">' + TongTien + '</td>';
+            html += '<td class="grid-cell" data-name="DiaChi">' + TongKM + '</td>';
             html += '<td class="grid-cell" data-name="DiaChi">' + GhiChu + '</td>';
             html += '<td class="grid-cell" data-name="">' + TrangThai + '</td>';
             html += '<td class="grid-cell text center" data-name="">';
-            html += '<a href="/Crm/Supplier/Edit/1"><button class="btn btn-primary" title="Chỉnh sửa" type="button"><i class="fas fa-pencil-alt"></i></button></a>';
+            html += '<a href="/CMS_Sale/PurchaseOrder/Details/'+Id+'"><button class="btn btn-primary" title="Chỉnh sửa" type="button"><i class="fas fa-pencil-alt"></i></button></a>';
             html += '<a href="/Crm/Supplier/Edit/1"><button class="btn btn-success" title="Chỉnh sửa" type="button"><i class="fa fa-eye"></i></button></a>';
             html += '<button class="btn btn-warning" title="Ngừng kinh doanh" style="margin:-2px" name="IdDelete" type="submit" value="1" onclick="return ConfirmDelete()"><i class="fas fa-trash-alt"></i></button></td></tr>';
             $("#table-grid tbody").prepend(html);

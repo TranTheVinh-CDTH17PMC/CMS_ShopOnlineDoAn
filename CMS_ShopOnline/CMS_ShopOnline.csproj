@@ -3195,7 +3195,7 @@
     <Content Include="Areas\CMS_Sale\Views\OutOrder\Index.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\OutOrder\Details.cshtml" />
     <Content Include="Areas\Administration\Views\Setting\Index.cshtml" />
-    <Content Include="Areas\Administration\Views\Setting\NotPage.cshtml" />
+    <Content Include="Areas\Administration\Views\User\NotPage.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\SaleReport\TopSanPhamBanChay.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\SaleReport\TopSanPhamKhongBanChay.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\SaleReport\BaoCaoTonKho.cshtml" />
@@ -3210,6 +3210,7 @@
     <Content Include="Areas\CMS_Sale\Views\Products\Print.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\SaleReport\BaoCaoDoanhThuTheoThang.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\SaleReport\BaoCaoDoanhThuTheoNgay.cshtml" />
+    <Content Include="Areas\Administration\Views\SettingPoint\Create.cshtml" />
     <None Include="scripts\jquery-3.0.0-vsdoc.js" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
@@ -3314,8 +3315,10 @@
     <Compile Include="Areas\Administration\AdministrationAreaRegistration.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Areas\Administration\Controllers\SettingController.cs" />
+    <Compile Include="Areas\Administration\Controllers\SettingPointController.cs" />
     <Compile Include="Areas\Administration\Controllers\TaskController.cs" />
     <Compile Include="Areas\Administration\Models\DetailsPhanQuyenViewModel.cs" />
+    <Compile Include="Areas\Administration\Models\DoiDiemViewModel.cs" />
     <Compile Include="Areas\Administration\Models\PhanQuyenViewModel.cs" />
     <Compile Include="Areas\Administration\Models\TaskViewModel.cs" />
     <Compile Include="Areas\CMS_Sale\CMS_SaleAreaRegistration.cs" />
@@ -3352,7 +3355,6 @@
     <Compile Include="Areas\Crm\Models\NhaCungCapViewModel.cs" />
     <Compile Include="Areas\CMS_Staff\Controllers\StaffController.cs" />
     <Compile Include="Areas\CMS_Staff\StaffAreaRegistration.cs" />
-    <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Filters\SecurityFilter.cs" />
     <Compile Include="Filters\UsersContext.cs" />
     <Compile Include="Global.asax.cs">

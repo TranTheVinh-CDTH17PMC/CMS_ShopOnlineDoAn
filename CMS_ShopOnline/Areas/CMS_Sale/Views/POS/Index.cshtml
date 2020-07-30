@@ -93,6 +93,58 @@
           color: #61534e;
         }
         /*end*/
+        .custom-checkbox {
+            min-height: 1rem;
+            padding-left: 0;
+            margin-right: 0;
+            cursor: pointer;
+        }
+
+            .custom-checkbox .custom-control-indicator {
+                content: "";
+                display: inline-block;
+                position: relative;
+                width: 30px;
+                height: 10px;
+                background-color: #818181;
+                border-radius: 15px;
+                margin-right: 10px;
+                -webkit-transition: background .3s ease;
+                transition: background .3s ease;
+                vertical-align: middle;
+                margin: 0 16px;
+                box-shadow: none;
+            }
+
+                .custom-checkbox .custom-control-indicator:after {
+                    content: "";
+                    position: absolute;
+                    display: inline-block;
+                    width: 18px;
+                    height: 18px;
+                    background-color: white;
+                    border-radius: 21px;
+                    box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.4);
+                    left: -2px;
+                    top: -4px;
+                    -webkit-transition: left .3s ease, background .3s ease, box-shadow .1s ease;
+                    transition: left .3s ease, background .3s ease, box-shadow .1s ease;
+                }
+
+            .custom-checkbox .custom-control-input:checked ~ .custom-control-indicator {
+                background-color: #ddd;
+                background-image: none;
+                box-shadow: none !important;
+            }
+
+                .custom-checkbox .custom-control-input:checked ~ .custom-control-indicator:after {
+                    background-color: #ddd;
+                    left: 15px;
+                }
+
+            .custom-checkbox .custom-control-input:focus ~ .custom-control-indicator {
+                box-shadow: none !important;
+            }
     </style>
 </head>
 @using (Html.BeginForm(FormMethod.Post))
@@ -178,27 +230,6 @@
                                     <div class="orders-act">
                                         <div class="col-md-7">
                                             <input type="text" placeholder="Tìm kiếm sản phẩm..." id="txtName" class="form-control marg-bot-10" style="width:68.5%">
-                                            @*<div class="dropdown">
-                                                <button onclick="myFunction()" class="dropbtn" id="search-pro-box"><i class="fa fa-search"></i> Nhấn tìm kiếm và chọn sản phẩm (F2)</button>
-                                                <div id="myDropdown" class="dropdown-content">
-                                                    <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
-                                                    <div class="table-wrapper-scroll-y my-custom-scrollbar" style="overflow-x:auto;">
-                                                        <table>
-                                                            <tr>
-                                                                <th>Hình</th>
-                                                                <th>Tên</th>
-                                                                <th>Giá</th>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><img src="/Assets/img/products/cappuccino2.png" style="width:40px; height:40px" /></td>
-                                                                <td><a href="#" style="color:#337ab7">Cappuccino</a></td>
-                                                                <td>45000</td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>*@
-                                            <!--load sản phẩm-->
                                             <div class="main">
                                                     <div id="myBtnContainer">
                                                     <button class="btnproduct active" onclick="GetProducts(0)"  type="button">Tất cả sản phẩm</button>
@@ -226,6 +257,31 @@
                                                                 <div class="col-md-8">
                                                                     <div class="col-md-10 padd-0" style="position: relative;">
                                                                         <input class="form-control" name="TenKH" value="" id="dlcustomer" placeholder = "Tìm khách hàng (F4)", style="border-radius: 3px 0 0 3px !important;">
+                                                                        @if(Helper.Khuyenmai()!=true)
+                                                                        {
+                                                                            <label class="custom-control-label">
+                                                                                Sử dụng điểm
+                                                                            </label><br />
+                                                                            <label class="custom-control custom-checkbox" for="chkPassport">
+                                                                                <input class="custom-control-input" data-val="true" data-val-required="The IsDelete field is required." id="chkPassport" name="IsDelete" type="checkbox">
+                                                                                <span class="custom-control-indicator"></span>
+                                                                            </label>
+                                                                            <br />
+                                                                            <div id="dvPassport">
+                                                                                <label class="custom-control-label">
+                                                                                    Điểm tích lũy
+                                                                                </label>
+                                                                                <input class="form-control" value="0" id="diemtoida" placeholder="Điểm tích lũy" , style="border-radius: 3px 0 0 3px !important;" type="number">
+                                                                            </div>
+                                                                            <input class="form-control" value="" id="tiendoi" type="hidden">
+                                                                            <input class="form-control" value="" id="diemdoi" type="hidden">
+                                                                            <input class="form-control" value="false" id="checkkhuyenmai" type="hidden">
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <input class="form-control" value="true" id="checkkhuyenmai" type="hidden">
+                                                                        }
+                                                                        
                                                                         @Html.TextBoxFor(x => x.IdKhachHang, new { type="hidden",@Value = "", @class = "form-control", placeholder = "Tìm khách hàng (F4)", style ="border-radius: 3px 0 0 3px !important;"})
                                                                         <span style="color: red; position: absolute; right: 5px; top:5px; " class="del-cys"></span>
                                                                     </div>
@@ -282,7 +338,8 @@
                                                                     <label>Giảm giá (F7)</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control text-right txtMoney discount-order" placeholder="0" style="border-radius: 0 !important;">
+                                                                    @Html.TextBoxFor(x => x.TongKM, new { @class = "form-control text-right",value="0", id = "khuyenmai", placeholder = "0", style = "border-radius: 0 !important;" })
+                                                                    @*<input type="text" name="KhuyenMai" id="khuyenmai" class="form-control text-right discount-order" placeholder="0" style="border-radius: 0 !important;">*@
                                                                 </div>   
                                                             </div>
                                                             <div class="form-group marg-bot-10 clearfix">
@@ -368,6 +425,25 @@
     </script>
 }
 <script type="text/javascript">
+    $("#chkPassport").click(function () {
+        debugger
+        if ($(this).is(":checked")) {
+            $("#dvPassport").show();
+            $("#AddPassport").hide();
+            if ($("#dlcustomer").val() != null && $("#dlcustomer").val() != "") {
+                Tinhdiemgiamgia();
+            }
+            else
+            {
+                $("#khuyenmai").val("0");
+            }
+            
+        } else {
+            $("#dvPassport").hide();
+            $("#AddPassport").show();
+            $("#khuyenmai").val("0");
+        }
+    });
     $("#Print").click(function () {
        
     });
@@ -383,14 +459,14 @@
             });
             return false;
         }
-        if (dlcustomer == "") {
-            swal({
-                text: "Chưa nhập tên khách hàng!",
-                icon: "warning",
-                button: "Đồng ý",
-            });
-            return false;
-        }
+        //if (dlcustomer == "") {
+        //    swal({
+        //        text: "Chưa nhập tên khách hàng!",
+        //        icon: "warning",
+        //        button: "Đồng ý",
+        //    });
+        //    return false;
+        //}
         
     });
 </script>

@@ -12,7 +12,6 @@ using CMS_Database.Interfaces;
 namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
 {
     [Authorize]
-    [InitializeSimpleMembership]
     public class HomeController : Controller
     {
 

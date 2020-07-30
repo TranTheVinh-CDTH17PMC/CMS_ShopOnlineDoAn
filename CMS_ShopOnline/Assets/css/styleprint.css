@@ -44,7 +44,14 @@ h1 {
   font-weight: normal;
   text-align: center;
   margin: 0 0 20px 0;
-  background: url(dimension.png);
+}
+h3 {
+  color: #5D6975;
+  font-size: 1.4em;
+  line-height: 1.4em;
+  font-weight: normal;
+  text-align: center;
+  margin: 0 0 20px 0;
 }
 
 #project {
@@ -101,7 +108,7 @@ table .desc {
 
 table td {
   padding: 20px;
-  text-align: right;
+  text-align: center;
 }
 
 table td.service,

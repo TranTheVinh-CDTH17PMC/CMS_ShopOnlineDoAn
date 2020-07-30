@@ -27,15 +27,15 @@ namespace CMS_ShopOnline.App_Start
                 WebSecurity.InitializeDatabaseConnection("DBConnection", "NhanVien", "Id", "TenTaiKhoan", true);
             }
             base.OnActionExecuting(filterContext);
-            string sControlerName = filterContext.RouteData.Values["Controller"] != null ? filterContext.RouteData.Values["Controller"].ToString().ToLower() : "";
-            string sActionName = filterContext.RouteData.Values["Action"] != null ? filterContext.RouteData.Values["Action"].ToString().ToLower() : "";
-            if (sActionName != "login".ToLower() && sActionName != "logoff" && sControlerName != "task" && sControlerName != "user")
-            {
-                if (!AccessRight(sControlerName))
-                {
-                    filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Setting" }, { "action", "NotPage" }, { "area", "Administration" } });
-                }
-            }
+            //string sControlerName = filterContext.RouteData.Values["Controller"] != null ? filterContext.RouteData.Values["Controller"].ToString().ToLower() : "";
+            //string sActionName = filterContext.RouteData.Values["Action"] != null ? filterContext.RouteData.Values["Action"].ToString().ToLower() : "";
+            //if (sActionName != "login".ToLower() && sActionName != "logoff" && sControlerName != "task" && sControlerName != "user")
+            //{
+            //    if (!AccessRight(sControlerName))
+            //    {
+            //        filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "User" }, { "action", "NotPage" }, { "area", "Administration" } });
+            //    }
+            //}
 
         }
         public static bool AccessRight(string ControlerName)

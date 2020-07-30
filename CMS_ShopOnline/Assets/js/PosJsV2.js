@@ -39,8 +39,6 @@ $(document).ready(function () {
         calcTotalAmount();
     });
     $("table.order-list").on("click", ".ibtnDel", function (event) {
-                    
-                    debugger
         $(this).closest("tr").remove();
         $('.detailList tr').each(function (index, tr) {
             $(this).find("span.sn").html(index+1);
@@ -49,7 +47,6 @@ $(document).ready(function () {
             $(tr).find('.detail_item_id').attr('name', 'ListPOSDetails['+index+'].IdThanhPham');
                         
         });
-        debugger
         var count = myTable.querySelectorAll("tr").length;
         if(count == 1)
         {
@@ -61,9 +58,25 @@ $(document).ready(function () {
         {
             calcTotalAmount();
         }   
-    }); 
+    });
+    $("#dvPassport").hide();
+    $("#AddPassport").show();
     $("#Custommer").change(function(){
         Excesscash();
+    });
+    $("#diemtoida").change(function () {
+        debugger
+        if ($("#dlcustomer").val() != null && $("#dlcustomer").val() != "") {
+            Tinhdiemgiamgia();
+            calcTotalAmount();
+        }
+        else {
+            $("#khuyenmai").val("0");
+        }
+        
+    });
+    $("#khuyenmai").change(function () {
+        calcTotalAmount();
     });
     $('#txtName').autocomplete({
         minLength: 1,
@@ -132,11 +145,24 @@ $(document).ready(function () {
         $('#IdKhachHang').val(ui.item.Id);
         $('#dlcustomer').val(ui.item.TenKH);
         return false;
-    }
-
+    }    
 });
+function Tinhdiemgiamgia()
+{
+    debugger
+    var checkhuyenmai = $("#checkkhuyenmai").val();
+    if (checkhuyenmai != "true")
+    {
+        var diemhientai = $("#diemtoida").val();
+        var tiendoi = $("#tiendoi").val();
+        var diemdoi = $("#diemdoi").val();
+        var tonggiam = (diemhientai * tiendoi) / diemdoi;
+        $("#khuyenmai").val(tonggiam);
+    }
+}
 function GetNameCustomer(id)
 {
+    var checkhuyenmai = $("#checkkhuyenmai").val();
     $.ajax({
         url: "/POS/GetNameCustomer/",
         dataType: "json",
@@ -144,11 +170,25 @@ function GetNameCustomer(id)
         contentType: 'application/json; charset=utf-8',
         data: { Id: id },
         success: function (data) {
-            console.log(data);
-            debugger
             $.each(data, function (key, item) {
                 $('#IdKhachHang').val(item.Id);
                 $('#dlcustomer').val(item.TenKH);
+                if (checkhuyenmai != "true")
+                {
+                    $('#diemtoida').val(item.SoDiemToiDa);
+                    $('#tiendoi').val(item.SoTien);
+                    $('#diemdoi').val(item.SoDiem);
+                    $("#diemtoida").attr({
+                        "max": item.SoDiemToiDa,        // substitute your own
+                        "min": 0          // values (or variables) here
+                    });
+                    $('#chkPassport').prop('checked', true);
+                    $("#dvPassport").show();
+                    $("#AddPassport").hide();
+                    Tinhdiemgiamgia();
+                    calcTotalAmount();
+                }
+                
             });
         },
         error: function (xhr) {
@@ -216,7 +256,6 @@ function GetProducts(id)
         contentType: 'application/json; charset=utf-8',
         data: { Id: id },
         success: function (data) {
-            console.log(data);
             var html = "";
             $.each(data, function (key, item) {
                 html += '<div class="col-md-3" style="padding:10px">';
@@ -250,19 +289,24 @@ function calcTotalAmount() {
     debugger
     $('table > tbody  > tr').each(function (index, elem) {
         if ($(elem).find('.detail_item_total').text() != '') { 
-            console.log(total);
-            console.log(elem);
             total = total + parseFloat($(elem).find('.detail_item_total').text());
-            $("#totalafterdiscount").val(total);
-            $('input[name="TongTien"]').val(total);
-                       
+            total1 = total - $("#khuyenmai").val();
+            if (total1 < 0)
+            {
+                alert("Vui lòng trừ điểm đổi!!!");
+                return false;
+            }
+            else
+            {
+                $("#totalafterdiscount").val(total1);
+                $('input[name="TongTien"]').val(total1);
+            }           
         }
     });
     Excesscash();
 }
 function Excesscash()
 {
-    debugger
     var cus = $("#Custommer").val();
     var total = $("#totalafterdiscount").val();
     var sum = cus.replace(",","");

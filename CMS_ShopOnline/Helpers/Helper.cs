@@ -65,7 +65,7 @@ namespace CMS_ShopOnline.Helpers
                     var user1 = _nhanvien.GetByUserName(WebSecurity.CurrentUserName);
                     if (user1 != null)
                     {
-                        return user1; // trừ 1 vì list bắt đầu là số 0
+                        return user1;
                     }
                 }
 
@@ -98,6 +98,16 @@ namespace CMS_ShopOnline.Helpers
                 return true;
             }
             return false;
+        }
+        public static bool Khuyenmai()
+        {
+            IDoiDiem doidiem = new DoiDiemRepository();
+            var _dd = doidiem.SelectAll().Where(x => x.IsDelete != true).Count();
+            if(_dd>0)
+            {
+                return false;
+            }
+            return true;
         }
 
     }

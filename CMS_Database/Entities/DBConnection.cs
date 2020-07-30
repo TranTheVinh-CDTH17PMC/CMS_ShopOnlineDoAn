@@ -32,7 +32,7 @@ namespace CMS_Database.Entities
         public virtual DbSet<PhanQuyen> PhanQuyen { get; set; }
         public virtual DbSet<ListController> ListController { get; set; }
         public virtual DbSet<TemplatePrint> TemplatePrint { get; set; }
-        
+        public virtual DbSet<DoiDiem> DoiDiem { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<DonViTinh>()
@@ -45,10 +45,10 @@ namespace CMS_Database.Entities
                 .WithOptional(e => e.DonViTinh)
                 .HasForeignKey(e => e.IdDVT);
 
-            modelBuilder.Entity<KhachHang>()
-                .HasMany(e => e.HoaDon)
-                .WithOptional(e => e.KhachHang)
-                .HasForeignKey(e => e.IdKhachHang);
+            //modelBuilder.Entity<KhachHang>()
+            //    .HasMany(e => e.HoaDon)
+            //    .WithOptional(e => e.KhachHang)
+            //    .HasForeignKey(e => e.IdKhachHang);
 
             modelBuilder.Entity<LoaiNV>()
                 .HasMany(e => e.NhanVien)

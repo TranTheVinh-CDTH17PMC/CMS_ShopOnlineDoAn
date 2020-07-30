@@ -9,11 +9,11 @@ namespace CMS_Database.Entities
     [Table("KhachHang")]
     public partial class KhachHang
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public KhachHang()
-        {
-            HoaDon = new HashSet<HoaDon>();
-        }
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        //public KhachHang()
+        //{
+        //    HoaDon = new HashSet<HoaDon>();
+        //}
 
         public int Id { get; set; }
 
@@ -33,7 +33,7 @@ namespace CMS_Database.Entities
 
         public virtual NhanVien NhanVien { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<HoaDon> HoaDon { get; set; }
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        //public virtual ICollection<HoaDon> HoaDon { get; set; }
     }
 }

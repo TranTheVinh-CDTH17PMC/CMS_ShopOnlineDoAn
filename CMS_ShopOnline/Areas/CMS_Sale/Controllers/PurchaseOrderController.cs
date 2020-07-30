@@ -12,7 +12,6 @@ using System.Web.Mvc;
 namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
 {
     [Authorize]
-    [InitializeSimpleMembership]
     public class PurchaseOrderController : Controller
     {
         private readonly INguyenLieu NguyenLieu;
@@ -54,6 +53,16 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             TemplatePrint = _TemplatePrint;
             NhanVien = _NhanVien;
         }
+        public string checknullkh(int? tenkh)
+        {
+            string name = "Rỗng";
+            if(tenkh!=null)
+            {
+                var getname = KhachHang.GetNameById(tenkh);
+                name = getname.TenKH.ToString();
+            }
+            return name;
+        }
         //
         // GET: /CMS_Sale/PurchaseOrder/
         public ActionResult Index(int? idnv,int? id,string sortOrder, string currentFilter, string searchString, int? page)
@@ -76,10 +85,11 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     IdKhachHang = item.IdKhachHang,
                     NgayTao = item.NgayTao,
                     TenNV = item.NhanVien.TenNV,
-                    TenKH = item.KhachHang.TenKH,
+                    TenKH = checknullkh(item.IdKhachHang),
                     GhiChu = item.GhiChu,
                     TrangThai = item.TrangThai,
                     TongTien = item.TongTien,
+                    TongKM = item.TongKM,
                     IsDelete = item.IsDelete
                 }
             ).ToList().OrderByDescending(x=>x.NgayTao);
@@ -105,7 +115,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             var px = HoaDon.SelectById(id);
             HoaDonViewModel model = new HoaDonViewModel();
             AutoMapper.Mapper.Map(px, model);
-            model.TenKH = px.KhachHang.TenKH;
+            model.TenKH = checknullkh(px.IdKhachHang);
             model.TenNV = px.NhanVien.TenNV;
             var details = CTHoaDon.GetById(px.Id).Select(
                 item => new CTHoaDonViewModel
@@ -153,10 +163,11 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     IdKhachHang = item.IdKhachHang,
                     NgayTao = item.NgayTao,
                     TenNV = item.NhanVien.TenNV,
-                    TenKH = item.KhachHang.TenKH,
+                    TenKH = checknullkh(item.IdKhachHang),
                     GhiChu = item.GhiChu,
                     TrangThai = item.TrangThai,
                     TongTien = item.TongTien,
+                    TongKM = item.TongKM,
                     IsDelete = item.IsDelete
                 }
             ).OrderByDescending(x => x.NgayTao);
@@ -170,13 +181,15 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             }
             model.Content = model.Content.Replace("{Table}", BuildHtml(modellist));
             model.Content = model.Content.Replace("{NamePrint}", "Danh sach hoa don");
+            model.Content = model.Content.Replace("{NameStaff}", Helpers.Helper.CurrentUser.TenNV);
+            model.Content = model.Content.Replace("{Datetime}", DateTime.Now.Date.ToString("dd/MM/yyyy"));
             if (ExportExcel)
             {
                 Response.AppendHeader("content-disposition", "attachment;filename=" + DateTime.Now.ToString("yyyyMMdd") + "HoaDon" + ".xls");
                 Response.Charset = "";
                 Response.Cache.SetCacheability(HttpCacheability.NoCache);
                 Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title></head ><body>";
+                var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title><style>body{font-size: 25pt;}table{border-collapse: collapse;width: 70%;}table, th, td {border: 1px solid black;}th{ text-align: center;}td{ text-align: center;}th, td {padding: 15px;}</style></head><body>";
                 Response.Write(html);
                 Response.Write(model.Content);
                 Response.Write("</body></html>");

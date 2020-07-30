@@ -19,6 +19,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Models
         public string TenNV { get; set; }
         public string TrangThai { get; set; }
         public double? TongTien { get; set; }
+        public double? TongKM { get; set; }
         public bool? IsDelete { get; set; }
         public List<CTHoaDonViewModel> ListPOSDetails { get; set; }
     }

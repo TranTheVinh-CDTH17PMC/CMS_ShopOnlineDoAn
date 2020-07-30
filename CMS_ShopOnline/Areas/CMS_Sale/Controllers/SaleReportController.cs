@@ -19,7 +19,6 @@ using System.Web.UI.WebControls;
 namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
 {
     [Authorize]
-    [InitializeSimpleMembership]
     public class SaleReportController : Controller
     {
         DBConnection _db = new DBConnection();
@@ -255,6 +254,8 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                         var modellist = _db.Database.SqlQuery<DoanhThuTheoTungThang>("exec DoanhThuTheoThang @Year", new SqlParameter("@Year", year)).ToList();
                         model.Content = model.Content.Replace("{Table}", BuildHtmlDoanhthutheothang(modellist));
                         model.Content = model.Content.Replace("{NamePrint}", "Báo cáo doanh thu theo tháng");
+                        model.Content = model.Content.Replace("{NameStaff}", Helpers.Helper.CurrentUser.TenNV);
+                        model.Content = model.Content.Replace("{Datetime}", DateTime.Now.Date.ToString("dd/MM/yyyy"));
                         if (ExportExcel)
                         {
                             encoding = Encoding.UTF8;
@@ -262,7 +263,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                             Response.Charset = "";
                             Response.Cache.SetCacheability(HttpCacheability.NoCache);
                             Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                            var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title></head ><body>";
+                            var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title><style>body{font-size: 25pt;}table{border-collapse: collapse;width: 70%;}table, th, td {border: 1px solid black;}th{ text-align: center;}td{ text-align: center;}th, td {padding: 15px;}</style></head><body>";
                             Response.Write(html);
                             Response.Write(model.Content);
                             Response.Write("</body></html>");
@@ -276,6 +277,8 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                         var modellist = _db.Database.SqlQuery<DoanhThuTheoTungThang>("exec DoanhThuTheoThang @Year", new SqlParameter("@Year", year)).ToList();
                         model.Content = model.Content.Replace("{Table}", BuildHtmlDoanhthutheothang(modellist));
                         model.Content = model.Content.Replace("{NamePrint}", "Báo cáo doanh thu theo tháng");
+                        model.Content = model.Content.Replace("{NameStaff}", Helpers.Helper.CurrentUser.TenNV);
+                        model.Content = model.Content.Replace("{Datetime}", DateTime.Now.Date.ToString("dd/MM/yyyy"));
                         if (ExportExcel)
                         {
                             encoding = Encoding.UTF8;
@@ -283,7 +286,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                             Response.Charset = "";
                             Response.Cache.SetCacheability(HttpCacheability.NoCache);
                             Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                            var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title></head ><body>";
+                            var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title><style>body{font-size: 25pt;}table{border-collapse: collapse;width: 70%;}table, th, td {border: 1px solid black;}th{ text-align: center;}td{ text-align: center;}th, td {padding: 15px;}</style></head><body>";
                             Response.Write(html);
                             Response.Write(model.Content);
                             Response.Write("</body></html>");
@@ -311,30 +314,11 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     if (s_year != null && s_year != "" && s_month != null && s_month != "")
                     {
 
-                            var modellist = _db.Database.SqlQuery<DoanhThuTheoTungNgay>("exec DoanhThuTheoNgay @Month,@Year", new SqlParameter("@Month", month), new SqlParameter("@Year", year)).ToList();
-                            model.Content = model.Content.Replace("{Table}", BuildHtmlDoanhthutheotungngay(modellist));
-                            model.Content = model.Content.Replace("{NamePrint}", "Báo cáo doanh thu theo ngày");
-                            if (ExportExcel)
-                            {
-                                encoding = Encoding.UTF8;
-                                Response.AppendHeader("content-disposition", "attachment;filename=" + DateTime.Now.ToString("yyyyMMdd") + "DoanhThuTheoNgay" + ".xls");
-                                Response.Charset = "";
-                                Response.Cache.SetCacheability(HttpCacheability.NoCache);
-                                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                                var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title></head ><body>";
-                                Response.Write(html);
-                                Response.Write(model.Content);
-                                Response.Write("</body></html>");
-                                Response.End();
-                            }
-                            return View(model);
-                        
-                    }
-                    else
-                    {
                         var modellist = _db.Database.SqlQuery<DoanhThuTheoTungNgay>("exec DoanhThuTheoNgay @Month,@Year", new SqlParameter("@Month", month), new SqlParameter("@Year", year)).ToList();
                         model.Content = model.Content.Replace("{Table}", BuildHtmlDoanhthutheotungngay(modellist));
                         model.Content = model.Content.Replace("{NamePrint}", "Báo cáo doanh thu theo ngày");
+                        model.Content = model.Content.Replace("{NameStaff}", Helpers.Helper.CurrentUser.TenNV);
+                        model.Content = model.Content.Replace("{Datetime}", DateTime.Now.Date.ToString("dd/MM/yyyy"));
                         if (ExportExcel)
                         {
                             encoding = Encoding.UTF8;
@@ -342,7 +326,30 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                             Response.Charset = "";
                             Response.Cache.SetCacheability(HttpCacheability.NoCache);
                             Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                            var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title></head ><body>";
+                            var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title><style>body{font-size: 25pt;}table{border-collapse: collapse;width: 70%;}table, th, td {border: 1px solid black;}th{ text-align: center;}td{ text-align: center;}th, td {padding: 15px;}</style></head><body>";
+                            Response.Write(html);
+                            Response.Write(model.Content);
+                            Response.Write("</body></html>");
+                            Response.End();
+                        }
+                        return View(model);
+                        
+                    }
+                    else
+                    {
+                        var modellist = _db.Database.SqlQuery<DoanhThuTheoTungNgay>("exec DoanhThuTheoNgay @Month,@Year", new SqlParameter("@Month", month), new SqlParameter("@Year", year)).ToList();
+                        model.Content = model.Content.Replace("{Table}", BuildHtmlDoanhthutheotungngay(modellist));
+                        model.Content = model.Content.Replace("{NamePrint}", "Báo cáo doanh thu theo ngày");
+                        model.Content = model.Content.Replace("{NameStaff}", Helpers.Helper.CurrentUser.TenNV);
+                        model.Content = model.Content.Replace("{Datetime}", DateTime.Now.Date.ToString("dd/MM/yyyy"));
+                        if (ExportExcel)
+                        {
+                            encoding = Encoding.UTF8;
+                            Response.AppendHeader("content-disposition", "attachment;filename=" + DateTime.Now.ToString("yyyyMMdd") + "DoanhThuTheoNgay" + ".xls");
+                            Response.Charset = "";
+                            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                            var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title><style>body{font-size: 25pt;}table{border-collapse: collapse;width: 70%;}table, th, td {border: 1px solid black;}th{ text-align: center;}td{ text-align: center;}th, td {padding: 15px;}</style></head><body>";
                             Response.Write(html);
                             Response.Write(model.Content);
                             Response.Write("</body></html>");
@@ -376,14 +383,16 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                         modellist = modellist.Where(x => x.IsDelete != true && ngay(x.NgayNhap) > 30 && x.SoLuongKho > 20 && x.NgayNhap != datetimesetting && x.NgayNhap >= d_startDate && x.NgayNhap <= d_endDate);
                     }
                     model.Content = model.Content.Replace("{Table}", BuildHtml(modellist));
-                    model.Content = model.Content.Replace("{NamePrint}", "Bao cao ton kho");
+                    model.Content = model.Content.Replace("{NamePrint}", "Báo cáo tồn kho");
+                    model.Content = model.Content.Replace("{NameStaff}", Helpers.Helper.CurrentUser.TenNV);
+                    model.Content = model.Content.Replace("{Datetime}", DateTime.Now.Date.ToString("dd/MM/yyyy"));
                     if (ExportExcel)
                     {
                         Response.AppendHeader("content-disposition", "attachment;filename=" + DateTime.Now.ToString("yyyyMMdd") + "BaoCaoTonKho" + ".xls");
                         Response.Charset = "";
                         Response.Cache.SetCacheability(HttpCacheability.NoCache);
                         Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                        var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title></head ><body>";
+                        var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title><style>body{font-size: 25pt;}table{border-collapse: collapse;width: 70%;}table, th, td {border: 1px solid black;}th{ text-align: center;}td{ text-align: center;}th, td {padding: 15px;}</style></head><body>";
                         Response.Write(html);
                         Response.Write(model.Content);
                         Response.Write("</body></html>");
@@ -407,7 +416,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                         {
                            var modellist = _db.Database.SqlQuery<TopSanPhamBanChay>("exec topspbanchay @batdau,@ketthuc", new SqlParameter("@batdau", d_startDate), new SqlParameter("@ketthuc", d_endDate)).ToList();
                             model.Content = model.Content.Replace("{Table}", BuildHtmlspbanchay(modellist));
-                            model.Content = model.Content.Replace("{NamePrint}", "Top san pham ban chay");
+                            model.Content = model.Content.Replace("{NamePrint}", "Top 5 sản phẩm bán chạy");
+                            model.Content = model.Content.Replace("{NameStaff}", Helpers.Helper.CurrentUser.TenNV);
+                            model.Content = model.Content.Replace("{Datetime}", DateTime.Now.Date.ToString("dd/MM/yyyy"));
                             if (ExportExcel)
                             {
                                 encoding = Encoding.UTF8;
@@ -415,7 +426,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                                 Response.Charset = "";
                                 Response.Cache.SetCacheability(HttpCacheability.NoCache);
                                 Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                                var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title></head ><body>";
+                                var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title><style>body{font-size: 25pt;}table{border-collapse: collapse;width: 70%;}table, th, td {border: 1px solid black;}th{ text-align: center;}td{ text-align: center;}th, td {padding: 15px;}</style></head><body>";
                                 Response.Write(html);
                                 Response.Write(model.Content);
                                 Response.Write("</body></html>");
@@ -428,7 +439,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     {
                         var modellist  = _db.Database.SqlQuery<TopSanPhamBanChay>("exec topspbanchay @batdau,@ketthuc", new SqlParameter("@batdau", startDate), new SqlParameter("@ketthuc", endDate)).ToList();
                         model.Content = model.Content.Replace("{Table}", BuildHtmlspbanchay(modellist));
-                        model.Content = model.Content.Replace("{NamePrint}", "Top san pham ban chay");
+                        model.Content = model.Content.Replace("{NamePrint}", "Top 5 sản phẩm bán chạy");
+                        model.Content = model.Content.Replace("{NameStaff}", Helpers.Helper.CurrentUser.TenNV);
+                        model.Content = model.Content.Replace("{Datetime}", DateTime.Now.Date.ToString("dd/MM/yyyy"));
                         if (ExportExcel)
                         {
                             encoding = Encoding.UTF8;
@@ -436,7 +449,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                             Response.Charset = "";
                             Response.Cache.SetCacheability(HttpCacheability.NoCache);
                             Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                            var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title></head ><body>";
+                            var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title><style>body{font-size: 25pt;}table{border-collapse: collapse;width: 70%;}table, th, td {border: 1px solid black;}th{ text-align: center;}td{ text-align: center;}th, td {padding: 15px;}</style></head><body>";
                             Response.Write(html);
                             Response.Write(model.Content);
                             Response.Write("</body></html>");
@@ -463,7 +476,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                             encoding = Encoding.UTF8;
                             var modellist = _db.Database.SqlQuery<TopSanPhamBanCham>("exec topsanphambancham @batdau,@ketthuc", new SqlParameter("@batdau", d_startDate), new SqlParameter("@ketthuc", d_endDate)).ToList();
                             model.Content = model.Content.Replace("{Table}", BuildHtmlspbancham(modellist));
-                            model.Content = model.Content.Replace("{NamePrint}", "Top san pham ban cham");
+                            model.Content = model.Content.Replace("{NamePrint}", "Top 5 sản phẩm bán chậm");
+                            model.Content = model.Content.Replace("{NameStaff}", Helpers.Helper.CurrentUser.TenNV);
+                            model.Content = model.Content.Replace("{Datetime}", DateTime.Now.Date.ToString("dd/MM/yyyy"));
                             if (ExportExcel)
                             {
                                 encoding = Encoding.UTF8;
@@ -471,7 +486,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                                 Response.Charset = "";
                                 Response.Cache.SetCacheability(HttpCacheability.NoCache);
                                 Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                                var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title></head ><body>";
+                                var html = "<!DOCTYPE html><html lang='en'><head><metacharset='utf-8'><title>Print</title><style>body{font-size: 25pt;}table{border-collapse: collapse;width: 70%;}table, th, td {border: 1px solid black;}th{ text-align: center;}td{ text-align: center;}th, td {padding: 15px;}</style></head><body>";
                                 Response.Write(html);
                                 Response.Write(model.Content);
                                 Response.Write("</body></html>");

@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 
 namespace CMS_Database.Interfaces
 {
-    public interface IKhachHang : IGenericRepository<KhachHang>
+    public interface IDoiDiem:IGenericRepository<DoiDiem>
     {
-        KhachHang GetNameById(int? id);
-        void Delele(int id);
     }
 }

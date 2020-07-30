@@ -17,7 +17,6 @@ using SelectPdf;
 namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
 {
     [Authorize]
-    [InitializeSimpleMembership]
     public class POSController : Controller
     {
         private readonly INguyenLieu NguyenLieu;
@@ -30,6 +29,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         private readonly IHoaDon HoaDon;
         private readonly ICTHoaDon CTHoaDon;
         private readonly ITemplatePrint TemplatePrint;
+        private readonly IDoiDiem DoiDiem;
         public POSController()
         {
             NguyenLieu = new NguyenLieuRepository();
@@ -42,8 +42,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             HoaDon = new HoaDonRepository();
             CTHoaDon = new CTHoaDonRepository();
             TemplatePrint = new TemplatePrintRepository();
+            DoiDiem = new DoiDiemRepository();
         }
-        public POSController(ITemplatePrint _TemplatePrint, ICTHoaDon _CTHoaDon, IKhachHang _KhachHang, IPhieuXuat _hoadon,ICTPhieuXuat _CTPhieuXuat,INguyenLieu _NguyenLieu, IDonViTinh _DVT, ILoaiSP _LoaiSP,IThanhPham _ThanhPham, IHoaDon _HoaDon)
+        public POSController(IDoiDiem _DoiDiem, ITemplatePrint _TemplatePrint, ICTHoaDon _CTHoaDon, IKhachHang _KhachHang, IPhieuXuat _hoadon,ICTPhieuXuat _CTPhieuXuat,INguyenLieu _NguyenLieu, IDonViTinh _DVT, ILoaiSP _LoaiSP,IThanhPham _ThanhPham, IHoaDon _HoaDon)
         {
             NguyenLieu = _NguyenLieu;
             DVT = _DVT;
@@ -55,6 +56,16 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             HoaDon = _HoaDon;
             CTHoaDon = _CTHoaDon;
             TemplatePrint = _TemplatePrint;
+            DoiDiem = _DoiDiem;
+        }
+        public string checknullkh(string tenkh)
+        {
+            string name = "Rỗng";
+            if (tenkh != null && tenkh != "")
+            {
+                name = tenkh;
+            }
+            return name;
         }
         //
         //
@@ -78,6 +89,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 _hoadon.IdNhanVien = Helper.CurrentUser.Id;
                 _hoadon.TrangThai = "Create";
                 _hoadon.NgayTao = DateTime.Now;
+                _hoadon.IsDelete = false;
                 HoaDon.Insert(_hoadon);
                 HoaDon.Save();
                 var idhd = _hoadon.Id;
@@ -91,14 +103,17 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     CTHoaDon.Insert(_cthoadon);
                     CTHoaDon.Save();
                 }
-                var _kh = KhachHang.SelectById(_hoadon.IdKhachHang);
-                _kh.TongTien += _hoadon.TongTien;
-                KhachHang.Update(_kh);
-                KhachHang.Save();
+                if(_hoadon.IdKhachHang!=null && _hoadon.IdKhachHang!=0)
+                {
+                    var _kh = KhachHang.SelectById(_hoadon.IdKhachHang);
+                    _kh.TongTien = (_kh.TongTien - _hoadon.TongKM) + _hoadon.TongTien;
+                    KhachHang.Update(_kh);
+                    KhachHang.Save();
+                }
                 TaskController.CreateTask("Tạo hóa đơn", ControllerName, Action,Areas,Helper.CurrentUser.Id, idhd);
                 var _px = HoaDon.SelectById(idhd);
                 string NameNV = Helper.CurrentUser.TenNV;
-                MyHub.PurchaseOder(idhd, _px.NgayTao, _px.IdNhanVien, _px.IdKhachHang, NameNV, model.TenKH , _px.GhiChu, _px.TrangThai, _px.TongTien);
+                MyHub.PurchaseOder(idhd, _px.NgayTao, _px.IdNhanVien, _px.IdKhachHang, NameNV, model.TenKH , _px.GhiChu, _px.TrangThai, _px.TongTien,_px.TongKM);
                 TempData["SuccessMessage"] = idhd;
                 return RedirectToAction("Index");
             }
@@ -113,7 +128,14 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             var px = HoaDon.SelectById(id);
             HoaDonViewModel modellist = new HoaDonViewModel();
             AutoMapper.Mapper.Map(px, modellist);
-            modellist.TenKH = px.KhachHang.TenKH;
+            if(px.IdKhachHang==null)
+            {
+                modellist.TenKH = "Rỗng";
+            }
+            //else
+            //{
+            //    modellist.TenKH =px.KhachHang.TenKH;
+            //}
             modellist.TenNV = px.NhanVien.TenNV;
             var details = CTHoaDon.GetById(px.Id).Select(
                 item => new CTHoaDonViewModel
@@ -129,7 +151,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             model.Content = model.Content.Replace("{DataTable}", BuildHtml(details));
             model.Content = model.Content.Replace("{MAHD}", id.ToString());
             model.Content = model.Content.Replace("{Tongtam}", modellist.TongTien.ToString());
-            model.Content = model.Content.Replace("{Khuyenmai}","0");
+            model.Content = model.Content.Replace("{Khuyenmai}",px.TongKM.ToString());
             model.Content = model.Content.Replace("{Tongtien}", modellist.TongTien.ToString());
             return View(model);
         }
@@ -290,9 +312,42 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 IdNVTao = item.IdNVTao,
                 TenNV = item.NhanVien.TenNV,
                 TongTien = item.TongTien,
+                SoDiemToiDa = Tinhdiemtoida(item.TongTien),
+                SoDiem = TinhDiem(),
+                SoTien = Tinhtien(),
                 IsDelete = item.IsDelete
             }).ToList();
             return Json(model, JsonRequestBehavior.AllowGet);
+        }
+        public double? Tinhdiemtoida(double? tongtien)
+        {
+            double diem = 0; ;
+            var _dd = DoiDiem.SelectAll();
+            foreach(var item in _dd)
+            {
+                diem = Convert.ToDouble((tongtien / item.Tienhang) * item.Diemhang);
+            }
+            return Math.Floor(diem);
+        }
+        public double? Tinhtien()
+        {
+            double? tien = 0; ;
+            var _dd = DoiDiem.SelectAll();
+            foreach (var item in _dd)
+            {
+                tien = item.Tiendoi;
+            }
+            return tien;
+        }
+        public double? TinhDiem()
+        {
+            double? tien = 0; ;
+            var _dd = DoiDiem.SelectAll();
+            foreach (var item in _dd)
+            {
+                tien = item.Diemdoi;
+            }
+            return tien;
         }
         public ActionResult SearchCustomer(string name)
         {

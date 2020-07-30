@@ -17,6 +17,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Models
         public string TrangThai { get; set; }
         public double? TongTien { get; set; }
         public string TenKH { get; set; }
+        public double? TongKM { get; set; }
         public List<POSDetailsViewModel> ListPOSDetails { get; set; }
     }
 }

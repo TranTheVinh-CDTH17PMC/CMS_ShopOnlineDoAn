@@ -14,10 +14,11 @@ namespace CMS_Database.Repositories
        {
        }
 
-        public string GetNameById(int? id)
+        public KhachHang GetNameById(int? id)
         {
-            var tenkh = _db.KhachHang.Where(x => x.IsDelete != true && x.Id == id).Select(x => x.TenKH).ToString();
+            var tenkh = _db.KhachHang.SingleOrDefault(x => x.IsDelete != true && x.Id == id);
             return tenkh;
         }
+
     }
 }
