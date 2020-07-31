@@ -39,6 +39,10 @@
     {
             <span class="badge badge-success">Hoàn thành</span>
     }
+    if (Status == "Delete")
+    {
+            <span class="badge badge-danger">Đã hủy</span>
+    }
 }
 @helper CheckDate(DateTime date)
 {
@@ -79,102 +83,102 @@
                         <button type="button" class="btn btn-primary" onclick="openpoupmy(true);"><i class="fa fa-file-excel-o" style="font-size:16px"> Excel</i></button>
                         </div>
                 }
-                <div class="table-responsive">
-                    <div class="grid-mvc" data-lang="en" data-gridname="" data-selectable="true" data-multiplefilters="false">
-                        <div class="grid-wrap">
-                            <table class="table table-striped grid-table" id="table-grid">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th class="grid-header">
-                                            <div class="grid-header-title">
-                                                <span>Mã</span>
-                                            </div>
-                                        </th>
-                                        <th class="grid-header">
-                                            <div class="grid-header-title">
-                                                <span>Ngày bán</span>
-                                            </div>
-                                        </th>
-                                        <th class="grid-header">
-                                            <div class="grid-header-title">
-                                                <span>Nhân viên</span>
-                                            </div>
-                                        </th>
-                                        <th class="grid-header">
-                                            <div class="grid-header-title">
-                                                <span>Khách hàng</span>
-                                            </div>
-                                        </th>
-                                        <th class="grid-header">
-                                            <div class="grid-header-title">
-                                                <span>Tổng tiền</span>
-                                            </div>
-                                        </th>
-                                        <th class="grid-header">
-                                            <div class="grid-header-title">
-                                                <span>Tổng KM</span>
-                                            </div>
-                                        </th>
-                                        <th class="grid-header">
-                                            <div class="grid-header-title">
-                                                <span>Ghi chú</span>
-                                            </div>
-                                        </th>
-                                        <th class="grid-header">
-                                            <div class="grid-header-title">
-                                                <span>Trạng thái</span>
-                                            </div>
-                                        </th>
-                                        <th class="grid-header text center">
-                                            <div class="grid-header-title">
-                                                <span>Tùy chỉnh</span>
-                                            </div>
-                                        </th>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model)
-                                    {
-                                        <tr class="grid-row ">
-                                            <td class="grid-cell" data-name="">
-                                                <span>NCC @item.Id</span>
-                                            </td>
-                                            <td class="grid-cell" data-name="NgayTao">@CheckDate(item.NgayTao)</td>
-                                            <td class="grid-cell" data-name="TenNV">@item.TenNV</td>
-                                            <td class="grid-cell" data-name="TenKH">@item.TenKH</td>
-                                            <td class="grid-cell" data-name="TongTien">@item.TongTien</td>
-                                            <td class="grid-cell" data-name="TongTien">@item.TongKM</td>
-                                            <td class="grid-cell" data-name="GhiChu">@item.GhiChu</td>
-                                            <td class="grid-cell" data-name="TrangThai">@Delete(item.TrangThai)</td>
-                                            <td class="grid-cell text center" width="150px" data-name="">
-                                                <a href="/Crm/Supplier/Edit/1">
-                                                    <button class="btn btn-primary" style="margin-left:-19px;margin-right:3px;" title="Chỉnh sửa" type="button">
-                                                        <i class="fas fa-pencil-alt"></i>
-                                                    </button>
-                                                </a>
-                                                <a href="/CMS_Sale/PurchaseOrder/Details/@item.Id">
-                                                    <button class="btn btn-success" style="margin-right:3px;" title="Xem" type="button">
-                                                        <i class="fa fa-eye" aria-hidden="true"></i>
-                                                    </button>
-                                                </a>
-                                                <button class="btn btn-warning" title="Xóa hóa đơn" name="IdDelete" type="submit" value="1" onclick="return ConfirmDelete()">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    }
-                                    
-                                </tbody>
-                            </table>
-                            <div class="grid-footer">
-                                <div class="grid-pager">
-                                    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) trên @Model.PageCount
-                                    @Html.PagedListPager(Model, page => Url.Action("Index",
-                                    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                @using (Html.BeginForm("Delete", "PurchaseOrder"))
+                {
+                    <div class="table-responsive">
+                        <div class="grid-mvc" data-lang="en" data-gridname="" data-selectable="true" data-multiplefilters="false">
+                            <div class="grid-wrap">
+                                <table class="table table-striped grid-table" id="table-grid">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="grid-header">
+                                                <div class="grid-header-title">
+                                                    <span>Mã</span>
+                                                </div>
+                                            </th>
+                                            <th class="grid-header">
+                                                <div class="grid-header-title">
+                                                    <span>Ngày bán</span>
+                                                </div>
+                                            </th>
+                                            <th class="grid-header">
+                                                <div class="grid-header-title">
+                                                    <span>Nhân viên</span>
+                                                </div>
+                                            </th>
+                                            <th class="grid-header">
+                                                <div class="grid-header-title">
+                                                    <span>Khách hàng</span>
+                                                </div>
+                                            </th>
+                                            <th class="grid-header">
+                                                <div class="grid-header-title">
+                                                    <span>Tổng tiền</span>
+                                                </div>
+                                            </th>
+                                            <th class="grid-header">
+                                                <div class="grid-header-title">
+                                                    <span>Tổng KM</span>
+                                                </div>
+                                            </th>
+                                            <th class="grid-header">
+                                                <div class="grid-header-title">
+                                                    <span>Ghi chú</span>
+                                                </div>
+                                            </th>
+                                            <th class="grid-header">
+                                                <div class="grid-header-title">
+                                                    <span>Trạng thái</span>
+                                                </div>
+                                            </th>
+                                            <th class="grid-header text center">
+                                                <div class="grid-header-title">
+                                                    <span>Tùy chỉnh</span>
+                                                </div>
+                                            </th>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr class="grid-row">
+                                                <td class="grid-cell" data-name="">
+                                                    <span>NCC @item.Id</span>
+                                                </td>
+                                                <td class="grid-cell" data-name="NgayTao">@CheckDate(item.NgayTao)</td>
+                                                <td class="grid-cell" data-name="TenNV">@item.TenNV</td>
+                                                <td class="grid-cell" data-name="TenKH">@item.TenKH</td>
+                                                <td class="grid-cell" data-name="TongTien">@item.TongTien</td>
+                                                <td class="grid-cell" data-name="TongTien">@item.TongKM</td>
+                                                <td class="grid-cell" data-name="GhiChu">@item.GhiChu</td>
+                                                <td class="grid-cell" data-name="TrangThai">@Delete(item.TrangThai)</td>
+                                                <td class="grid-cell text center" width="150px" data-name="">
+                                                    <a href="/CMS_Sale/PurchaseOrder/Details/@item.Id">
+                                                        <button class="btn btn-success" style="margin-right:3px;" title="Xem" type="button">
+                                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                                        </button>
+                                                    </a>
+                                                    @if (item.TrangThai == "Create")
+                                                    {
+                                                        <button class="btn btn-warning" title="Hủy hóa đơn" name="IdDelete" type="submit" value="@item.Id" onclick="return ConfirmDelete()">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                        </button>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                                <div class="grid-footer">
+                                    <div class="grid-pager">
+                                        Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) trên @Model.PageCount
+                                        @Html.PagedListPager(Model, page => Url.Action("Index",
+                                        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                }
             </div>
         </div>
     </div>

@@ -119,7 +119,11 @@ if (Status == "Success")
             if (TrangThai == "Success")
                 {
                     TrangThai = '<span class="badge badge-success">Hoàn thành</span>';
-                }
+            }
+            if (TrangThai == "Delete")
+            {
+                TrangThai = '<span class="badge badge-success">Đã Hủy</span>';
+            }
 
             var html = ' <tr class="grid-row "><td class="grid-cell" data-name=""><span>NCC '+Id+'</span></td>';
             html += '<td class="grid-cell" data-name="Ten">' + today + '</td>';
@@ -131,7 +135,6 @@ if (Status == "Success")
             html += '<td class="grid-cell" data-name="">' + TrangThai + '</td>';
             html += '<td class="grid-cell text center" data-name="">';
             html += '<a href="/CMS_Sale/PurchaseOrder/Details/'+Id+'"><button class="btn btn-primary" title="Chỉnh sửa" type="button"><i class="fas fa-pencil-alt"></i></button></a>';
-            html += '<a href="/Crm/Supplier/Edit/1"><button class="btn btn-success" title="Chỉnh sửa" type="button"><i class="fa fa-eye"></i></button></a>';
             html += '<button class="btn btn-warning" title="Ngừng kinh doanh" style="margin:-2px" name="IdDelete" type="submit" value="1" onclick="return ConfirmDelete()"><i class="fas fa-trash-alt"></i></button></td></tr>';
             $("#table-grid tbody").prepend(html);
 

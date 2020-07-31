@@ -251,6 +251,7 @@
     <Content Include="Assets\css\home.css" />
     <Content Include="Assets\css\pos.css" />
     <Content Include="Assets\css\posjsproduct.css" />
+    <Content Include="Assets\css\PrintNT.css" />
     <Content Include="Assets\css\PrintPos.css" />
     <Content Include="Assets\css\ruang-admin.css" />
     <Content Include="Assets\css\ruang-admin.min.css" />
@@ -3213,6 +3214,8 @@
     <Content Include="Areas\Administration\Views\SettingPoint\Create.cshtml" />
     <Content Include="Areas\CMS_Staff\Views\UserType\Create.cshtml" />
     <Content Include="Areas\CMS_Staff\Views\UserType\Index.cshtml" />
+    <Content Include="Areas\CMS_Sale\Views\InOrder\Edit.cshtml" />
+    <Content Include="Areas\CMS_Sale\Views\InOrder\PrintNT.cshtml" />
     <None Include="scripts\jquery-3.0.0-vsdoc.js" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\jquery-1.10.2.js" />

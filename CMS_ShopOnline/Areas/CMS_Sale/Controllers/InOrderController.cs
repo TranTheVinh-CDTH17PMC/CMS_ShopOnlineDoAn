@@ -49,7 +49,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         // GET: /CMS_Sale/InOrder/
         public ActionResult Index(int? name,int? idncc,int? idnv)
         {
-            IEnumerable<PhieuNhapViewModel> model = PhieuNhap.SelectAll().Where(x => x.IsDetele != true).Select(
+            IEnumerable<PhieuNhapViewModel> model = PhieuNhap.SelectAll().Select(
                 item => new PhieuNhapViewModel
                 {
                     Id = item.Id,
@@ -60,7 +60,8 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     Ten = item.NhaCungCap.Ten,
                     GhiChu = item.GhiChu,
                     TongTien = item.TongTien,
-                    IsDelete = item.IsDetele
+                    IsDelete = item.IsDetele,
+                    IsPrint = item.IsPrint
                 }
             ).ToList().OrderByDescending(x => x.NgayTao);
             ViewBag.ncc = NhaCungCap.SelectAll().Where(x => x.IsDelete != true);
@@ -100,6 +101,32 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             model.ListCTPhieuNhap = details;
             return View(model);
         }
+        public ActionResult Edit(int id)
+        {
+            ViewBag.listloai = LoaiSP.SelectAll().Where(x => x.IsDelete != true).ToList();
+            var px = PhieuNhap.SelectById(id);
+            PhieuNhapViewModel model = new PhieuNhapViewModel();
+            AutoMapper.Mapper.Map(px, model);
+            model.Ten = px.NhaCungCap.Ten;
+            model.TenNV = px.NhanVien.TenNV;
+            var details = CTPhieuNhap.GetById(px.Id).Select(
+                item => new CTPhieuNhapViewModel
+                {
+                    Id = item.Id,
+                    IdNguyenLieu = item.IdNguyenLieu,
+                    Ten = item.NguyenLieu.Ten,
+                    IdPhieuNhap = item.IdPhieuNhap,
+                    Soluong = item.SoLuong,
+                    DonGia = item.DonGia,
+                }).ToList();
+            model.ListCTPhieuNhap = details;
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult Edit(PhieuNhapViewModel model)
+        {
+            return View();
+        }
         public ActionResult Create()
         {
             var model = new PhieuNhapViewModel
@@ -124,6 +151,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 _pn.IdNhanVien = Helper.CurrentUser.Id;
                 _pn.NgayTao = DateTime.Now;
                 _pn.IsDetele = false;
+                _pn.IsPrint = false;
                 PhieuNhap.Insert(_pn);
                 PhieuNhap.Save();
                 var idpn = _pn.Id;
@@ -143,6 +171,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     NguyenLieu.Update(_nl);
                     NguyenLieu.Save();
                 }
+                TempData["SuccessMessage"] = "Create";
                 TaskController.CreateTask("Tạo phiếu nhập", ControllerName, Action, Areas, Helper.CurrentUser.Id, idpn);
                 return RedirectToAction("Index");
             }
@@ -152,6 +181,15 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             }
             return View();
         }
+        public ActionResult Delete(string IdDelete)
+        {
+            var pn = PhieuNhap.SelectById(Int32.Parse(IdDelete));
+            pn.IsDetele = true;
+            PhieuNhap.Update(pn);
+            PhieuNhap.Save();
+            TempData["SuccessMessage"] = "Create";
+            return RedirectToAction("Index");
+        } 
         public ActionResult Search(string name, int? Idloai)
         {
             name = Helper.ChuyenThanhKhongDau(name);
@@ -197,7 +235,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         public ActionResult Print(bool ExportExcel,int? name, int? idncc, int? idnv)
         {
             var model = TemplatePrint.SelectById(1);
-            IEnumerable<PhieuNhapViewModel> modellist = PhieuNhap.SelectAll().Where(x => x.IsDetele != true).Select(
+            IEnumerable<PhieuNhapViewModel> modellist = PhieuNhap.SelectAll().Select(
                 item => new PhieuNhapViewModel
                 {
                     Id = item.Id,
@@ -260,6 +298,41 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 i++;
             }
             list += "<tr><td colspan=\"6\"class=\"grand total\"></td>\r\n";
+            return list;
+        }
+
+        public ActionResult PrintNT(int Id)
+        {
+            var model = TemplatePrint.SelectById(3);
+            var modellist = PhieuNhap.SelectById(Id);
+            var diachi = modellist.NhaCungCap.Ten;
+            model.Content = model.Content.Replace("{DataTable}", BuildHtmlNT(modellist.Id));
+            model.Content = model.Content.Replace("{Ten}", "Hóa đơn nhập");
+            model.Content = model.Content.Replace("{Nhacc}",modellist.NhaCungCap.Ten);
+            model.Content = model.Content.Replace("{DiaChi}", diachi);
+            model.Content = model.Content.Replace("{TongTien}", modellist.TongTien.ToString());
+            model.Content = model.Content.Replace("{NguoiLap}", Helpers.Helper.CurrentUser.TenNV);
+            model.Content = model.Content.Replace("{NgayLap}", DateTime.Now.Date.ToString("dd/MM/yyyy"));
+            modellist.IsPrint = true;
+            PhieuNhap.Update(modellist);
+            PhieuNhap.Save();
+            return View(model);
+        }
+        string BuildHtmlNT(int? id)
+        {
+            var ls = CTPhieuNhap.SelectAll().Where(x=>x.IdPhieuNhap == id);
+            var i = 1;
+            string list = "";
+            foreach (var item in ls)
+            {
+                list += "<tr><td>" + i + "</td>\r\n";
+                list += " <td>" + item.NguyenLieu.Ten + "</td>\r\n";
+                list += " <td>" + item.SoLuong + "</td>\r\n";
+                list += " <td>" + item.DonGia + "</td>\r\n";
+                list += "<td>" + item.DonGia*item.SoLuong + "</td>\r\n";
+                list += "</tr>\r\n";
+                i++;
+            }
             return list;
         }
     }

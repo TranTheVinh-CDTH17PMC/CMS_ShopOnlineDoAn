@@ -20,6 +20,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Models
         public string TenNV { get; set; }
         public double? TongTien { get; set; }
         public bool? IsDelete { get; set; }
+        public bool? IsPrint { get; set; }
         public List<CTPhieuxuatViewModel> ListCTPhieuXuat { get; set; }
         public IEnumerable<NguyenLieu> listNguyenLieu { get; set; }
     }

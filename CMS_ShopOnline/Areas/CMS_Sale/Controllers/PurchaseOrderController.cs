@@ -107,9 +107,16 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             ViewBag.SuccessMessage = TempData["SuccessMessage"];
             return View(model.ToPagedList(pageNumber, pageSize));
         }
-        public ActionResult Create()
+        public ActionResult Delete(string IdDelete)
         {
-            return View();
+            if(IdDelete!=null && IdDelete!="")
+            {
+                var px = HoaDon.SelectById(Int32.Parse(IdDelete));
+                px.TrangThai = "Delete";
+                HoaDon.Update(px);
+                HoaDon.Save();
+            }
+            return RedirectToAction("Index");
         }
         public ActionResult Details(int id)
         {

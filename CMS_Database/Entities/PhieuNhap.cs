@@ -29,6 +29,7 @@ namespace CMS_Database.Entities
         public string GhiChu { get; set; }
 
         public bool? IsDetele { get; set; }
+        public bool? IsPrint { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CTPhieuNhap> CTPhieuNhap { get; set; }

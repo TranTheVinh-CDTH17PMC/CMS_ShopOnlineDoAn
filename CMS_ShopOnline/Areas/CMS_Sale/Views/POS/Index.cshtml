@@ -257,31 +257,30 @@
                                                                 <div class="col-md-8">
                                                                     <div class="col-md-10 padd-0" style="position: relative;">
                                                                         <input class="form-control" name="TenKH" value="" id="dlcustomer" placeholder = "Tìm khách hàng (F4)", style="border-radius: 3px 0 0 3px !important;">
-                                                                        @if(Helper.Khuyenmai()!=true)
-                                                                        {
-                                                                            <label class="custom-control-label">
-                                                                                Sử dụng điểm
-                                                                            </label><br />
-                                                                            <label class="custom-control custom-checkbox" for="chkPassport">
-                                                                                <input class="custom-control-input" data-val="true" data-val-required="The IsDelete field is required." id="chkPassport" name="IsDelete" type="checkbox">
-                                                                                <span class="custom-control-indicator"></span>
-                                                                            </label>
-                                                                            <br />
-                                                                            <div id="dvPassport">
+                                                                            @if (Helper.Khuyenmai() != true)
+                                                                            {
                                                                                 <label class="custom-control-label">
-                                                                                    Điểm tích lũy
+                                                                                    Sử dụng điểm
+                                                                                </label><br />
+                                                                                <label class="custom-control custom-checkbox" for="chkPassport">
+                                                                                    <input class="custom-control-input" data-val="true" data-val-required="The IsDelete field is required." id="chkPassport" name="IsDelete" type="checkbox">
+                                                                                    <span class="custom-control-indicator"></span>
                                                                                 </label>
-                                                                                <input class="form-control" value="0" id="diemtoida" placeholder="Điểm tích lũy" , style="border-radius: 3px 0 0 3px !important;" type="number">
-                                                                            </div>
-                                                                            <input class="form-control" value="" id="tiendoi" type="hidden">
-                                                                            <input class="form-control" value="" id="diemdoi" type="hidden">
-                                                                            <input class="form-control" value="false" id="checkkhuyenmai" type="hidden">
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <input class="form-control" value="true" id="checkkhuyenmai" type="hidden">
-                                                                        }
-                                                                        
+                                                                                <br />
+                                                                                <div id="dvPassport">
+                                                                                    <label class="custom-control-label">
+                                                                                        Điểm tích lũy
+                                                                                    </label>
+                                                                                    <input class="form-control" value="0" id="diemtoida" placeholder="Điểm tích lũy" , style="border-radius: 3px 0 0 3px !important;" type="number">
+                                                                                </div>
+                                                                                <input class="form-control" value="" id="tiendoi" type="hidden">
+                                                                                <input class="form-control" value="" id="diemdoi" type="hidden">
+                                                                                <input class="form-control" value="false" id="checkkhuyenmai" type="hidden">
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <input class="form-control" value="true" id="checkkhuyenmai" type="hidden">
+                                                                            }                                                                        
                                                                         @Html.TextBoxFor(x => x.IdKhachHang, new { type="hidden",@Value = "", @class = "form-control", placeholder = "Tìm khách hàng (F4)", style ="border-radius: 3px 0 0 3px !important;"})
                                                                         <span style="color: red; position: absolute; right: 5px; top:5px; " class="del-cys"></span>
                                                                     </div>
@@ -428,20 +427,23 @@
     $("#chkPassport").click(function () {
         debugger
         if ($(this).is(":checked")) {
-            $("#dvPassport").show();
-            $("#AddPassport").hide();
+            $("#dvPassport").show("slow");
+            $("#AddPassport").hide("slow");
             if ($("#dlcustomer").val() != null && $("#dlcustomer").val() != "") {
                 Tinhdiemgiamgia();
+                calcTotalAmount();
             }
             else
             {
                 $("#khuyenmai").val("0");
+                calcTotalAmount();
             }
             
         } else {
-            $("#dvPassport").hide();
-            $("#AddPassport").show();
+            $("#dvPassport").hide("slow");
+            $("#AddPassport").show("slow");
             $("#khuyenmai").val("0");
+            calcTotalAmount();
         }
     });
     $("#Print").click(function () {

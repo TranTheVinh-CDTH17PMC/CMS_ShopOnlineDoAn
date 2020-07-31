@@ -1,0 +1,16 @@
+﻿@model CMS_Database.Entities.TemplatePrint
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Print</title>
+    <link href="~/Assets/css/PrintNT.css" rel="stylesheet" />
+</head>
+<body>
+    @Html.Raw(Model.Content)
+</body>
+</html>
+<script>
+    window.print();
+    window.close();
+</script>

@@ -12,7 +12,6 @@ using System.Web.Mvc;
 namespace CMS_ShopOnline.Areas.CMS_Staff.Controllers
 {
     [Authorize]
-    [InitializeSimpleMembership]
     public class UserTypeController : Controller
     {
         private readonly ILoaiNV LoaiNV;

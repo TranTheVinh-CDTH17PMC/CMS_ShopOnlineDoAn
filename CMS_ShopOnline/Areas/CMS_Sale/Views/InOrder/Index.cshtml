@@ -7,7 +7,9 @@
     .card .table td, .card .table th {
         padding-right: 0;
     }
-    
+    .dahuy{
+        text-decoration:line-through;
+    }
 </style>
 @if (ViewBag.SuccessMessage != null)
 {
@@ -26,23 +28,41 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/ACE_Layout.cshtml";
+    bool? checkhuy = true;
 }
 @helper CheckDate(DateTime date)
 {
     @date.Date.ToString("dd/MM/yyyy")
 }
-@helper Delete(bool? Status)
+@helper Delete(bool? Status, bool? Isdelete)
 {
-if (Status == false)
-{
-        <span class="badge badge-primary">Hoạt động</span>
+    if (Status == false)
+    {
+        if (Isdelete != true)
+        {
+            <span class="badge badge-primary">Chưa in</span>
+        }
+        else
+        {
+            <span class="badge badge-danger">Đã hủy</span>
+        }
 }
-}
-@helper ButtonEdit(int Id)
+if (Status == true)
 {
-    <a href="@Url.Action("Edit","InOrder",new { @Id = Id })">
-        <button class="btn btn-primary" title="Chỉnh sửa" style="margin-left:-19px;margin-right:3px;" type="button"><i class="fas fa-pencil-alt"></i></button>
-    </a>
+        <span class="badge badge-success">Đã in</span>
+    }
+}
+@helper ButtonEdit(int Id, bool? Status, bool? Isdelete)
+{
+    if (Status != true)
+    {
+        if (Isdelete != true)
+        {
+            <a href="" onclick="openpoupprint(@Id)">
+                <button class="btn btn-primary" title="Xuất phiếu" style="margin-left:-19px;margin-right:3px;" type="button"><i class="fa fa-print"></i></button>
+            </a>
+        }
+    }
 }
 @helper ButtonDetails(int Id)
 {
@@ -51,9 +71,15 @@ if (Status == false)
     </a>
 }
 
-@helper ButtonDelete(int Id)
+@helper ButtonDelete(int Id, bool? Status, bool? Isdelete)
 {
-    <button class="btn btn-warning" title="Ngừng kinh doanh" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmDelete()"> <i class="fas fa-trash-alt"></i></button>
+    if (Status != true)
+    {
+        if (Isdelete != true)
+        {
+            <button class="btn btn-warning" title="Hủy đơn" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmDelete();"> <i class="fas fa-trash-alt"></i></button>
+        }
+    }
 }
 
 @helper Ma(int Id)
@@ -111,25 +137,27 @@ if (Status == false)
                     <button type="button" class="btn btn-primary" onclick="openpoupmy(false);"><i class="fa fa-file-pdf-o" style="font-size:16px"> PDF</i></button>
                     <button type="button" class="btn btn-primary" onclick="openpoupmy(true);"><i class="fa fa-file-excel-o" style="font-size:16px"> Excel</i></button>
                 </div> 
+            } 
+            @using (Html.BeginForm("Delete", "InOrder"))
+            {
+                <div class="table-responsive">
+                    @Html.Grid(Model).Columns(columns =>
+                   {
+                       columns.Add().Titled("Mã").Sanitized(false).Encoded(false).RenderValueAs(x => Ma(x.Id));
+                       columns.Add(x => x.NgayTao).Sanitized(false).Titled("Ngày tạo").Format("{0:dd/MM/yyyy}");
+                       columns.Add(x => x.TenNV).Titled("Nhân viên");
+                       columns.Add(x => x.Ten).Titled("Nhà cung cấp");
+                       columns.Add(x => x.GhiChu).Titled("Ghi chú");
+                       columns.Add(x => x.TongTien).Titled("Tổng tiền").Sortable(true);
+                       columns.Add().Titled("Trạng thái").Sanitized(false).Encoded(false).RenderValueAs(x => Delete(x.IsPrint, x.IsDelete));
+                       columns.Add().Titled("Tùy chỉnh").Css("style = display:flex")
+                          .Encoded(false)
+                          .Sanitized(false)
+                          .SetWidth(150)
+                          .RenderValueAs(x => (ButtonEdit(x.Id, x.IsPrint, x.IsDelete)).ToString() + (ButtonDetails(x.Id)).ToString() + (ButtonDelete(x.Id, x.IsPrint, x.IsDelete)).ToString());
+                   }).WithPaging(10)    
+                 </div>
             }
-                </div>
-
-            <div class="table-responsive">
-                @Html.Grid(Model).Columns(columns =>
-           {
-               columns.Add().Titled("Mã").Sanitized(false).Encoded(false).RenderValueAs(x => Ma(x.Id));
-               columns.Add(x => x.NgayTao).Sanitized(false).Titled("Ngày tạo").Format("{0:dd/MM/yyyy}");
-               columns.Add(x => x.TenNV).Titled("Nhân viên");
-               columns.Add(x => x.Ten).Titled("Nhà cung cấp");
-               columns.Add(x => x.TongTien).Titled("Tổng tiền").Sortable(true);
-               columns.Add().Titled("Trạng thái").Sanitized(false).Encoded(false).RenderValueAs(x => Delete(x.IsDelete));
-               columns.Add().Titled("Tùy chỉnh").Css("style = display:flex")
-                  .Encoded(false)
-                  .Sanitized(false)
-                  .SetWidth(150)
-                  .RenderValueAs(x => (ButtonEdit(x.Id)).ToString() + (ButtonDetails(x.Id)).ToString() + (ButtonDelete(x.Id)).ToString());
-           }).WithPaging(5)
-            </div>
         </div>
     </div>
 </div>
@@ -142,10 +170,15 @@ if (Status == false)
     var idncc = getUrlVars()["idncc"];
     var idnv = getUrlVars()["idnv"];
     function openpoupmy(value) {
-        newwindow = window.open('/CMS_Sale/InOrder/Print?ExportExcel=' + value + '&name=' + name + '&idncc='+idncc+'&idnv='+idnv+'', 'print', 'height=500,width=500');
+        newwindow = window.open('/CMS_Sale/InOrder/Print?ExportExcel=' + value + '&name=' + name + '&idncc='+idncc+'&idnv='+idnv+'', 'print', 'height=1000,width=1000');
                 setTimeout(function () {
                 }, 500);
-            }
+    }
+    function openpoupprint(value) {
+        newwindow = window.open('/CMS_Sale/InOrder/PrintNT?Id=' + value + '', 'print', 'height=500,width=500');
+        setTimeout(function () {
+        }, 500);
+    }
 
 </script>
 <script type="text/javascript">

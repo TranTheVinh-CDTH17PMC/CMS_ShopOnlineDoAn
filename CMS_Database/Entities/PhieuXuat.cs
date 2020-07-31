@@ -28,6 +28,7 @@ namespace CMS_Database.Entities
 
         public double? TongTien { get; set; }
         public bool? IsDelete { get; set; }
+        public bool? IsPrint { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CTPhieuXuat> CTPhieuXuat { get; set; }
