@@ -305,7 +305,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         {
             var model = TemplatePrint.SelectById(3);
             var modellist = PhieuNhap.SelectById(Id);
-            var diachi = modellist.NhaCungCap.Ten;
+            var diachi = modellist.NhaCungCap.DiaChi +","+ modellist.NhaCungCap.Quan + "," + modellist.NhaCungCap.ThanhPho;
             model.Content = model.Content.Replace("{DataTable}", BuildHtmlNT(modellist.Id));
             model.Content = model.Content.Replace("{Ten}", "Hóa đơn nhập");
             model.Content = model.Content.Replace("{Nhacc}",modellist.NhaCungCap.Ten);

@@ -127,7 +127,10 @@ namespace CMS_ShopOnline.Areas.Crm.Controllers
             try
             {
                 var _ncc = nhacungcap.SelectById(model.Id);
-                AutoMapper.Mapper.Map(model, _ncc);
+                _ncc.Ten = model.Ten;
+                _ncc.DiaChi = model.DiaChi + "," + model.Quan + "," + model.ThanhPho;
+                _ncc.SDT = model.SDT;
+                _ncc.Email = model.Email;
                 nhacungcap.Update(_ncc);
                 nhacungcap.Save();
                 TempData["SuccessMessage"] = "Edit";

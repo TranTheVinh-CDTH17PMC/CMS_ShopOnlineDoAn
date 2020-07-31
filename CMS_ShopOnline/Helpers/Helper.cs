@@ -109,6 +109,13 @@ namespace CMS_ShopOnline.Helpers
             }
             return true;
         }
-
+        public static bool IsManager()
+        {
+            if (ChuyenThanhKhongDau(CurrentUser.LoaiNV.TenLoai) == ChuyenThanhKhongDau("Giám Đốc") || ChuyenThanhKhongDau(CurrentUser.LoaiNV.TenLoai) == ChuyenThanhKhongDau("Quản Lí"))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

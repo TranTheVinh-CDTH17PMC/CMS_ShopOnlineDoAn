@@ -39,7 +39,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         {
             try
             {
-                IEnumerable<ThanhPhamViewModel> model = ThanhPham.SelectAll().Where(x => x.IsDelete != true).Select(
+                IEnumerable<ThanhPhamViewModel> model = ThanhPham.SelectAll().Select(
                     item => new ThanhPhamViewModel
                 {
                     Id = item.Id,
@@ -52,8 +52,12 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     IdDVT = item.IdDVT,
                     TenDVT = item.DonViTinh.Ten,
                     IsDelete = item.IsDelete
-                }).OrderBy(x => x.Id);
-                ViewBag.LoaiSP = LoaiSP.SelectAll();
+                }).OrderByDescending(x=>x.NgayTao);
+                if(Helpers.Helper.IsManager()!=true)
+                {
+                    model = model.Where(x => x.IsDelete != true);
+                }
+                ViewBag.LoaiSP = LoaiSP.SelectAll().Where(x=>x.IsDelete!=true);
                 if (IdLoaiSP != null)
                 {
                     model = model.Where(x => x.IdLoai == IdLoaiSP).ToList();
@@ -203,17 +207,27 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             var tp = ThanhPham.SelectById(int.Parse(IdDelete));
             if (tp != null)
             {
-                tp.IsDelete = true;
-                ThanhPham.Update(tp);
-                ThanhPham.Save();
-                return RedirectToAction("Index");
+                if(tp.IsDelete == true)
+                {
+                    tp.IsDelete = false;
+                    ThanhPham.Update(tp);
+                    ThanhPham.Save();
+                    return RedirectToAction("Index");
+                }
+                if (tp.IsDelete == false)
+                {
+                    tp.IsDelete = true;
+                    ThanhPham.Update(tp);
+                    ThanhPham.Save();
+                    return RedirectToAction("Index");
+                }
             }
             return View();
         }
         public ActionResult Print(int? IdLoaiSP, string txtInfo, string txtName, string txtTenLoai, bool ExportExcel)
         {
             var model = TemplatePrint.SelectById(1);
-            IEnumerable<ThanhPhamViewModel> modellist = ThanhPham.SelectAll().Where(x => x.IsDelete != true).Select(
+            IEnumerable<ThanhPhamViewModel> modellist = ThanhPham.SelectAll().Select(
                item => new ThanhPhamViewModel
                {
                    Id = item.Id,
@@ -226,6 +240,10 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                    DonGia = item.DonGia,
                    IsDelete = item.IsDelete
                }).OrderByDescending(x => x.NgayTao);
+            if (Helpers.Helper.IsManager() != true)
+            {
+                modellist = modellist.Where(x=>x.IsDelete != true);
+            }
             if (IdLoaiSP != null)
             {
                 modellist = modellist.Where(x => x.IdLoai == IdLoaiSP).ToList();
@@ -240,7 +258,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 txtTenLoai = txtTenLoai == "" ? "~" : Helpers.Helper.ChuyenThanhKhongDau(txtTenLoai);
                 modellist = modellist.Where(x => Helpers.Helper.ChuyenThanhKhongDau(x.TenLoai).ToString().Contains(txtTenLoai.ToString())).ToList();
             }
-            if (!string.IsNullOrEmpty(txtInfo))
+            if (!string.IsNullOrEmpty(txtInfo) && txtInfo!= "undefined")
             {
                 modellist = modellist.Where(x => Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(Helpers.Helper.ChuyenThanhKhongDau(txtInfo)) || Helpers.Helper.ChuyenThanhKhongDau(x.TenLoai).Contains(txtInfo)).ToList();
                 //txtCode = txtCode == "" ? "~" : Helpers.Helper.ChuyenThanhKhongDau(txtCode);

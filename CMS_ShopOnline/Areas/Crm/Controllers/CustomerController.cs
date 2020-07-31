@@ -102,10 +102,8 @@ namespace CMS_ShopOnline.Areas.Crm.Controllers
             try
             {
                 var _kh = khachhang.SelectById(model.Id);
-                model.NgayTao = DateTime.Now;
-                model.IdNVTao = Helper.CurrentUser.Id;
-                model.IsDelete = false;
-                AutoMapper.Mapper.Map(model, _kh);
+                _kh.TenKH = model.TenKH;
+                _kh.SDT = model.SDT;
                 khachhang.Update(_kh);
                 khachhang.Save();
                 TempData["SuccessMessage"] = "Edit";

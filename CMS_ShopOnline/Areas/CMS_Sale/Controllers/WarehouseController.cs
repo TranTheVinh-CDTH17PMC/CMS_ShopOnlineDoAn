@@ -42,12 +42,23 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         {
             var idten = Helpers.Helper.ChuyenThanhKhongDau(name);
             int i = 0;
-            ViewBag.countAll = NguyenLieu.SelectAll().Count();
-            ViewBag.countHangCon = NguyenLieu.SelectAll().Where(x => x.SoLuongKho > 0).Count();
-            ViewBag.countSapHetHang = NguyenLieu.SelectAll().Where(x => x.SoLuongKho >= 1 && x.SoLuongKho <= 5).Count(); 
-            ViewBag.HangTonKho = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && ngay(x.NgayNhap) > 30 && x.SoLuongKho > 20).Count();
-            ViewBag.countHetHang = NguyenLieu.SelectAll().Where(x => x.SoLuongKho == 0 && x.NgayNhap != datetimesetting).Count();
-            IEnumerable<NguyenLieuViewModel> model = NguyenLieu.SelectAll().Where(x => x.IsDelete != true).Select(
+            if (Helpers.Helper.IsManager() != true)
+            {
+                ViewBag.countAll = NguyenLieu.SelectAll().Where(x => x.IsDelete != true).Count();
+                ViewBag.countHangCon = NguyenLieu.SelectAll().Where(x => x.IsDelete != true &&  x.SoLuongKho > 0).Count();
+                ViewBag.countSapHetHang = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && x.SoLuongKho >= 1 && x.SoLuongKho <= 5).Count();
+                ViewBag.HangTonKho = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && ngay(x.NgayNhap) > 30 && x.SoLuongKho > 20).Count();
+                ViewBag.countHetHang = NguyenLieu.SelectAll().Where(x => x.IsDelete != true &&  x.SoLuongKho == 0 && x.NgayNhap != datetimesetting).Count();
+            }
+            else
+            {
+                ViewBag.countAll = NguyenLieu.SelectAll().Count();
+                ViewBag.countHangCon = NguyenLieu.SelectAll().Where(x =>  x.SoLuongKho > 0).Count();
+                ViewBag.countSapHetHang = NguyenLieu.SelectAll().Where(x => x.SoLuongKho >= 1 && x.SoLuongKho <= 5).Count();
+                ViewBag.HangTonKho = NguyenLieu.SelectAll().Where(x =>  ngay(x.NgayNhap) > 30 && x.SoLuongKho > 20).Count();
+                ViewBag.countHetHang = NguyenLieu.SelectAll().Where(x =>  x.SoLuongKho == 0 && x.NgayNhap != datetimesetting).Count();
+            }
+            IEnumerable<NguyenLieuViewModel> model = NguyenLieu.SelectAll().Select(
                 item => new NguyenLieuViewModel
                 {
                     Id = item.Id,
@@ -64,37 +75,76 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 }).OrderByDescending(x=>x.Id);
             ViewBag.loai = LoaiSP.SelectAll().Where(x => x.IsDelete != true);
             ViewBag.dvt = DVT.SelectAll().Where(x => x.IsDelete != true);
-            if (hangcon!=null)
+            if (Helpers.Helper.IsManager() != true)
             {
-                model = model.Where(x => x.SoLuongKho > 0 && x.IsDelete != true);
+                model = model.Where(x => x.IsDelete != true);
+                if (hangcon != null)
+                {
+                    model = model.Where(x => x.SoLuongKho > 0 && x.IsDelete != true);
+                }
+                if (tonkho != null)
+                {
+                    model = model.Where(x => x.IsDelete != true && ngay(x.NgayNhap) > 30 && x.SoLuongKho > 20 && x.NgayNhap != datetimesetting);
+                }
+                if (saphethang != null)
+                {
+                    model = model.Where(x => x.SoLuongKho >= 1 && x.SoLuongKho <= 5 && x.IsDelete != true);
+                }
+                if (hethang != null)
+                {
+                    model = model.Where(x => x.SoLuongKho == 0 && x.IsDelete != true && x.NgayNhap != datetimesetting);
+                }
+                if (all != null)
+                {
+                    model = model.Where(x => x.IsDelete != true);
+                }
+                if (iddvt != null)
+                {
+                    model = model.Where(x => x.IsDelete != true && x.IdDVT == iddvt);
+                }
+                if (idloai != null)
+                {
+                    model = model.Where(x => x.IsDelete != true && x.IdLoai == idloai);
+                }
+                if (idten != null && idten != "")
+                {
+                    model = model.Where(x => x.IsDelete != true && x.Id.ToString().Contains(idten) || Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(idten));
+                }
             }
-            if (tonkho != null)
+            else
             {
-                model = model.Where(x=>x.IsDelete != true && ngay(x.NgayNhap) > 30 && x.SoLuongKho > 20 && x.NgayNhap!=datetimesetting);
-            }
-            if (saphethang != null)
-            {
-                model = model.Where(x => x.SoLuongKho >= 1 && x.SoLuongKho <= 5 && x.IsDelete != true);
-            }
-            if (hethang != null)
-            {
-                model = model.Where(x => x.SoLuongKho == 0 && x.IsDelete != true && x.NgayNhap != datetimesetting);
-            }
-            if (all != null)
-            {
-                model = model.Where(x=>x.IsDelete != true);
-            }
-            if(iddvt!=null)
-            {
-                model = model.Where(x => x.IsDelete != true && x.IdDVT == iddvt);
-            }
-            if (idloai != null)
-            {
-                model = model.Where(x => x.IsDelete != true && x.IdLoai == idloai);
-            }
-            if(idten!=null && idten!="")
-            {
-                model = model.Where(x => x.IsDelete != true && x.Id.ToString().Contains(idten) || Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(idten));
+                if (hangcon != null)
+                {
+                    model = model.Where(x => x.SoLuongKho > 0);
+                }
+                if (tonkho != null)
+                {
+                    model = model.Where(x => ngay(x.NgayNhap) > 30 && x.SoLuongKho > 20 && x.NgayNhap != datetimesetting);
+                }
+                if (saphethang != null)
+                {
+                    model = model.Where(x => x.SoLuongKho >= 1 && x.SoLuongKho <= 5);
+                }
+                if (hethang != null)
+                {
+                    model = model.Where(x => x.SoLuongKho == 0 && x.NgayNhap != datetimesetting);
+                }
+                if (all != null)
+                {
+                    model = model;
+                }
+                if (iddvt != null)
+                {
+                    model = model.Where(x => x.IdDVT == iddvt);
+                }
+                if (idloai != null)
+                {
+                    model = model.Where(x => x.IdLoai == idloai);
+                }
+                if (idten != null && idten != "")
+                {
+                    model = model.Where(x => x.Id.ToString().Contains(idten) || Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(idten));
+                }
             }
             ViewBag.SuccessMessage = TempData["SuccessMessage"];
             return View(model);
@@ -228,7 +278,14 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             var _nguyenlieu = NguyenLieu.SelectById(int.Parse(IdDelete));
             if(_nguyenlieu!=null)
             {
-                _nguyenlieu.IsDelete = true;
+                if(_nguyenlieu.IsDelete == true)
+                {
+                    _nguyenlieu.IsDelete = false;
+                }
+                if (_nguyenlieu.IsDelete == false)
+                {
+                    _nguyenlieu.IsDelete = true;
+                }
                 NguyenLieu.Update(_nguyenlieu);
                 NguyenLieu.Save();
                 return RedirectToAction("Index");
@@ -244,7 +301,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             var hethang1 = Helpers.Helper.ChuyenThanhKhongDau(hethang);
             var all1 = Helpers.Helper.ChuyenThanhKhongDau(all);
             var model = TemplatePrint.SelectById(1);
-            IEnumerable<NguyenLieuViewModel> modellist = NguyenLieu.SelectAll().Where(x => x.IsDelete != true).Select(
+            IEnumerable<NguyenLieuViewModel> modellist = NguyenLieu.SelectAll().Select(
                item => new NguyenLieuViewModel
                {
                    Id = item.Id,
@@ -259,38 +316,78 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                    IsDelete = item.IsDelete,
                    NgayNhap = item.NgayNhap
                }).OrderByDescending(x => x.NgayTao);
-            if (hangcon1 != null && hangcon1!= "undefined")
+            if (Helpers.Helper.IsManager() == true)
             {
-                modellist = modellist.Where(x => x.SoLuongKho > 0 && x.IsDelete != true);
+                if (hangcon1 != null && hangcon1 != "undefined")
+                {
+                    modellist = modellist.Where(x => x.SoLuongKho > 0);
+                }
+                if (tonkho1 != null && tonkho1 != "undefined")
+                {
+                    modellist = modellist.Where(x => ngay(x.NgayNhap) > 30 && x.SoLuongKho > 20 && x.NgayNhap != datetimesetting);
+                }
+                if (saphethang1 != null && saphethang1 != "undefined")
+                {
+                    modellist = modellist.Where(x => x.SoLuongKho >= 1 && x.SoLuongKho <= 5);
+                }
+                if (hethang1 != null && hethang1 != "undefined")
+                {
+                    modellist = modellist.Where(x => x.SoLuongKho == 0 && x.NgayNhap != datetimesetting);
+                }
+                if (all1 != null && all1 != "undefined")
+                {
+                    modellist = modellist;
+                }
+                if (iddvt != null)
+                {
+                    modellist = modellist.Where(x => x.IdDVT == iddvt);
+                }
+                if (idloai != null)
+                {
+                    modellist = modellist.Where(x => x.IdLoai == idloai);
+                }
+                if (idten != null && idten != "" && idten != "undefined")
+                {
+                    modellist = modellist.Where(x => x.Id.ToString().Contains(idten) || Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(idten));
+                }
             }
-            if (tonkho1 != null && tonkho1 != "undefined")
+            else
             {
-                modellist = modellist.Where(x => x.IsDelete != true && ngay(x.NgayNhap) > 30 && x.SoLuongKho > 20 && x.NgayNhap != datetimesetting);
+                if (hangcon1 != null && hangcon1 != "undefined")
+                {
+                    modellist = modellist.Where(x => x.SoLuongKho > 0 && x.IsDelete != true);
+                }
+                if (tonkho1 != null && tonkho1 != "undefined")
+                {
+                    modellist = modellist.Where(x => x.IsDelete != true && ngay(x.NgayNhap) > 30 && x.SoLuongKho > 20 && x.NgayNhap != datetimesetting);
+                }
+                if (saphethang1 != null && saphethang1 != "undefined")
+                {
+                    modellist = modellist.Where(x => x.SoLuongKho >= 1 && x.SoLuongKho <= 5 && x.IsDelete != true);
+                }
+                if (hethang1 != null && hethang1 != "undefined")
+                {
+                    modellist = modellist.Where(x => x.SoLuongKho == 0 && x.IsDelete != true && x.NgayNhap != datetimesetting);
+                }
+                if (all1 != null && all1 != "undefined")
+                {
+                    modellist = modellist.Where(x => x.IsDelete != true);
+                }
+                if (iddvt != null)
+                {
+                    modellist = modellist.Where(x => x.IsDelete != true && x.IdDVT == iddvt);
+                }
+                if (idloai != null)
+                {
+                    modellist = modellist.Where(x => x.IsDelete != true && x.IdLoai == idloai);
+                }
+                if (idten != null && idten != "" && idten != "undefined")
+                {
+                    modellist = modellist.Where(x => x.IsDelete != true && x.Id.ToString().Contains(idten) || Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(idten));
+                }
             }
-            if (saphethang1 != null && saphethang1 != "undefined")
-            {
-                modellist = modellist.Where(x => x.SoLuongKho >= 1 && x.SoLuongKho <= 5 && x.IsDelete != true);
-            }
-            if (hethang1 != null && hethang1 != "undefined")
-            {
-                modellist = modellist.Where(x => x.SoLuongKho == 0 && x.IsDelete != true && x.NgayNhap != datetimesetting);
-            }
-            if (all1 != null && all1 != "undefined")
-            {
-                modellist = modellist.Where(x => x.IsDelete != true);
-            }
-            if (iddvt != null)
-            {
-                modellist = modellist.Where(x => x.IsDelete != true && x.IdDVT == iddvt);
-            }
-            if (idloai != null)
-            {
-                modellist = modellist.Where(x => x.IsDelete != true && x.IdLoai == idloai);
-            }
-            if (idten != null && idten != "" && idten != "undefined")
-            {
-                modellist = modellist.Where(x => x.IsDelete != true && x.Id.ToString().Contains(idten) || Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(idten));
-            }
+            
+            
             model.Content = model.Content.Replace("{Table}", BuildHtml(modellist));
             model.Content = model.Content.Replace("{NamePrint}", "Danh sách kho hàng");
             model.Content = model.Content.Replace("{NameStaff}", Helpers.Helper.CurrentUser.TenNV);

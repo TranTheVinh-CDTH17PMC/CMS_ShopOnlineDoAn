@@ -94,10 +94,37 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             ViewBag.countHetHang = NguyenLieu.SelectAll().Where(x => x.SoLuongKho == 0 && x.NgayNhap != datetimesetting).Count();
             return View();
         }
-        public ActionResult BarchatReal(int? year)
+        public ActionResult BarchatReal()
         {
+            var year = DateTime.Now.Year;
             var result = _db.Database.SqlQuery<DTTT>("exec DoanhThuTheoThang1 @Year", new SqlParameter("@Year", year)).ToList();
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-	}
+        public ActionResult PieChartReal()
+        {
+            var year = DateTime.Now.Year;
+            var month = DateTime.Now.Month;
+            DateTime startDate = GetFistDayInMonth(year, month);
+            DateTime endDate = GetLastDayInMonth(year, month);
+            var model = _db.Database.SqlQuery<TopSanPhamBanChay>("exec topspbanchay @batdau,@ketthuc", new SqlParameter("@batdau", startDate), new SqlParameter("@ketthuc", endDate)).ToList();
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+        public static DateTime GetFistDayInMonth(int year, int month)
+        {
+            DateTime aDateTime = new DateTime(year, month, 1);
+
+            return aDateTime;
+        }
+
+        // Trả về ngày cuối cùng của tháng.
+        public static DateTime GetLastDayInMonth(int year, int month)
+        {
+            DateTime aDateTime = new DateTime(year, month, 1);
+
+            // Cộng thêm 1 tháng và trừ đi một ngày.
+            DateTime retDateTime = aDateTime.AddMonths(1).AddDays(-1);
+
+            return retDateTime;
+        }
+    }
 }

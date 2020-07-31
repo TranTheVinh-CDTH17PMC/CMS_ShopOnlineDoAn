@@ -26,43 +26,52 @@ function number_format(number, decimals, dec_point, thousands_sep) {
   }
   return s.join(dec);
 }
-var oilCanvas = document.getElementById("oilChart");
 
-Chart.defaults.global.defaultFontFamily = "Lato";
-Chart.defaults.global.defaultFontSize = 18;
+$.ajax({
+    url: "/Home/PieChartReal",
+    dataType: "json",
+    type: "GET",
+    contentType: 'application/json; charset=utf-8',
+    success: function (data) {
+        console.log(data);
+        var oilCanvas = document.getElementById("oilChart");
+        Chart.defaults.global.defaultFontFamily = "Lato";
+        Chart.defaults.global.defaultFontSize = 18;
+        var labels = data.map(function (e) {
+            return e.Ten;
+        });
+        var datas = data.map(function (e) {
+            return e.Tongsl;
+        });
+        var oilData = {
+            labels: labels,
 
-var oilData = {
-    labels: [
-        "Saudi Arabia",
-        "Russia",
-        "Iraq",
-        "United Arab Emirates",
-        "Canada"
-    ],
-    datasets: [
-        {
-            data: [133.3, 86.2, 52.2, 51.2, 50.2],
-            backgroundColor: [
-                "#FF6384",
-                "#63FF84",
-                "#84FF63",
-                "#8463FF",
-                "#6384FF"
-            ]
-        }]
-};
-
-var pieChart = new Chart(oilCanvas, {
-    type: 'pie',
-    data: oilData
+            datasets: [
+                {
+                    data: datas,
+                    backgroundColor: [
+                        "#FF6384",
+                        "#FFFACD",
+                        "#FF00FF",
+                        "#8463FF",
+                        "#FFC0CB"
+                    ]
+                }]
+        };
+        var pieChart = new Chart(oilCanvas, {
+            type: 'pie',
+            data: oilData
+        });
+    }
 });
+
+
 // Bar Chart Example
 $.ajax({
     url: "/Home/BarchatReal",
     dataType: "json",
     type: "GET",
     contentType: 'application/json; charset=utf-8',
-    data: { year: 2020 },
     success: function (data) {
         debugger
         var value = data[0].DOANHTHU;
@@ -87,7 +96,7 @@ $.ajax({
             data: {
                 labels:labels,
                 datasets: [{
-                    label: "Revenue",
+                    label: "Tong tien",
                     backgroundColor: "#4e73df",
                     hoverBackgroundColor: "#2e59d9",
                     borderColor: "#4e73df",

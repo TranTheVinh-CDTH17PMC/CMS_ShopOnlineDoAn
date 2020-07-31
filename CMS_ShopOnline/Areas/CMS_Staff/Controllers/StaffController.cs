@@ -139,9 +139,13 @@ namespace CMS_ShopOnline.Areas.CMS_Staff.Controllers
             {
                 if(user.TenTaiKhoan==model.TenTaiKhoan)
                 {
-                    AutoMapper.Mapper.Map(model, user);
-                    user.NgayTao = DateTime.Now;
-                    user.IsDelete = false;
+                    user.TenNV = model.TenNV;
+                    user.IdLoaiNV = model.IdLoaiNV;
+                    user.TenTaiKhoan = model.TenTaiKhoan;
+                    user.Email = model.Email;
+                    user.DiaChi = model.DiaChi;
+                    user.SDT = model.SDT;
+                    user.CMND = model.CMND;
                     NhanVien.Update(user);
                     NhanVien.Save();
                     TempData["SuccessMessage"] = "Create";
@@ -186,10 +190,21 @@ namespace CMS_ShopOnline.Areas.CMS_Staff.Controllers
             var _nv = NhanVien.SelectById(int.Parse(IdDelete));
             if (_nv != null)
             {
-                _nv.IsDelete = true;
-                NhanVien.Update(_nv);
-                NhanVien.Save();
-                return RedirectToAction("Index");
+                if(_nv.IsDelete == true)
+                {
+                    _nv.IsDelete = false;
+                    NhanVien.Update(_nv);
+                    NhanVien.Save();
+                    return RedirectToAction("Index");
+                }
+                if (_nv.IsDelete == false)
+                {
+                    _nv.IsDelete = true;
+                    NhanVien.Update(_nv);
+                    NhanVien.Save();
+                    return RedirectToAction("Index");
+                }
+               
             }
             return View();
         }

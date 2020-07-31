@@ -26,9 +26,16 @@
         </a>
     }
 
-    @helper ButtonDelete(int Id)
+    @helper ButtonDelete(int Id, bool? Status)
     {
-        <button class="btn btn-warning" title="Ngừng kinh doanh" style="margin:-2px" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmDelete()"> <i class="fas fa-trash-alt"></i></button>
+        if(Status == true)
+        {
+            <button class="btn btn-warning" title="Mở khóa" style="margin:-2px" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmDelete()"> <i class="fa fa-unlock-alt"></i></button>
+        }
+        else
+        {
+            <button class="btn btn-warning" title="Ngừng kinh doanh" style="margin:-2px" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmDelete()"> <i class="fas fa-trash-alt"></i></button>
+        }
     }
 
     @helper Ma(int Id)
@@ -41,6 +48,10 @@
         if (Status == false)
         {
             <span class="badge badge-primary">Hoạt động</span>
+        }
+        else
+        {
+            <span class="badge badge-success">Đã khóa</span>
         }
     }
     @helper Image(string img)
@@ -107,13 +118,13 @@
                            columns.Add(x => x.NgayTao).Sanitized(false).Titled("Ngày tạo").Format("{0:dd/MM/yyyy}");
                            columns.Add(x => x.TenDVT).Titled("ĐVT");
                            columns.Add(x => x.TenLoai).Titled("Loại");
-                           columns.Add(x => x.DonGia).Titled("Đơn giá");
+                           columns.Add(x => x.DonGia).Titled("Đơn giá").Sortable(true);
                            columns.Add().Titled("Trạng thái").Sanitized(false).Encoded(false).RenderValueAs(x => Delete(x.IsDelete));
                            columns.Add().Titled("Tùy chỉnh").Css("text center")
                               .Encoded(false)
                               .Sanitized(false)
                               .SetWidth(150)
-                              .RenderValueAs(x => (ButtonEdit(x.Id)).ToString() + (ButtonDelete(x.Id)).ToString());
+                              .RenderValueAs(x => (ButtonEdit(x.Id)).ToString() + (ButtonDelete(x.Id,x.IsDelete)).ToString());
                        }).WithPaging(5)
                         </div>
                     }
