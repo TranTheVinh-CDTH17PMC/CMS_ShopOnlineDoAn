@@ -11,7 +11,7 @@ using WebMatrix.WebData;
 
 namespace CMS_ShopOnline.Helpers
 {
-    public class Helper
+    public static class Helper
     {
         public static List<RequestInfo> ListRequest
         {
@@ -116,6 +116,16 @@ namespace CMS_ShopOnline.Helpers
                 return true;
             }
             return false;
+        }
+        public static string ToCurrencyStr(this decimal? value, string currency)
+        {
+            if (value.GetValueOrDefault(0) == 0) return "0";
+            if (string.IsNullOrEmpty(currency))
+                return value.GetValueOrDefault(0).ToString("##,###");
+            if (currency.ToUpper() == "VNĐ")
+                return value.GetValueOrDefault(0).ToString("##,###");
+            else
+                return value.GetValueOrDefault(0).ToString("##,##0.00");
         }
     }
 }

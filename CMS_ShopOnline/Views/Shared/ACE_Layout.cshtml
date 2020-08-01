@@ -25,7 +25,7 @@
     <script src="/Assets/public/templates/js/jquery.js"></script>
     <script src="/Assets/public/templates/js/jquery-ui.min.js"></script>
     @*<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>*@
-    
+    <script src="~/Assets/js/simple.money.format.js"></script>
     <link href="~/Assets/vendor/bootstrap/css/CustomPagination.css" rel="stylesheet" />
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/fixedcolumns/3.3.0/js/dataTables.fixedColumns.min.js"></script>
@@ -106,10 +106,10 @@
     <script src="~/scripts/gridmvc.lang.ru.js"></script>
     <script src="~/scripts/gridmvc.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
-
+   
     @RenderSection("Scripts", required: false)
     <script>
-
+        $('.money').simpleMoneyFormat();
         $(document).ready(function () {
             $('li.active').removeClass('active');
             $('a[href="' + location.pathname + '"]').closest('li').addClass('active');

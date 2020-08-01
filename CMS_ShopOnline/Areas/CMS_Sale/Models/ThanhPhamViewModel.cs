@@ -23,7 +23,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Models
         public int? IdDVT { get; set; }
         public string TenDVT { get; set; }
 
-        public double? DonGia { get; set; }
+        public decimal? DonGia { get; set; }
 
         public bool? IsDelete { get; set; }
 

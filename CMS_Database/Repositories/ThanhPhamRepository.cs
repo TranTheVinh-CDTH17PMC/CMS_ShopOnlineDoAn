@@ -15,7 +15,7 @@ namespace CMS_Database.Repositories
         }
         public ThanhPham GetbyId(int Id)
         {
-            return _db.ThanhPham.SingleOrDefault(m => m.Id == Id && m.IsDelete != true);
+            return _db.ThanhPham.SingleOrDefault(m => m.Id == Id);
         }
     }
 }

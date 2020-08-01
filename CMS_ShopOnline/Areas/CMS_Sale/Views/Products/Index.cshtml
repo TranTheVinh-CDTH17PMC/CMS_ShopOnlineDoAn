@@ -1,4 +1,5 @@
 ﻿@using CMS_ShopOnline.Areas.CMS_Sale.Models
+@using CMS_ShopOnline.Helpers
 @model IEnumerable<ThanhPhamViewModel>
 @{
     ViewBag.Title = "Index";
@@ -111,14 +112,14 @@
                     {
                         <div class="table-responsive">
                             @Html.Grid(Model).Columns(columns =>
-                        {
+                       {
                            columns.Add().Titled("Mã").Sanitized(false).Encoded(false).RenderValueAs(x => Ma(x.Id));
                            columns.Add(x => x.Ten).Titled("Tên sản phẩm");
                            columns.Add().Encoded(false).Sanitized(false).Titled("Hình ảnh").RenderValueAs(x => Image(x.HinhAnh));
                            columns.Add(x => x.NgayTao).Sanitized(false).Titled("Ngày tạo").Format("{0:dd/MM/yyyy}");
                            columns.Add(x => x.TenDVT).Titled("ĐVT");
                            columns.Add(x => x.TenLoai).Titled("Loại");
-                           columns.Add(x => x.DonGia).Titled("Đơn giá").Sortable(true);
+                           columns.Add(x => x.DonGia).Titled("Đơn giá").Sortable(true).RenderValueAs(x => Helper.ToCurrencyStr(x.DonGia, null));
                            columns.Add().Titled("Trạng thái").Sanitized(false).Encoded(false).RenderValueAs(x => Delete(x.IsDelete));
                            columns.Add().Titled("Tùy chỉnh").Css("text center")
                               .Encoded(false)
