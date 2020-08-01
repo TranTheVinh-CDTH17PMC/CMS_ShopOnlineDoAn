@@ -5,10 +5,10 @@
 			var value = null;
 			// get value
 			if($(el).is('input') || $(el).is('textarea')){
-				value = $(el).val().replace(/./g, '');
+				value = $(el).val().replace(/,/g, '');
 				elType = 'input';
 			} else {
-				value = $(el).text().replace(/./g, '');
+				value = $(el).text().replace(/,/g, '');
 				elType = 'other';
 			}
 			// if value changes
@@ -43,7 +43,7 @@
 				};
 				if(i > 0){
 
-					result += '.'
+					result += ','
 
 				}
 			};

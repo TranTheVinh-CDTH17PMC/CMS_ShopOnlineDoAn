@@ -39,8 +39,7 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label>Đơn giá</label>
-                            @*<input class="form-control" value="@Helper.ToCurrencyStr(Model.DonGia,null)" name="DonGia"/>*@
-                            @Html.TextBoxFor(model => model.DonGia,null, new { @class = "form-control money"})
+                            @Html.TextBoxFor(model => model.DonGia, new { @class = "form-control money"})
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Phân loại</label>
