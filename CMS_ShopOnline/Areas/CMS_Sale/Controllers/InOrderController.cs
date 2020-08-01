@@ -86,6 +86,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             var px = PhieuNhap.SelectById(id);
             PhieuNhapViewModel model = new PhieuNhapViewModel();
             AutoMapper.Mapper.Map(px, model);
+            model.IsDelete = px.IsDetele;
             model.Ten = px.NhaCungCap.Ten;
             model.TenNV = px.NhanVien.TenNV;
             var details = CTPhieuNhap.GetById(px.Id).Select(

@@ -14,7 +14,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card mb-3">
-                @if (Model.IsDelete == true)
+                @if (Model.IsDelete != true)
                 {
                     <div class="p-4 text-center text-white text-lg rounded-top" style="background-color:#FAAC58"><span class="text-uppercase">Mã phiếu nhập - </span><span class="text-medium">@Model.Id</span></div>
                 }

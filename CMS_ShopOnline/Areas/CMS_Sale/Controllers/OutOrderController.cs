@@ -54,7 +54,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             }
             ViewBag.CurrentSort = sortOrder;
             ViewBag.CurrentFilter = searchString;
-            IEnumerable<PhieuXuatViewModel> model = PhieuXuat.SelectAll().Where(x => x.IsDelete != true).Select(
+            IEnumerable<PhieuXuatViewModel> model = PhieuXuat.SelectAll().Select(
                 item => new PhieuXuatViewModel
                 {
                     Id = item.Id,
@@ -63,7 +63,8 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     TenNV = item.NhanVien.TenNV,
                     GhiChu = item.GhiChu,
                     TongTien = item.TongTien,
-                    IsDelete = item.IsDelete
+                    IsDelete = item.IsDelete,
+                    IsPrint = item.IsPrint
                 }
             ).ToList().OrderByDescending(x => x.NgayTao);
             ViewBag.nhanvien = NhanVien.SelectAll();
@@ -117,6 +118,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 _px.IdNhanVien = Helper.CurrentUser.Id;
                 _px.NgayTao = DateTime.Now;
                 _px.IsDelete = false;
+                _px.IsPrint = false;
                 PhieuXuat.Insert(_px);
                 PhieuXuat.Save();
                 var idpx = _px.Id;
@@ -144,6 +146,40 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
 
             }
             return View();
+        }
+        public ActionResult Edit(int id)
+        {
+            ViewBag.listloai = LoaiSP.SelectAll().Where(x => x.IsDelete != true).ToList();
+            var px = PhieuXuat.SelectById(id);
+            PhieuXuatViewModel model = new PhieuXuatViewModel();
+            AutoMapper.Mapper.Map(px, model);
+            model.TenNV = px.NhanVien.TenNV;
+            var details = CTPhieuXuat.GetById(px.Id).Select(
+                item => new CTPhieuxuatViewModel
+                {
+                    Id = item.Id,
+                    IdNguyenLieu = item.IdNguyenLieu,
+                    Ten = item.NguyenLieu.Ten,
+                    IdPhieuXuat = item.IdPhieuXuat,
+                    SoLuong = item.SoLuong,
+                    DonGia = item.DonGia,
+                }).ToList();
+            model.ListCTPhieuXuat = details;
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult Edit(PhieuXuatViewModel model)
+        {
+            return View();
+        }
+        public ActionResult Delete(string IdDelete)
+        {
+            var px = PhieuXuat.SelectById(Int32.Parse(IdDelete));
+            px.IsDelete = true;
+            PhieuXuat.Update(px);
+            PhieuXuat.Save();
+            TempData["SuccessMessage"] = "Create";
+            return RedirectToAction("Index");
         }
         public ActionResult Search(string name, int? Idloai)
         {
@@ -195,7 +231,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         public ActionResult Print(string name, bool ExportExcel, int? idnv)
         {
             var model = TemplatePrint.SelectById(1);
-            IEnumerable<PhieuXuatViewModel> modellist = PhieuXuat.SelectAll().Where(x => x.IsDelete != true).Select(
+            IEnumerable<PhieuXuatViewModel> modellist = PhieuXuat.SelectAll().Select(
                 item => new PhieuXuatViewModel
                 {
                     Id = item.Id,
@@ -246,6 +282,37 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 i++;
             }
             list += "<tr><td colspan=\"5\"class=\"grand total\"></td>\r\n";
+            return list;
+        }
+        public ActionResult PrintNT(int Id)
+        {
+            var model = TemplatePrint.SelectById(4);
+            var modellist = PhieuXuat.SelectById(Id);
+            model.Content = model.Content.Replace("{DataTable}", BuildHtmlNT(modellist.Id));
+            model.Content = model.Content.Replace("{Ten}", "Hóa đơn xuất");
+            model.Content = model.Content.Replace("{TongTien}", modellist.TongTien.ToString());
+            model.Content = model.Content.Replace("{NguoiLap}", Helpers.Helper.CurrentUser.TenNV);
+            model.Content = model.Content.Replace("{NgayLap}", DateTime.Now.Date.ToString("dd/MM/yyyy"));
+            modellist.IsPrint = true;
+            PhieuXuat.Update(modellist);
+            PhieuXuat.Save();
+            return View(model);
+        }
+        string BuildHtmlNT(int? id)
+        {
+            var ls = CTPhieuXuat.SelectAll().Where(x => x.IdPhieuXuat == id);
+            var i = 1;
+            string list = "";
+            foreach (var item in ls)
+            {
+                list += "<tr><td>" + i + "</td>\r\n";
+                list += " <td>" + item.NguyenLieu.Ten + "</td>\r\n";
+                list += " <td>" + item.SoLuong + "</td>\r\n";
+                list += " <td>" + item.DonGia + "</td>\r\n";
+                list += "<td>" + item.DonGia * item.SoLuong + "</td>\r\n";
+                list += "</tr>\r\n";
+                i++;
+            }
             return list;
         }
     }

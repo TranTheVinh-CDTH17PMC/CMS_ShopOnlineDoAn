@@ -275,20 +275,25 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         [HttpPost]
         public ActionResult Delete(string IdDelete)
         {
-            var _nguyenlieu = NguyenLieu.SelectById(int.Parse(IdDelete));
-            if(_nguyenlieu!=null)
+            var _nl = NguyenLieu.SelectById(int.Parse(IdDelete));
+            if(_nl != null)
             {
-                if(_nguyenlieu.IsDelete == true)
+                if (_nl.IsDelete == false)
                 {
-                    _nguyenlieu.IsDelete = false;
+                    _nl.IsDelete = true;
+                    NguyenLieu.Update(_nl);
+                    NguyenLieu.Save();
+                    return RedirectToAction("Index");
                 }
-                if (_nguyenlieu.IsDelete == false)
+                if (_nl.IsDelete == true)
                 {
-                    _nguyenlieu.IsDelete = true;
+                    _nl.IsDelete = false;
+                    NguyenLieu.Update(_nl);
+                    NguyenLieu.Save();
+                    return RedirectToAction("Index");
                 }
-                NguyenLieu.Update(_nguyenlieu);
-                NguyenLieu.Save();
-                return RedirectToAction("Index");
+                
+                
             }
             return View();
         }
