@@ -17,14 +17,14 @@
         <div class="column">
             <div class="card" style="background-color:#8bc34a">
                 <h3>Tổng thu<i class="fas fa-chart-bar" style="font-size:24px; float:right "></i></h3>
-                <p>@ViewBag.tongthu</p>
+                <p class="money">@ViewBag.tongthu</p>
             </div>
         </div>
 
         <div class="column">
             <div class="card" style="background-color:#0277bd">
                 <h3>Tổng chi <i class="far fa-fw fa-window-maximize" style="font-size: 24px; float:right"></i></h3>
-                <p>@ViewBag.tongchi</p>
+                <p class="money">@ViewBag.tongchi</p>
             </div>
         </div>
 
@@ -79,15 +79,15 @@
                     </button>
                 </div>
                 <div class="card-body">
-                    <p style="color:black">Tiền thu bán hàng: <b style="float:right">@ViewBag.tongthuhn</b></p>
+                    <p style="color:black">Tiền thu bán hàng: <b class="money" style="float:right">@ViewBag.tongthuhn</b></p>
                     <hr class="sidebar-divider">
-                    <a href="#demo1" data-toggle="collapse">Tổng thu:<b style="float:right">@ViewBag.tongthuhn</b></a>
+                    <a href="#demo1" data-toggle="collapse">Tổng thu:<b class="money" style="float:right">@ViewBag.tongthuhn</b></a>
                     
                     <hr class="sidebar-divider">
-                    <a href="#demo2" data-toggle="collapse" style="color:red">Tổng chi:<b style="float:right">@ViewBag.tongchihn</b></a>
+                    <a href="#demo2" data-toggle="collapse" style="color:red">Tổng chi:<b class="money" style="float:right">@ViewBag.tongchihn</b></a>
                     
                     <hr class="sidebar-divider">
-                    <p style="color:black"><i>(Thu - Chi):</i><b style="float:right">@ViewBag.thuchi</b></p>
+                    <p style="color:black"><i>(Thu - Chi):</i><b class="money" style="float:right">@ViewBag.thuchi</b></p>
                 </div>
             </div>
         </div>
@@ -122,9 +122,10 @@
         </div>
     </div>
 </div>
-
+<script src="~/Assets/js/simple.money.format.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         $('.toast').toast('show');
     });
+    $('.money').simpleMoneyFormat();
 </script>>
