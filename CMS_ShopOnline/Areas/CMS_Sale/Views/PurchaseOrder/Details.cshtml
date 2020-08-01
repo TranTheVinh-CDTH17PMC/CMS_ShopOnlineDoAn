@@ -16,20 +16,26 @@
         <div class="col-md-12" style="padding-bottom:10px">
             @using (Html.BeginForm("UpdateStatus", "PurchaseOrder"))
             {
-                if (Helper.IsPreparation() == true || Helper.IsManager() == true && Model.TrangThai == "Create" )
+                if (Helper.IsPreparation() == true || Helper.IsManager() == true)
                 {
+                    if (Model.TrangThai == "Create")
+                    {
+                        <button class="btn btn-mini btn-primary" type="submit" name="Submit" value="@Model.Id">
+                            <i class="ace-icon fa fa-save"></i> Xác nhận đơn
+                        </button>
+                    }
 
-                    <button class="btn btn-mini btn-primary" type="submit" name="Submit" value="@Model.Id">
-                        <i class="ace-icon fa fa-save"></i> Xác nhận đơn
-                    </button>
                 }
-                if (Helper.IsPreparation() == true || Helper.IsManager() == true && Model.TrangThai == "Processing" )
+                if (Helper.IsPreparation() == true || Helper.IsManager() == true)
                 {
-                    <button class="btn btn-mini btn-primary" type="submit" name="Submit" value="@Model.Id">
-                        <i class="ace-icon fa fa-save"></i> Xác nhận hoàn thành
-                    </button>
+                    if (Model.TrangThai == "Processing")
+                    {
+                        <button class="btn btn-mini btn-primary" type="submit" name="Submit" value="@Model.Id">
+                            <i class="ace-icon fa fa-save"></i> Xác nhận hoàn thành
+                        </button>
+                    }
                 }
-            }     
+            }
         </div>
         <div class="col-md-12">
             <div class="card mb-3">
