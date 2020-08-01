@@ -30,7 +30,7 @@
 {
     if (Status == true)
     {
-        <button class="btn btn-warning" title="Mở khóa" style="margin:-2px" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmDelete()"> <i class="fa fa-unlock-alt"></i></button>
+        <button class="btn btn-warning" title="Mở khóa" style="margin:-2px;width:40px" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmUnBlock()"> <i class="fa fa-unlock-alt"></i></button>
     }
     else
     {
@@ -192,6 +192,13 @@
     });
     function ConfirmDelete() {
         var x = confirm("Bạn có chắc muốn xóa item đã chọn ?");
+        if (x)
+            return true;
+        else
+            return false;
+    }
+    function ConfirmUnBlock() {
+        var x = confirm("Bạn có chắc muốn mở khóa item đã chọn ?");
         if (x)
             return true;
         else

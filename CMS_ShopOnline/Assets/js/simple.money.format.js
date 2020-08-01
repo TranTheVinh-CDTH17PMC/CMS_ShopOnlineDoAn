@@ -42,7 +42,9 @@
 					result += resTemp[j];
 				};
 				if(i > 0){
+
 					result += '.'
+
 				}
 			};
 			if(elType == 'input'){

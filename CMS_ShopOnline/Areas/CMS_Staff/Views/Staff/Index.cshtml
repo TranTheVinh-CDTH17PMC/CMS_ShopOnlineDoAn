@@ -33,7 +33,7 @@
 {
     if (Status == true)
     {
-            <button class="btn btn-warning" title="Mở khóa" style="margin:-2px" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmDelete()"> <i class="fa fa-unlock-alt"></i></button>
+            <button class="btn btn-warning" title="Mở khóa" style="margin:-2px;width:40px" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmUnBlock()"> <i class="fa fa-unlock-alt"></i></button>
     }
     else
     {
@@ -126,24 +126,15 @@
     <!--Row-->
 </div>
 <script>
-    //function filterFunction() {
-    //    var input, filter, ul, li, tr, i;
-    //    input = document.getElementById("search-pro-box");
-    //    filter = input.value.toUpperCase();
-    //    div = document.getElementById("myproducts");
-    //    tr = div.getElementsByTagName("tr");
-    //    for (i = 0; i < tr.length; i++) {
-    //        txtValue = tr[i].textContent || tr[i].innerText;
-    //        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-    //            tr[i].style.display = "";
-
-    //        } else {
-    //            tr[i].style.display = "none";
-    //        }
-    //    }
-    //}
     function ConfirmDelete() {
-        var x = confirm("Bạn có chắc muốn xóa item đã chọn ?");
+        var x = confirm("Bạn có chắc muốn khóa nhân viên đã chọn ?");
+        if (x)
+            return true;
+        else
+            return false;
+    }
+    function ConfirmUnBlock() {
+        var x = confirm("Bạn có chắc muốn mở khóa nhân viên đã chọn ?");
         if (x)
             return true;
         else
