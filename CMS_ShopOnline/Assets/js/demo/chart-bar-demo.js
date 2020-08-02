@@ -8,7 +8,7 @@ function number_format(number, decimals, dec_point, thousands_sep) {
   number = (number + '').replace(',', '').replace(' ', '');
   var n = !isFinite(+number) ? 0 : +number,
     prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-    sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+    sep = (typeof thousands_sep === 'undefined') ? '.' : thousands_sep,
     dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
     s = '',
     toFixedFix = function(n, prec) {
@@ -107,7 +107,7 @@ $.ajax({
                 maintainAspectRatio: false,
                 layout: {
                     padding: {
-                        left: 10,
+                        left: 25,
                         right: 25,
                         top: 25,
                         bottom: 0

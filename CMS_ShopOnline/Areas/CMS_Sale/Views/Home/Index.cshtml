@@ -17,14 +17,14 @@
         <div class="column">
             <div class="card" style="background-color:#8bc34a">
                 <h3>Tổng thu<i class="fas fa-chart-bar" style="font-size:24px; float:right "></i></h3>
-                <p class="money">@ViewBag.tongthu</p>
+                <p class="money1">@ViewBag.tongthu</p>
             </div>
         </div>
 
         <div class="column">
             <div class="card" style="background-color:#0277bd">
                 <h3>Tổng chi <i class="far fa-fw fa-window-maximize" style="font-size: 24px; float:right"></i></h3>
-                <p class="money">@ViewBag.tongchi</p>
+                <p class="money1">@ViewBag.tongchi</p>
             </div>
         </div>
 
@@ -42,7 +42,7 @@
             </div>
         </div>
         <!-- Doanh số-->
-        <div class="col-lg-6" style="padding:15px">
+        <div class="col-lg-6" style="top:25px">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">DOANH SỐ</h6>
@@ -55,10 +55,10 @@
             </div>
         </div>
         <!-- Bonus -->
-        <div class="col-lg-6" style="padding:15px">
+        <div class="col-lg-6"  style="top:25px"">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary"> 5 SP BÁN CHẠY</h6>
+                    <h6 class="m-0 font-weight-bold text-primary"> TOP 5 SẢN PHẨM BÁN CHẠY</h6>
                 </div>
                 <div class="card-body">
                     <div class="chart-bar">
@@ -67,7 +67,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-4"  style="top:25px">
             <div class="card shadow mb-10">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">TIỀN BẠC</h6>
@@ -79,19 +79,19 @@
                     </button>
                 </div>
                 <div class="card-body">
-                    <p style="color:black">Tiền thu bán hàng: <b class="money" style="float:right">@ViewBag.tongthuhn</b></p>
+                    <p style="color:black">Tiền thu bán hàng: <b class="money1" style="float:right">@ViewBag.tongthuhn</b></p>
                     <hr class="sidebar-divider">
-                    <a href="#demo1" data-toggle="collapse">Tổng thu:<b class="money" style="float:right">@ViewBag.tongthuhn</b></a>
+                    <a href="#demo1" data-toggle="collapse">Tổng thu:<b class="money1" style="float:right">@ViewBag.tongthuhn</b></a>
                     
                     <hr class="sidebar-divider">
-                    <a href="#demo2" data-toggle="collapse" style="color:red">Tổng chi:<b class="money" style="float:right">@ViewBag.tongchihn</b></a>
+                    <a href="#demo2" data-toggle="collapse" style="color:red">Tổng chi:<b class="money1" style="float:right">@ViewBag.tongchihn</b></a>
                     
                     <hr class="sidebar-divider">
-                    <p style="color:black"><i>(Thu - Chi):</i><b class="money" style="float:right">@ViewBag.thuchi</b></p>
+                    <p style="color:black"><i>(Thu - Chi):</i><b class="money1" style="float:right">@ViewBag.thuchi</b></p>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-4"  style="top:25px">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">TÌNH TRẠNG KHO</h6>
@@ -103,7 +103,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-4"  style="top:25px">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">SỰ KIỆN BÁN LẺ</h6>
@@ -122,10 +122,8 @@
         </div>
     </div>
 </div>
-<script src="~/Assets/js/simple.money.format.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         $('.toast').toast('show');
     });
-    $('.money').simpleMoneyFormat();
-</script>>
+</script>

@@ -134,7 +134,7 @@ else
                                             <td class="grid-cell" data-name="TongTien">@item.TenLoai</td>
                                             <td class="grid-cell" data-name="TenKH">@item.TenDVT</td>
                                             <td class="grid-cell" data-name="TenNV">@item.SoLuongKho</td>
-                                            <td class="grid-cell" data-name="TenNV">@item.DonGia</td>
+                                            <td class="grid-cell money1" data-name="TenNV">@item.DonGia</td>
                                         </tr>
                                         i++;
                                     }
@@ -148,7 +148,7 @@ else
                                         <td></td>
                                         <td></td>
                                         <td>Tổng tiền :</td>
-                                        <td>@ViewBag.tongtien</td>
+                                        <td class="money1" style="color:blue">@ViewBag.tongtien</td>
                                     </tr>
                                 </tfoot>
                             </table>

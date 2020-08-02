@@ -102,11 +102,6 @@
             <button class="tablinks" name="tonkho" value="tonkho" type="submit">Tồn kho (@ViewBag.HangTonKho)</button>
             <button class="tablinks" name="saphethang" value="saphethang" type="submit">Sắp hết hàng (@ViewBag.countSapHetHang)</button>
             <button class="tablinks" name="hethang" value="hethang" type="submit">Hết hàng (@ViewBag.countHetHang)</button>
-            @*<h5 style="margin-left:20px;margin-top:20px;"><b>GIAO DỊCH</b></h5>
-            <hr class="sidebar-divider">
-            <button class="tablinks" onclick="openSP(event, 'khachtra')" id="tabSP">Khách trả hàng</button>
-            <button class="tablinks" onclick="openSP(event, 'xuatncc')">Xuất trả NCC</button>
-            <button class="tablinks" onclick="openSP(event, 'kiemke')">Kiểm kê</button>*@
         </div>
     }
     <div class="row">
@@ -164,7 +159,7 @@
                        columns.Add(x => x.TenDVT).Titled("ĐVT");
                        columns.Add(x => x.TenLoai).Titled("Loại");
                        columns.Add(x => x.SoLuongKho).Titled("SL kho").Sortable(true);
-                       columns.Add(x => x.DonGia).Titled("Đơn giá nhập").Sortable(true);
+                       columns.Add(x => x.DonGia).Titled("Đơn giá nhập").Sortable(true).Css("money1");
                        columns.Add().Titled("Trạng thái").Sanitized(false).Encoded(false).RenderValueAs(x => Delete(x.IsDelete));
                    }).WithPaging(5)
                             </div>

@@ -25,7 +25,7 @@
                 }
                 <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
                     <div class="w-100 text-center py-1 px-2"><span class="text-medium">Nhân viên xuất:</span> @Model.TenNV</div>
-                    <div class="w-100 text-center py-1 px-2"><span class="text-medium">Tổng tiền:</span> @Model.TongTien</div>
+                    <div class="w-100 text-center py-1 px-2"><span class="text-medium">Tổng tiền:</span> <b class="money1">@Model.TongTien</b></div>
                     <div class="w-100 text-center py-1 px-2"><span class="text-medium">Ngày tạo:</span> @CheckDate(Model.NgayTao)</div>
                 </div>
                 <div class="card-body">
@@ -48,7 +48,7 @@
                                     <td>@item.IdPhieuXuat</td>
                                     <td>@item.Ten</td>
                                     <td>@item.SoLuong</td>
-                                    <td>@item.DonGia</td>
+                                    <td class="money1">@item.DonGia</td>
                                 </tr>
                                 count++;
                             }
