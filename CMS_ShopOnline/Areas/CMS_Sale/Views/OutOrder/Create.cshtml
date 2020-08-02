@@ -99,7 +99,8 @@
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label style="width: 215px; margin-top: 10px;">Tổng tiền:</label>
-                            @Html.TextBoxFor(x => x.TongTien, new { @class = "form-control text-right", id = "totalafterdiscount", placeholder = "0", style = "border-radius: 0 !important;", @readonly = "true" })
+                            <input id="totalafterdiscount" class="form-control money1" value="@Model.TongTien" onchange="change(this, 'TongTien');" placeholder="0" , style="border-radius: 0 !important;" readonly />
+                            @Html.TextBoxFor(x => x.TongTien, new { @class = "form-control", @Type = "hidden" })
                         </div>
                     </div>
                     <div class="col-md-12">

@@ -26,6 +26,7 @@
     <script src="/Assets/public/templates/js/jquery-ui.min.js"></script>
     @*<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>*@
     <script src="~/Assets/js/simple.money.format.js"></script>
+    <script src="~/Assets/js/number-divider.js"></script>
     <link href="~/Assets/vendor/bootstrap/css/CustomPagination.css" rel="stylesheet" />
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/fixedcolumns/3.3.0/js/dataTables.fixedColumns.min.js"></script>
@@ -109,6 +110,15 @@
    
     @RenderSection("Scripts", required: false)
     <script>
+        function change(idthis, idthat) {
+            debugger
+            var el = idthis.value.replace(/,/g,'');
+            $("#" + idthat + "").val(el);
+        }
+        $('.money1').divide({
+            delimiter: ".",
+            divideThousand: true
+        });
         $('.money').simpleMoneyFormat();
         $(document).ready(function () {
             $('li.active').removeClass('active');

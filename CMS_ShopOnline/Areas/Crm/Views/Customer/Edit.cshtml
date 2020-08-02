@@ -37,7 +37,8 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlInput1">Tổng tiền</label>
-                            @Html.TextBoxFor(model => model.TongTien, new { @class = "form-control", @readonly = "readonly" })
+                            <input class="form-control money1" value="@Model.TongTien" onchange="change(this, 'TongTien');" readonly/>
+                            @Html.TextBoxFor(model => model.TongTien, new { @class = "form-control", Type="hidden" })
                         </div>
                         <button class="btn btn-mini btn-primary" id="Save" type="submit" name="Submit">
                             <i class="ace-icon fa fa-save"></i> Lưu

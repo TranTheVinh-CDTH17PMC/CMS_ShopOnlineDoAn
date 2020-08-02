@@ -290,17 +290,9 @@ function calcTotalAmount() {
     $('table > tbody  > tr').each(function (index, elem) {
         if ($(elem).find('.detail_item_total').text() != '') { 
             total = total + parseFloat($(elem).find('.detail_item_total').text());
-            total1 = total - $("#khuyenmai").val();
-            if (total1 < 0)
-            {
-                alert("Vui lòng trừ điểm đổi!!!");
-                return false;
-            }
-            else
-            {
+            total1 = total - $("#TongKM").val();
                 $("#totalafterdiscount").val(total1);
-                $('input[name="TongTien"]').val(total1);
-            }           
+                $('input[name="TongTien"]').val(total1);        
         }
     });
     Excesscash();

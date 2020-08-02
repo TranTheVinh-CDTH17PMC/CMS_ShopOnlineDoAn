@@ -4,6 +4,20 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/ACE_Layout.cshtml";
 }
+@if (ViewBag.SuccessMessage != null)
+{
+    <script>
+        $(document).ready(function () {
+	    'use strict';
+		swal({
+		    title: 'Thành công!',
+		    icon: 'success',
+		    button:'Đồng ý',
+		})
+});
+
+    </script>
+}
 <style>
     .custom-checkbox {
         min-height: 1rem;
@@ -90,7 +104,8 @@
                         <div class="col-md-12">
                             <span>Đổi tiền sang điểm</span>
                             <span class="input-daterange input-group date" style="margin-right:5px">
-                               @Html.TextBoxFor(m => m.Tienhang, new { @class = "form-control" })
+                                <input class="form-control money1" value="@Model.Tienhang" onchange="change(this, 'Tienhang');" />
+                               @Html.TextBoxFor(m => m.Tienhang, new { @class = "form-control", type = "hidden" })
                                 <span class="input-group-addon">
                                     <i class="fa fa-exchange" style="padding: 10px;"></i>
                                 </span>
@@ -104,12 +119,13 @@
                                 <span class="input-group-addon">
                                     <i class="fa fa-exchange" style="padding: 10px;"></i>
                                 </span>
-                                @Html.TextBoxFor(m => m.Tiendoi, new { @class = "form-control" })
+                                <input class="form-control money1" value="@Model.Tiendoi" onchange="change(this, 'Tiendoi');" />
+                                @Html.TextBoxFor(m => m.Tiendoi, new { @class = "form-control", type = "hidden" })
                             </span>
                         </div>
                     </div>
                 </div>
-                
+
             }
         </div>
     </div>
@@ -137,5 +153,5 @@
             return false;
         }
     });
-</script>
+    </script>
 

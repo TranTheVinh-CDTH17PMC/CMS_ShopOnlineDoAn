@@ -295,6 +295,7 @@
     <Content Include="Assets\js\demo\chart-area-demo.js" />
     <Content Include="Assets\js\demo\chart-bar-demo.js" />
     <Content Include="Assets\js\demo\chart-pie-demo.js" />
+    <Content Include="Assets\js\number-divider.js" />
     <Content Include="Assets\js\posjs.js" />
     <Content Include="Assets\js\PosJsV2.js" />
     <Content Include="Assets\js\ruang-admin.js" />

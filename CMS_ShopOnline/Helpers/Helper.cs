@@ -121,7 +121,7 @@ namespace CMS_ShopOnline.Helpers
             }
             return false;
         }
-        public static string ToCurrencyStr(this decimal? value, string currency)
+        public static string ToCurrencyStr(this double? value, string currency)
         {
             if (value.GetValueOrDefault(0) == 0) return "0";
             if (string.IsNullOrEmpty(currency))

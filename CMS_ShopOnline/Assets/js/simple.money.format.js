@@ -12,7 +12,7 @@
 				elType = 'other';
 			}
 			// if value changes
-			$(el).on('paste keyup', function(){
+			$(el).on('paste keyup ', function(){
 				value = $(el).val().replace(/,/g, '');
 				formatElement(el, elType, value); // format element
 			});
@@ -28,7 +28,7 @@
 				temp += valueArray[i];
 				counter++
 				if(counter == 3){
-					resultArray.push(temp);
+					resultArray.push(temp); 
 					counter = 0;
 					temp = '';
 				}

@@ -19,6 +19,7 @@
     <link href="/Assets/css/pos.css" rel="stylesheet" type="text/css" />
     <link href="/Assets/css/posjsproduct.css" rel="stylesheet" type="text/css" />
     <link href="~/Assets/css/PrintPos.css" rel="stylesheet" type="text/css"/>
+
     <style>
         .my-custom-scrollbar {
             position: relative;
@@ -337,8 +338,8 @@
                                                                     <label>Giảm giá (F7)</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    @Html.TextBoxFor(x => x.TongKM, new { @class = "form-control text-right",value="0", id = "khuyenmai", placeholder = "0", style = "border-radius: 0 !important;" })
-                                                                    @*<input type="text" name="KhuyenMai" id="khuyenmai" class="form-control text-right discount-order" placeholder="0" style="border-radius: 0 !important;">*@
+                                                                    <input type="text" id="khuyenmai" class="form-control text-right money1" placeholder="0" style="border-radius: 0 !important;" onchange="change(this, 'TongKM');">
+                                                                    @Html.TextBoxFor(x => x.TongKM, new { type="hidden" })
                                                                 </div>   
                                                             </div>
                                                             <div class="form-group marg-bot-10 clearfix">
@@ -346,7 +347,7 @@
                                                                     <label>Khách đưa (F8)</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" id="Custommer" class="form-control text-right txtMoney customer-pay" placeholder="0" style="border-radius: 0 !important;">
+                                                                    <input type="text" id="Custommer" class="form-control text-right money1" placeholder="0" style="border-radius: 0 !important;">
                                                                 </div>  
                                                             </div>
                                                             <div class="form-group marg-bot-10 clearfix">
@@ -354,7 +355,8 @@
                                                                     <label>Tổng tiền</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    @Html.TextBoxFor(x => x.TongTien, new { @class = "form-control text-right", id = "totalafterdiscount", placeholder = "0", style = "border-radius: 0 !important;", @readonly = "true" })
+                                                                    <input type="text" class="form-control text-right money1" id="totalafterdiscount" placeholder="0"  style="border-radius: 0 !important;" onchange="change(this,'TongTien');" readonly />
+                                                                    @Html.TextBoxFor(x => x.TongTien, new { @class = "form-control text-right",type="hidden" })
                                                                 </div>
                                                             </div>
                                                             <div class="form-group marg-bot-10 clearfix">
@@ -362,9 +364,8 @@
                                                                     <label class="debt">Tiền thừa</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <div class="Excesscash">0</div>
+                                                                    <input type="text" class="form-control text-right Excesscash money1" placeholder="0" style="border-radius: 0 !important;" readonly>
                                                                 </div>
-                                                            
                                                             </div>
                                                         </div>
                                                     </div>
@@ -408,7 +409,8 @@
         <script src="~/Assets/js/PosJsV2.js"></script>
         <script src = "https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
         <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
-        
+        <script src="~/Assets/js/simple.money.format.js"></script>
+        <script src="~/Assets/js/number-divider.js"></script>
         @*<ul id="ui-id-1" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div>*@
     </body>
 }
@@ -424,6 +426,16 @@
     </script>
 }
 <script type="text/javascript">
+    function change(idthis, idthat) {
+        debugger
+        var el = idthis.value.replace(/,/g, '');
+        $("#" + idthat + "").val(el);
+    }
+    $('.money1').divide({
+        delimiter: ".",
+        divideThousand: true
+    });
+    $('.money').simpleMoneyFormat();
     $("#chkPassport").click(function () {
         debugger
         if ($(this).is(":checked")) {

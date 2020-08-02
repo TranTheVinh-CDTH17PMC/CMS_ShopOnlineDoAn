@@ -25,6 +25,7 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
             var model = new DoiDiemViewModel();
             var _doidiem = DoiDiem.SelectById(1);
             AutoMapper.Mapper.Map(_doidiem, model);
+            ViewBag.SuccessMessage = TempData["SuccessMessage"];
             return View(model);
         }
         [HttpPost]
@@ -36,6 +37,7 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
                 AutoMapper.Mapper.Map(model, _doidiem);
                 DoiDiem.Update(_doidiem);
                 DoiDiem.Save();
+                TempData["SuccessMessage"] = "Create";
                 return RedirectToAction("Create");
             }
             catch
