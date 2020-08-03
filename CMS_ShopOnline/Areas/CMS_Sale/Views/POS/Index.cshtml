@@ -427,7 +427,6 @@
 }
 <script type="text/javascript">
     function change(idthis, idthat) {
-        debugger
         var el = idthis.value.replace(/,/g, '');
         $("#" + idthat + "").val(el);
     }
@@ -437,7 +436,6 @@
     });
     $('.money').simpleMoneyFormat();
     $("#chkPassport").click(function () {
-        debugger
         if ($(this).is(":checked")) {
             $("#dvPassport").show("slow");
             $("#AddPassport").hide("slow");

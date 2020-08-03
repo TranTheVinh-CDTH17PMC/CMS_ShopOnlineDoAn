@@ -33,6 +33,8 @@ namespace CMS_Database.Entities
         public virtual DbSet<ListController> ListController { get; set; }
         public virtual DbSet<TemplatePrint> TemplatePrint { get; set; }
         public virtual DbSet<DoiDiem> DoiDiem { get; set; }
+        public virtual DbSet<KhuyenMai> KhuyenMai { get; set; }
+        public virtual DbSet<CTKhuyenmai> CTKhuyenmai { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<DonViTinh>()
