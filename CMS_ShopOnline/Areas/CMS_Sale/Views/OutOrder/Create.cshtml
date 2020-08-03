@@ -244,11 +244,11 @@
                         html += '<tr data-id="' + item.Id + '"><td id="' + item.Id + '"><span class="sn">' + count + '</span></td>';
                         html += '<td style="display:none;"><input class="detail_item_id form-control input-sm" name="ListCTPhieuXuat[' + (count - 1) + '].IdNguyenLieu"  value="' + item.Id + '"></td>';
                         html += '<td><p type="text">' + item.Ten + '</p></td>';
-                        html += '<td><input id="Count_' + item.Id + '" class="detail_item_qty form-control input-sm" type="number" min="1" name="ListCTPhieuXuat[' + (count - 1) + '].SoLuong" value="1" onchange="Checksl(this);"></td>';
+                        html += '<td style="max-width:0px"><input id="Count_' + item.Id + '" class="detail_item_qty form-control input-sm" type="number" min="1" name="ListCTPhieuXuat[' + (count - 1) + '].SoLuong" value="1" onchange="Checksl(this);"></td>';
                         html += '<td><p  class="detail_item_price" type="text">' + item.DonGia + '</p></td>';
                         html += '<td style="display:none;"><input id="Price_' + item.Id + '" class="detail_item_price form-control input-sm" type="text" name="ListCTPhieuXuat[' + (count - 1) + '].DonGia" value="' + item.DonGia + '"></td>';
                         html += '<td><p id="Total_' + item.Id + '" class="detail_item_total"></p></td>';
-                        html += '<td><i class="ibtnDel fa fa-close" style="font-size:30px;color:red;margin-left:7px;"></i></td></tr>';
+                        html += '<td style="text-align:center"><i class="ibtnDel fa fa-close" style="font-size:35px;color:red;"></i></td></tr>';
                         $("table.order-list").append(html);
                         TotalMoney(item.Id);
                         calcTotalAmount();

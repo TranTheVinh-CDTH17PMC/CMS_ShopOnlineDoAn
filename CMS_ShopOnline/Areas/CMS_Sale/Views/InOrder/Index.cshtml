@@ -148,7 +148,7 @@
                        columns.Add(x => x.TenNV).Titled("Nhân viên");
                        columns.Add(x => x.Ten).Titled("Nhà cung cấp");
                        columns.Add(x => x.GhiChu).Titled("Ghi chú");
-                       columns.Add(x => x.TongTien).Titled("Tổng tiền").Sortable(true);
+                       columns.Add(x => x.TongTien).Titled("Tổng tiền").Sortable(true).Css("money1");
                        columns.Add().Titled("Trạng thái").Sanitized(false).Encoded(false).RenderValueAs(x => Delete(x.IsPrint, x.IsDelete));
                        columns.Add().Titled("Tùy chỉnh").Css("style = display:flex")
                           .Encoded(false)

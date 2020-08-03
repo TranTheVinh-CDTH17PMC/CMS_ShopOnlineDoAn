@@ -85,7 +85,7 @@
                        columns.Add(x => x.NgayTao).Sanitized(false).Titled("Ngày tạo").Format("{0:dd/MM/yyyy}");
                        columns.Add(x => x.TenNV).Titled("Nhân viên tạo");
                        columns.Add(x => x.SDT).Titled("Số điện thoại");
-                       columns.Add(x => x.TongTien).Titled("Tổng tiền").Sortable(true);
+                       columns.Add(x => x.TongTien).Titled("Tổng tiền").Sortable(true).Css("money1");
                        columns.Add().Titled("Trạng thái").Sanitized(false).Encoded(false).RenderValueAs(x => Delete(x.IsDelete));
                        columns.Add().Titled("Tùy chỉnh").Css("text center")
                        .Encoded(false)

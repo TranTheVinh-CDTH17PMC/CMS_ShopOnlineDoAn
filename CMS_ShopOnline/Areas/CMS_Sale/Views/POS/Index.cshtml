@@ -427,7 +427,8 @@
 }
 <script type="text/javascript">
     function change(idthis, idthat) {
-        var el = idthis.value.replace(/,/g, '');
+        debugger
+        var el = idthis.value.replace(/[.]/g, '');
         $("#" + idthat + "").val(el);
     }
     $('.money1').divide({

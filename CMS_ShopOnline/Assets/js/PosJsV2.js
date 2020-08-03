@@ -244,7 +244,7 @@ function SelectProducts(id)
                     html += '<td><p id="Dongia_'+item.Id+'" class="detail_item_price" type="text">' + item.DonGia + '</p></td>';
                     html += '<td style="display:none;"><input id="Price_' + item.Id + '" class="detail_item_price form-control input-sm" type="text" name="ListPOSDetails[' + (count - 1) + '].DonGia" value="' + item.DonGia + '"></td>';
                     html += '<td><p id="Total_' + item.Id + '" class="detail_item_total"></p></td>';
-                    html += '<td><i class="ibtnDel fa fa-close" style="font-size:30px;color:red;margin-left:7px;"></i></td></tr>';
+                    html += '<td style="text-align:center"><i class="ibtnDel fa fa-close" style="font-size:30px;color:red;"></i></td></tr>';
                     $("table.order-list").append(html);
                     TotalMoney(item.Id);
                     calcTotalAmount();

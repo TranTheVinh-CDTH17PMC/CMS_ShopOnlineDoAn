@@ -89,9 +89,9 @@
                                             <td class="grid-cell" data-name="">
                                                 <span>@CheckDate(item.Ngay)</span>
                                             </td>
-                                            <td class="grid-cell" data-name="GhiChu">@item.Tongthu</td>
-                                            <td class="grid-cell" data-name="TongTien">@item.Tongchi</td>
-                                            <td class="grid-cell" data-name="TenKH">@item.Loinhuan</td>
+                                            <td class="grid-cell money1" data-name="GhiChu">@item.Tongthu</td>
+                                            <td class="grid-cell money1" data-name="TongTien">@item.Tongchi</td>
+                                            <td class="grid-cell money1" data-name="TenKH">@item.Loinhuan</td>
                                         </tr>
                                         i++;
                                     }
@@ -102,7 +102,7 @@
                                         <td></td>
                                         <td></td>
                                         <td>Tổng tiền :</td>
-                                        <td>@ViewBag.tongtien</td>
+                                        <td class="money1" style="color:blue">@ViewBag.tongtien</td>
                                     </tr>
                                 </tfoot>
                             </table>
