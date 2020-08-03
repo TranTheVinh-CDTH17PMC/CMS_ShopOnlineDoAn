@@ -1,4 +1,28 @@
-﻿var counter = 0;
+﻿function number_format(number, decimals, dec_point, thousands_sep) {
+    // *     example: number_format(1234.56, 2, ',', ' ');
+    // *     return: '1 234,56'
+    number = (number + '').replace(',', '').replace(' ', '');
+    var n = !isFinite(+number) ? 0 : +number,
+      prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+      sep = (typeof thousands_sep === 'undefined') ? '.' : thousands_sep,
+      dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+      s = '',
+      toFixedFix = function (n, prec) {
+          var k = Math.pow(10, prec);
+          return '' + Math.round(n * k) / k;
+      };
+    // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+    s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+    if (s[0].length > 3) {
+        s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+    }
+    if ((s[1] || '').length < prec) {
+        s[1] = s[1] || '';
+        s[1] += new Array(prec - s[1].length + 1).join('0');
+    }
+    return s.join(dec);
+}
+var counter = 0;
 $(document).ready(function () {
     GetProducts(0);
     notificationFromHub = $.connection.myHub;
@@ -103,7 +127,7 @@ $(document).ready(function () {
 
         .autocomplete('instance')._renderItem = function (ul, item) {
             return $('<li class="ui-autocomplete-row"></li>')
-                .append('<img src="/Areas/CMS_Sale/Image/ThanhPham/'+item.HinhAnh+'" width="70" />&nbsp;&nbsp;&nbsp;Tên SP : '+item.Ten+' - Đơn giá : '+item.DonGia+'')
+                .append('<img src="/Areas/CMS_Sale/Image/ThanhPham/'+item.HinhAnh+'" width="70" />&nbsp;&nbsp;&nbsp;Tên SP : '+item.Ten+' - Đơn giá : '+number_format(item.DonGia)+'')
                 .appendTo(ul);
             function updateTextBox(event, ui) {
                 $(this).val(ui.item.Id);
@@ -220,7 +244,7 @@ function SelectProducts(id)
                     html += '<td style="display:none;"><input class="detail_item_id form-control input-sm" name="ListPOSDetails[' + (count - 1) + '].IdThanhPham"  value="' + item.Id + '"></td>';
                     html += '<td><p type="text">' + item.Ten + '</p></td>';
                     html += '<td><input id="Count_' + item.Id + '" class="detail_item_qty form-control input-sm" type="number" min="1" name="ListPOSDetails[' + (count - 1) + '].SoLuong" value="1"></td>';
-                    html += '<td><p  class="detail_item_price" type="text">' + item.DonGia + '</p></td>';
+                    html += '<td><p  class="detail_item_price" type="text">' +  number_format(item.DonGia) + '</p></td>';
                     html += '<td style="display:none;"><input id="Price_' + item.Id + '" class="detail_item_price form-control input-sm" type="text" name="ListPOSDetails[' + (count - 1) + '].DonGia" value="' + item.DonGia + '"></td>';
                     html += '<td><p id="Total_' + item.Id + '" class="detail_item_total"></p></td>';
                     html += '<td style="text-align:center"><i class="ibtnDel fa fa-close" style="font-size:30px;color:red;"></i></td></tr>';
@@ -246,6 +270,7 @@ function SelectProducts(id)
         }
     });
 }
+
 function GetProducts(id)
 {
     $(".col-md-3").remove();
@@ -263,7 +288,7 @@ function GetProducts(id)
                 html += '<a onclick="SelectProducts('+item.Id+');">';
                 html += '<img src="/Areas/CMS_Sale/Image/ThanhPham/' + item.HinhAnh + '" alt="Mountains" style="width:100%">';
                 html += '</a><h4>' + item.Ten + '</h4>';
-                html += '<p>' + item.DonGia + '</p>';
+                html += '<p>' + number_format(item.DonGia) + '</p>';
                 html += '</div></div>';
             });
             $("#rowproduct").append(html);
@@ -279,7 +304,7 @@ function TotalMoney(id)
     var num2 = $("table.order-list #Price_"+id+"").val();
     var answer = parseInt(num1) * parseInt(num2);
     $("table.order-list #Total_" +id+ "").text(answer);
-    //$("table.order-list #Total_" +id+ "").val(answer);
+    $("table.order-list #Total_" +id+ "").val(answer);
     Excesscash();
 }
 function calcTotalAmount() {
