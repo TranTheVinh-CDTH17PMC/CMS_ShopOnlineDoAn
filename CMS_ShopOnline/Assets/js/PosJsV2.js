@@ -265,8 +265,7 @@ function SelectProducts(id)
                     html += '<td style="display:none;"><input class="detail_item_id form-control input-sm" name="ListPOSDetails[' + (count - 1) + '].IdThanhPham"  value="' + item.Id + '"></td>';
                     html += '<td><p type="text">' + item.Ten + '</p></td>';
                     html += '<td><input id="Count_' + item.Id + '" class="detail_item_qty form-control input-sm" type="number" min="1" name="ListPOSDetails[' + (count - 1) + '].SoLuong" value="1"></td>';
-                    html += '<td><p  class="detail_item_price" type="text">' +  number_format(item.DonGia) + '</p></td>';
-                    html += '<td><p id="Dongia_'+item.Id+'" class="detail_item_price" type="text">' + item.DonGia + '</p></td>';
+                    html += '<td><p id="Dongia_' + item.Id + '" class="detail_item_price" type="text">' + number_format(item.DonGia) + '</p></td>';
                     html += '<td style="display:none;"><input id="Price_' + item.Id + '" class="detail_item_price form-control input-sm" type="text" name="ListPOSDetails[' + (count - 1) + '].DonGia" value="' + item.DonGia + '"></td>';
                     html += '<td><p id="Total_' + item.Id + '" class="detail_item_total"></p></td>';
                     html += '<td style="text-align:center"><i class="ibtnDel fa fa-close" style="font-size:30px;color:red;"></i></td></tr>';
