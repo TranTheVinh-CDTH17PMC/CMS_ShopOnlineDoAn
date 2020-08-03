@@ -437,26 +437,25 @@ $('.money1').divide({
 });
 $('.money').simpleMoneyFormat();
 $("#chkPassport").click(function () {
-    debugger
-    if ($(this).is(":checked")) {
-        $("#dvPassport").show("slow");
-        $("#AddPassport").hide("slow");
-        if ($("#dlcustomer").val() != null && $("#dlcustomer").val() != "") {
-            Tinhdiemgiamgia();
-            calcTotalAmount();
-        }
-        else
-        {
+        if ($(this).is(":checked")) {
+            $("#dvPassport").show("slow");
+            $("#AddPassport").hide("slow");
+            if ($("#dlcustomer").val() != null && $("#dlcustomer").val() != "") {
+                Tinhdiemgiamgia();
+                calcTotalAmount();
+            }
+            else
+            {
+                $("#khuyenmai").val("0");
+                calcTotalAmount();
+            }
+            
+        } else {
+            $("#dvPassport").hide("slow");
+            $("#AddPassport").show("slow");
             $("#khuyenmai").val("0");
             calcTotalAmount();
-        }
-            
-    } else {
-        $("#dvPassport").hide("slow");
-        $("#AddPassport").show("slow");
-        $("#khuyenmai").val("0");
-        calcTotalAmount();
-    }
+        }           
 });
 $("#Print").click(function () {
        

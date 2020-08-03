@@ -46,17 +46,40 @@ $(document).ready(function () {
         }
     });
     function End() {
-        debugger
         scanner.stop();
     }
     $('#listOrderDetail').on('change', '.detail_item_qty', function () {
         var $this = $(this);
+        var value = $this.val();
         var id = $this.closest('tr').data('id');
         TotalMoney(id);
         calcTotalAmount();
         Excesscash();
+        $.ajax({
+            url: "/POS/Checksoluong/",
+            dataType: "json",
+            type: "GET",
+            contentType: 'application/json; charset=utf-8',
+            data: { Id: id, soluong: value },
+            success: function (data) {
+                var value = $("#Dongia_" + id + "").text(data);
+                var x = $("#Price_" + id + "").val(data);
+                TotalMoney(id);
+                calcTotalAmount();
+                Excesscash();
+            },
+            error: function (err) {
+                alert(err);
+            }
+        });
     });
     $('#listOrderDetail').on('change', '.detail_item_total', function () {
+        var $this = $(this);
+        var id = $this.closest('tr').data('id');
+        TotalMoney(id);
+        calcTotalAmount();
+    });
+    $('#listOrderDetail').on('change', '.detail_item_price', function () {
         var $this = $(this);
         var id = $this.closest('tr').data('id');
         TotalMoney(id);
@@ -89,7 +112,6 @@ $(document).ready(function () {
         Excesscash();
     });
     $("#diemtoida").change(function () {
-        debugger
         if ($("#dlcustomer").val() != null && $("#dlcustomer").val() != "") {
             Tinhdiemgiamgia();
             calcTotalAmount();
@@ -173,7 +195,6 @@ $(document).ready(function () {
 });
 function Tinhdiemgiamgia()
 {
-    debugger
     var checkhuyenmai = $("#checkkhuyenmai").val();
     if (checkhuyenmai != "true")
     {
@@ -245,6 +266,7 @@ function SelectProducts(id)
                     html += '<td><p type="text">' + item.Ten + '</p></td>';
                     html += '<td><input id="Count_' + item.Id + '" class="detail_item_qty form-control input-sm" type="number" min="1" name="ListPOSDetails[' + (count - 1) + '].SoLuong" value="1"></td>';
                     html += '<td><p  class="detail_item_price" type="text">' +  number_format(item.DonGia) + '</p></td>';
+                    html += '<td><p id="Dongia_'+item.Id+'" class="detail_item_price" type="text">' + item.DonGia + '</p></td>';
                     html += '<td style="display:none;"><input id="Price_' + item.Id + '" class="detail_item_price form-control input-sm" type="text" name="ListPOSDetails[' + (count - 1) + '].DonGia" value="' + item.DonGia + '"></td>';
                     html += '<td><p id="Total_' + item.Id + '" class="detail_item_total"></p></td>';
                     html += '<td style="text-align:center"><i class="ibtnDel fa fa-close" style="font-size:30px;color:red;"></i></td></tr>';
@@ -311,7 +333,6 @@ function calcTotalAmount() {
     var total = 0;
     var total1 = 0;
     var selector = '.detailList tr';
-    debugger
     $('table > tbody  > tr').each(function (index, elem) {
         if ($(elem).find('.detail_item_total').text() != '') { 
             total = total + parseFloat($(elem).find('.detail_item_total').text());

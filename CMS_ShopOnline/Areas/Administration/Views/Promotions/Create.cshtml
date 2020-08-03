@@ -1,0 +1,349 @@
+﻿@model CMS_ShopOnline.Areas.Administration.Models.KhuyenMaiViewModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/ACE_Layout.cshtml";
+}
+
+<link href="/Assets/css/pos.css" rel="stylesheet" type="text/css" />
+<link href="/Assets/public/templates/css/font-awesome.min.css" rel="stylesheet">
+<style>
+    .my-custom-scrollbar {
+        position: relative;
+        height: 300px;
+        overflow: auto;
+    }
+
+    .table-wrapper-scroll-y {
+        display: block;
+    }
+
+    .ui-autocomplete-row {
+        padding: 8px;
+        background-color: #f4f4f4;
+        border-bottom: 1px solid #ccc;
+        font-weight: bold;
+    }
+
+        .ui-autocomplete-row:hover {
+            background-color: #ddd;
+        }
+
+    ul#ui-id-1 {
+        list-style: none;
+        width: 200px;
+    }
+</style>
+@using (Html.BeginForm(FormMethod.Post))
+{
+    <div class="container-fluid" id="container-wrapper">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="col-md-12" >
+                    <p>Chọn nhóm hàng / hàng hoá khuyến mãi:</p>
+                    <div class="col-md-7" style="float: none;margin: auto; padding-bottom:10px;display:flex" >
+                        <div style="padding-left:10px;">
+                            <p><input type="radio"  name="gender" value="all" onclick="formChoice(0);" checked> Tất cả</p>
+                        </div>
+                        <div style="padding-left:10px;">
+                            <p><input type="radio"  name="gender" value="nhomhang" onclick="formChoice(1);"> Nhóm hàng</p>
+                            
+                        </div>
+                        <div style="padding-left:10px;">
+                            <p><input type="radio"  name="gender" value="nhomsp" onclick="formChoice(2);"> Nhóm sản phẩm</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="all" class="col-md-12" style="float: none;margin: auto; padding-bottom:10px;display:flex" >
+                    <div class="col-md-4">
+                        <label>SL Tối thiểu</label>
+                        <input class="form-control" name="ListCTkm[0].SLToithieu" value="1"/>
+                        <input class="form-control" id="IsAll" name="IsAll" value="all" type="hidden"/>
+                    </div>
+                    <div class="col-md-4">
+                        <label>Giảm giá</label>
+                        <input class="form-control money1" onchange="change(this, 'ListCTkm[0]TienGiam');"/>
+                        <input type="hidden" name="ListCTkm[0].TienGiam" id="ListCTkm[0]TienGiam"/>
+                    </div>
+                    <div class="col-md-4" style="padding-left:10px">
+                        <label>Loại</label>
+                        <div style="display:flex;padding-top: 10px;">
+                            <p style="padding-right: 10px;"><input type="radio" name="ListCTkm[0].IsPhanTram" value="true" checked="checked"> %</p>
+                            <p><input type="radio" name="ListCTkm[0].IsPhanTram" value="false"> VND</p>
+                        </div> 
+                    </div>
+                </div>
+                <div class="col-md-12" id="nhomhang" style="display:none">
+                    <div class="col-md-4" style="float: none;margin: auto; padding-bottom:10px">
+                        <select id="cars" class="form-control">
+                            @foreach (var item in ViewBag.LoaiSp)
+                            {
+                                <option value="@item.Id">@item.Ten</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                        <div style="overflow-x:auto;" id="listOrderDetail">
+                            <div class="table-responsive">
+                                <table id="Table" class="table order-list table-bordered table-striped mb-0">
+                                    <thead class="thead-light" style="background-color:#e7cff7">
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Nhóm hàng</th>
+                                            <th scope="col">SL tối thiểu</th>
+                                            <th scope="col">Giảm giá</th>
+                                            <th scope="col">Loại</th>
+                                            <th scope="col">Hủy</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="detailList"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12" style="padding-top: 10px;padding-bottom:10px;display:none"  id="nhomsp">
+                    <input class="form-control" style="margin-bottom:10px" id="txtName"/>
+                    <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                        <div style="overflow-x:auto;" id="listOrderDetail">
+                            <div class="table-responsive">
+                                <table id="myTable" class="table order-list table-bordered table-striped mb-0">
+                                    <thead class="thead-light" style="background-color:#e7cff7">
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Tên SP</th>
+                                            <th scope="col">SL tối thiểu</th>
+                                            <th scope="col">Giảm giá</th>
+                                            <th scope="col">Loại</th>
+                                            <th scope="col">Hủy</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="mydetailList"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div>
+                    <div class="col-lg-12">
+                        <label style="width: 215px; margin-top: 10px;">Tên khuyến mãi:</label>
+                        @Html.TextBoxFor(x => x.Ten, new { @class = "form-control"})
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                        <label style="width: 215px; margin-top: 10px;">Ngày bắt đầu:</label>
+                        @Html.TextBoxFor(x=>x.NgayBD , new { @class = "form-control form_datetime", autocomplete = "off", placeholder = "Từ ngày", @type = "date" })
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label style="width: 215px; margin-top: 10px;">Ngày kết thúc:</label>
+                           @Html.TextBoxFor(x => x.NgayKT, new { @class = "form-control form_datetime", autocomplete = "off", placeholder = "Đến ngày", @type = "date" })
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div>
+                            <div style="padding:0px">
+                                <label>Ghi chú</label>
+                            </div>
+                            <div class="col-lg-10">
+                                @Html.TextAreaFor(x => x.GhiChu, new { @class = "form-control", rows = "2", style = "border-radius: 0;" })
+                            </div>
+                            <div class="btn-groups pull-right" style="margin-left: 30px;float:right;padding-top:10px">
+                                <button type="submit" class="btn btn-primary" id="Save">
+                                    <i class="fa fa-check"></i> Lưu (F9)
+                                </button>
+                                <button type="button" class="btn btn-primary" onclick="cms_save_orders(4)">
+                                    <i class="fa fa-print"></i> Lưu và
+                                    kích hoạt (F10)
+                                </button>
+                                <a href="/orders">
+                                    <button type="button" class="btn-back btn btn-default">
+                                        <i class="fa fa-arrow-left"></i> Hủy
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- General Element -->
+
+            </div>
+        </div>
+    </div>
+}
+<script>
+    function formChoice(x) {
+        if (x == 0) {
+            $('#all').css('display', 'block ruby');
+            $('#nhomhang').css('display', 'none');
+            $('#nhomsp').css('display', 'none');
+            $(".mydetailList").empty();
+            $(".detailList").empty();
+            $("#IsAll").val("all");
+        }
+        if (x == 1)
+        {
+            debugger
+            $('#all').css('display', 'none');
+            $('#nhomhang').css('display', 'block');
+            $('#nhomsp').css('display', 'none');
+            $(".mydetailList").empty();
+            $("#IsAll").val("notall");
+        }
+        if (x == 2)
+        {
+            $('#all').css('display', 'none');
+            $('#nhomhang').css('display', 'none');
+            $('#nhomsp').css('display', 'block');
+            $(".detailList").empty();
+            $("#IsAll").val("notall");
+        }
+    }
+    //check null
+    //$("#Save").click(function () {
+    //    var detailList = $('.detailList').find('tr').length;
+    //    if (detailList == 0) {
+    //        swal({
+    //            text: "Chưa chọn nguyên liệu nhập!",
+    //            icon: "warning",
+    //            button: "Đồng ý",
+    //        });
+    //        return false;
+    //    }
+    //});
+    //
+    var counter = 0;
+    $(document).ready(function () {
+        $('#selectloai').on('change', function () {
+            debugger
+            AutoCompleteTB(this.value);
+        });
+        $('#cars').on('change', function () {
+            debugger
+            var selTag = document.getElementById("cars");
+            var text = selTag.options[selTag.selectedIndex].text;
+            var selectValue = text;
+            var selectid = $(this).val();
+            SelectType(selectid, selectValue);
+        });
+        AutoCompleteTB();
+    });
+    function AutoCompleteTB(idloai)
+    {
+        $('#txtName').autocomplete({
+            minLength: 1,
+            source: function (request, response) {
+                $.ajax({
+                    url: "/InOrder/Search/",
+                    dataType: "json",
+                    type: "GET",
+                    contentType: 'application/json; charset=utf-8',
+                    data: { name: request.term, Idloai: idloai },
+                    success: function (data) {
+                        response(data);
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                });
+            },
+            focus: updateTextBox,
+            select: function (e, ui) {
+                SelectProducts(ui.item.Id);
+            },
+        })
+    .autocomplete('instance')._renderItem = function (ul, item) {
+        return $('<li class="ui-autocomplete-row"></li>')
+            .append('<img src="/Areas/CMS_Sale/Image/NguyenLieu/' + item.HinhAnh + '" width="40" />&nbsp;&nbsp;&nbsp;Tên SP : ' + item.Ten + ' - Đơn giá : ' + item.DonGia + '')
+            .appendTo(ul);
+        function updateTextBox(event, ui) {
+            $(this).val(ui.item.Id);
+            return false;
+        }
+    };
+        function updateTextBox(event, ui) {
+            $('#IdKhachHang').val(ui.item.Id);
+            $('#dlcustomer').val(ui.item.TenKH);
+            return false;
+        }
+    }
+    $("#myTable").on("click", ".ibtnDel", function (event) {
+        $(this).closest("tr").remove();
+        $('.mydetailList tr').each(function (index, tr) {
+            $(this).find("span.sn").html(index + 1);
+            $(tr).find('.mydetail_item_qty').attr('name', 'ListCTPhieuNhap[' + index + '].SoLuong');
+            $(tr).find('.mydetail_item_price').attr('name', 'ListCTPhieuNhap[' + index + '].DonGia');
+            $(tr).find('.mydetail_item_id').attr('name', 'ListCTPhieuNhap[' + index + '].IdThanhPham');
+        });
+    });
+    $("#Table").on("click", ".tnDel", function (event) {
+        $(this).closest("tr").remove();
+        $('.detailList tr').each(function (index, tr) {
+            $(this).find("span.sn").html(index + 1);
+            $(tr).find('.detail_item_qty').attr('name', 'ListCTPhieuNhap[' + index + '].SoLuong');
+            $(tr).find('.detail_item_price').attr('name', 'ListCTPhieuNhap[' + index + '].DonGia');
+            $(tr).find('.detail_item_id').attr('name', 'ListCTPhieuNhap[' + index + '].IdThanhPham');
+        });
+    });
+    function SelectProducts(id) {
+        debugger
+        var dongia = id;
+        $.ajax({
+            url: "/InOrder/ListProductsById/",
+            dataType: "json",
+            type: "GET",
+            contentType: 'application/json; charset=utf-8',
+            data: { Id: id },
+            success: function (data) {
+                var count = myTable.querySelectorAll("tr").length;
+                if (count == null) {
+                    count = 0;
+                }
+                var getid = $("#" + id + "").val();
+                if (getid == null) {
+                    var html = "";
+                    $.each(data, function (key, item) {
+                        html += '<tr><td><span class="sn">' + count + '</span></td>';
+                        html += '<td style="display:none;"><input name="ListCTkm[' + (count) + '].IdThanhPham"  value="' + item.Id + '"></td>';
+                        html += '<td><p type="text">' + item.Ten + '</p></td>';
+                        html += '<td><input id="Count_' + item.Id + '" class="form-control" name="ListCTkm[' + (count) + '].SLToithieu"></td>';
+                        html += '<td><input class="form-control money1" onchange="change(this,' + dongia + ');" /></td>';
+                        html += '<td style="display:none;"><input id="'+item.Id+'" type="text" name="ListCTkm[' + (count) + '].TienGiam"></td>';
+                        html += '<td><div style="display:flex;padding-top: 10px;"><p style="padding-right: 10px;"><input type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="true" checked="checked"> %</p><p><input type="radio"name=ListCTkm[' + (count) + '].IsPhanTram value="false"> VND</p></div></td>';
+                        html += '<td><i class="ibtnDel fa fa-close" style="font-size:30px;color:red;margin-left:7px;"></i></td></tr>';
+                        $("#myTable").append(html);
+                        counter++;
+
+                    });
+                }
+            },
+            error: function (xhr) {
+                console.log(xhr);
+            }
+        });
+    }
+    function SelectType(id,value)
+    {
+        var dongia = id;
+        var count = Table.querySelectorAll("tr").length;
+        if (count == null) {
+            count = 0;
+        }
+        var html = "";
+        html += '<tr><td><span class="sn">' + count + '</span></td>';
+        html += '<td style="display:none;"><input name="ListCTkm[' + (count) + '].IdLoaiSP"  value="' + id + '"></td>';
+        html += '<td><p type="text">' + value + '</p></td>';
+        html += '<td><input class="form-control" name="ListCTkm[' + (count) + '].SLToithieu" value="1"></td>';
+        html += '<td><input class="form-control money1" onchange="change(this,' +dongia+ ');" /></td>';
+        html += '<td style="display:none;"><input id="' + id + '" type="text" name="ListCTkm[' + (count) + '].TienGiam" value=""></td>';
+        html += '<td><div style="display:flex;padding-top: 10px;"><p style="padding-right: 10px;"><input type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="true" checked="checked"> %</p><p><input type="radio"name=ListCTkm[' + (count) + '].IsPhanTram value="false"> VND</p></div></td>';
+        html += '<td><i class="tnDel fa fa-close" style="font-size:30px;color:red;margin-left:7px;"></i></td></tr>';
+        $("#Table").append(html);
+        counter++;
+    }
+</script>
+
+
+

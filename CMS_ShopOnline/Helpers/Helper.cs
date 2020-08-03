@@ -131,5 +131,19 @@ namespace CMS_ShopOnline.Helpers
             else
                 return value.GetValueOrDefault(0).ToString("##,##0.00");
         }
+        public static bool CheckKhuyenMai()
+        {
+            var daynow = DateTime.Now.Date;
+            IKhuyenMai km = new KhuyenMaiRepository();
+            var model = km.SelectAll().Where(x => x.IsDelete != true);
+            foreach(var item in model)
+            {
+                if(item.NgayBD.Date >= daynow && daynow <= item.NgayKT)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

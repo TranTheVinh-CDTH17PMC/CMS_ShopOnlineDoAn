@@ -30,6 +30,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         private readonly ICTHoaDon CTHoaDon;
         private readonly ITemplatePrint TemplatePrint;
         private readonly IDoiDiem DoiDiem;
+        private readonly IKhuyenMai KhuyenMai;
+        private readonly ICTKhuyenMai CTKhuyenMai;
+
         public POSController()
         {
             NguyenLieu = new NguyenLieuRepository();
@@ -43,8 +46,10 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             CTHoaDon = new CTHoaDonRepository();
             TemplatePrint = new TemplatePrintRepository();
             DoiDiem = new DoiDiemRepository();
+            KhuyenMai = new KhuyenMaiRepository();
+            CTKhuyenMai = new CTKhuyenMaiRepository();
         }
-        public POSController(IDoiDiem _DoiDiem, ITemplatePrint _TemplatePrint, ICTHoaDon _CTHoaDon, IKhachHang _KhachHang, IPhieuXuat _hoadon,ICTPhieuXuat _CTPhieuXuat,INguyenLieu _NguyenLieu, IDonViTinh _DVT, ILoaiSP _LoaiSP,IThanhPham _ThanhPham, IHoaDon _HoaDon)
+        public POSController(ICTKhuyenMai _CTKhuyenMai, IKhuyenMai _KhuyenMai, IDoiDiem _DoiDiem, ITemplatePrint _TemplatePrint, ICTHoaDon _CTHoaDon, IKhachHang _KhachHang, IPhieuXuat _hoadon,ICTPhieuXuat _CTPhieuXuat,INguyenLieu _NguyenLieu, IDonViTinh _DVT, ILoaiSP _LoaiSP,IThanhPham _ThanhPham, IHoaDon _HoaDon)
         {
             NguyenLieu = _NguyenLieu;
             DVT = _DVT;
@@ -57,6 +62,8 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             CTHoaDon = _CTHoaDon;
             TemplatePrint = _TemplatePrint;
             DoiDiem = _DoiDiem;
+            KhuyenMai = _KhuyenMai;
+            CTKhuyenMai = _CTKhuyenMai;
         }
         public string checknullkh(string tenkh)
         {
@@ -263,9 +270,97 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             });
             return Json(model, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult Checksoluong(int Id,int soluong)
+        {
+            var q = ThanhPham.SelectById(Id);
+            q.DonGia = Checkkm(q.DonGia, q.IdLoai, soluong,q.Id);
+            return Json(q.DonGia, JsonRequestBehavior.AllowGet);
+        }
+        public double? Checkkm(double? dongia,int? loaisp,int sl,int idtp)
+        {
+            if (Helper.CheckKhuyenMai() == true)
+            {
+                var listkm = KhuyenMai.SelectAll().Where(x => x.IsDelete != true);
+                foreach (var item in listkm)
+                {
+                    var listctkm = CTKhuyenMai.SelectAll().Where(x => x.IdKhuyenMai == item.Id);
+                    foreach (var ctitem in listctkm)
+                    {
+                        if (item.IsAll == true && sl >= ctitem.SLToithieu)
+                        {
+                            if (ctitem.IsPhanTram == true)
+                            {
+                                dongia = dongia - (dongia / 100) * ctitem.TienGiam;
+                                if (dongia < 0)
+                                {
+                                    dongia = 0;
+                                }
+                            }
+                            else
+                            {
+                                dongia = dongia - ctitem.TienGiam;
+                                if (dongia < 0)
+                                {
+                                    dongia = 0;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (ctitem.IdLoaiSP != null)
+                            {
+                                if (loaisp == ctitem.IdLoaiSP && sl >= ctitem.SLToithieu)
+                                {
+                                    if(ctitem.IsPhanTram == true)
+                                    {
+                                        dongia = dongia - (dongia / 100) * ctitem.TienGiam;
+                                        if (dongia < 0)
+                                        {
+                                            dongia = 0;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        dongia = dongia - ctitem.TienGiam;
+                                        if (dongia < 0)
+                                        {
+                                            dongia = 0;
+                                        }
+                                    }
+                                    
+                                }
+                            }
+                            if (ctitem.IdThanhPham != null)
+                            {
+                                if (idtp == ctitem.IdThanhPham && sl >= ctitem.SLToithieu)
+                                {
+                                    if (ctitem.IsPhanTram == true)
+                                    {
+                                        dongia = dongia - (dongia / 100) * ctitem.TienGiam;
+                                        if (dongia < 0)
+                                        {
+                                            dongia = 0;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        dongia = dongia - ctitem.TienGiam;
+                                        if (dongia < 0)
+                                        {
+                                            dongia = 0;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return dongia;
+        }
         public ActionResult ListProductsById(int Id)
         {
-            var q = ThanhPham.SelectAll().Where(x => x.IsDelete != true && x.Id==Id).ToList();
+            var q =  ThanhPham.SelectAll().Where(x => x.IsDelete != true && x.Id == Id);
             var model = q.Select(item => new ThanhPhamViewModel
             {
                 Id = item.Id,
@@ -274,7 +369,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 IdLoai = item.IdLoai,
                 TenLoai = item.LoaiSP.Ten,
                 HinhAnh = item.HinhAnh,
-                DonGia = item.DonGia,
+                DonGia = Checkkm(item.DonGia,item.IdLoai,1,item.Id),
                 IdDVT = item.IdDVT,
                 TenDVT = item.DonViTinh.Ten,
                 IsDelete = item.IsDelete
