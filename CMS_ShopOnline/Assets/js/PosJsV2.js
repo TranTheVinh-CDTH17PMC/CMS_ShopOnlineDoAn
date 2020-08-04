@@ -322,9 +322,9 @@ function GetProducts(id)
 function TotalMoney(id)
 {
     var num1 = $("#Count_"+id+"").val();
-    var num2 = $("table.order-list #Price_"+id+"").val();
+    var num2 = $("table.order-list #Price_" + id + "").val();
     var answer = parseInt(num1) * parseInt(num2);
-    $("table.order-list #Total_" +id+ "").text(answer);
+    $("table.order-list #Total_" +id+ "").text(number_format(answer));
     $("table.order-list #Total_" +id+ "").val(answer);
     Excesscash();
 }
@@ -333,8 +333,8 @@ function calcTotalAmount() {
     var total1 = 0;
     var selector = '.detailList tr';
     $('table > tbody  > tr').each(function (index, elem) {
-        if ($(elem).find('.detail_item_total').text() != '') { 
-            total = total + parseFloat($(elem).find('.detail_item_total').text());
+        if ($(elem).find('.detail_item_total').text() != '') {
+            total = total + parseFloat($(elem).find('.detail_item_total').val());
             total1 = total - $("#TongKM").val();
                 $("#totalafterdiscount").val(total1);
                 $('input[name="TongTien"]').val(total1);        

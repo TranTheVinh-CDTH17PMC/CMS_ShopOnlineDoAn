@@ -112,7 +112,7 @@
                     </div>
                 </div>
                 <div class="col-md-12" style="padding-top: 10px;padding-bottom:10px;display:none"  id="nhomsp">
-                    <input class="form-control" style="margin-bottom:10px" id="txtName"/>
+                    <input class="form-control" style="margin-bottom:10px" placeholder="Nhập tên sản phẩm..." id="txtName"/>
                     <div class="table-wrapper-scroll-y my-custom-scrollbar">
                         <div style="overflow-x:auto;" id="listOrderDetail">
                             <div class="table-responsive">
@@ -137,7 +137,7 @@
             <div class="col-lg-4">
                 <div>
                     <div class="col-lg-12">
-                        <label style="width: 215px; margin-top: 10px;">Tên khuyến mãi:</label>
+                        <label style="width: 215px; margin-top: 10px;">Tên chương trình KM:</label>
                         @Html.TextBoxFor(x => x.Ten, new { @class = "form-control"})
                     </div>
                     <div class="col-lg-12">
@@ -164,11 +164,10 @@
                             {
                                 <div class="btn-groups pull-right" style="float:right;padding-top:10px;display:flex">
                                     <button type="submit" class="btn btn-primary" id="Save" style="margin-right:5px" onclick="LuuALL()">
-                                        <i class="fa fa-check"></i> Lưu (F9)
+                                        <i class="fa fa-check"></i> Lưu
                                     </button>
                                     <button type="button" class="btn btn-primary">
-                                        <i class="fa fa-print"></i> Lưu và
-                                        kích hoạt (F10)
+                                        <i class="fa fa-print"></i> Lưu và kích hoạt
                                     </button>
                                     <a href="/orders">
                                         <button type="button" class="btn-back btn btn-default">
@@ -198,7 +197,11 @@
                 contentType: 'application/json; charset=utf-8',
                 success: function (data) {
                     if (data != 1) {
-                        alert("Khuyến mãi tất cả đã tồn tại!!!")
+                        swal({
+                            text: "Khuyến mãi tất cả đã tồn tại!",
+                            icon: "warning",
+                            button: "Đồng ý",
+                        });
                         return false;
                     }
                 }
@@ -275,7 +278,7 @@
             })
         .autocomplete('instance')._renderItem = function (ul, item) {
             return $('<li class="ui-autocomplete-row"></li>')
-                .append('<img src="/Areas/CMS_Sale/Image/ThanhPham/' + item.HinhAnh + '" width="70" />&nbsp;&nbsp;&nbsp;Tên SP : ' + item.Ten + ' - Đơn giá : ' + item.DonGia + '')
+                .append('<img src="/Areas/CMS_Sale/Image/ThanhPham/' + item.HinhAnh + '" width="70" />&nbsp;&nbsp;&nbsp;Tên SP : ' + item.Ten + ' - Đơn giá : ' + number_format(item.DonGia) + '')
                 .appendTo(ul);
             function updateTextBox(event, ui) {
                 $(this).val(ui.item.Id);
@@ -338,11 +341,11 @@
                                     html += '<tr><td><span class="sn">' + count + '</span></td>';
                                     html += '<td style="display:none;"><input class="mydetail_item_qty" name="ListCTkm[' + (count) + '].IdThanhPham"  value="' + item.Id + '"></td>';
                                     html += '<td><p type="text">' + item.Ten + '</p></td>';
-                                    html += '<td><input id="Count_' + item.Id + '" class="form-control mydetail_item_price" name="ListCTkm[' + (count) + '].SLToithieu"></td>';
-                                    html += '<td><input class="form-control money1" onchange="change(this,' + dongia + ');" /></td>';
+                                    html += '<td><input style="width:135px" id="Count_' + item.Id + '" class="form-control mydetail_item_price" name="ListCTkm[' + (count) + '].SLToithieu"></td>';
+                                    html += '<td><input style="width:135px" class="form-control money1" onchange="change(this,' + dongia + ');" /></td>';
                                     html += '<td style="display:none;"><input class="mydetail_item_id" id="' + item.Id + '" type="text" name="ListCTkm[' + (count) + '].TienGiam"></td>';
                                     html += '<td><div style="display:flex;padding-top: 10px;"><p style="padding-right: 10px;"><input class="mydetail_item_radio" type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="true" checked="checked"> %</p><p><input class="mydetail_item_radio" type="radio"name=ListCTkm[' + (count) + '].IsPhanTram value="false"> VND</p></div></td>';
-                                    html += '<td><i class="ibtnDel fa fa-close" style="font-size:30px;color:red;margin-left:7px;"></i></td></tr>';
+                                    html += '<td style="text-align:center;"><i class="ibtnDel fa fa-close" style="font-size:30px;color:red;"></i></td></tr>';
                                     $("#myTable").append(html);
                                     counter++;
 
@@ -350,7 +353,11 @@
                             }
                         }
                         else {
-                            alert("Khuyến mãi cho sản phẩm đã tồn tại!!!");
+                            swal({
+                                text: "Khuyến mãi cho sản phẩm đã tồn tại!",
+                                icon: "warning",
+                                button: "Đồng ý",
+                            });
                         }
                     }
                 });
@@ -380,20 +387,48 @@
                     html += '<tr><td><span class="sn">' + count + '</span></td>';
                     html += '<td style="display:none;"><input class="detail_item_qty" name="ListCTkm[' + (count) + '].IdLoaiSP"  value="' + id + '"></td>';
                     html += '<td><p type="text">' + value + '</p></td>';
-                    html += '<td><input class="form-control detail_item_price" name="ListCTkm[' + (count) + '].SLToithieu" value="1"></td>';
-                    html += '<td><input class="form-control money1" onchange="change(this,' + dongia + ');" /></td>';
+                    html += '<td><input style="width:135px" class="form-control detail_item_price" name="ListCTkm[' + (count) + '].SLToithieu" value="1"></td>';
+                    html += '<td><input style="width:135px" class="form-control" onchange="change(this,' + dongia + ');" /></td>';
                     html += '<td style="display:none;"><input id="' + id + '" class="detail_item_id" type="text" name="ListCTkm[' + (count) + '].TienGiam" value=""></td>';
                     html += '<td><div style="display:flex;padding-top: 10px;"><p style="padding-right: 10px;"><input class="detail_item_radio" type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="true" checked="checked"> %</p><p><input class="detail_item_radio" type="radio"name=ListCTkm[' + (count) + '].IsPhanTram value="false"> VND</p></div></td>';
-                    html += '<td><i class="tnDel fa fa-close" style="font-size:30px;color:red;margin-left:7px;"></i></td></tr>';
+                    html += '<td style="text-align:center;"><i class="tnDel fa fa-close" style="font-size:30px;color:red;"></i></td></tr>';
                     $("#Table").append(html);
                     counter++;
                 }
                 else
                 {
-                    alert("Khuyến mãi cho nhóm sản phẩm đã tồn tại!!!");
+                    swal({
+                        text: "Khuyến mãi cho sản phẩm đã tồn tại!",
+                        icon: "warning",
+                        button: "Đồng ý",
+                    });
                 }
             }
         });          
+    }
+    function number_format(number, decimals, dec_point, thousands_sep) {
+        // *     example: number_format(1234.56, 2, ',', ' ');
+        // *     return: '1 234,56'
+        number = (number + '').replace(',', '').replace(' ', '');
+        var n = !isFinite(+number) ? 0 : +number,
+          prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+          sep = (typeof thousands_sep === 'undefined') ? '.' : thousands_sep,
+          dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+          s = '',
+          toFixedFix = function (n, prec) {
+              var k = Math.pow(10, prec);
+              return '' + Math.round(n * k) / k;
+          };
+        // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+        s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+        if (s[0].length > 3) {
+            s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+        }
+        if ((s[1] || '').length < prec) {
+            s[1] = s[1] || '';
+            s[1] += new Array(prec - s[1].length + 1).join('0');
+        }
+        return s.join(dec);
     }
 </script>
 

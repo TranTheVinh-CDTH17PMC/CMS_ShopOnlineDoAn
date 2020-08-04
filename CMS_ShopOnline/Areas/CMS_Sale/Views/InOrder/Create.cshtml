@@ -272,8 +272,8 @@
         var num1 = $("#Count_" + id + "").val();
         var num2 = $("table.order-list #Price_" + id + "").val();
         var answer = parseInt(num1) * parseInt(num2);
-        $("table.order-list #Total_" + id + "").text(answer);
-        //$("table.order-list #Total_" +id+ "").val(answer);
+        $("table.order-list #Total_" + id + "").text(number_format(answer));
+        $("table.order-list #Total_" +id+ "").val(answer);
     }
     function calcTotalAmount() {
         var total = 0;
@@ -284,7 +284,7 @@
             if ($(elem).find('.detail_item_total').text() != '') {
                 console.log(total);
                 console.log(elem);
-                total = total + parseFloat($(elem).find('.detail_item_total').text());
+                total = total + parseFloat($(elem).find('.detail_item_total').val());
                 $("#totalafterdiscount").val(total);
                 $('input[name="TongTien"]').val(total);
 

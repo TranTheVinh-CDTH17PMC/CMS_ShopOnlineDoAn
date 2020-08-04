@@ -38,9 +38,79 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
             DoiDiem = _DoiDiem;
         }
         // GET: Administration/Promotions
-        public ActionResult Index()
+        public ActionResult Index(string ghichu, string txtName, string txtInfo)
         {
-            return View();
+            try
+            {
+                IEnumerable<KhuyenMaiViewModel> model = KhuyenMai.SelectAll().Select(
+                item => new KhuyenMaiViewModel
+                {
+                    Id = item.Id,
+                    NgayBD = item.NgayBD,
+                    NgayKT = item.NgayKT,
+                    Ten = item.Ten,
+                    GhiChu = item.GhiChu,
+                    IsDelete = item.IsDelete
+                }
+                ).ToList().OrderByDescending(x => x.NgayBD);
+                if (ghichu != null)
+                {
+                    ghichu = ghichu == "" ? "~" : Helpers.Helper.ChuyenThanhKhongDau(ghichu);
+                    model = model.Where(x => Helpers.Helper.ChuyenThanhKhongDau(x.GhiChu).ToString().Contains(ghichu.ToString())).ToList();
+                }
+                if (txtName != null)
+                {
+                txtName = txtName == "" ? "~" : Helpers.Helper.ChuyenThanhKhongDau(txtName);
+                model = model.Where(x => Helpers.Helper.ChuyenThanhKhongDau(x.Ten).ToString().Contains(txtName.ToString())).ToList();
+                }
+                if (!string.IsNullOrEmpty(txtInfo))
+                {
+                    model = model.Where(x => Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(Helpers.Helper.ChuyenThanhKhongDau(txtInfo)) || Helpers.Helper.ChuyenThanhKhongDau(x.GhiChu).Contains(txtInfo)).ToList();
+                    //txtCode = txtCode == "" ? "~" : Helpers.Helper.ChuyenThanhKhongDau(txtCode);
+                    //model = model.Where(x => x.IsDelete != true && (Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(txtCode)));
+                }
+                ViewBag.SuccessMessage = TempData["SuccessMessage"];
+            return View(model);
+            }
+        catch (Exception e)
+        {
+
+        }
+        return View();
+        }
+        public ActionResult Details(int id)
+        {
+            var km = KhuyenMai.SelectById(id);
+            KhuyenMaiViewModel model = new KhuyenMaiViewModel();
+            model.Id = km.Id;
+            model.IsDelete = km.IsDelete;
+            model.Ten = km.Ten;
+            model.NgayBD = km.NgayBD;
+            model.NgayKT = km.NgayKT;
+            model.GhiChu = km.GhiChu;
+            var details = CTKhuyenMai.GetById(km.Id).Select(
+                item => new CTKhuyenMaiViewModel
+                {
+                    Id = item.Id,
+                    IdKhuyenMai = item.IdKhuyenMai,
+                    IdThanhPham = item.IdThanhPham,
+                    IsPhanTram = item.IsPhanTram,
+                    IsTienMat = item.IsTienMat,
+                    TienGiam = item.TienGiam,
+                    SLToithieu = item.SLToithieu,
+                    IdLoaiSP = item.IdLoaiSP
+                }).ToList();
+            model.ListCTkm = details;
+            return View(model);
+        }
+        public ActionResult Delete(string IdDelete)
+        {
+            var km = KhuyenMai.SelectById(Int32.Parse(IdDelete));
+            km.IsDelete = true;
+            KhuyenMai.Update(km);
+            KhuyenMai.Save();
+            TempData["SuccessMessage"] = "Create";
+            return RedirectToAction("Index");
         }
         public ActionResult Create()
         {
@@ -118,7 +188,7 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
                     }
                     CTKhuyenMai.Insert(ctkm);
                     CTKhuyenMai.Save();
-                    return RedirectToAction("Create");
+                    return RedirectToAction("Index");
                 }
                 else
                 {
@@ -143,7 +213,7 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
                         CTKhuyenMai.Insert(ctkm);
                         CTKhuyenMai.Save();
                     }
-                    return RedirectToAction("Create");
+                    return RedirectToAction("Index");
                 }
             }
             catch(Exception e)
@@ -199,10 +269,6 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
                 }
             }
             return Json(checksl, JsonRequestBehavior.AllowGet);
-        }
-        public ActionResult Details()
-        {
-            return View();
         }
 
     }

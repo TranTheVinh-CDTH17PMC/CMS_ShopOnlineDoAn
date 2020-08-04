@@ -1,8 +1,146 @@
-﻿
+﻿@using CMS_ShopOnline.Areas.Administration.Models
+@using PagedList.Mvc;
+@model IEnumerable<KhuyenMaiViewModel>
+@using GridMvc.Html
+<link href="~/Content/PagedList.css" rel="stylesheet" />
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/ACE_Layout.cshtml";
 }
+@if (ViewBag.SuccessMessage != null)
+{
+    <script>
+        $(document).ready(function () {
+	    'use strict';
+		swal({
+		    title: 'Thành công!',
+		    icon: 'success',
+		    button:'Đồng ý',
+		})
+});
 
-<h2>Index</h2>
+    </script>
+}
+@helper ButtonDetails(int Id)
+{
+    <a href="@Url.Action("Details","Promotions",new { @Id = Id })">
+        <button class="btn btn-success" title="Chi tiết" style="margin-right:3px;" type="button"><i class="fa fa-eye" aria-hidden="true"></i></button>
+    </a>
+}
+
+@*@helper ButtonEdit(int Id, bool? IsDelete)
+{
+if (IsDelete != true)
+{
+        <a href="@Url.Action("Edit","Promotions",new { @Id = Id })">
+            <button class="btn btn-primary" title="Chỉnh sửa" style="margin-left:-8px;" type="button"><i class="fas fa-pencil-alt"></i></button>
+        </a>
+}
+
+}*@
+@helper ButtonDelete(int Id, bool? Status)
+{
+if (Status == false)
+{
+        <button class="btn btn-warning" title="Kết thúc" style="margin:-2px" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmDelete()"> <i class="fa fa-hourglass-start"></i></button>
+}
+else
+{
+        <button class="btn btn-secondary" title="Đã kết thúc" style="margin:-2px" name="IdDelete" type="submit" onclick="return Confirm()"> <i class="fa fa-hourglass-end"></i></button>
+}
+}
+
+@helper Ma(int Id)
+{
+    <span>KM @Id</span>
+}
+
+@helper Delete(bool? Status)
+{
+if (Status == false)
+{
+        <span class="badge badge-primary">Đang hoạt động</span>
+}
+else
+{
+        <span class="badge badge-danger">Đã kết thúc</span>
+}
+}
+<div class="container-fluid" id="container-wrapper">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div style="display:flex">
+            <h1 class="h3 mb-0 text-gray-800">Khuyến mãi</h1>
+            <a href="@Url.Action("Create", "Promotions", new { area ="Administration" })">
+                <button type="button" class="btn btn-primary" title="Thêm khuyến mãi" style="margin-left:10px">
+                    Thêm mới <i class="fa fa-plus"></i>
+                </button>
+            </a>
+        </div>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="./">Trang chủ</a></li>
+            <li class="breadcrumb-item">Thiết lập</li>
+            <li class="breadcrumb-item active" aria-current="page">Khuyến mãi</li>
+        </ol>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 mb-4">
+            <!-- Simple Tables -->
+            <div class="card">
+                @using (Html.BeginForm("Index", "Promotions", FormMethod.Get))
+            {
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <div class="col-md-8">
+                            <div class="order-search" style="margin: 10px 0px; position: relative;display:flex">
+                                <input type="text" class="form-control" placeholder="Nhập tên chương trình khuyến mãi..." id="search-pro-box" autocomplete="off" name="txtInfo">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-primary" style="width:25%;border: 1px solid grey;border-left: none;"><i class="fa fa-search"></i></button>
+                        </div>
+                        </div>
+                }
+                @using (Html.BeginForm("Delete", "Promotions"))
+                {
+                    <div class="table-responsive">
+                        @Html.Grid(Model).Columns(columns =>
+                   {
+                       columns.Add().Titled("Mã").Sanitized(false).Encoded(false).RenderValueAs(x => Ma(x.Id));
+                       columns.Add(x => x.Ten).Titled("Tên chương trình KM");
+                       columns.Add(x => x.NgayBD).Sanitized(false).Titled("Ngày bắt đầu").Format("{0:dd/MM/yyyy}");
+                       columns.Add(x => x.NgayKT).Sanitized(false).Titled("Ngày kết thúc").Format("{0:dd/MM/yyyy}");
+                       columns.Add(x => x.GhiChu).Titled("Ghi chú");
+                       columns.Add().Titled("Trạng thái").Sanitized(false).Encoded(false).RenderValueAs(x => Delete(x.IsDelete));
+                       columns.Add().Titled("Tùy chỉnh").Css("style = display:flex")
+                          .Encoded(false)
+                          .Sanitized(false)
+                          .SetWidth(120)
+                          .RenderValueAs(x =>(ButtonDetails(x.Id)).ToString() + (ButtonDelete(x.Id, x.IsDelete)).ToString());
+                   }).WithPaging(10)
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <!--Row-->
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+    function ConfirmDelete() {
+        var x = confirm("Bạn có chắc muốn kết thúc khuyến mãi đã chọn ?");
+        if (x)
+            return true;
+        else
+            return false;
+    }
+    function Confirm() {
+        swal({
+            text: "Chương trình khuyến mãi này đã kết thúc!",
+            icon: "warning",
+            button: "Đồng ý",
+        });
+        return false;
+    }
+</script>
 
