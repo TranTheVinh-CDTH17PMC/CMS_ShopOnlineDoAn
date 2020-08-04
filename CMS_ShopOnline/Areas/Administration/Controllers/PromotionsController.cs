@@ -18,6 +18,7 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
         private readonly ILoaiSP LoaiSP;
         private readonly IKhuyenMai KhuyenMai;
         private readonly ICTKhuyenMai CTKhuyenMai;
+        private readonly IDoiDiem DoiDiem;
         public PromotionsController()
         {
             ThanhPham = new ThanhPhamRepository();
@@ -25,14 +26,16 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
             LoaiSP = new LoaiSPRepository();
             KhuyenMai = new KhuyenMaiRepository();
             CTKhuyenMai = new CTKhuyenMaiRepository();
+            DoiDiem = new DoiDiemRepository();
         }
-        public PromotionsController(ICTKhuyenMai _CTKhuyenMai, IKhuyenMai _KhuyenMai, IThanhPham _ThanhPham, IDonViTinh _DVT, ILoaiSP _LoaiSP, ITemplatePrint _TemplatePrint)
+        public PromotionsController(IDoiDiem _DoiDiem,ICTKhuyenMai _CTKhuyenMai, IKhuyenMai _KhuyenMai, IThanhPham _ThanhPham, IDonViTinh _DVT, ILoaiSP _LoaiSP, ITemplatePrint _TemplatePrint)
         {
             ThanhPham = _ThanhPham;
             DVT = _DVT;
             LoaiSP = _LoaiSP;
             KhuyenMai = _KhuyenMai;
             CTKhuyenMai = _CTKhuyenMai;
+            DoiDiem = _DoiDiem;
         }
         // GET: Administration/Promotions
         public ActionResult Index()
@@ -41,6 +44,24 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
         }
         public ActionResult Create()
         {
+            var daynow = DateTime.Now.Date;
+            var abc = KhuyenMai.SelectAll().Where(x => x.IsDelete != true);
+            foreach (var item in abc)
+            {
+                if (daynow > item.NgayKT)
+                {
+                    item.IsDelete = true;
+                    KhuyenMai.Update(item);
+                    KhuyenMai.Save();
+                }
+            }
+            bool check = false;
+            var model = KhuyenMai.SelectAll().Where(x => x.IsDelete != true && x.IsAll == true).Count();
+            if (model > 0)
+            {
+                check = true;
+            }
+            ViewBag.CheckKM = check;
             ViewBag.LoaiSp = LoaiSP.SelectAll().Where(x => x.IsDelete != true);
             return View();
         }
@@ -57,6 +78,13 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
                 km.IsDelete = false;
                 if(model.IsAll == "all")
                 {
+                    var abc = KhuyenMai.SelectAll().Where(x => x.IsDelete != true);
+                    foreach (var item in abc)
+                    {
+                        item.IsDelete = true;
+                        KhuyenMai.Update(item);
+                        KhuyenMai.Save();
+                    }
                     km.IsAll = true;
                 }
                 else
@@ -65,6 +93,10 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
                 }
                 KhuyenMai.Insert(km);
                 KhuyenMai.Save();
+                var _doidiem = DoiDiem.SelectById(1);
+                _doidiem.IsDelete = true;
+                DoiDiem.Update(_doidiem);
+                DoiDiem.Save();
                 var id = km.Id;
                 if (model.IsAll == "all")
                 {
@@ -120,6 +152,43 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
             }
             
             return View();
+        }
+        public ActionResult Checktontai(int? idtp,string idloai)
+        {
+            var checksl = 0;
+            if (idloai == "thanhpham")
+            {
+                var q = KhuyenMai.SelectAll().Where(x => x.IsDelete != true);
+                foreach (var item in q)
+                {
+                    var x = CTKhuyenMai.SelectAll().Where(y => y.IdKhuyenMai == item.Id && y.IdThanhPham == idtp).Count();
+                    if (x == 0)
+                    {
+                        checksl = 1;
+                    }
+                    else
+                    {
+                        checksl = 0;
+                    }
+                }
+            }
+            if (idloai == "loaisp")
+            {
+                var q = KhuyenMai.SelectAll().Where(x => x.IsDelete != true);
+                foreach (var item in q)
+                {
+                    var x = CTKhuyenMai.SelectAll().Where(y => y.IdKhuyenMai == item.Id && y.IdLoaiSP == idtp).Count();
+                    if (x == 0)
+                    {
+                        checksl = 1;
+                    }
+                    else
+                    {
+                        checksl = 0;
+                    }
+                }
+            }
+            return Json(checksl, JsonRequestBehavior.AllowGet);
         }
         public ActionResult Details()
         {
