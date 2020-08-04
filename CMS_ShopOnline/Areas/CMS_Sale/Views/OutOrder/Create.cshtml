@@ -64,7 +64,7 @@
                                     <thead class="thead-light" style="background-color:#e7cff7">
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">Tên SP</th>
+                                            <th scope="col">Tên nguyên liệu</th>
                                             <th scope="col">Số lượng</th>
                                             <th scope="col">Đơn giá</th>
                                             <th scope="col">Thành tiền</th>
@@ -108,16 +108,15 @@
                             <div style="padding:0px">
                                 <label>Ghi chú</label>
                             </div>
-                            <div class="col-lg-10">
+                            <div class="col-lg-12">
                                 @Html.TextAreaFor(x => x.GhiChu, new { @class = "form-control", rows = "2", style = "border-radius: 0;" })
                             </div>
-                            <div class="btn-groups pull-right" style="margin-left: 30px;float:right;padding-top:10px">
-                                <button type="submit" class="btn btn-primary" id="Save">
-                                    <i class="fa fa-check"></i> Lưu (F9)
+                            <div class="btn-groups pull-right" style="float:right;padding-top:10px;display:flex">
+                                <button type="submit" class="btn btn-primary" id="Save" style="margin-right:5px;">
+                                    <i class="fa fa-check"></i> Lưu
                                 </button>
                                 <button type="button" class="btn btn-primary" onclick="cms_save_orders(4)">
-                                    <i class="fa fa-print"></i> Lưu và
-                                    in (F10)
+                                    <i class="fa fa-print"></i> Lưu và in
                                 </button>
                                 <a href="/orders">
                                     <button type="button" class="btn-back btn btn-default">

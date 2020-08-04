@@ -55,7 +55,7 @@
                 </div>
                 <div id="all" class="col-md-12" style="float: none;margin: auto; padding-bottom:10px;display:flex" >
                     <div class="col-md-4">
-                        <label>SL Tối thiểu</label>
+                        <label>Số lượng tối thiểu</label>
                         <input class="form-control" name="ListCTkm[0].SLToithieu" value="1"/>
                         <input class="form-control" id="IsAll" name="IsAll" value="all" type="hidden"/>
                     </div>
@@ -65,7 +65,7 @@
                         <input type="hidden" name="ListCTkm[0].TienGiam" id="ListCTkm[0]TienGiam"/>
                     </div>
                     <div class="col-md-4" style="padding-left:10px">
-                        <label>Loại</label>
+                        <label>Loại giảm giá</label>
                         <div style="display:flex;padding-top: 10px;">
                             <p style="padding-right: 10px;"><input type="radio" name="ListCTkm[0].IsPhanTram" value="true" checked="checked"> %</p>
                             <p><input type="radio" name="ListCTkm[0].IsPhanTram" value="false"> VND</p>
@@ -89,9 +89,9 @@
                                         <tr>
                                             <th scope="col">#</th>
                                             <th scope="col">Nhóm hàng</th>
-                                            <th scope="col">SL tối thiểu</th>
+                                            <th scope="col">Số lượng tối thiểu</th>
                                             <th scope="col">Giảm giá</th>
-                                            <th scope="col">Loại</th>
+                                            <th scope="col">Loại giảm giá</th>
                                             <th scope="col">Hủy</th>
                                         </tr>
                                     </thead>
@@ -110,10 +110,10 @@
                                     <thead class="thead-light" style="background-color:#e7cff7">
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">Tên SP</th>
-                                            <th scope="col">SL tối thiểu</th>
+                                            <th scope="col">Tên sản phẩm</th>
+                                            <th scope="col">Số lượng tối thiểu</th>
                                             <th scope="col">Giảm giá</th>
-                                            <th scope="col">Loại</th>
+                                            <th scope="col">Loại giảm giá</th>
                                             <th scope="col">Hủy</th>
                                         </tr>
                                     </thead>
@@ -147,24 +147,23 @@
                             <div style="padding:0px">
                                 <label>Ghi chú</label>
                             </div>
-                            <div class="col-lg-10">
+                            <div class="col-lg-12">
                                 @Html.TextAreaFor(x => x.GhiChu, new { @class = "form-control", rows = "2", style = "border-radius: 0;" })
                             </div>
-                            <div class="btn-groups pull-right" style="margin-left: 30px;float:right;padding-top:10px">
-                                <button type="submit" class="btn btn-primary" id="Save">
-                                    <i class="fa fa-check"></i> Lưu (F9)
-                                </button>
-                                <button type="button" class="btn btn-primary" onclick="cms_save_orders(4)">
-                                    <i class="fa fa-print"></i> Lưu và
-                                    kích hoạt (F10)
-                                </button>
-                                <a href="/orders">
-                                    <button type="button" class="btn-back btn btn-default">
-                                        <i class="fa fa-arrow-left"></i> Hủy
+                                <div class="btn-groups pull-right" style="float:right;padding-top:10px; display:flex">
+                                    <button type="submit" class="btn btn-primary" id="Save" style="margin-right:5px;">
+                                        <i class="fa fa-check"></i> Lưu
                                     </button>
-                                </a>
+                                    <button type="button" class="btn btn-primary" onclick="cms_save_orders(4)">
+                                        <i class="fa fa-print"></i> Lưu và kích hoạt
+                                    </button>
+                                    <a href="/orders">
+                                        <button type="button" class="btn-back btn btn-default">
+                                            <i class="fa fa-arrow-left"></i> Hủy
+                                        </button>
+                                    </a>
+                                </div>                        
                             </div>
-                        </div>
                     </div>
                 </div>
                 <!-- General Element -->
@@ -308,11 +307,11 @@
                         html += '<tr><td><span class="sn">' + count + '</span></td>';
                         html += '<td style="display:none;"><input name="ListCTkm[' + (count) + '].IdThanhPham"  value="' + item.Id + '"></td>';
                         html += '<td><p type="text">' + item.Ten + '</p></td>';
-                        html += '<td><input id="Count_' + item.Id + '" class="form-control" name="ListCTkm[' + (count) + '].SLToithieu"></td>';
-                        html += '<td><input class="form-control money1" onchange="change(this,' + dongia + ');" /></td>';
+                        html += '<td><input style="width:135px;" id="Count_' + item.Id + '" class="form-control" name="ListCTkm[' + (count) + '].SLToithieu"></td>';
+                        html += '<td><input style="width:135px;" class="form-control money1" onchange="change(this,' + dongia + ');" /></td>';
                         html += '<td style="display:none;"><input id="'+item.Id+'" type="text" name="ListCTkm[' + (count) + '].TienGiam"></td>';
-                        html += '<td><div style="display:flex;padding-top: 10px;"><p style="padding-right: 10px;"><input type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="true" checked="checked"> %</p><p><input type="radio"name=ListCTkm[' + (count) + '].IsPhanTram value="false"> VND</p></div></td>';
-                        html += '<td><i class="ibtnDel fa fa-close" style="font-size:30px;color:red;margin-left:7px;"></i></td></tr>';
+                        html += '<td><div style="display:flex;padding-top: 10px;width:100px;"><p style="padding-right: 10px;"><input type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="true" checked="checked"> %</p><p><input type="radio"name=ListCTkm[' + (count) + '].IsPhanTram value="false"> VND</p></div></td>';
+                        html += '<td style="text-align:center"><i class="ibtnDel fa fa-close" style="font-size:30px;color:red;"></i></td></tr>';
                         $("#myTable").append(html);
                         counter++;
 
@@ -335,11 +334,11 @@
         html += '<tr><td><span class="sn">' + count + '</span></td>';
         html += '<td style="display:none;"><input name="ListCTkm[' + (count) + '].IdLoaiSP"  value="' + id + '"></td>';
         html += '<td><p type="text">' + value + '</p></td>';
-        html += '<td><input class="form-control" name="ListCTkm[' + (count) + '].SLToithieu" value="1"></td>';
-        html += '<td><input class="form-control money1" onchange="change(this,' +dongia+ ');" /></td>';
+        html += '<td><input style="width:135px;" class="form-control" name="ListCTkm[' + (count) + '].SLToithieu" value="1"></td>';
+        html += '<td><input style="width:135px;" class="form-control money1" onchange="change(this,' + dongia + ');" /></td>';
         html += '<td style="display:none;"><input id="' + id + '" type="text" name="ListCTkm[' + (count) + '].TienGiam" value=""></td>';
-        html += '<td><div style="display:flex;padding-top: 10px;"><p style="padding-right: 10px;"><input type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="true" checked="checked"> %</p><p><input type="radio"name=ListCTkm[' + (count) + '].IsPhanTram value="false"> VND</p></div></td>';
-        html += '<td><i class="tnDel fa fa-close" style="font-size:30px;color:red;margin-left:7px;"></i></td></tr>';
+        html += '<td><div style="display:flex;padding-top: 10px;width:100px;"><p style="padding-right: 10px;"><input type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="true" checked="checked"> %</p><p><input type="radio"name=ListCTkm[' + (count) + '].IsPhanTram value="false"> VND</p></div></td>';
+        html += '<td style="text-align:center;"><i class="tnDel fa fa-close" style="font-size:30px;color:red;"></i></td></tr>';
         $("#Table").append(html);
         counter++;
     }

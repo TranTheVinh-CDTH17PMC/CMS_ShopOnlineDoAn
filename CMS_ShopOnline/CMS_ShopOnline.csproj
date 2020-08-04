@@ -3220,6 +3220,7 @@
     <Content Include="Areas\CMS_Sale\Views\OutOrder\Edit.cshtml" />
     <Content Include="Areas\CMS_Sale\Views\OutOrder\PrintNT.cshtml" />
     <Content Include="Areas\Administration\Views\Promotions\Create.cshtml" />
+    <Content Include="Areas\Administration\Views\Promotions\Index.cshtml" />
     <None Include="scripts\jquery-3.0.0-vsdoc.js" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
