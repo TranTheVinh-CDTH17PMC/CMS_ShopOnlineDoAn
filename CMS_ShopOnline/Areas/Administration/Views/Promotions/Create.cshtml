@@ -362,22 +362,6 @@
     }
     function SelectType(id,value)
     {
-        var dongia = id;
-        var count = Table.querySelectorAll("tr").length;
-        if (count == null) {
-            count = 0;
-        }
-        var html = "";
-        html += '<tr><td><span class="sn">' + count + '</span></td>';
-        html += '<td style="display:none;"><input name="ListCTkm[' + (count) + '].IdLoaiSP"  value="' + id + '"></td>';
-        html += '<td><p type="text">' + value + '</p></td>';
-        html += '<td><input style="width:135px;" class="form-control" name="ListCTkm[' + (count) + '].SLToithieu" value="1"></td>';
-        html += '<td><input style="width:135px;" class="form-control money1" onchange="change(this,' + dongia + ');" /></td>';
-        html += '<td style="display:none;"><input id="' + id + '" type="text" name="ListCTkm[' + (count) + '].TienGiam" value=""></td>';
-        html += '<td><div style="display:flex;padding-top: 10px;width:100px;"><p style="padding-right: 10px;"><input type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="true" checked="checked"> %</p><p><input type="radio"name=ListCTkm[' + (count) + '].IsPhanTram value="false"> VND</p></div></td>';
-        html += '<td style="text-align:center;"><i class="tnDel fa fa-close" style="font-size:30px;color:red;"></i></td></tr>';
-        $("#Table").append(html);
-        counter++;
         $.ajax({
             url: "/Promotions/Checktontai/",
             dataType: "json",

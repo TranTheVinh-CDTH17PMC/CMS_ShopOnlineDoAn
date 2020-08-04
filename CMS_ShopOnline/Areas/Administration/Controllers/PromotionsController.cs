@@ -159,6 +159,7 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
             if (idloai == "thanhpham")
             {
                 var q = KhuyenMai.SelectAll().Where(x => x.IsDelete != true);
+                var a = q.Count();
                 foreach (var item in q)
                 {
                     var x = CTKhuyenMai.SelectAll().Where(y => y.IdKhuyenMai == item.Id && y.IdThanhPham == idtp).Count();
@@ -171,10 +172,15 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
                         checksl = 0;
                     }
                 }
+                if (a == 0)
+                {
+                    checksl = 1;
+                }
             }
             if (idloai == "loaisp")
             {
                 var q = KhuyenMai.SelectAll().Where(x => x.IsDelete != true);
+                var a = q.Count();
                 foreach (var item in q)
                 {
                     var x = CTKhuyenMai.SelectAll().Where(y => y.IdKhuyenMai == item.Id && y.IdLoaiSP == idtp).Count();
@@ -186,6 +192,10 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
                     {
                         checksl = 0;
                     }
+                }
+                if(a  == 0)
+                {
+                    checksl = 1;
                 }
             }
             return Json(checksl, JsonRequestBehavior.AllowGet);
