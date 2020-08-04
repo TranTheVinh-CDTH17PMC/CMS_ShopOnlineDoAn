@@ -1,4 +1,5 @@
 ﻿@model CMS_ShopOnline.Areas.Administration.Models.KhuyenMaiViewModel
+@using CMS_ShopOnline.Helpers
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/ACE_Layout.cshtml";
@@ -36,6 +37,15 @@
 @using (Html.BeginForm(FormMethod.Post))
 {
     <div class="container-fluid" id="container-wrapper">
+        @if (ViewBag.CheckKM == true)
+        {
+            <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                <strong>Không thể tạo mới khuyến mãi.Vui lòng dừng khuyến mãi toàn bộ để có thể tạo.</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
         <div class="row">
             <div class="col-lg-8">
                 <div class="col-md-12" >
@@ -61,8 +71,8 @@
                     </div>
                     <div class="col-md-4">
                         <label>Giảm giá</label>
-                        <input class="form-control money1" onchange="change(this, 'ListCTkm[0]TienGiam');"/>
-                        <input type="hidden" name="ListCTkm[0].TienGiam" id="ListCTkm[0]TienGiam"/>
+                        <input class="form-control money1"  onchange="change(this,'TienGiam')" value="0"/>
+                        <input type="hidden" name="ListCTkm[0].TienGiam" id="TienGiam" value="0"/>
                     </div>
                     <div class="col-md-4" style="padding-left:10px">
                         <label>Loại giảm giá</label>
@@ -150,12 +160,15 @@
                             <div class="col-lg-12">
                                 @Html.TextAreaFor(x => x.GhiChu, new { @class = "form-control", rows = "2", style = "border-radius: 0;" })
                             </div>
-                                <div class="btn-groups pull-right" style="float:right;padding-top:10px; display:flex">
-                                    <button type="submit" class="btn btn-primary" id="Save" style="margin-right:5px;">
-                                        <i class="fa fa-check"></i> Lưu
+                            @if(ViewBag.CheckKM == false)
+                            {
+                                <div class="btn-groups pull-right" style="float:right;padding-top:10px;display:flex">
+                                    <button type="submit" class="btn btn-primary" id="Save" style="margin-right:5px" onclick="LuuALL()">
+                                        <i class="fa fa-check"></i> Lưu (F9)
                                     </button>
-                                    <button type="button" class="btn btn-primary" onclick="cms_save_orders(4)">
-                                        <i class="fa fa-print"></i> Lưu và kích hoạt
+                                    <button type="button" class="btn btn-primary">
+                                        <i class="fa fa-print"></i> Lưu và
+                                        kích hoạt (F10)
                                     </button>
                                     <a href="/orders">
                                         <button type="button" class="btn-back btn btn-default">
@@ -163,7 +176,8 @@
                                         </button>
                                     </a>
                                 </div>                        
-                            </div>
+                            }   
+                        </div>
                     </div>
                 </div>
                 <!-- General Element -->
@@ -173,6 +187,24 @@
     </div>
 }
 <script>
+    function LuuALL() {
+        debugger
+        var test = $("#IsAll").val();
+        if ($("#IsAll").val() == "all") {
+            $.ajax({
+                url: "/Promotions/checktontaiall/",
+                dataType: "json",
+                type: "GET",
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    if (data != 1) {
+                        alert("Khuyến mãi tất cả đã tồn tại!!!")
+                        return false;
+                    }
+                }
+            });
+        }
+    }
     function formChoice(x) {
         if (x == 0) {
             $('#all').css('display', 'block ruby');
@@ -200,19 +232,6 @@
             $("#IsAll").val("notall");
         }
     }
-    //check null
-    //$("#Save").click(function () {
-    //    var detailList = $('.detailList').find('tr').length;
-    //    if (detailList == 0) {
-    //        swal({
-    //            text: "Chưa chọn nguyên liệu nhập!",
-    //            icon: "warning",
-    //            button: "Đồng ý",
-    //        });
-    //        return false;
-    //    }
-    //});
-    //
     var counter = 0;
     $(document).ready(function () {
         $('#selectloai').on('change', function () {
@@ -228,40 +247,41 @@
             SelectType(selectid, selectValue);
         });
         AutoCompleteTB();
+
     });
-    function AutoCompleteTB(idloai)
+    function AutoCompleteTB()
     {
-        $('#txtName').autocomplete({
-            minLength: 1,
-            source: function (request, response) {
-                $.ajax({
-                    url: "/InOrder/Search/",
-                    dataType: "json",
-                    type: "GET",
-                    contentType: 'application/json; charset=utf-8',
-                    data: { name: request.term, Idloai: idloai },
-                    success: function (data) {
-                        response(data);
-                    },
-                    error: function (err) {
-                        alert(err);
-                    }
-                });
-            },
-            focus: updateTextBox,
-            select: function (e, ui) {
-                SelectProducts(ui.item.Id);
-            },
-        })
-    .autocomplete('instance')._renderItem = function (ul, item) {
-        return $('<li class="ui-autocomplete-row"></li>')
-            .append('<img src="/Areas/CMS_Sale/Image/NguyenLieu/' + item.HinhAnh + '" width="40" />&nbsp;&nbsp;&nbsp;Tên SP : ' + item.Ten + ' - Đơn giá : ' + item.DonGia + '')
-            .appendTo(ul);
-        function updateTextBox(event, ui) {
-            $(this).val(ui.item.Id);
-            return false;
-        }
-    };
+            $('#txtName').autocomplete({
+                minLength: 1,
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/POS/Search/",
+                        dataType: "json",
+                        type: "GET",
+                        contentType: 'application/json; charset=utf-8',
+                        data: { name: request.term},
+                        success: function (data) {
+                            response(data);
+                        },
+                        error: function (err) {
+                            alert(err);
+                        }
+                    });
+                },
+                focus: updateTextBox,
+                select: function (e, ui) {
+                    SelectProducts(ui.item.Id);
+                },
+            })
+        .autocomplete('instance')._renderItem = function (ul, item) {
+            return $('<li class="ui-autocomplete-row"></li>')
+                .append('<img src="/Areas/CMS_Sale/Image/ThanhPham/' + item.HinhAnh + '" width="70" />&nbsp;&nbsp;&nbsp;Tên SP : ' + item.Ten + ' - Đơn giá : ' + item.DonGia + '')
+                .appendTo(ul);
+            function updateTextBox(event, ui) {
+                $(this).val(ui.item.Id);
+                return false;
+            }
+        };
         function updateTextBox(event, ui) {
             $('#IdKhachHang').val(ui.item.Id);
             $('#dlcustomer').val(ui.item.TenKH);
@@ -272,51 +292,68 @@
         $(this).closest("tr").remove();
         $('.mydetailList tr').each(function (index, tr) {
             $(this).find("span.sn").html(index + 1);
-            $(tr).find('.mydetail_item_qty').attr('name', 'ListCTPhieuNhap[' + index + '].SoLuong');
-            $(tr).find('.mydetail_item_price').attr('name', 'ListCTPhieuNhap[' + index + '].DonGia');
-            $(tr).find('.mydetail_item_id').attr('name', 'ListCTPhieuNhap[' + index + '].IdThanhPham');
+            $(tr).find('.mydetail_item_qty').attr('name', 'ListCTkm[' + (index + 1) + '].IdThanhPham');
+            $(tr).find('.mydetail_item_price').attr('name', 'ListCTkm[' + (index + 1) + '].SLToithieu');
+            $(tr).find('.mydetail_item_id').attr('name', 'ListCTkm[' + (index + 1) + '].TienGiam');
+            $(tr).find('.mydetail_item_radio').attr('name', 'ListCTkm[' + (index + 1) + '].IsPhanTram');
         });
     });
     $("#Table").on("click", ".tnDel", function (event) {
         $(this).closest("tr").remove();
         $('.detailList tr').each(function (index, tr) {
             $(this).find("span.sn").html(index + 1);
-            $(tr).find('.detail_item_qty').attr('name', 'ListCTPhieuNhap[' + index + '].SoLuong');
-            $(tr).find('.detail_item_price').attr('name', 'ListCTPhieuNhap[' + index + '].DonGia');
-            $(tr).find('.detail_item_id').attr('name', 'ListCTPhieuNhap[' + index + '].IdThanhPham');
+            $(tr).find('.detail_item_qty').attr('name', 'ListCTkm[' + (index + 1) + '].IdLoaiSP');
+            $(tr).find('.detail_item_price').attr('name', 'ListCTkm[' + (index + 1) + '].SLToithieu');
+            $(tr).find('.detail_item_id').attr('name', 'ListCTkm[' + (index + 1) + '].TienGiam');
+            $(tr).find('.detail_item_radio').attr('name', 'ListCTkm[' + (index + 1) + '].IsPhanTram');
         });
     });
     function SelectProducts(id) {
         debugger
         var dongia = id;
         $.ajax({
-            url: "/InOrder/ListProductsById/",
+            url: "/POS/ListProductsById/",
             dataType: "json",
             type: "GET",
             contentType: 'application/json; charset=utf-8',
             data: { Id: id },
             success: function (data) {
-                var count = myTable.querySelectorAll("tr").length;
-                if (count == null) {
-                    count = 0;
-                }
-                var getid = $("#" + id + "").val();
-                if (getid == null) {
-                    var html = "";
-                    $.each(data, function (key, item) {
-                        html += '<tr><td><span class="sn">' + count + '</span></td>';
-                        html += '<td style="display:none;"><input name="ListCTkm[' + (count) + '].IdThanhPham"  value="' + item.Id + '"></td>';
-                        html += '<td><p type="text">' + item.Ten + '</p></td>';
-                        html += '<td><input style="width:135px;" id="Count_' + item.Id + '" class="form-control" name="ListCTkm[' + (count) + '].SLToithieu"></td>';
-                        html += '<td><input style="width:135px;" class="form-control money1" onchange="change(this,' + dongia + ');" /></td>';
-                        html += '<td style="display:none;"><input id="'+item.Id+'" type="text" name="ListCTkm[' + (count) + '].TienGiam"></td>';
-                        html += '<td><div style="display:flex;padding-top: 10px;width:100px;"><p style="padding-right: 10px;"><input type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="true" checked="checked"> %</p><p><input type="radio"name=ListCTkm[' + (count) + '].IsPhanTram value="false"> VND</p></div></td>';
-                        html += '<td style="text-align:center"><i class="ibtnDel fa fa-close" style="font-size:30px;color:red;"></i></td></tr>';
-                        $("#myTable").append(html);
-                        counter++;
+                $.ajax({
+                    url: "/Promotions/Checktontai/",
+                    dataType: "json",
+                    type: "GET",
+                    contentType: 'application/json; charset=utf-8',
+                    data: { idtp: id, idloai: "thanhpham" },
+                    success: function (ok) {
+                        console.log(ok);
+                        if (ok == 1) {
+                            var count = myTable.querySelectorAll("tr").length;
+                            if (count == null) {
+                                count = 0;
+                            }
+                            var getid = $("#" + id + "").val();
+                            if (getid == null) {
+                                var html = "";
+                                $.each(data, function (key, item) {
+                                    html += '<tr><td><span class="sn">' + count + '</span></td>';
+                                    html += '<td style="display:none;"><input class="mydetail_item_qty" name="ListCTkm[' + (count) + '].IdThanhPham"  value="' + item.Id + '"></td>';
+                                    html += '<td><p type="text">' + item.Ten + '</p></td>';
+                                    html += '<td><input id="Count_' + item.Id + '" class="form-control mydetail_item_price" name="ListCTkm[' + (count) + '].SLToithieu"></td>';
+                                    html += '<td><input class="form-control money1" onchange="change(this,' + dongia + ');" /></td>';
+                                    html += '<td style="display:none;"><input class="mydetail_item_id" id="' + item.Id + '" type="text" name="ListCTkm[' + (count) + '].TienGiam"></td>';
+                                    html += '<td><div style="display:flex;padding-top: 10px;"><p style="padding-right: 10px;"><input class="mydetail_item_radio" type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="true" checked="checked"> %</p><p><input class="mydetail_item_radio" type="radio"name=ListCTkm[' + (count) + '].IsPhanTram value="false"> VND</p></div></td>';
+                                    html += '<td><i class="ibtnDel fa fa-close" style="font-size:30px;color:red;margin-left:7px;"></i></td></tr>';
+                                    $("#myTable").append(html);
+                                    counter++;
 
-                    });
-                }
+                                });
+                            }
+                        }
+                        else {
+                            alert("Khuyến mãi cho sản phẩm đã tồn tại!!!");
+                        }
+                    }
+                });
             },
             error: function (xhr) {
                 console.log(xhr);
@@ -341,6 +378,38 @@
         html += '<td style="text-align:center;"><i class="tnDel fa fa-close" style="font-size:30px;color:red;"></i></td></tr>';
         $("#Table").append(html);
         counter++;
+        $.ajax({
+            url: "/Promotions/Checktontai/",
+            dataType: "json",
+            type: "GET",
+            contentType: 'application/json; charset=utf-8',
+            data: { idtp: id, idloai: "loaisp" },
+            success: function (data) {
+                if(data==1)
+                {
+                    var dongia = id;
+                    var count = Table.querySelectorAll("tr").length;
+                    if (count == null) {
+                        count = 0;
+                    }
+                    var html = "";
+                    html += '<tr><td><span class="sn">' + count + '</span></td>';
+                    html += '<td style="display:none;"><input class="detail_item_qty" name="ListCTkm[' + (count) + '].IdLoaiSP"  value="' + id + '"></td>';
+                    html += '<td><p type="text">' + value + '</p></td>';
+                    html += '<td><input class="form-control detail_item_price" name="ListCTkm[' + (count) + '].SLToithieu" value="1"></td>';
+                    html += '<td><input class="form-control money1" onchange="change(this,' + dongia + ');" /></td>';
+                    html += '<td style="display:none;"><input id="' + id + '" class="detail_item_id" type="text" name="ListCTkm[' + (count) + '].TienGiam" value=""></td>';
+                    html += '<td><div style="display:flex;padding-top: 10px;"><p style="padding-right: 10px;"><input class="detail_item_radio" type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="true" checked="checked"> %</p><p><input class="detail_item_radio" type="radio"name=ListCTkm[' + (count) + '].IsPhanTram value="false"> VND</p></div></td>';
+                    html += '<td><i class="tnDel fa fa-close" style="font-size:30px;color:red;margin-left:7px;"></i></td></tr>';
+                    $("#Table").append(html);
+                    counter++;
+                }
+                else
+                {
+                    alert("Khuyến mãi cho nhóm sản phẩm đã tồn tại!!!");
+                }
+            }
+        });          
     }
 </script>
 

@@ -138,7 +138,7 @@ namespace CMS_ShopOnline.Helpers
             var model = km.SelectAll().Where(x => x.IsDelete != true);
             foreach(var item in model)
             {
-                if(item.NgayBD.Date >= daynow && daynow <= item.NgayKT)
+                if(daynow >= item.NgayBD.Date  && daynow <= item.NgayKT)
                 {
                     return true;
                 }

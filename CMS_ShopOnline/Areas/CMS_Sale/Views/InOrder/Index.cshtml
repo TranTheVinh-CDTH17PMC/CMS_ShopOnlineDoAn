@@ -54,15 +54,14 @@
 }
 @helper ButtonEdit(int Id, bool? Status, bool? Isdelete)
 {
-    if (Status != true)
-    {
+
         if (Isdelete != true)
         {
             <a href="" onclick="openpoupprint(@Id)">
                 <button class="btn btn-primary" title="Xuất phiếu" style="margin-left:-19px;margin-right:3px;" type="button"><i class="fa fa-print"></i></button>
             </a>
         }
-    }
+    
 }
 @helper ButtonDetails(int Id)
 {
