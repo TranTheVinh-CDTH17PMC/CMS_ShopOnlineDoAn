@@ -66,19 +66,19 @@
                 <div id="all" class="col-md-12" style="float: none;margin: auto; padding-bottom:10px;display:flex" >
                     <div class="col-md-4">
                         <label>Số lượng tối thiểu</label>
-                        <input class="form-control" name="ListCTkm[0].SLToithieu" value="1"/>
+                        <input class="form-control"  name="ListCTkm[0].SLToithieu" value="1"/>
                         <input class="form-control" id="IsAll" name="IsAll" value="all" type="hidden"/>
                     </div>
                     <div class="col-md-4">
                         <label>Giảm giá</label>
-                        <input class="form-control money1"  onchange="change(this,'TienGiam')" value="0"/>
+                        <input class="form-control money1" id="giamgia" type="text"  onchange="change(this,'TienGiam')" value="0" min="0" max="100"/>
                         <input type="hidden" name="ListCTkm[0].TienGiam" id="TienGiam" value="0"/>
                     </div>
                     <div class="col-md-4" style="padding-left:10px">
                         <label>Loại giảm giá</label>
                         <div style="display:flex;padding-top: 10px;">
-                            <p style="padding-right: 10px;"><input type="radio" name="ListCTkm[0].IsPhanTram" value="true" checked="checked"> %</p>
-                            <p><input type="radio" name="ListCTkm[0].IsPhanTram" value="false"> VND</p>
+                            <p style="padding-right: 10px;"><input type="radio" id="phantram" name="ListCTkm[0].IsPhanTram" value="true" checked="checked"> %</p>
+                            <p><input id="tien" type="radio" name="ListCTkm[0].IsPhanTram" value="false"> VND</p>
                         </div> 
                     </div>
                 </div>
@@ -163,7 +163,7 @@
                             @if(ViewBag.CheckKM == false)
                             {
                                 <div class="btn-groups pull-right" style="float:right;padding-top:10px;display:flex">
-                                    <button type="submit" class="btn btn-primary" id="Save" style="margin-right:5px" onclick="LuuALL()">
+                                    <button type="submit" class="btn btn-primary" id="Save" style="margin-right:5px" onclick="return SaveKM();">
                                         <i class="fa fa-check"></i> Lưu (F9)
                                     </button>
                                     <button type="button" class="btn btn-primary">
@@ -187,22 +187,139 @@
     </div>
 }
 <script>
-    function LuuALL() {
+    function changespcheck(idthis, idthat)
+    {
         debugger
-        var test = $("#IsAll").val();
-        if ($("#IsAll").val() == "all") {
-            $.ajax({
-                url: "/Promotions/checktontaiall/",
-                dataType: "json",
-                type: "GET",
-                contentType: 'application/json; charset=utf-8',
-                success: function (data) {
-                    if (data != 1) {
-                        alert("Khuyến mãi tất cả đã tồn tại!!!")
-                        return false;
-                    }
-                }
+        var el = idthis.value.replace(/[.]/g, '');
+        $("#" + idthat + "").val(el);
+        var max = $('#spcheck').attr('max');
+        var min = $('#spcheck').attr('min');
+        if (idthis.value > max) {
+            $('#spcheck').val(max);
+        }
+        else if (idthis.value < min) {
+            $('#spcheck').val(min);
+        }
+    }
+    function tienspxoa()
+    {
+        debugger
+        $("#spcheck").removeAttr("max");
+        $("#spcheck").removeAttr("min");
+    }
+    function phantramspxoa() {
+        debugger
+        $("#spcheck").attr({
+            "max": 100,        // substitute your own
+            "min": 1          // values (or variables) here
+        });
+    }
+    function changespcheck1(idthis, idthat) {
+        debugger
+        var el = idthis.value.replace(/[.]/g, '');
+        $("#" + idthat + "").val(el);
+        var max = $('#spcheck1').attr('max');
+        var min = $('#spcheck1').attr('min');
+        if (idthis.value > max) {
+            $('#spcheck1').val(max);
+        }
+        else if (idthis.value < min) {
+            $('#spcheck1').val(min);
+        }
+    }
+    function tienspxoa1() {
+        debugger
+        $("#spcheck1").removeAttr("max");
+        $("#spcheck1").removeAttr("min");
+    }
+    function phantramspxoa1() {
+        debugger
+        $("#spcheck1").attr({
+            "max": 100,        // substitute your own
+            "min": 1          // values (or variables) here
+        });
+    }
+    //$("#spcheck").change(function () {
+    //    var max = parseInt($(this).attr('max'));
+    //    var min = parseInt($(this).attr('min'));
+    //    if ($(this).val() > max) {
+    //        $(this).val(max);
+    //    }
+    //    else if ($(this).val() < min) {
+    //        $(this).val(min);
+    //    }
+    //});
+    
+    $("#giamgia").change(function () {
+        var max = parseInt($(this).attr('max'));
+        var min = parseInt($(this).attr('min'));
+        if ($(this).val() > max) {
+            $(this).val(max);
+        }
+        else if ($(this).val() < min) {
+            $(this).val(min);
+        }
+    });
+    $('#phantram').on("click", function () {
+        $("#giamgia").attr({
+            "max": 100,        // substitute your own
+            "min": 1          // values (or variables) here
+        });
+    });
+    $('#tien').on("click", function () {
+        $("#giamgia").removeAttr("max");
+        $("#giamgia").removeAttr("min");
+    });
+    function SaveKM()
+    {
+        if($("#Ten").val() == "")
+        {
+            swal({
+                text: "Chưa nhập tên khuyến mãi!",
+                icon: "warning",
+                button: "Đồng ý",
             });
+            return false;
+        }
+        if ($("#NgayBD").val() == "") {
+            swal({
+                text: "Chưa nhập ngày bắt đầu!",
+                icon: "warning",
+                button: "Đồng ý",
+            });
+            return false;
+        }
+        if ($("#NgayKT").val() == "") {
+            swal({
+                text: "Chưa nhập ngày kết thúc!",
+                icon: "warning",
+                button: "Đồng ý",
+            });
+            return false;
+        }
+        if($("#IsAll").val() == "nhomhang")
+        {
+            var detailList = $('.detailList').find('tr').length;
+            if (detailList == 0) {
+                swal({
+                    text: "Chưa chọn loại sản phẩm!",
+                    icon: "warning",
+                    button: "Đồng ý",
+                });
+                return false;
+            }
+        }
+        if ($("#IsAll").val() == "nhomsp") {
+            debugger
+            var detailList = $('.mydetailList').find('tr').length;
+            if (detailList == 0) {
+                swal({
+                    text: "Chưa chọn sản phẩm!",
+                    icon: "warning",
+                    button: "Đồng ý",
+                });
+                return false;
+            }
         }
     }
     function formChoice(x) {
@@ -216,12 +333,11 @@
         }
         if (x == 1)
         {
-            debugger
             $('#all').css('display', 'none');
             $('#nhomhang').css('display', 'block');
             $('#nhomsp').css('display', 'none');
             $(".mydetailList").empty();
-            $("#IsAll").val("notall");
+            $("#IsAll").val("nhomhang");
         }
         if (x == 2)
         {
@@ -229,7 +345,7 @@
             $('#nhomhang').css('display', 'none');
             $('#nhomsp').css('display', 'block');
             $(".detailList").empty();
-            $("#IsAll").val("notall");
+            $("#IsAll").val("nhomsp");
         }
     }
     var counter = 0;
@@ -335,13 +451,13 @@
                             if (getid == null) {
                                 var html = "";
                                 $.each(data, function (key, item) {
-                                    html += '<tr><td><span class="sn">' + count + '</span></td>';
+                                    html += '<tr><td id="' + item.Id + '"><span class="sn">' + count + '</span></td>';
                                     html += '<td style="display:none;"><input class="mydetail_item_qty" name="ListCTkm[' + (count) + '].IdThanhPham"  value="' + item.Id + '"></td>';
                                     html += '<td><p type="text">' + item.Ten + '</p></td>';
-                                    html += '<td><input id="Count_' + item.Id + '" class="form-control mydetail_item_price" name="ListCTkm[' + (count) + '].SLToithieu"></td>';
-                                    html += '<td><input class="form-control money1" onchange="change(this,' + dongia + ');" /></td>';
-                                    html += '<td style="display:none;"><input class="mydetail_item_id" id="' + item.Id + '" type="text" name="ListCTkm[' + (count) + '].TienGiam"></td>';
-                                    html += '<td><div style="display:flex;padding-top: 10px;"><p style="padding-right: 10px;"><input class="mydetail_item_radio" type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="true" checked="checked"> %</p><p><input class="mydetail_item_radio" type="radio"name=ListCTkm[' + (count) + '].IsPhanTram value="false"> VND</p></div></td>';
+                                    html += '<td><input id="Count_' + item.Id + '" class="form-control mydetail_item_price" name="ListCTkm[' + (count) + '].SLToithieu" value="1"></td>';
+                                    html += '<td><input class="form-control money1" id="spcheck" onchange="changespcheck(this,' + dongia + ')" type="text" value="0" min="1" max="100" /></td>';
+                                    html += '<td style="display:none;"><input class="mydetail_item_id" id="' + item.Id + '" type="text" name="ListCTkm[' + (count) + '].TienGiam"  value="0" /></td>';
+                                    html += '<td><div style="display:flex;padding-top: 10px;"><p style="padding-right: 10px;" ><input onclick="phantramspxoa();" class="mydetail_item_radio" type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="true" checked="checked"> %</p><p><input onclick="tienspxoa();" class="mydetail_item_radio" type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="false"> VND</p></div></td>';
                                     html += '<td><i class="ibtnDel fa fa-close" style="font-size:30px;color:red;margin-left:7px;"></i></td></tr>';
                                     $("#myTable").append(html);
                                     counter++;
@@ -376,17 +492,20 @@
                     if (count == null) {
                         count = 0;
                     }
-                    var html = "";
-                    html += '<tr><td><span class="sn">' + count + '</span></td>';
-                    html += '<td style="display:none;"><input class="detail_item_qty" name="ListCTkm[' + (count) + '].IdLoaiSP"  value="' + id + '"></td>';
-                    html += '<td><p type="text">' + value + '</p></td>';
-                    html += '<td><input class="form-control detail_item_price" name="ListCTkm[' + (count) + '].SLToithieu" value="1"></td>';
-                    html += '<td><input class="form-control money1" onchange="change(this,' + dongia + ');" /></td>';
-                    html += '<td style="display:none;"><input id="' + id + '" class="detail_item_id" type="text" name="ListCTkm[' + (count) + '].TienGiam" value=""></td>';
-                    html += '<td><div style="display:flex;padding-top: 10px;"><p style="padding-right: 10px;"><input class="detail_item_radio" type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="true" checked="checked"> %</p><p><input class="detail_item_radio" type="radio"name=ListCTkm[' + (count) + '].IsPhanTram value="false"> VND</p></div></td>';
-                    html += '<td><i class="tnDel fa fa-close" style="font-size:30px;color:red;margin-left:7px;"></i></td></tr>';
-                    $("#Table").append(html);
-                    counter++;
+                    var getid = $("#" + id + "").val();
+                    if (getid == null) {
+                        var html = "";
+                        html += '<tr><td id="' + id + '"><span class="sn">' + count + '</span></td>';
+                        html += '<td style="display:none;"><input class="detail_item_qty" name="ListCTkm[' + (count) + '].IdLoaiSP"  value="' + id + '"></td>';
+                        html += '<td><p type="text">' + value + '</p></td>';
+                        html += '<td><input class="form-control detail_item_price" name="ListCTkm[' + (count) + '].SLToithieu" value="1"></td>';
+                        html += '<td><input class="form-control money1" id="spcheck1" onchange="changespcheck1(this,' + dongia + ');" value="0" min="1" max="100"/></td>';
+                        html += '<td style="display:none;"><input id="' + id + '" class="detail_item_id" type="text" name="ListCTkm[' + (count) + '].TienGiam" value="0"></td>';
+                        html += '<td><div style="display:flex;padding-top: 10px;"><p style="padding-right: 10px;"><input onclick="phantramspxoa1();" class="detail_item_radio" type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="true" checked="checked"> %</p><p><input onclick="tienspxoa1();" class="detail_item_radio" type="radio"name=ListCTkm[' + (count) + '].IsPhanTram value="false"> VND</p></div></td>';
+                        html += '<td><i class="tnDel fa fa-close" style="font-size:30px;color:red;margin-left:7px;"></i></td></tr>';
+                        $("#Table").append(html);
+                        counter++;
+                    }
                 }
                 else
                 {
