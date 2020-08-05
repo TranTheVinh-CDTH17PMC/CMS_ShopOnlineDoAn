@@ -2,7 +2,17 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/ACE_Layout.cshtml";
+    int count = 1;
 }
+@helper CheckDate(DateTime date)
+{
+    @date.Date.ToString("dd/MM")
+}
+<style>
+    .btn:hover {
+        background-color: #337ab7;
+    }
+</style>
 <link href="@Url.Content("~/Assets/css/home.css")" rel="stylesheet" type="text/css" />
 <div class="container-fluid" id="container-wrapper">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -67,12 +77,12 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-4"  style="top:25px">
+        <div class="col-lg-4" style="top:13px;padding:12px">
             <div class="card shadow mb-10">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">TIỀN BẠC</h6>
                 </div>
-                <div class="dropdown" style="text-align:right;margin-top:-43px">
+                <div style="text-align:right;margin-top:-43px">
                     <button class="btn btn-default" type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       Hôm nay
@@ -91,7 +101,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-4"  style="top:25px">
+        <div class="col-lg-4"  style="top:13px;padding:12px">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">TÌNH TRẠNG KHO</h6>
@@ -103,21 +113,40 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-4"  style="top:25px">
+        <div class="col-lg-4" style="top:13px;padding:12px">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">SỰ KIỆN BÁN LẺ</h6>
                 </div>
-                <div class="card-body">
-                    <p style="color:black">Đây là phần giới thiệu gì gì đó...</p>
-                    <p style="color:black">Đây là phần giới thiệu gì gì đó...</p>
-                    <p style="color:black">Đây là phần giới thiệu gì gì đó...</p>
-                    <p style="color:black">Đây là phần giới thiệu gì gì đó...</p>
-                    <p style="color:black">Đây là phần giới thiệu gì gì đó...</p>
-                    <p style="color:black">Đây là phần giới thiệu gì gì đó...</p>
-                    <p style="color:black">Đây là phần giới thiệu gì gì đó...</p>
-                    <p style="color:black">Đây là phần giới thiệu gì gì đó...</p>
+                <div style="text-align:right;margin-top:-43px">
+                    <a href="@Url.Action("Create", "Promotions", new { area ="Administration" })">
+                        <button type="button" class="btn btn-default" title="Thêm khuyến mãi" style="margin-left:10px">
+                            <i style="color:#0277bd" class="fa fa-plus"></i> <b style="color:#0277bd;font-size:15px">KHUYẾN MÃI</b> 
+                        </button>
+                    </a>
                 </div>
+                <div class="card-body">
+                    @foreach (var item in ViewBag.Ten)
+                    {
+                        <a href="/Administration/Promotions/Details/@item.Id">
+                            <button type="button" class="btn btn-default" title="Xem chi tiết khuyến mãi">
+                                <div class="col-md-12" style="display:flex">
+                                    <div style="margin-left: -12px">
+                                        <p style="color:black;float:left">@count</p>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <p style="color:black">@item.Ten</p>
+                                    </div>
+                                    <div>
+                                        <p style="float:right;color:black">Từ @CheckDate(item.NgayBD) - @CheckDate(item.NgayKT)</p>
+                                    </div>
+                                </div>
+                            </button>
+                        </a>
+                            <hr class="sidebar-divider">
+                            count++;
+                    }
+               </div>
             </div>
         </div>
     </div>
