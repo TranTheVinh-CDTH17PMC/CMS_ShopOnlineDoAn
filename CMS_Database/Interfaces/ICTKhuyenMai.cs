@@ -9,6 +9,6 @@ namespace CMS_Database.Interfaces
 {
     public interface ICTKhuyenMai :IGenericRepository<CTKhuyenmai>
     {
-
+        IQueryable<CTKhuyenmai> GetById(int id);
     }
 }

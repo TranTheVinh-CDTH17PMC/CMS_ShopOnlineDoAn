@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using CMS_Database.Entities;
 using CMS_Database.Repositories;
 using CMS_Database.Interfaces;
+using CMS_ShopOnline.Areas.Administration.Models;
 
 namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
 {
@@ -24,6 +25,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         private readonly IPhieuXuat PhieuXuat;
         private readonly ICTPhieuXuat CTPhieuXuat;
         private readonly IHoaDon HoaDon;
+        private readonly IKhuyenMai KhuyenMai;
         private DateTime datetimesetting = new DateTime(2010, 10, 10, 1, 1, 1);
         public HomeController()
         {
@@ -35,8 +37,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             PhieuXuat = new PhieuXuatRepository();
             CTPhieuXuat = new ICTPhieuXuatRepository();
             HoaDon = new HoaDonRepository();
+            KhuyenMai = new KhuyenMaiRepository();
         }
-        public HomeController(INguyenLieu _nl, INhaCungCap _ncc, IPhieuNhap _pn, ICTPhieuNhap _ctpn, ILoaiSP _loaisp, IPhieuXuat _px, ICTPhieuXuat _ctpx,IHoaDon _HoaDon)
+        public HomeController(INguyenLieu _nl, INhaCungCap _ncc, IPhieuNhap _pn, ICTPhieuNhap _ctpn, ILoaiSP _loaisp, IPhieuXuat _px, ICTPhieuXuat _ctpx,IHoaDon _HoaDon, IKhuyenMai _KhuyenMai)
         {
             LoaiSP = _loaisp;
             NguyenLieu = _nl;
@@ -46,6 +49,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             PhieuXuat = _px;
             CTPhieuXuat = _ctpx;
             HoaDon = _HoaDon;
+            KhuyenMai = _KhuyenMai;
         }
         //
         // GET: /CMS_Sale/Home/
@@ -62,6 +66,16 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             var endDate = Convert.ToDateTime(retDateTime.ToString("yyyy/MM/dd"));
             var datenow = Convert.ToDateTime(DateTime.Now.ToString("yyyy/MM/dd"));
             var tongthuhn = HoaDon.SelectAll().Where(x => x.NgayTao >= datenow);
+            IEnumerable<KhuyenMaiViewModel> model = KhuyenMai.SelectAll().Where(x => x.IsDelete != true).Select(
+                    item => new KhuyenMaiViewModel
+                    {
+                        Id = item.Id,
+                        Ten = item.Ten,
+                        NgayBD = item.NgayBD,
+                        NgayKT = item.NgayKT,
+                        IsDelete = item.IsDelete
+                    }).OrderByDescending(x => x.NgayBD);
+            ViewBag.Ten = KhuyenMai.SelectAll().Where(x => x.IsDelete != true);
             foreach (var item in tongthuhn)
             {
                 tongtienthuhn += +item.TongTien;

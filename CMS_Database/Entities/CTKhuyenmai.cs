@@ -10,7 +10,7 @@ namespace CMS_Database.Entities
     [Table("CTKhuyenmai")]
     public partial class CTKhuyenmai
     {
-        public int? Id { get; set; }
+        public int Id { get; set; }
         public int? IdKhuyenMai { get; set; }
         public bool? IsPhanTram { get; set; }
         public bool? IsTienMat { get; set; }

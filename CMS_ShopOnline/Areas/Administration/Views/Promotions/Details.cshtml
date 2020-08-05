@@ -1,0 +1,68 @@
+﻿@model CMS_ShopOnline.Areas.Administration.Models.KhuyenMaiViewModel
+@using CMS_ShopOnline.Helpers
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/ACE_Layout.cshtml";
+    int count = 1;
+}
+@helper CheckDate(DateTime date)
+{
+    @date.Date.ToString("dd/MM/yyyy")
+}
+<link href="~/Assets/css/DetailsPos.css" rel="stylesheet" />
+<div class="container-fluid" id="container-wrapper">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-3">
+                @if (Model.IsDelete != true)
+                {
+                    <div class="p-4 text-center text-white text-lg rounded-top" style="background-color:#FAAC58"><span class="text-uppercase">Mã khuyến mãi - </span><span class="text-medium">@Model.Id</span></div>
+                }
+                else
+                {
+                    <div class="p-4 text-center text-white text-lg rounded-top" style="background-color:red"><span class="text-uppercase">Khuyến mãi kết thúc - </span><span class="text-medium">@Model.Id</span></div>
+                }
+                <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
+                    <div class="w-100 text-center py-1 px-2"><span class="text-medium">Tên khuyến mãi:</span> @Model.Ten</div>
+                    <div class="w-100 text-center py-1 px-2"><span class="text-medium">Ngày bắt đầu:</span> @CheckDate(Model.NgayBD)</div>
+                    <div class="w-100 text-center py-1 px-2"><span class="text-medium">Ngày bắt đầu:</span> @CheckDate(Model.NgayKT)</div>
+                    <div class="w-100 text-center py-1 px-2"><span class="text-medium">Ghi chú:</span> @Model.GhiChu</div>
+                    @*<div class="w-100 text-center py-1 px-2"><span class="text-medium">Ghi chú:</span> @CheckDate(Model.NgayTao)</div>*@
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Mã khuyến mãi </th>
+                                <th scope="col">Sản phẩm</th>
+                                <th scope="col">Phần trăm</th>
+                                <th scope="col">Tiền mặt</th>
+                                <th scope="col">Tiền giảm </th>
+                                <th scope="col">Số lượng tối thiểu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ListCTkm)
+                            {
+
+                                <tr>
+                                    <th scope="row">@count</th>
+                                    <td>KM @item.IdKhuyenMai</td>
+                                    <td>@item.Ten</td>
+                                    <td>@item.IsPhanTram</td>
+                                    <td>@item.IsTienMat</td>
+                                    <td>@item.TienGiam</td>
+                                    <td>@item.SLToithieu</td>
+                                </tr>
+                                count++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
