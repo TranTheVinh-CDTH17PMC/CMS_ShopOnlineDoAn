@@ -164,8 +164,6 @@
                             {
                                 <div class="btn-groups pull-right" style="float:right;padding-top:10px;display:flex">
                                     <button type="submit" class="btn btn-primary" id="Save" style="margin-right:5px" onclick="return SaveKM();">
-                                        <i class="fa fa-check"></i> Lưu (F9)
-                                    <button type="submit" class="btn btn-primary" id="Save" style="margin-right:5px" onclick="LuuALL()">
                                         <i class="fa fa-check"></i> Lưu
                                     </button>
                                     <button type="button" class="btn btn-primary">
@@ -295,96 +293,99 @@
                 text: "Chưa nhập ngày kết thúc!",
                 icon: "warning",
                 button: "Đồng ý",
-        var test = $("#IsAll").val();
-        if ($("#IsAll").val() == "all") {
-            $.ajax({
-                url: "/Promotions/checktontaiall/",
-                dataType: "json",
-                type: "GET",
-                contentType: 'application/json; charset=utf-8',
-                success: function (data) {
-                    if (data != 1) {
-                        swal({
-                            text: "Khuyến mãi tất cả đã tồn tại!",
-                            icon: "warning",
-                            button: "Đồng ý",
-                        });
-                        return false;
-                    }
-                }
             });
             return false;
         }
-        if($("#IsAll").val() == "nhomhang")
-        {
-            var detailList = $('.detailList').find('tr').length;
-            if (detailList == 0) {
-                swal({
-                    text: "Chưa chọn loại sản phẩm!",
-                    icon: "warning",
-                    button: "Đồng ý",
+            var test = $("#IsAll").val();
+            if ($("#IsAll").val() == "all") {
+                $.ajax({
+                    url: "/Promotions/checktontaiall/",
+                    dataType: "json",
+                    type: "GET",
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        if (data != 1) {
+                            swal({
+                                text: "Khuyến mãi tất cả đã tồn tại!",
+                                icon: "warning",
+                                button: "Đồng ý",
+                            });
+                            return false;
+                        }
+                    }
                 });
                 return false;
             }
-        }
-        if ($("#IsAll").val() == "nhomsp") {
-            debugger
-            var detailList = $('.mydetailList').find('tr').length;
-            if (detailList == 0) {
-                swal({
-                    text: "Chưa chọn sản phẩm!",
-                    icon: "warning",
-                    button: "Đồng ý",
-                });
-                return false;
+            if($("#IsAll").val() == "nhomhang")
+            {
+                var detailList = $('.detailList').find('tr').length;
+                if (detailList == 0) {
+                    swal({
+                        text: "Chưa chọn loại sản phẩm!",
+                        icon: "warning",
+                        button: "Đồng ý",
+                    });
+                    return false;
+                }
+            }
+            if ($("#IsAll").val() == "nhomsp") {
+                debugger
+                var detailList = $('.mydetailList').find('tr').length;
+                if (detailList == 0) {
+                    swal({
+                        text: "Chưa chọn sản phẩm!",
+                        icon: "warning",
+                        button: "Đồng ý",
+                    });
+                    return false;
+                }
             }
         }
-    }
-    function formChoice(x) {
-        if (x == 0) {
-            $('#all').css('display', 'block ruby');
-            $('#nhomhang').css('display', 'none');
-            $('#nhomsp').css('display', 'none');
-            $(".mydetailList").empty();
-            $(".detailList").empty();
-            $("#IsAll").val("all");
+        function formChoice(x) {
+            if (x == 0) {
+                $('#all').css('display', 'block ruby');
+                $('#nhomhang').css('display', 'none');
+                $('#nhomsp').css('display', 'none');
+                $(".mydetailList").empty();
+                $(".detailList").empty();
+                $("#IsAll").val("all");
+            }
+            if (x == 1)
+            {
+                $('#all').css('display', 'none');
+                $('#nhomhang').css('display', 'block');
+                $('#nhomsp').css('display', 'none');
+                $(".mydetailList").empty();
+                $("#IsAll").val("nhomhang");
+            }
+            if (x == 2)
+            {
+                $('#all').css('display', 'none');
+                $('#nhomhang').css('display', 'none');
+                $('#nhomsp').css('display', 'block');
+                $(".detailList").empty();
+                $("#IsAll").val("nhomsp");
+            }
         }
-        if (x == 1)
-        {
-            $('#all').css('display', 'none');
-            $('#nhomhang').css('display', 'block');
-            $('#nhomsp').css('display', 'none');
-            $(".mydetailList").empty();
-            $("#IsAll").val("nhomhang");
-        }
-        if (x == 2)
-        {
-            $('#all').css('display', 'none');
-            $('#nhomhang').css('display', 'none');
-            $('#nhomsp').css('display', 'block');
-            $(".detailList").empty();
-            $("#IsAll").val("nhomsp");
-        }
-    }
-    var counter = 0;
-    $(document).ready(function () {
-        $('#selectloai').on('change', function () {
-            debugger
-            AutoCompleteTB(this.value);
-        });
-        $('#cars').on('change', function () {
-            debugger
-            var selTag = document.getElementById("cars");
-            var text = selTag.options[selTag.selectedIndex].text;
-            var selectValue = text;
-            var selectid = $(this).val();
-            SelectType(selectid, selectValue);
-        });
-        AutoCompleteTB();
+        var counter = 0;
+        $(document).ready(function () {
+            $('#selectloai').on('change', function () {
+                debugger
+                AutoCompleteTB(this.value);
+            });
+            $('#cars').on('change', function () {
+                debugger
+                var selTag = document.getElementById("cars");
+                var text = selTag.options[selTag.selectedIndex].text;
+                var selectValue = text;
+                var selectid = $(this).val();
+                SelectType(selectid, selectValue);
+            });
+            AutoCompleteTB();
 
-    });
-    function AutoCompleteTB()
-    {
+        });
+        function AutoCompleteTB()
+        {
             $('#txtName').autocomplete({
                 minLength: 1,
                 source: function (request, response) {
@@ -416,146 +417,135 @@
                 return false;
             }
         };
-        function updateTextBox(event, ui) {
-            $('#IdKhachHang').val(ui.item.Id);
-            $('#dlcustomer').val(ui.item.TenKH);
-            return false;
+            function updateTextBox(event, ui) {
+                $('#IdKhachHang').val(ui.item.Id);
+                $('#dlcustomer').val(ui.item.TenKH);
+                return false;
+            }
         }
-    }
-    $("#myTable").on("click", ".ibtnDel", function (event) {
-        $(this).closest("tr").remove();
-        $('.mydetailList tr').each(function (index, tr) {
-            $(this).find("span.sn").html(index + 1);
-            $(tr).find('.mydetail_item_qty').attr('name', 'ListCTkm[' + (index + 1) + '].IdThanhPham');
-            $(tr).find('.mydetail_item_price').attr('name', 'ListCTkm[' + (index + 1) + '].SLToithieu');
-            $(tr).find('.mydetail_item_id').attr('name', 'ListCTkm[' + (index + 1) + '].TienGiam');
-            $(tr).find('.mydetail_item_radio').attr('name', 'ListCTkm[' + (index + 1) + '].IsPhanTram');
+        $("#myTable").on("click", ".ibtnDel", function (event) {
+            $(this).closest("tr").remove();
+            $('.mydetailList tr').each(function (index, tr) {
+                $(this).find("span.sn").html(index + 1);
+                $(tr).find('.mydetail_item_qty').attr('name', 'ListCTkm[' + (index + 1) + '].IdThanhPham');
+                $(tr).find('.mydetail_item_price').attr('name', 'ListCTkm[' + (index + 1) + '].SLToithieu');
+                $(tr).find('.mydetail_item_id').attr('name', 'ListCTkm[' + (index + 1) + '].TienGiam');
+                $(tr).find('.mydetail_item_radio').attr('name', 'ListCTkm[' + (index + 1) + '].IsPhanTram');
+            });
         });
-    });
-    $("#Table").on("click", ".tnDel", function (event) {
-        $(this).closest("tr").remove();
-        $('.detailList tr').each(function (index, tr) {
-            $(this).find("span.sn").html(index + 1);
-            $(tr).find('.detail_item_qty').attr('name', 'ListCTkm[' + (index + 1) + '].IdLoaiSP');
-            $(tr).find('.detail_item_price').attr('name', 'ListCTkm[' + (index + 1) + '].SLToithieu');
-            $(tr).find('.detail_item_id').attr('name', 'ListCTkm[' + (index + 1) + '].TienGiam');
-            $(tr).find('.detail_item_radio').attr('name', 'ListCTkm[' + (index + 1) + '].IsPhanTram');
+        $("#Table").on("click", ".tnDel", function (event) {
+            $(this).closest("tr").remove();
+            $('.detailList tr').each(function (index, tr) {
+                $(this).find("span.sn").html(index + 1);
+                $(tr).find('.detail_item_qty').attr('name', 'ListCTkm[' + (index + 1) + '].IdLoaiSP');
+                $(tr).find('.detail_item_price').attr('name', 'ListCTkm[' + (index + 1) + '].SLToithieu');
+                $(tr).find('.detail_item_id').attr('name', 'ListCTkm[' + (index + 1) + '].TienGiam');
+                $(tr).find('.detail_item_radio').attr('name', 'ListCTkm[' + (index + 1) + '].IsPhanTram');
+            });
         });
-    });
-    function SelectProducts(id) {
-        debugger
-        var dongia = id;
-        $.ajax({
-            url: "/POS/ListProductsById/",
-            dataType: "json",
-            type: "GET",
-            contentType: 'application/json; charset=utf-8',
-            data: { Id: id },
-            success: function (data) {
-                $.ajax({
-                    url: "/Promotions/Checktontai/",
-                    dataType: "json",
-                    type: "GET",
-                    contentType: 'application/json; charset=utf-8',
-                    data: { idtp: id, idloai: "thanhpham" },
-                    success: function (ok) {
-                        console.log(ok);
-                        if (ok == 1) {
-                            var count = myTable.querySelectorAll("tr").length;
-                            if (count == null) {
-                                count = 0;
-                            }
-                            var getid = $("#" + id + "").val();
-                            if (getid == null) {
-                                var html = "";
-                                $.each(data, function (key, item) {
-                                    html += '<tr><td id="' + item.Id + '"><span class="sn">' + count + '</span></td>';
-                                    html += '<td style="display:none;"><input class="mydetail_item_qty" name="ListCTkm[' + (count) + '].IdThanhPham"  value="' + item.Id + '"></td>';
-                                    html += '<td><p type="text">' + item.Ten + '</p></td>';
-                                    html += '<td><input id="Count_' + item.Id + '" class="form-control mydetail_item_price" name="ListCTkm[' + (count) + '].SLToithieu" value="1"></td>';
-                                    html += '<td><input class="form-control money1" id="spcheck" onchange="changespcheck(this,' + dongia + ')" type="text" value="0" min="1" max="100" /></td>';
-                                    html += '<td style="display:none;"><input class="mydetail_item_id" id="' + item.Id + '" type="text" name="ListCTkm[' + (count) + '].TienGiam"  value="0" /></td>';
-                                    html += '<td><div style="display:flex;padding-top: 10px;"><p style="padding-right: 10px;" ><input onclick="phantramspxoa();" class="mydetail_item_radio" type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="true" checked="checked"> %</p><p><input onclick="tienspxoa();" class="mydetail_item_radio" type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="false"> VND</p></div></td>';
-                                    html += '<td><i class="ibtnDel fa fa-close" style="font-size:30px;color:red;margin-left:7px;"></i></td></tr>';
-                                    html += '<td><input style="width:135px" id="Count_' + item.Id + '" class="form-control mydetail_item_price" name="ListCTkm[' + (count) + '].SLToithieu"></td>';
-                                    html += '<td><input style="width:135px" class="form-control money1" onchange="change(this,' + dongia + ');" /></td>';
-                                    html += '<td style="display:none;"><input class="mydetail_item_id" id="' + item.Id + '" type="text" name="ListCTkm[' + (count) + '].TienGiam"></td>';
-                                    html += '<td><div style="display:flex;padding-top: 10px;"><p style="padding-right: 10px;"><input class="mydetail_item_radio" type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="true" checked="checked"> %</p><p><input class="mydetail_item_radio" type="radio"name=ListCTkm[' + (count) + '].IsPhanTram value="false"> VND</p></div></td>';
-                                    html += '<td style="text-align:center;"><i class="ibtnDel fa fa-close" style="font-size:30px;color:red;"></i></td></tr>';
-                                    $("#myTable").append(html);
-                                    counter++;
+        function SelectProducts(id) {
+            debugger
+            var dongia = id;
+            $.ajax({
+                url: "/POS/ListProductsById/",
+                dataType: "json",
+                type: "GET",
+                contentType: 'application/json; charset=utf-8',
+                data: { Id: id },
+                success: function (data) {
+                    $.ajax({
+                        url: "/Promotions/Checktontai/",
+                        dataType: "json",
+                        type: "GET",
+                        contentType: 'application/json; charset=utf-8',
+                        data: { idtp: id, idloai: "thanhpham" },
+                        success: function (ok) {
+                            console.log(ok);
+                            if (ok == 1) {
+                                var count = myTable.querySelectorAll("tr").length;
+                                if (count == null) {
+                                    count = 0;
+                                }
+                                var getid = $("#" + id + "").val();
+                                if (getid == null) {
+                                    var html = "";
+                                    $.each(data, function (key, item) {
+                                        html += '<tr><td id="' + item.Id + '"><span class="sn">' + count + '</span></td>';
+                                        html += '<td style="display:none;"><input class="mydetail_item_qty" name="ListCTkm[' + (count) + '].IdThanhPham"  value="' + item.Id + '"></td>';
+                                        html += '<td><p type="text">' + item.Ten + '</p></td>';
+                                        html += '<td><input style="width:135px" id="Count_' + item.Id + '" class="form-control mydetail_item_price" name="ListCTkm[' + (count) + '].SLToithieu" value="1"></td>';
+                                        html += '<td><input style="width:135px" class="form-control money1" id="spcheck" onchange="changespcheck(this,' + dongia + ')" type="text" value="0" min="1" max="100" /></td>';
+                                        html += '<td style="display:none;"><input class="mydetail_item_id" id="' + item.Id + '" type="text" name="ListCTkm[' + (count) + '].TienGiam"  value="0" /></td>';
+                                        html += '<td><div style="display:flex;padding-top: 10px;"><p style="padding-right: 10px;" ><input onclick="phantramspxoa();" class="mydetail_item_radio" type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="true" checked="checked"> %</p><p><input onclick="tienspxoa();" class="mydetail_item_radio" type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="false"> VND</p></div></td>';
+                                        html += '<td style="text-align:center;"><i class="ibtnDel fa fa-close" style="font-size:30px;color:red;"></i></td></tr>';
+                                        //html += '<td><input style="width:135px" id="Count_' + item.Id + '" class="form-control mydetail_item_price" name="ListCTkm[' + (count) + '].SLToithieu"></td>';
+                                        //html += '<td><input style="width:135px" class="form-control money1" onchange="change(this,' + dongia + ');" /></td>';
+                                        //html += '<td style="display:none;"><input class="mydetail_item_id" id="' + item.Id + '" type="text" name="ListCTkm[' + (count) + '].TienGiam"></td>';
+                                        //html += '<td><div style="display:flex;padding-top: 10px;"><p style="padding-right: 10px;"><input class="mydetail_item_radio" type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="true" checked="checked"> %</p><p><input class="mydetail_item_radio" type="radio"name=ListCTkm[' + (count) + '].IsPhanTram value="false"> VND</p></div></td>';
+                                        //html += '<td style="text-align:center;"><i class="ibtnDel fa fa-close" style="font-size:30px;color:red;"></i></td></tr>';
+                                        $("#myTable").append(html);
+                                        counter++;
 
+                                    });
+                                }
+                            }
+                            else {
+                                swal({
+                                    text: "Khuyến mãi cho sản phẩm đã tồn tại!",
+                                    icon: "warning",
+                                    button: "Đồng ý",
                                 });
                             }
                         }
-                        else {
-                            swal({
-                                text: "Khuyến mãi cho sản phẩm đã tồn tại!",
-                                icon: "warning",
-                                button: "Đồng ý",
-                            });
-                        }
-                    }
-                });
-            },
-            error: function (xhr) {
-                console.log(xhr);
-            }
-        });
-    }
-    function SelectType(id,value)
-    {
-        $.ajax({
-            url: "/Promotions/Checktontai/",
-            dataType: "json",
-            type: "GET",
-            contentType: 'application/json; charset=utf-8',
-            data: { idtp: id, idloai: "loaisp" },
-            success: function (data) {
-                if(data==1)
-                {
-                    var dongia = id;
-                    var count = Table.querySelectorAll("tr").length;
-                    if (count == null) {
-                        count = 0;
-                    }
-                    var getid = $("#" + id + "").val();
-                    if (getid == null) {
-                        var html = "";
-                        html += '<tr><td id="' + id + '"><span class="sn">' + count + '</span></td>';
-                        html += '<td style="display:none;"><input class="detail_item_qty" name="ListCTkm[' + (count) + '].IdLoaiSP"  value="' + id + '"></td>';
-                        html += '<td><p type="text">' + value + '</p></td>';
-                        html += '<td><input class="form-control detail_item_price" name="ListCTkm[' + (count) + '].SLToithieu" value="1"></td>';
-                        html += '<td><input class="form-control money1" id="spcheck1" onchange="changespcheck1(this,' + dongia + ');" value="0" min="1" max="100"/></td>';
-                        html += '<td style="display:none;"><input id="' + id + '" class="detail_item_id" type="text" name="ListCTkm[' + (count) + '].TienGiam" value="0"></td>';
-                        html += '<td><div style="display:flex;padding-top: 10px;"><p style="padding-right: 10px;"><input onclick="phantramspxoa1();" class="detail_item_radio" type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="true" checked="checked"> %</p><p><input onclick="tienspxoa1();" class="detail_item_radio" type="radio"name=ListCTkm[' + (count) + '].IsPhanTram value="false"> VND</p></div></td>';
-                        html += '<td><i class="tnDel fa fa-close" style="font-size:30px;color:red;margin-left:7px;"></i></td></tr>';
-                        $("#Table").append(html);
-                        counter++;
-                    }
-                    var html = "";
-                    html += '<tr><td><span class="sn">' + count + '</span></td>';
-                    html += '<td style="display:none;"><input class="detail_item_qty" name="ListCTkm[' + (count) + '].IdLoaiSP"  value="' + id + '"></td>';
-                    html += '<td><p type="text">' + value + '</p></td>';
-                    html += '<td><input style="width:135px" class="form-control detail_item_price" name="ListCTkm[' + (count) + '].SLToithieu" value="1"></td>';
-                    html += '<td><input style="width:135px" class="form-control" onchange="change(this,' + dongia + ');" /></td>';
-                    html += '<td style="display:none;"><input id="' + id + '" class="detail_item_id" type="text" name="ListCTkm[' + (count) + '].TienGiam" value=""></td>';
-                    html += '<td><div style="display:flex;padding-top: 10px;"><p style="padding-right: 10px;"><input class="detail_item_radio" type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="true" checked="checked"> %</p><p><input class="detail_item_radio" type="radio"name=ListCTkm[' + (count) + '].IsPhanTram value="false"> VND</p></div></td>';
-                    html += '<td style="text-align:center;"><i class="tnDel fa fa-close" style="font-size:30px;color:red;"></i></td></tr>';
-                    $("#Table").append(html);
-                    counter++;
-                }
-                else
-                {
-                    swal({
-                        text: "Khuyến mãi cho sản phẩm đã tồn tại!",
-                        icon: "warning",
-                        button: "Đồng ý",
                     });
+                },
+                error: function (xhr) {
+                    console.log(xhr);
                 }
-            }
-        });          
-    }
+            });
+        }
+        function SelectType(id,value)
+        {
+            $.ajax({
+                url: "/Promotions/Checktontai/",
+                dataType: "json",
+                type: "GET",
+                contentType: 'application/json; charset=utf-8',
+                data: { idtp: id, idloai: "loaisp" },
+                success: function (data) {
+                    if(data==1)
+                    {
+                        var dongia = id;
+                        var count = Table.querySelectorAll("tr").length;
+                        if (count == null) {
+                            count = 0;
+                        }
+                        var getid = $("#" + id + "").val();
+                        if (getid == null) {
+                            var html = "";
+                            html += '<tr><td id="' + id + '"><span class="sn">' + count + '</span></td>';
+                            html += '<td style="display:none;"><input class="detail_item_qty" name="ListCTkm[' + (count) + '].IdLoaiSP"  value="' + id + '"></td>';
+                            html += '<td><p type="text">' + value + '</p></td>';
+                            html += '<td><input style="width:135px" class="form-control detail_item_price" name="ListCTkm[' + (count) + '].SLToithieu" value="1"></td>';
+                            html += '<td><input style="width:135px" class="form-control money1" id="spcheck1" onchange="changespcheck1(this,' + dongia + ');" value="0" min="1" max="100"/></td>';
+                            html += '<td style="display:none;"><input id="' + id + '" class="detail_item_id" type="text" name="ListCTkm[' + (count) + '].TienGiam" value="0"></td>';
+                            html += '<td><div style="display:flex;padding-top: 10px;"><p style="padding-right: 10px;"><input onclick="phantramspxoa1();" class="detail_item_radio" type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="true" checked="checked"> %</p><p><input onclick="tienspxoa1();" class="detail_item_radio" type="radio"name=ListCTkm[' + (count) + '].IsPhanTram value="false"> VND</p></div></td>';
+                            html += '<td style="text-align:center;"><i class="tnDel fa fa-close" style="font-size:30px;color:red;"></i></td></tr>';
+                            $("#Table").append(html);
+                            counter++;
+                        } 
+                    }
+                    else
+                    {
+                        swal({
+                            text: "Khuyến mãi cho sản phẩm đã tồn tại!",
+                            icon: "warning",
+                            button: "Đồng ý",
+                        });
+                    }
+                }
+            });          
+        }
     function number_format(number, decimals, dec_point, thousands_sep) {
         // *     example: number_format(1234.56, 2, ',', ' ');
         // *     return: '1 234,56'
