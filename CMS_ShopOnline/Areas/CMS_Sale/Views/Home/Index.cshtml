@@ -9,7 +9,7 @@
     @date.Date.ToString("dd/MM")
 }
 <style>
-    .btn:hover {
+    .chitiet:hover {
         background-color: #337ab7;
     }
 </style>
@@ -125,11 +125,11 @@
                         </button>
                     </a>
                 </div>
-                <div class="card-body">
+                <div class="card-body promotions">
                     @foreach (var item in ViewBag.Ten)
                     {
                         <a href="/Administration/Promotions/Details/@item.Id">
-                            <button type="button" class="btn btn-default" title="Xem chi tiết khuyến mãi">
+                            <button type="button" class="btn btn-default chitiet" title="Xem chi tiết khuyến mãi">
                                 <div class="col-md-12" style="display:flex">
                                     <div style="margin-left: -12px">
                                         <p style="color:black;float:left">@count</p>
@@ -146,6 +146,7 @@
                             <hr class="sidebar-divider">
                             count++;
                     }
+                    <div class="nullpromotions"></div>
                </div>
             </div>
         </div>
@@ -154,5 +155,14 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('.toast').toast('show');
+    });
+    $(document).ready(function () {
+        var lol = $('.promotions').find('a').length;
+        if (lol == 0) {
+            var html = "";
+            html += '<p style="color:black">Không có chương trình khuyến mãi.</p>';
+            html += '<a href="/Administration/Promotions/Index"><button type="button" class="btn btn-default" title="Xem chi tiết" style="margin-left:80px"><i style="color:#0277bd" class="fa fa-eye"></i> <b style="color:#0277bd;font-size:13px">XEM CHI TIẾT</b></button></a>';
+            $(".nullpromotions").append(html);
+        }
     });
 </script>

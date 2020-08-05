@@ -52,7 +52,7 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
                     GhiChu = item.GhiChu,
                     IsDelete = item.IsDelete
                 }
-                ).ToList().OrderByDescending(x => x.NgayBD);
+                ).ToList().OrderByDescending(x => x.IsDelete != true);
                 if (ghichu != null)
                 {
                     ghichu = ghichu == "" ? "~" : Helpers.Helper.ChuyenThanhKhongDau(ghichu);
