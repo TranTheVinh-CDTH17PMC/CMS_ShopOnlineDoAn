@@ -190,25 +190,29 @@
     {
         debugger
         var el = idthis.value.replace(/[.]/g, '');
-        $("#" + idthat + "").val(el);
-        var max = $('#spcheck').attr('max');
-        var min = $('#spcheck').attr('min');
-        if (idthis.value > max) {
-            $('#spcheck').val(max);
+        $("#id_"+idthat+"").val(el);
+        var id = $("#id_" + idthat + "").val();
+        var max1 = idthis.max;
+        var max = idthis.max;
+        var min = idthis.min;
+        if(parseInt(idthis.value) > parseInt(max)) {
+            $("#spcheck_" + idthat + "").val(max);
+            $("#id_"+idthat+"").val(max);
         }
-        else if (idthis.value < min) {
-            $('#spcheck').val(min);
+        else if (parseInt(idthis.value) < parseInt(min)) {
+            $("#spcheck_" + idthat + "").val(min);
+            $("#id_"+idthat+"").val(min);
         }
     }
-    function tienspxoa()
+    function tienspxoa(idthat)
     {
         debugger
-        $("#spcheck").removeAttr("max");
-        $("#spcheck").removeAttr("min");
+        $("#spcheck_"+idthat+"").removeAttr("max");
+        $("#spcheck_"+idthat+"").removeAttr("min");
     }
-    function phantramspxoa() {
+    function phantramspxoa(idthat) {
         debugger
-        $("#spcheck").attr({
+        $("#spcheck_"+idthat+"").attr({
             "max": 100,        // substitute your own
             "min": 1          // values (or variables) here
         });
@@ -216,24 +220,28 @@
     function changespcheck1(idthis, idthat) {
         debugger
         var el = idthis.value.replace(/[.]/g, '');
-        $("#" + idthat + "").val(el);
-        var max = $('#spcheck1').attr('max');
-        var min = $('#spcheck1').attr('min');
-        if (idthis.value > max) {
-            $('#spcheck1').val(max);
+        $("#type_" + idthat + "").val(el);
+        var id = $("#type_" + idthat + "").val();
+        var max1 = idthis.max;
+        var max = idthis.max;
+        var min = idthis.min;
+        if (parseInt(idthis.value) > parseInt(max)) {
+            $("#spcheck1_" + idthat + "").val(max);
+            $("#type_" + idthat + "").val(max);
         }
-        else if (idthis.value < min) {
-            $('#spcheck1').val(min);
+        else if (parseInt(idthis.value) < parseInt(min)) {
+            $("#spcheck1_" + idthat + "").val(min);
+            $("#type_" + idthat + "").val(min);
         }
     }
-    function tienspxoa1() {
+    function tienspxoa1(idthat) {
         debugger
-        $("#spcheck1").removeAttr("max");
-        $("#spcheck1").removeAttr("min");
+        $("#spcheck1_" + idthat + "").removeAttr("max");
+        $("#spcheck1_" + idthat + "").removeAttr("min");
     }
-    function phantramspxoa1() {
+    function phantramspxoa1(idthat) {
         debugger
-        $("#spcheck1").attr({
+        $("#spcheck1_" + idthat + "").attr({
             "max": 100,        // substitute your own
             "min": 1          // values (or variables) here
         });
@@ -296,26 +304,26 @@
             });
             return false;
         }
-            var test = $("#IsAll").val();
-            if ($("#IsAll").val() == "all") {
-                $.ajax({
-                    url: "/Promotions/checktontaiall/",
-                    dataType: "json",
-                    type: "GET",
-                    contentType: 'application/json; charset=utf-8',
-                    success: function (data) {
-                        if (data != 1) {
-                            swal({
-                                text: "Khuyến mãi tất cả đã tồn tại!",
-                                icon: "warning",
-                                button: "Đồng ý",
-                            });
-                            return false;
-                        }
-                    }
-                });
-                return false;
-            }
+            //var test = $("#IsAll").val();
+            //if ($("#IsAll").val() == "all") {
+            //    $.ajax({
+            //        url: "/Promotions/checktontaiall/",
+            //        dataType: "json",
+            //        type: "GET",
+            //        contentType: 'application/json; charset=utf-8',
+            //        success: function (data) {
+            //            if (data != 1) {
+            //                swal({
+            //                    text: "Khuyến mãi tất cả đã tồn tại!",
+            //                    icon: "warning",
+            //                    button: "Đồng ý",
+            //                });
+            //                return false;
+            //            }
+            //        }
+            //    });
+            //    return false;
+            //}
             if($("#IsAll").val() == "nhomhang")
             {
                 var detailList = $('.detailList').find('tr').length;
@@ -474,9 +482,9 @@
                                         html += '<td style="display:none;"><input class="mydetail_item_qty" name="ListCTkm[' + (count) + '].IdThanhPham"  value="' + item.Id + '"></td>';
                                         html += '<td><p type="text">' + item.Ten + '</p></td>';
                                         html += '<td><input style="width:135px" id="Count_' + item.Id + '" class="form-control mydetail_item_price" name="ListCTkm[' + (count) + '].SLToithieu" value="1"></td>';
-                                        html += '<td><input style="width:135px" class="form-control money1" id="spcheck" onchange="changespcheck(this,' + dongia + ')" type="text" value="0" min="1" max="100" /></td>';
-                                        html += '<td style="display:none;"><input class="mydetail_item_id" id="' + item.Id + '" type="text" name="ListCTkm[' + (count) + '].TienGiam"  value="0" /></td>';
-                                        html += '<td><div style="display:flex;padding-top: 10px;"><p style="padding-right: 10px;" ><input onclick="phantramspxoa();" class="mydetail_item_radio" type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="true" checked="checked"> %</p><p><input onclick="tienspxoa();" class="mydetail_item_radio" type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="false"> VND</p></div></td>';
+                                        html += '<td><input style="width:135px" class="form-control money1" id="spcheck_'+item.Id+'" onchange="changespcheck(this,' + dongia + ')" type="text" value="0" min="1" max="100" /></td>';
+                                        html += '<td style="display:none;"><input class="mydetail_item_id" id="id_' + item.Id + '" type="text" name="ListCTkm[' + (count) + '].TienGiam"  /></td>';
+                                        html += '<td><div style="display:flex;padding-top: 10px;"><p style="padding-right: 10px;" ><input onclick="phantramspxoa(' + item.Id + ');" class="mydetail_item_radio" type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="true" checked="checked"> %</p><p><input onclick="tienspxoa(' + item.Id + ');" class="mydetail_item_radio" type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="false"> VND</p></div></td>';
                                         html += '<td style="text-align:center;"><i class="ibtnDel fa fa-close" style="font-size:30px;color:red;"></i></td></tr>';
                                         //html += '<td><input style="width:135px" id="Count_' + item.Id + '" class="form-control mydetail_item_price" name="ListCTkm[' + (count) + '].SLToithieu"></td>';
                                         //html += '<td><input style="width:135px" class="form-control money1" onchange="change(this,' + dongia + ');" /></td>';
@@ -527,9 +535,9 @@
                             html += '<td style="display:none;"><input class="detail_item_qty" name="ListCTkm[' + (count) + '].IdLoaiSP"  value="' + id + '"></td>';
                             html += '<td><p type="text">' + value + '</p></td>';
                             html += '<td><input style="width:135px" class="form-control detail_item_price" name="ListCTkm[' + (count) + '].SLToithieu" value="1"></td>';
-                            html += '<td><input style="width:135px" class="form-control money1" id="spcheck1" onchange="changespcheck1(this,' + dongia + ');" value="0" min="1" max="100"/></td>';
-                            html += '<td style="display:none;"><input id="' + id + '" class="detail_item_id" type="text" name="ListCTkm[' + (count) + '].TienGiam" value="0"></td>';
-                            html += '<td><div style="display:flex;padding-top: 10px;"><p style="padding-right: 10px;"><input onclick="phantramspxoa1();" class="detail_item_radio" type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="true" checked="checked"> %</p><p><input onclick="tienspxoa1();" class="detail_item_radio" type="radio"name=ListCTkm[' + (count) + '].IsPhanTram value="false"> VND</p></div></td>';
+                            html += '<td><input style="width:135px" class="form-control money1" id="spcheck1_'+id+'" onchange="changespcheck1(this,' + dongia + ');" value="0" min="1" max="100"/></td>';
+                            html += '<td style="display:none;"><input id="type_' + id + '" class="detail_item_id" type="text" name="ListCTkm[' + (count) + '].TienGiam" value="0"></td>';
+                            html += '<td><div style="display:flex;padding-top: 10px;"><p style="padding-right: 10px;"><input onclick="phantramspxoa1('+id+');" class="detail_item_radio" type="radio" name=ListCTkm[' + (count) + '].IsPhanTram value="true" checked="checked"> %</p><p><input onclick="tienspxoa1('+id+');" class="detail_item_radio" type="radio"name=ListCTkm[' + (count) + '].IsPhanTram value="false"> VND</p></div></td>';
                             html += '<td style="text-align:center;"><i class="tnDel fa fa-close" style="font-size:30px;color:red;"></i></td></tr>';
                             $("#Table").append(html);
                             counter++;
