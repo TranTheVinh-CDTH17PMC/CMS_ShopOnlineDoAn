@@ -88,20 +88,52 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
             model.NgayBD = km.NgayBD;
             model.NgayKT = km.NgayKT;
             model.GhiChu = km.GhiChu;
-            var details = CTKhuyenMai.GetById(km.Id).Select(
+            var details = CTKhuyenMai.SelectAll().Where(x=>x.IdKhuyenMai == km.Id).Select(
                 item => new CTKhuyenMaiViewModel
                 {
                     Id = item.Id,
                     IdKhuyenMai = item.IdKhuyenMai,
                     IdThanhPham = item.IdThanhPham,
-                    IsPhanTram = item.IsPhanTram,
-                    IsTienMat = item.IsTienMat,
                     TienGiam = item.TienGiam,
                     SLToithieu = item.SLToithieu,
-                    IdLoaiSP = item.IdLoaiSP
+                    IdLoaiSP = item.IdLoaiSP,
+                    Loaikhuyenmai = loaikmten(item.IdLoaiSP,item.IdThanhPham),
+                    Loaithanhtoan = loaikm(item.IsPhanTram)
                 }).ToList();
             model.ListCTkm = details;
             return View(model);
+        }
+        public string loaikm(bool? km)
+        {
+            var loai = "Phần trăm";
+            if (km != null)
+            {
+                if (km != true)
+                {
+                    loai = "VNĐ";
+                }
+            }
+            return loai;
+
+        }
+        public string loaikmten(int? loai,int? sp)
+        {
+            string ten = "";
+            if(sp != null)
+            {
+                var model = ThanhPham.SelectById(sp);
+                ten = model.Ten;
+            }
+            if (loai != null)
+            {
+                var model = LoaiSP.SelectById(loai);
+                ten = model.Ten;
+            }
+            if(loai == null && sp == null)
+            {
+                ten = "Toàn bộ sản phẩm";
+            }
+            return ten;
         }
         public ActionResult Delete(string IdDelete)
         {
@@ -118,7 +150,7 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
             var abc = KhuyenMai.SelectAll().Where(x => x.IsDelete != true);
             foreach (var item in abc)
             {
-                if (daynow > item.NgayKT)
+                if (daynow > item.NgayKT.Date)
                 {
                     item.IsDelete = true;
                     KhuyenMai.Update(item);
@@ -240,6 +272,7 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
                     else
                     {
                         checksl = 0;
+                        break;
                     }
                 }
                 if (a == 0)
@@ -261,6 +294,7 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
                     else
                     {
                         checksl = 0;
+                        break;
                     }
                 }
                 if(a  == 0)

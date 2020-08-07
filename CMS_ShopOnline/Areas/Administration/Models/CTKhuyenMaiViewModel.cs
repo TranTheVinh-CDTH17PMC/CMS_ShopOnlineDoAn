@@ -17,5 +17,7 @@ namespace CMS_ShopOnline.Areas.Administration.Models
         public int? SLToithieu { get; set; }
         public int? IdLoaiSP { get; set; }
         public double? TienGiam { get; set; }
+        public string Loaithanhtoan { get; set; }
+        public string Loaikhuyenmai { get; set; }
     }
 }

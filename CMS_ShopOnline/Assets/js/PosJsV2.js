@@ -62,7 +62,8 @@ $(document).ready(function () {
             contentType: 'application/json; charset=utf-8',
             data: { Id: id, soluong: value },
             success: function (data) {
-                var value = $("#Dongia_" + id + "").text(data);
+                var checknumber = number_format(data);
+                var value = $("#Dongia_" + id + "").text(checknumber);
                 var x = $("#Price_" + id + "").val(data);
                 TotalMoney(id);
                 calcTotalAmount();
