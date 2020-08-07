@@ -105,12 +105,12 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
         }
         public string loaikm(bool? km)
         {
-            var loai = "Phần trăm";
+            var loai = "Phần trăm (%)";
             if (km != null)
             {
                 if (km != true)
                 {
-                    loai = "VNĐ";
+                    loai = "Giá tiền (VNĐ)";
                 }
             }
             return loai;

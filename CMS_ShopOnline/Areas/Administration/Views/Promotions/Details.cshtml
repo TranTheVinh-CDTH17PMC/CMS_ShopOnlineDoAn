@@ -25,7 +25,7 @@
                 <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
                     <div class="w-100 text-center py-1 px-2"><span class="text-medium">Tên khuyến mãi:</span> @Model.Ten</div>
                     <div class="w-100 text-center py-1 px-2"><span class="text-medium">Ngày bắt đầu:</span> @CheckDate(Model.NgayBD)</div>
-                    <div class="w-100 text-center py-1 px-2"><span class="text-medium">Ngày bắt đầu:</span> @CheckDate(Model.NgayKT)</div>
+                    <div class="w-100 text-center py-1 px-2"><span class="text-medium">Ngày kết thúc:</span> @CheckDate(Model.NgayKT)</div>
                     <div class="w-100 text-center py-1 px-2"><span class="text-medium">Ghi chú:</span> @Model.GhiChu</div>
                     @*<div class="w-100 text-center py-1 px-2"><span class="text-medium">Ghi chú:</span> @CheckDate(Model.NgayTao)</div>*@
                 </div>
@@ -35,10 +35,10 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Mã khuyến mãi </th>
-                                <th scope="col">Nhóm áp dụng</th>
+                                <th scope="col">Khuyến mãi áp dụng</th>
                                 <th scope="col">Hình thức giảm</th>
                                 <th scope="col">Tiền giảm </th>
-                                <th scope="col">Số lượng tối thiểu</th>
+                                <th scope="col" style="width:155px">Số lượng tối thiểu</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -51,7 +51,7 @@
                                     <td>@item.Loaikhuyenmai</td>
                                     <td>@item.Loaithanhtoan</td>
                                     <td>@item.TienGiam</td>
-                                    <td>@item.SLToithieu</td>
+                                    <td style="text-align:center">@item.SLToithieu</td>
                                 </tr>
                                 count++;
                             }

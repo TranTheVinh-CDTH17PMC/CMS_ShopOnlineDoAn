@@ -27,7 +27,17 @@ namespace CMS_ShopOnline.Areas.Crm.Controllers
                 new SelectListItem { Text = "Q3", Value = "Q3"},
                 new SelectListItem { Text = "Q4", Value = "Q4"},
                 new SelectListItem { Text = "Q5", Value = "Q5"},
-                new SelectListItem { Text = "Q6", Value = "Q6"}
+                new SelectListItem { Text = "Q6", Value = "Q6"},
+                new SelectListItem { Text = "Q7", Value = "Q7"},
+                new SelectListItem { Text = "Q8", Value = "Q8"},
+                new SelectListItem { Text = "Q9", Value = "Q9"},
+                new SelectListItem { Text = "Q10", Value = "Q10"},
+                new SelectListItem { Text = "Q11", Value = "Q11"},
+                new SelectListItem { Text = "Q12", Value = "Q12"},
+                new SelectListItem { Text = "Q.Bình Thạnh", Value = "Q.Bình Thạnh"},
+                new SelectListItem { Text = "Q.Tân Bình", Value = "Q.Tân Bình"},
+                new SelectListItem { Text = "Q.Bình Tân", Value = "Q.Bình Tân"},
+                new SelectListItem { Text = "Q.Bình Chánh", Value = "Q.Bình Chánh"},
             };
         public SupplierController()
         {
