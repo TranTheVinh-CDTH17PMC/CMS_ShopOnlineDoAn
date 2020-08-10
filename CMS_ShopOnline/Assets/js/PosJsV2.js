@@ -292,7 +292,6 @@ function SelectProducts(id)
         }
     });
 }
-
 function GetProducts(id)
 {
     $(".col-md-3").remove();

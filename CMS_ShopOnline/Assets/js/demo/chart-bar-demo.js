@@ -85,7 +85,7 @@ $.ajax({
         }
         console.log(value);
         var labels = data.map(function (e) {
-            return e.THANG;
+            return "Th." + e.THANG;
         });
         var data = data.map(function (e) {
             return e.DOANHTHU;

@@ -40,7 +40,7 @@
         @if (ViewBag.CheckKM == true)
         {
             <div class="alert alert-primary alert-dismissible fade show" role="alert">
-                <strong>Không thể tạo mới khuyến mãi.Vui lòng dừng khuyến mãi toàn bộ để có thể tạo.</strong>
+                <strong>Không thể tạo mới khuyến mãi. Vui lòng dừng khuyến mãi toàn bộ để có thể tạo.</strong>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -49,17 +49,17 @@
         <div class="row">
             <div class="col-lg-8">
                 <div class="col-md-12" >
-                    <p>Chọn nhóm hàng / hàng hoá khuyến mãi:</p>
+                    <p>Chọn loại sản phẩm / sản phẩm khuyến mãi:</p>
                     <div class="col-md-7" style="float: none;margin: auto; padding-bottom:10px;display:flex" >
                         <div style="padding-left:10px;">
                             <p><input type="radio"  name="gender" value="all" onclick="formChoice(0);" checked> Tất cả</p>
                         </div>
                         <div style="padding-left:10px;">
-                            <p><input type="radio"  name="gender" value="nhomhang" onclick="formChoice(1);"> Nhóm hàng</p>
+                            <p><input type="radio"  name="gender" value="nhomhang" onclick="formChoice(1);"> Loại sản phẩm</p>
                             
                         </div>
                         <div style="padding-left:10px;">
-                            <p><input type="radio"  name="gender" value="nhomsp" onclick="formChoice(2);"> Nhóm sản phẩm</p>
+                            <p><input type="radio"  name="gender" value="nhomsp" onclick="formChoice(2);"> Từng sản phẩm</p>
                         </div>
                     </div>
                 </div>
