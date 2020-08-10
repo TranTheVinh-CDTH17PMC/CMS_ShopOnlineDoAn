@@ -91,7 +91,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                         }
                         if (item2.IsTienMat == true)
                         {
-                            check = item2.TienGiam.ToString() + "VND";
+                            check = item2.TienGiam.ToString() + "Đ";
                         }
                         break;
                     }
@@ -116,7 +116,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                         }
                         if (item2.IsTienMat == true)
                         {
-                            check = item2.TienGiam.ToString() + "VND";
+                            check = item2.TienGiam.ToString() + "Đ";
                         }
                         break;
                     }

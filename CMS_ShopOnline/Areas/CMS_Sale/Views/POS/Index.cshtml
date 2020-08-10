@@ -54,18 +54,7 @@
         transition: transform 0.3s;
         position:relative;
         display:inline-block;
-    }
-        .notify-badge{
-        position: absolute;
-        right:-20px;
-        top:10px;
-        background:red;
-        text-align: center;
-        border-radius: 30px 30px 30px 30px;
-        color:white;
-        padding:5px 7px;
-        font-size:10px;
-    }
+    }       
     .content:hover {
         background-color: #337ab7;
         color:white;
@@ -158,6 +147,21 @@
         .custom-checkbox .custom-control-input:focus ~ .custom-control-indicator {
             box-shadow: none !important;
         }
+        .notify-badge{
+        position: absolute;
+        background: orange;
+	    color: white;
+	    width: 5.5rem;
+	    text-align: center;
+	    vertical-align: middle;
+	    line-height: 1.5rem;
+	    transform: rotate(-10deg);
+	    animation: beat 1s ease infinite alternate;
+        padding:5px 7px;
+        font-size:12px;
+        font-weight:700;
+        left:103px;
+    }
         .notification {
           background-color: white;
           color: black;
@@ -168,13 +172,20 @@
 
         .notification .badge {
           position: absolute;
-          top: -10px;
-          right: -10px;
-          padding: 5px 10px;
-          border-radius: 50%;
-          background: red;
-          color: white;
-        }
+	    display: inline-block;
+	    background: orange;
+	    color: white;
+	    width: 4.5rem;
+	    text-align: center;
+	    vertical-align: middle;
+	    line-height: 1.8rem;
+	    transform: rotate(-10deg);
+	    animation: beat 1s ease infinite alternate;
+        left:45px;
+        bottom:30px;
+        border-radius:0;		
+}
+        
 </style>
 </head>
 @using (Html.BeginForm(FormMethod.Post))
