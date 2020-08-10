@@ -35,6 +35,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     Id= item.Id,
                     Ten = item.Ten,
                     IsDelete = item.IsDelete,
+                    IsProducts = item.IsProducts
                 });
             ViewBag.ListType = ListType;
             IEnumerable<UnitViewModel> ListUnit = DVT.SelectAll().Where(x => x.IsDelete != true).Select(
@@ -70,6 +71,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 var _Type = new LoaiSP();
                 _Type.Ten = model.Ten;
                 _Type.IsDelete = false;
+                _Type.IsProducts = model.IsProducts;
                 LoaiSP.Insert(_Type);
                 LoaiSP.Save();
                 return RedirectToAction("Index");
@@ -106,14 +108,21 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         // GET: CMS_Sale/ProductType/Edit/5
         // POST: CMS_Sale/ProductType/Edit/5
         [HttpPost]
-        public ActionResult EditType(string SubmitType, string NameUnit)
+        public ActionResult EditType(string SubmitType, string NameUnit,string IsProducts)
         {
-
+            
             try
             {
                     var _Type = LoaiSP.SelectById(int.Parse(SubmitType));
                     _Type.Ten = NameUnit;
-                    _Type.IsDelete = false;
+                    if (IsProducts == "true")
+                    {
+                        _Type.IsProducts = true;
+                    }
+                    else
+                    {
+                        _Type.IsProducts = false;
+                    }
                     LoaiSP.Update(_Type);
                     LoaiSP.Save();
                     return RedirectToAction("Index");
@@ -133,7 +142,6 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
 
                     var _Unit = DVT.SelectById(int.Parse(SubmitUnit));
                     _Unit.Ten = NameUnit;
-                    _Unit.IsDelete = false;
                     DVT.Update(_Unit);
                     DVT.Save();
                     return RedirectToAction("Index");

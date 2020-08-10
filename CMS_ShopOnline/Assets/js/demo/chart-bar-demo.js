@@ -33,7 +33,6 @@ $.ajax({
     type: "GET",
     contentType: 'application/json; charset=utf-8',
     success: function (data) {
-        console.log(data);
         var oilCanvas = document.getElementById("oilChart");
         Chart.defaults.global.defaultFontFamily = "Lato";
         Chart.defaults.global.defaultFontSize = 18;

@@ -19,5 +19,6 @@ namespace CMS_ShopOnline.Areas.Administration.Models
         public double? TienGiam { get; set; }
         public string Loaithanhtoan { get; set; }
         public string Loaikhuyenmai { get; set; }
+        public bool? IsDelete { get; set; }
     }
 }

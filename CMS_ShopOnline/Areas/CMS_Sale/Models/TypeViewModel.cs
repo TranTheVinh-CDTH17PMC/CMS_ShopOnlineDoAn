@@ -12,5 +12,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Models
         public string Ten { get; set; }
 
         public bool? IsDelete { get; set; }
+        public bool IsProducts { get; set; }
+        public string Khuyenmai { set; get; }
     }
 }

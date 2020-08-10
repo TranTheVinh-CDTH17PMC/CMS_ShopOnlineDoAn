@@ -93,7 +93,7 @@ namespace CMS_ShopOnline.Helpers
         }
         public static bool IsPreparation()
         {
-            if(ChuyenThanhKhongDau(CurrentUser.LoaiNV.TenLoai) == ChuyenThanhKhongDau("Pha Chế"))
+            if(ChuyenThanhKhongDau(CurrentUser.LoaiNV.TenCode) == ChuyenThanhKhongDau("PC"))
             {
                 return true;
             }
@@ -111,11 +111,11 @@ namespace CMS_ShopOnline.Helpers
         }
         public static bool IsManager()
         {
-            if (ChuyenThanhKhongDau(CurrentUser.LoaiNV.TenLoai) == ChuyenThanhKhongDau("Giám Đốc"))
+            if (ChuyenThanhKhongDau(CurrentUser.LoaiNV.TenCode) == ChuyenThanhKhongDau("GD"))
             {
                 return true;
             }
-            if(ChuyenThanhKhongDau(CurrentUser.LoaiNV.TenLoai) == ChuyenThanhKhongDau("Quản Lí"))
+            if(ChuyenThanhKhongDau(CurrentUser.LoaiNV.TenCode) == ChuyenThanhKhongDau("QL"))
             {
                  return true;
             }

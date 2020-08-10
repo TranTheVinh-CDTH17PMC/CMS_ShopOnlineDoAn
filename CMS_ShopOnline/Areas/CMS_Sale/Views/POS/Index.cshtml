@@ -52,8 +52,20 @@
         box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
         transition: 0.3s;
         transition: transform 0.3s;
+        position:relative;
+        display:inline-block;
     }
-
+        .notify-badge{
+        position: absolute;
+        right:-20px;
+        top:10px;
+        background:red;
+        text-align: center;
+        border-radius: 30px 30px 30px 30px;
+        color:white;
+        padding:5px 7px;
+        font-size:10px;
+    }
     .content:hover {
         background-color: #337ab7;
         color:white;
@@ -146,6 +158,23 @@
         .custom-checkbox .custom-control-input:focus ~ .custom-control-indicator {
             box-shadow: none !important;
         }
+        .notification {
+          background-color: white;
+          color: black;
+          text-decoration: none;
+          position: relative;
+          display: inline-block;
+        }
+
+        .notification .badge {
+          position: absolute;
+          top: -10px;
+          right: -10px;
+          padding: 5px 10px;
+          border-radius: 50%;
+          background: red;
+          color: white;
+        }
 </style>
 </head>
 @using (Html.BeginForm(FormMethod.Post))
@@ -232,11 +261,19 @@
                                 <div class="col-md-7">
                                     <input type="text" placeholder="Tìm kiếm sản phẩm..." id="txtName" class="form-control marg-bot-10" style="width:68.5%">
                                     <div class="main">
-                                            <div id="myBtnContainer">
+                                            <div id="myBtnContainer" style="padding-top: 5px;">
                                             <button class="btnproduct active" onclick="GetProducts(0)"  type="button">Tất cả sản phẩm</button>
                                                 @foreach (var item in ViewBag.ListType)
                                                 {
-                                                    <button class="btnproduct" onclick="GetProducts(@item.Id);" type="button">@item.Ten</button>
+                                                    if (item.Khuyenmai != "")
+                                                    {
+                                                        <button class="btnproduct notification" style="margin-left:10px" onclick="GetProducts(@item.Id);" type="button">@item.Ten<span class="badge">@item.Khuyenmai</span></button>
+                                                    }
+                                                    if (item.Khuyenmai == "")
+                                                    {
+                                                        <button class="btnproduct notification" style="margin-left:10px" onclick="GetProducts(@item.Id);" type="button">@item.Ten</button>
+                                                    }
+
                                                 }
                                             </div>
                                             

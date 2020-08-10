@@ -18,5 +18,6 @@ namespace CMS_Database.Entities
         public int? SLToithieu { get; set; }
         public int? IdLoaiSP { get; set; }
         public double? TienGiam { get; set; }
+        public bool? IsDelete { get; set; }
     }
 }

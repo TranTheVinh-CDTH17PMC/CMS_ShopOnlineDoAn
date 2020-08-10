@@ -19,6 +19,8 @@ namespace CMS_Database.Entities
 
         [StringLength(50)]
         public string TenLoai { get; set; }
+        [StringLength(50)]
+        public string TenCode { get; set; }
 
         public bool? IsDelete { get; set; }
 

@@ -73,7 +73,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     IsDelete = item.IsDelete,
                     NgayNhap = item.NgayNhap
                 }).OrderByDescending(x=>x.Id);
-            ViewBag.loai = LoaiSP.SelectAll().Where(x => x.IsDelete != true);
+            ViewBag.loai = LoaiSP.SelectAll().Where(x => x.IsDelete != true && x.IsProducts == true);
             ViewBag.dvt = DVT.SelectAll().Where(x => x.IsDelete != true);
             if (Helpers.Helper.IsManager() != true)
             {
@@ -161,7 +161,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             var model = new NguyenLieuViewModel
             {
                 listDVT = DVT.SelectAll().Where(x => x.IsDelete != true),
-                listLoaiSP = LoaiSP.SelectAll().Where(x => x.IsDelete != true)
+                listLoaiSP = LoaiSP.SelectAll().Where(x => x.IsDelete != true && x.IsProducts == true)
             };
             return View(model);
         }
@@ -216,8 +216,8 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         {
             var model = new NguyenLieuViewModel();
             var _nguyenlieu = NguyenLieu.SelectById(Id);
-            model.listDVT = DVT.SelectAll();
-            model.listLoaiSP = LoaiSP.SelectAll();
+            model.listDVT = DVT.SelectAll().Where(x => x.IsDelete != true);
+            model.listLoaiSP = LoaiSP.SelectAll().Where(x => x.IsDelete != true && x.IsProducts == true);
             AutoMapper.Mapper.Map(_nguyenlieu, model);
             return View(model);
         }
