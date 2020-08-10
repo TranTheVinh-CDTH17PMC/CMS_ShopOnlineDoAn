@@ -20,16 +20,26 @@
 
     </script>
 }
-@helper ButtonEdit(string name,bool IsType,int id)
+@helper ButtonEdit(string name,bool IsType,int id,bool loai)
 {
-    if (IsType == true)
+if (IsType == true)
+{
+    if (loai == true)
     {
-            <button onclick="NameType('@name',@id)" class="btn btn-primary" title="Chỉnh sửa" style="margin-left:-8px;margin-right:9px;" type="button" data-toggle="modal" data-target="#myModalType">
+            <button onclick="NameType('@name',@id,true)" class="btn btn-primary" title="Chỉnh sửa" style="margin-left:-8px;margin-right:9px;" type="button" data-toggle="modal" data-target="#myModalType">
                 <i class="fas fa-pencil-alt"></i>
             </button>
     }
-    if (IsType == false)
+    if (loai == false)
     {
+            <button onclick="NameType('@name',@id,false)" class="btn btn-primary" title="Chỉnh sửa" style="margin-left:-8px;margin-right:9px;" type="button" data-toggle="modal" data-target="#myModalType">
+                <i class="fas fa-pencil-alt"></i>
+            </button>
+    }
+
+}
+if (IsType == false)
+{
             <button onclick="NameUnit('@name',@id)" class="btn btn-primary" title="Chỉnh sửa" style="margin-left:-8px;margin-right:9px;" type="button" data-toggle="modal" data-target="#myModalUnit">
                 <i class="fas fa-pencil-alt"></i>
             </button>
@@ -44,6 +54,17 @@
     if (Status == false)
     {
             <span class="badge badge-primary">Hoạt động</span>
+    }
+}
+@helper Loai(bool? Status)
+{
+    if (Status == true)
+    {
+            <span class="">Thành phẩm</span>
+    }
+    if (Status == false)
+    {
+            <span class="">Nguyên liệu</span>
     }
 }
 <div class="container">
@@ -69,15 +90,16 @@
             {
                 <div class="table-responsive">
                     @Html.Grid(ListType).Columns(columns =>
-                    {
+                   {
+                       columns.Add().Titled("Loại").Sanitized(false).Encoded(false).RenderValueAs(x => Loai(x.IsProducts));
                        columns.Add().Titled("Trạng thái").Sanitized(false).Encoded(false).RenderValueAs(x => Delete(x.IsDelete));
                        columns.Add(x => x.Ten).Titled("Tên loại sản phẩm").SetWidth(280);
                        columns.Add().Titled("Tùy chỉnh").Css("text center")
                         .Encoded(false)
                         .Sanitized(false)
                         .SetWidth(100)
-                        .RenderValueAs(x => (ButtonEdit(x.Ten, true, x.Id)).ToString() + (ButtonDelete(x.Id)).ToString());
-                    }).WithPaging(5)
+                        .RenderValueAs(x => (ButtonEdit(x.Ten, true, x.Id,x.IsProducts)).ToString() + (ButtonDelete(x.Id)).ToString());
+                   }).WithPaging(10)
                 </div>
             }
         </div>
@@ -94,8 +116,8 @@
                         .Encoded(false)
                         .Sanitized(false)
                         .SetWidth(100)
-                        .RenderValueAs(x => (ButtonEdit(x.Ten, false, x.Id)).ToString() + (ButtonDelete(x.Id)).ToString());
-                    }).WithPaging(5)
+                        .RenderValueAs(x => (ButtonEdit(x.Ten, false, x.Id,true)).ToString() + (ButtonDelete(x.Id)).ToString());
+                    }).WithPaging(10)
                 </div>
            }
         </div>
@@ -117,6 +139,13 @@
                     <div class="md-form mb-5">
                         <label data-error="wrong" data-success="right" for="defaultForm-email">Tên loại</label>
                         <input id="NameType" class="form-control validate" name="NameUnit">
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" data-val="true" id="IsProducts" name="IsProducts" type="checkbox" value="true">
+                        <input name="IsProducts" type="hidden" value="false">
+                        <label class="form-check-label" for="exampleRadios1">
+                            Thành phẩm
+                        </label>
                     </div>
                     <button class="btn btn-mini btn-primary" type="submit" name="SubmitType" id="btnNameType">
                         <i class="ace-icon fa fa-save"></i> Lưu
@@ -158,15 +187,30 @@
         else
             return false;
     };
-    function NameType(name,id)
+    function NameType(name,id,loai)
     {
         debugger
         $('#NameType').val(name);
         $('#btnNameType').val(id);
+        if(loai == true)
+        {
+            $("#IsProducts").prop('checked', true);
+        }
+        else
+        {
+            $("#IsProducts").prop('checked', false);
+        }
     }
     function NameUnit(name,id) {
         debugger
         $('#NameUnit').val(name);
         $('#btnNameUnit').val(id);
     }
+    $("#IsProducts").change(function () {
+        if ($(this).is(':checked')) {
+            $("#IsProducts").val(true);
+        } else {
+            $("#IsProducts").val(false);
+        }
+    });
 </script>

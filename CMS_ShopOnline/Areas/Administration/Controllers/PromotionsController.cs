@@ -88,7 +88,7 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
             model.NgayBD = km.NgayBD;
             model.NgayKT = km.NgayKT;
             model.GhiChu = km.GhiChu;
-            var details = CTKhuyenMai.SelectAll().Where(x=>x.IdKhuyenMai == km.Id).Select(
+            var details = CTKhuyenMai.SelectAll().Where(x=>x.IdKhuyenMai == km.Id && x.IsDelete != true).Select(
                 item => new CTKhuyenMaiViewModel
                 {
                     Id = item.Id,
@@ -164,7 +164,7 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
                 check = true;
             }
             ViewBag.CheckKM = check;
-            ViewBag.LoaiSp = LoaiSP.SelectAll().Where(x => x.IsDelete != true);
+            ViewBag.LoaiSp = LoaiSP.SelectAll().Where(x => x.IsDelete != true && x.IsProducts == true);
             return View();
         }
         [HttpPost]
@@ -224,8 +224,10 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
                 }
                 else
                 {
+                   
                     for (var i = 1; i < model.ListCTkm.Count; i++)
                     {
+                        DeleteCTKM(model.ListCTkm[i].IdLoaiSP);
                         var ctkm = new CTKhuyenmai();
                         ctkm.IdKhuyenMai = km.Id;
                         ctkm.IdLoaiSP = model.ListCTkm[i].IdLoaiSP;
@@ -242,6 +244,7 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
                             ctkm.IsPhanTram = false;
                             ctkm.IsTienMat = true;
                         }
+                        ctkm.IsDelete = false;
                         CTKhuyenMai.Insert(ctkm);
                         CTKhuyenMai.Save();
                     }
@@ -255,29 +258,75 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
             
             return View();
         }
+        public void DeleteCTKM(int? idloai)
+        {
+            if(idloai != null)
+            {
+                var model = KhuyenMai.SelectAll().Where(x => x.IsDelete != true);
+                foreach (var item in model)
+                {
+                    var model2 = CTKhuyenMai.SelectAll().Where(x => x.IsDelete != true && x.IdKhuyenMai == item.Id);
+                    foreach (var item2 in model2)
+                    {
+                        var temp = ThanhPham.SelectById(item2.IdThanhPham);
+                        if (temp.IdLoai == idloai)
+                        {
+                            item2.IsDelete = true;
+                        }
+                    }
+                }
+            }
+        }
+        public int CheckCTKM(int? idtp)
+        {
+            var kq = 0;
+            var loaisp = ThanhPham.SelectById(idtp);
+            var maloai = loaisp.IdLoai;
+            if (idtp != null)
+            {
+                var model = KhuyenMai.SelectAll().Where(x => x.IsDelete != true);
+                foreach (var item in model)
+                {
+                    var model2 = CTKhuyenMai.SelectAll().Where(x => x.IsDelete != true && x.IdKhuyenMai == item.Id && x.IdLoaiSP == maloai).Count();
+                    if(model2 != 0)
+                    {
+                        kq = 1;
+                        break;
+                    }
+                }
+            }
+            return kq;
+        }
         public ActionResult Checktontai(int? idtp,string idloai)
         {
             var checksl = 0;
             if (idloai == "thanhpham")
             {
-                var q = KhuyenMai.SelectAll().Where(x => x.IsDelete != true);
-                var a = q.Count();
-                foreach (var item in q)
+                if(CheckCTKM(idtp) == 0)
                 {
-                    var x = CTKhuyenMai.SelectAll().Where(y => y.IdKhuyenMai == item.Id && y.IdThanhPham == idtp).Count();
-                    if (x == 0)
+                    var q = KhuyenMai.SelectAll().Where(x => x.IsDelete != true);
+                    var a = q.Count();
+                    foreach (var item in q)
+                    {
+                        var x = CTKhuyenMai.SelectAll().Where(y => y.IdKhuyenMai == item.Id && y.IdThanhPham == idtp && y.IsDelete != true).Count();
+                        if (x == 0)
+                        {
+                            checksl = 1;
+                        }
+                        else
+                        {
+                            checksl = 0;
+                            break;
+                        }
+                    }
+                    if (a == 0)
                     {
                         checksl = 1;
                     }
-                    else
-                    {
-                        checksl = 0;
-                        break;
-                    }
                 }
-                if (a == 0)
+                else
                 {
-                    checksl = 1;
+                    checksl = 0;
                 }
             }
             if (idloai == "loaisp")
@@ -286,7 +335,7 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
                 var a = q.Count();
                 foreach (var item in q)
                 {
-                    var x = CTKhuyenMai.SelectAll().Where(y => y.IdKhuyenMai == item.Id && y.IdLoaiSP == idtp).Count();
+                    var x = CTKhuyenMai.SelectAll().Where(y => y.IdKhuyenMai == item.Id && y.IdLoaiSP == idtp && y.IsDelete != true).Count();
                     if (x == 0)
                     {
                         checksl = 1;

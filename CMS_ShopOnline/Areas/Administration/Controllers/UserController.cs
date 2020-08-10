@@ -60,7 +60,7 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
                 if (IsAu)
                 { 
                     var user = _NhanVien.GetByUserName(login.Username);
-                    if(user.SLDNSai >= 5)
+                    if(user.SLDNSai >= 5 && user.IsDelete == true)
                     {
                         ModelState.AddModelError("", "Tài khoản bị khóa.Vui lòng liên hệ quản lí!!!");
                         return View(login);

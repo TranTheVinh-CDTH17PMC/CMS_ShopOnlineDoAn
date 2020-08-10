@@ -111,7 +111,6 @@
     @RenderSection("Scripts", required: false)
     <script>
         function change(idthis, idthat) {
-            debugger
             var el = idthis.value.replace(/[.]/g, '');
             $("#" + idthat + "").val(el);
         }

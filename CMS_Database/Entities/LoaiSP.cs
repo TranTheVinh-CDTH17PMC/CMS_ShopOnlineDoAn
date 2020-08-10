@@ -22,6 +22,7 @@ namespace CMS_Database.Entities
         public string Ten { get; set; }
 
         public bool? IsDelete { get; set; }
+        public bool IsProducts { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<NguyenLieu> NguyenLieu { get; set; }

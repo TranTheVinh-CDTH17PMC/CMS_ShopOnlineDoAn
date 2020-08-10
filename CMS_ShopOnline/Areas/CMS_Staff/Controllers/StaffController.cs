@@ -137,6 +137,10 @@ namespace CMS_ShopOnline.Areas.CMS_Staff.Controllers
             var user = NhanVien.SelectById(model.Id);
             if(user!=null)
             {
+                if(model.MatKhau != null)
+                {
+                    WebSecurity.ChangePassword(model.TenTaiKhoan, "123", model.MatKhau);
+                }
                 if(user.TenTaiKhoan==model.TenTaiKhoan)
                 {
                     user.TenNV = model.TenNV;

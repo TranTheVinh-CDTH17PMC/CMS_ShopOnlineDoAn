@@ -102,7 +102,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             {
                 listNguyenLieu = NguyenLieu.SelectAll().Where(x => x.IsDelete != true)
             };
-            ViewBag.listloai = LoaiSP.SelectAll().Where(x => x.IsDelete != true).ToList();
+            ViewBag.listloai = LoaiSP.SelectAll().Where(x => x.IsDelete != true && x.IsProducts != true).ToList();
             return View(model);
         }
         [HttpPost]

@@ -302,12 +302,20 @@ function GetProducts(id)
         contentType: 'application/json; charset=utf-8',
         data: { Id: id },
         success: function (data) {
+            console.log(data);
             var html = "";
             $.each(data, function (key, item) {
                 html += '<div class="col-md-3" style="padding:10px">';
                 html += '<div class="content">';
-                html += '<a onclick="SelectProducts('+item.Id+');">';
-                html += '<img src="/Areas/CMS_Sale/Image/ThanhPham/' + item.HinhAnh + '" alt="Mountains" style="width:100%">';
+                html += '<a onclick="SelectProducts(' + item.Id + ');">';
+                if (item.Khuyenmai != "")
+                {
+                    html += '<span class="notify-badge">'+item.Khuyenmai+'</span><img src="/Areas/CMS_Sale/Image/ThanhPham/' + item.HinhAnh + '" alt="Mountains" style="width:100%">';
+                }
+                if (item.Khuyenmai == "")
+                {
+                    html += '<img src="/Areas/CMS_Sale/Image/ThanhPham/' + item.HinhAnh + '" alt="Mountains" style="width:100%">';
+                }
                 html += '</a><h4>' + item.Ten + '</h4>';
                 html += '<p>' + number_format(item.DonGia) + '</p>';
                 html += '</div></div>';

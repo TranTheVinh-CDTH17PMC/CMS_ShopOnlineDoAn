@@ -21,6 +21,12 @@
                                 <label>Tên loại sản phẩm</label>
                                 @Html.TextBoxFor(model => model.Ten, new { @class = "form-control" })
                             </div>
+                            <div class="form-check">
+                                @Html.CheckBoxFor(model => model.IsProducts, new { @class = "form-check-input" })
+                                <label class="form-check-label" for="exampleRadios1">
+                                    Thành phẩm
+                                </label>
+                            </div>
                             <button class="btn btn-mini btn-primary" id="Save" type="submit" name="Submit">
                                 <i class="ace-icon fa fa-save"></i> Lưu
                             </button>

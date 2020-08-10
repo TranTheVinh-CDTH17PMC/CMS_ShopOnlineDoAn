@@ -26,6 +26,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Models
         public double? DonGia { get; set; }
 
         public bool? IsDelete { get; set; }
+        public string Khuyenmai { get; set; }
 
         public IEnumerable<LoaiSP> listLoaiSP { get; set; }
         public IEnumerable<DonViTinh> listDVT { get; set; }

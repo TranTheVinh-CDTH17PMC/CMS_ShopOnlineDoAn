@@ -65,7 +65,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 }
             ).ToList().OrderByDescending(x => x.NgayTao);
             ViewBag.ncc = NhaCungCap.SelectAll().Where(x => x.IsDelete != true);
-            ViewBag.nhanvien = NhanVien.SelectAll();
+            ViewBag.nhanvien = NhanVien.SelectAll().Where(x=>x.IsDelete !=true);
             if(name!=null && name!=0)
             {
                 model = model.Where(x => x.Id == name);
@@ -136,7 +136,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 listNhaCungCap = NhaCungCap.SelectAll().Where(x => x.IsDelete != true)
             };
             
-            ViewBag.listloai = LoaiSP.SelectAll().Where(x => x.IsDelete != true).ToList();
+            ViewBag.listloai = LoaiSP.SelectAll().Where(x => x.IsDelete != true && x.IsProducts !=true).ToList();
             return View(model);
         }
         [HttpPost]

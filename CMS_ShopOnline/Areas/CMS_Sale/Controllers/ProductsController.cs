@@ -57,7 +57,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 {
                     model = model.Where(x => x.IsDelete != true);
                 }
-                ViewBag.LoaiSP = LoaiSP.SelectAll().Where(x=>x.IsDelete!=true);
+                ViewBag.LoaiSP = LoaiSP.SelectAll().Where(x=>x.IsDelete!=true && x.IsProducts == true);
                 if (IdLoaiSP != null)
                 {
                     model = model.Where(x => x.IdLoai == IdLoaiSP).ToList();
@@ -92,8 +92,8 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         {
             var model = new ThanhPhamViewModel
             {
-                listDVT = DVT.SelectAll(),
-                listLoaiSP = LoaiSP.SelectAll()
+                listDVT = DVT.SelectAll().Where(x => x.IsDelete != true),
+                listLoaiSP = LoaiSP.SelectAll().Where(x => x.IsDelete != true && x.IsProducts == true)
             };
             return View(model);
         }
@@ -149,8 +149,8 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             {
                 var model = new ThanhPhamViewModel();
                 AutoMapper.Mapper.Map(_tp, model);
-                model.listLoaiSP = LoaiSP.SelectAll();
-                model.listDVT = DVT.SelectAll();
+                model.listLoaiSP = LoaiSP.SelectAll().Where(x => x.IsDelete != true && x.IsProducts == true);
+                model.listDVT = DVT.SelectAll().Where(x => x.IsDelete != true);
                 return View(model);
             }
             return View();

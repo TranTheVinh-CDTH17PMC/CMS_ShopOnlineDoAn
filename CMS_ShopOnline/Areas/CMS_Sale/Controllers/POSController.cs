@@ -74,12 +74,71 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             }
             return name;
         }
+        public string Checkhuyenmailoai(int? id)
+        {
+            var check = "";
+            var model = KhuyenMai.SelectAll().Where(x => x.IsDelete != true);
+            foreach(var item in model)
+            {
+                var details = CTKhuyenMai.SelectAll().Where(x => x.IdKhuyenMai == item.Id);
+                foreach(var item2 in details)
+                {
+                    if (item2.IdLoaiSP == id)
+                    {
+                        if(item2.IsPhanTram == true)
+                        {
+                            check = item2.TienGiam.ToString()+"%";
+                        }
+                        if (item2.IsTienMat == true)
+                        {
+                            check = item2.TienGiam.ToString() + "VND";
+                        }
+                        break;
+                    }
+                }
+            }
+            return check;
+        }
+        public string Checkhuyenmaisp(int? id)
+        {
+            var check = "";
+            var model = KhuyenMai.SelectAll().Where(x => x.IsDelete != true);
+            foreach (var item in model)
+            {
+                var details = CTKhuyenMai.SelectAll().Where(x => x.IdKhuyenMai == item.Id);
+                foreach (var item2 in details)
+                {
+                    if (item2.IdThanhPham == id)
+                    {
+                        if (item2.IsPhanTram == true)
+                        {
+                            check = item2.TienGiam.ToString() + "%";
+                        }
+                        if (item2.IsTienMat == true)
+                        {
+                            check = item2.TienGiam.ToString() + "VND";
+                        }
+                        break;
+                    }
+                }
+            }
+            return check;
+        }
         //
         //
         // GET: /CMS_Sale/POS/
         public ActionResult Index()
         {
-            ViewBag.ListType = LoaiSP.SelectAll().Where(x => x.IsDelete != true);
+            IEnumerable<TypeViewModel> ListType = LoaiSP.SelectAll().Where(x => x.IsDelete != true && x.IsProducts == true).Select(
+                 item => new TypeViewModel
+                 {
+                     Id = item.Id,
+                     Ten = item.Ten,
+                     IsDelete = item.IsDelete,
+                     IsProducts = item.IsProducts,
+                     Khuyenmai = Checkhuyenmailoai(item.Id)
+                 });
+            ViewBag.ListType = ListType;
             ViewBag.SuccessMessage = TempData["SuccessMessage"];
             return View();
         }
@@ -266,7 +325,8 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 DonGia = item.DonGia,
                 IdDVT = item.IdDVT,
                 TenDVT = item.DonViTinh.Ten,
-                IsDelete = item.IsDelete
+                IsDelete = item.IsDelete,
+                Khuyenmai = Checkhuyenmaisp(item.Id)
             });
             return Json(model, JsonRequestBehavior.AllowGet);
         }
