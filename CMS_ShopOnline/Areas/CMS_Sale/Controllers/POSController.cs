@@ -80,7 +80,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             var model = KhuyenMai.SelectAll().Where(x => x.IsDelete != true);
             foreach(var item in model)
             {
-                var details = CTKhuyenMai.SelectAll().Where(x => x.IdKhuyenMai == item.Id);
+                var details = CTKhuyenMai.SelectAll().Where(x => x.IdKhuyenMai == item.Id && x.IsDelete != true);
                 foreach(var item2 in details)
                 {
                     if (item2.IdLoaiSP == id)
@@ -105,7 +105,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             var model = KhuyenMai.SelectAll().Where(x => x.IsDelete != true);
             foreach (var item in model)
             {
-                var details = CTKhuyenMai.SelectAll().Where(x => x.IdKhuyenMai == item.Id);
+                var details = CTKhuyenMai.SelectAll().Where(x => x.IdKhuyenMai == item.Id && x.IsDelete != true);
                 foreach (var item2 in details)
                 {
                     if (item2.IdThanhPham == id)
@@ -343,7 +343,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 var listkm = KhuyenMai.SelectAll().Where(x => x.IsDelete != true);
                 foreach (var item in listkm)
                 {
-                    var listctkm = CTKhuyenMai.SelectAll().Where(x => x.IdKhuyenMai == item.Id);
+                    var listctkm = CTKhuyenMai.SelectAll().Where(x => x.IdKhuyenMai == item.Id && x.IsDelete != true);
                     foreach (var ctitem in listctkm)
                     {
                         if (item.IsAll == true && sl >= ctitem.SLToithieu)
