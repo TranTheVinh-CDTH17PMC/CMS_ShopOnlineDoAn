@@ -279,9 +279,27 @@ function SelectProducts(id)
             }
             else
             {
+                debugger
                 var num1 = $("#Count_" + id + "").val();
                 var answer = parseInt(num1) + 1;
                 $("#Count_" + id + "").val(answer);
+                
+                $.ajax({
+                    url: "/POS/Checksoluong/",
+                    dataType: "json",
+                    type: "GET",
+                    contentType: 'application/json; charset=utf-8',
+                    data: { Id: id, soluong: answer },
+                    success: function (data) {
+                        debugger
+                        var checknumber = number_format(data);
+                        var value = $("#Dongia_" + id + "").text(checknumber);
+                        var x = $("#Price_" + id + "").val(data);
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                });
                 TotalMoney(id);
                 calcTotalAmount();
             }
