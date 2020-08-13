@@ -402,10 +402,5 @@ function filterFunction() {
         }
     }
 }
-$('#search-pro-box').keypress(function (e) {
-    if (e.which == 113) {
-        e.preventDefault();
-    }
-});
 
 document.addEventListener('keyup', hotkey, false);
