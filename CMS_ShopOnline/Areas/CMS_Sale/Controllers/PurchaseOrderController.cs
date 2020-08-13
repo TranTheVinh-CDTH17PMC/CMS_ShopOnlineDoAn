@@ -210,7 +210,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             var i = 1;
             string list = "<thead><tr>";
             list = "<th>STT</th><th class=\"desc\">Mã</th>\r\n";
-            list += " <th>Ngày tạo</th><th>Tên NV</th><th>Tên KH</th><th>Tổng tiền</th></thead><tbody>\r\n";
+            list += " <th>Ngày tạo</th><th>Tên NV</th><th>Tên KH</th><th>Tổng tiền</th><th>Tổng KM</th></thead><tbody>\r\n";
             foreach (var item in ls)
             {
                 list += "<tr><td class=\"service\">" + i + "</td>\r\n";
@@ -218,7 +218,8 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 list += " <td class=\"qty\">" + item.NgayTao + "</td>\r\n";
                 list += " <td class=\"qty\">" + item.TenNV + "</td>\r\n";
                 list += " <td class=\"unit\">" + item.TenKH + "</td>\r\n";
-                list += "<td class=\"total\">" + item.TongTien + "</td>\r\n";
+                list += "<td class=\"total\">" + Helpers.Helper.ToCurrencyStr(item.TongTien, "0") + "</td>\r\n";
+                list += "<td class=\"total\">" + Helpers.Helper.ToCurrencyStr(item.TongKM, "0") + "</td>\r\n";
                 list += "</tr>\r\n";
                 i++;
             }

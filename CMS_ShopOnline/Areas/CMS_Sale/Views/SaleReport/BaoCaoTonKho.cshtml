@@ -155,7 +155,7 @@ else
                             <div class="grid-footer">
                                 <div class="grid-pager">
                                     Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) trên @Model.PageCount
-                                    @Html.PagedListPager(Model, page => Url.Action("Index",
+                                    @Html.PagedListPager(Model, page => Url.Action("BaoCaoTonKho",
                                     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
                                 </div>
                             </div>

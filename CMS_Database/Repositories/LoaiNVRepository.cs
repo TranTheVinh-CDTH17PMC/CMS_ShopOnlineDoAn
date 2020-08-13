@@ -8,7 +8,11 @@ using System.Threading.Tasks;
 
 namespace CMS_Database.Repositories
 {
-    public class LoaiNVRepository : GenericRepository<LoaiNV>,ILoaiNV
+    public class LoaiNVRepository : GenericRepository<LoaiNV>, ILoaiNV
     {
+        public LoaiNV Selectbyname(string name)
+        {
+            return _db.LoaiNV.FirstOrDefault(x => x.TenCode == name);
+        }
     }
 }

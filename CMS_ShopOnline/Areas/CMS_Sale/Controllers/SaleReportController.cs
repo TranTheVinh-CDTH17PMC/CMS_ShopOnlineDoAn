@@ -15,6 +15,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using CMS_ShopOnline.Helpers;
 
 namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
 {
@@ -25,16 +26,22 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         private readonly INguyenLieu NguyenLieu;
         private DateTime datetimesetting = new DateTime(2010, 10, 10, 1, 1, 1);
         private readonly ITemplatePrint TemplatePrint;
+        private readonly ILoaiSP LoaiSP;
+        private readonly IDonViTinh DonViTinh;
 
         public SaleReportController()
         {
             NguyenLieu = new NguyenLieuRepository();
             TemplatePrint = new TemplatePrintRepository();
+            LoaiSP = new LoaiSPRepository();
+            DonViTinh = new DonViTinhRepository();
         }
-        public SaleReportController(INguyenLieu _NguyenLieu, ITemplatePrint _TemplatePrint)
+        public SaleReportController(IDonViTinh _DonViTinh, ILoaiSP _LoaiSP,INguyenLieu _NguyenLieu, ITemplatePrint _TemplatePrint)
         {
             NguyenLieu = _NguyenLieu;
             TemplatePrint = _TemplatePrint;
+            DonViTinh = _DonViTinh;
+            LoaiSP = _LoaiSP;
         }
         // GET: CMS_Sale/SaleReport
         public ActionResult TopSanPhamBanChay(string startDate, string endDate, string sortOrder, string currentFilter, string searchString, int? page)
@@ -51,9 +58,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             ViewBag.CurrentFilter = searchString;
             if (startDate == null && endDate == null && startDate != "" && endDate != "")
             {
-                DateTime aDateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+                DateTime aDateTime = Helpers.Helper.GetFistDayInMonth(DateTime.Now.Year, DateTime.Now.Month);
                 // Cộng thêm 1 tuần và trừ đi một ngày.
-                DateTime retDateTime = aDateTime.AddDays(7).AddDays(-1);
+                DateTime retDateTime = Helpers.Helper.GetLastDayInMonth(DateTime.Now.Year, DateTime.Now.Month);
                 startDate = aDateTime.ToString("dd/MM/yyyy");
                 endDate = retDateTime.ToString("dd/MM/yyyy");
             }
@@ -64,6 +71,13 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 {
                     d_endDate = d_endDate.AddHours(23).AddMinutes(59);
                     var model = _db.Database.SqlQuery<TopSanPhamBanChay>("exec topspbanchay @batdau,@ketthuc", new SqlParameter("@batdau", d_startDate), new SqlParameter("@ketthuc", d_endDate)).ToList();
+                    foreach(var item in model)
+                    {
+                        var loaisp = LoaiSP.SelectById(item.IdLoai);
+                        var dvt = DonViTinh.SelectById(item.IdDVT);
+                        item.TenLoai = loaisp.Ten;
+                        item.TenDVT = dvt.Ten;
+                    }
                     int pageSize = 10;
                     int pageNumber = (page ?? 1);
                     return View(model.ToPagedList(pageNumber, pageSize));
@@ -74,6 +88,13 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 var model = _db.Database.SqlQuery<TopSanPhamBanChay>("exec topspbanchay @batdau,@ketthuc", new SqlParameter("@batdau", startDate), new SqlParameter("@ketthuc", endDate)).ToList();
                 int pageSize = 5;
                 int pageNumber = (page ?? 1);
+                foreach (var item in model)
+                {
+                    var loaisp = LoaiSP.SelectById(item.IdLoai);
+                    var dvt = DonViTinh.SelectById(item.IdDVT);
+                    item.TenLoai = loaisp.Ten;
+                    item.TenDVT = dvt.Ten;
+                }
                 return View(model.ToPagedList(pageNumber, pageSize));
             }
 
@@ -93,9 +114,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             ViewBag.CurrentFilter = searchString;
             if (startDate == null && endDate == null && startDate != "" && endDate != "")
             {
-                DateTime aDateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+                DateTime aDateTime = Helpers.Helper.GetFistDayInMonth(DateTime.Now.Year, DateTime.Now.Month);
                 // Cộng thêm 1 tuần và trừ đi một ngày.
-                DateTime retDateTime = aDateTime.AddDays(7).AddDays(-1);
+                DateTime retDateTime = Helpers.Helper.GetLastDayInMonth(DateTime.Now.Year, DateTime.Now.Month);
                 startDate = aDateTime.ToString("dd/MM/yyyy");
                 endDate = retDateTime.ToString("dd/MM/yyyy");
             }
@@ -108,6 +129,13 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     var model = _db.Database.SqlQuery<TopSanPhamBanCham>("exec topsanphambancham @batdau,@ketthuc", new SqlParameter("@batdau", d_startDate), new SqlParameter("@ketthuc", d_endDate)).ToList();
                     int pageSize = 10;
                     int pageNumber = (page ?? 1);
+                    foreach (var item in model)
+                    {
+                        var loaisp = LoaiSP.SelectById(item.IdLoai);
+                        var dvt = DonViTinh.SelectById(item.IdDVT);
+                        item.TenLoai = loaisp.Ten;
+                        item.TenDVT = dvt.Ten;
+                    }
                     return View(model.ToPagedList(pageNumber, pageSize));
                 }
             }
@@ -116,6 +144,13 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 var model = _db.Database.SqlQuery<TopSanPhamBanCham>("exec topsanphambancham @batdau,@ketthuc", new SqlParameter("@batdau", startDate), new SqlParameter("@ketthuc", endDate)).ToList();
                 int pageSize = 10;
                 int pageNumber = (page ?? 1);
+                foreach (var item in model)
+                {
+                    var loaisp = LoaiSP.SelectById(item.IdLoai);
+                    var dvt = DonViTinh.SelectById(item.IdDVT);
+                    item.TenLoai = loaisp.Ten;
+                    item.TenDVT = dvt.Ten;
+                }
                 return View(model.ToPagedList(pageNumber, pageSize));
             }
 
@@ -404,9 +439,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 {
                     if (startDate == null && endDate == null || startDate == "" && endDate == "")
                     {
-                        DateTime aDateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+                        DateTime aDateTime = Helpers.Helper.GetFistDayInMonth(DateTime.Now.Year, DateTime.Now.Month);
                         // Cộng thêm 1 tuần và trừ đi một ngày.
-                        DateTime retDateTime = aDateTime.AddDays(7).AddDays(-1);
+                        DateTime retDateTime = Helpers.Helper.GetLastDayInMonth(DateTime.Now.Year, DateTime.Now.Month);
                         startDate = aDateTime.ToString("dd/MM/yyyy");
                         endDate = retDateTime.ToString("dd/MM/yyyy");
                     }
@@ -415,6 +450,13 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                         if (DateTime.TryParseExact(endDate, "dd/MM/yyyy", new CultureInfo("vi-VN"), DateTimeStyles.None, out d_endDate))
                         {
                            var modellist = _db.Database.SqlQuery<TopSanPhamBanChay>("exec topspbanchay @batdau,@ketthuc", new SqlParameter("@batdau", d_startDate), new SqlParameter("@ketthuc", d_endDate)).ToList();
+                            foreach (var item in modellist)
+                            {
+                                var loaisp = LoaiSP.SelectById(item.IdLoai);
+                                var dvt = DonViTinh.SelectById(item.IdDVT);
+                                item.TenLoai = loaisp.Ten;
+                                item.TenDVT = dvt.Ten;
+                            }
                             model.Content = model.Content.Replace("{Table}", BuildHtmlspbanchay(modellist));
                             model.Content = model.Content.Replace("{NamePrint}", "Top 5 sản phẩm bán chạy");
                             model.Content = model.Content.Replace("{NameStaff}", Helpers.Helper.CurrentUser.TenNV);
@@ -438,6 +480,13 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     else
                     {
                         var modellist  = _db.Database.SqlQuery<TopSanPhamBanChay>("exec topspbanchay @batdau,@ketthuc", new SqlParameter("@batdau", startDate), new SqlParameter("@ketthuc", endDate)).ToList();
+                        foreach (var item in modellist)
+                        {
+                            var loaisp = LoaiSP.SelectById(item.IdLoai);
+                            var dvt = DonViTinh.SelectById(item.IdDVT);
+                            item.TenLoai = loaisp.Ten;
+                            item.TenDVT = dvt.Ten;
+                        }
                         model.Content = model.Content.Replace("{Table}", BuildHtmlspbanchay(modellist));
                         model.Content = model.Content.Replace("{NamePrint}", "Top 5 sản phẩm bán chạy");
                         model.Content = model.Content.Replace("{NameStaff}", Helpers.Helper.CurrentUser.TenNV);
@@ -463,9 +512,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 {
                     if (startDate == null && endDate == null || startDate == "" && endDate == "")
                     {
-                        DateTime aDateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+                        DateTime aDateTime = Helpers.Helper.GetFistDayInMonth(DateTime.Now.Year, DateTime.Now.Month);
                         // Cộng thêm 1 tuần và trừ đi một ngày.
-                        DateTime retDateTime = aDateTime.AddDays(7).AddDays(-1);
+                        DateTime retDateTime = Helpers.Helper.GetLastDayInMonth(DateTime.Now.Year, DateTime.Now.Month);
                         startDate = aDateTime.ToString("dd/MM/yyyy");
                         endDate = retDateTime.ToString("dd/MM/yyyy");
                     }
@@ -475,6 +524,13 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                         {
                             encoding = Encoding.UTF8;
                             var modellist = _db.Database.SqlQuery<TopSanPhamBanCham>("exec topsanphambancham @batdau,@ketthuc", new SqlParameter("@batdau", d_startDate), new SqlParameter("@ketthuc", d_endDate)).ToList();
+                            foreach (var item in modellist)
+                            {
+                                var loaisp = LoaiSP.SelectById(item.IdLoai);
+                                var dvt = DonViTinh.SelectById(item.IdDVT);
+                                item.TenLoai = loaisp.Ten;
+                                item.TenDVT = dvt.Ten;
+                            }
                             model.Content = model.Content.Replace("{Table}", BuildHtmlspbancham(modellist));
                             model.Content = model.Content.Replace("{NamePrint}", "Top 5 sản phẩm bán chậm");
                             model.Content = model.Content.Replace("{NameStaff}", Helpers.Helper.CurrentUser.TenNV);
@@ -498,6 +554,13 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     else
                     {
                         var modellist = _db.Database.SqlQuery<TopSanPhamBanCham>("exec topsanphambancham @batdau,@ketthuc", new SqlParameter("@batdau", startDate), new SqlParameter("@ketthuc", endDate)).ToList();
+                        foreach (var item in modellist)
+                        {
+                            var loaisp = LoaiSP.SelectById(item.IdLoai);
+                            var dvt = DonViTinh.SelectById(item.IdDVT);
+                            item.TenLoai = loaisp.Ten;
+                            item.TenDVT = dvt.Ten;
+                        }
                         model.Content = model.Content.Replace("{Table}", BuildHtmlspbancham(modellist));
                         model.Content = model.Content.Replace("{NamePrint}", "Top 5 sản phẩm bán chậm");
                         model.Content = model.Content.Replace("{NameStaff}", Helpers.Helper.CurrentUser.TenNV);
@@ -543,13 +606,13 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 list += " <td class=\"qty\">"+item.TenLoai+"</td>\r\n";
                 list += "<td class=\"total\">"+item.TenDVT+"</td>\r\n";
                 list += "<td class=\"total\">" + item.SoLuongKho + "</td>\r\n";
-                list += "<td class=\"total\">" + item.DonGia + "</td>\r\n";
+                list += "<td class=\"total\">" + Helpers.Helper.ToCurrencyStr(item.DonGia,"0") + "</td>\r\n";
                 list += "</tr>\r\n";
                 i++;
                 tongbill += item.DonGia * item.SoLuongKho;
             }
             list += "<tr><td colspan=\"7\"class=\"grand total\">Tổng tiền</td>\r\n";
-            list += " <td class=\"grand total\">"+ tongbill + "</td></tr></tbody>\r\n";
+            list += " <td class=\"grand total\">"+ Helpers.Helper.ToCurrencyStr(tongbill,"0") + "</td></tr></tbody>\r\n";
             return list;
         }
         string BuildHtmlspbanchay(List<TopSanPhamBanChay> ls)
@@ -564,9 +627,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 list += "<tr><td class=\"service\">" + i + "</td>\r\n";
                 list += "<td class=\"desc\">" + item.Id + "</td>\r\n";
                 list += " <td class=\"unit\">" + item.Ten + "</td>\r\n";
-                list += " <td class=\"unit\">" + item.DonGia + "</td>\r\n";
-                list += "<td class=\"total\">" + item.IdDVT + "</td>\r\n";
-                list += " <td class=\"qty\">" + item.IdLoai + "</td>\r\n";
+                list += " <td class=\"unit\">" + Helpers.Helper.ToCurrencyStr(item.DonGia,"0") + "</td>\r\n";
+                list += "<td class=\"total\">" + item.TenDVT + "</td>\r\n";
+                list += " <td class=\"qty\">" + item.TenLoai + "</td>\r\n";
                 list += "<td class=\"total\">" + item.Tongsl + "</td>\r\n";
                 list += "</tr>\r\n";
                 i++;
@@ -585,9 +648,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 list += "<tr><td>" + i + "</td>\r\n";
                 list += "<td >" + item.Id + "</td>\r\n";
                 list += " <td >" + item.Ten + "</td>\r\n";
-                list += " <td >" + item.DonGia + "</td>\r\n";
-                list += "<td >" + item.IdDVT + "</td>\r\n";
-                list += " <td >" + item.IdLoai + "</td>\r\n";
+                list += " <td >" + Helpers.Helper.ToCurrencyStr(item.DonGia, "0") + "</td>\r\n";
+                list += "<td >" + item.TenDVT + "</td>\r\n";
+                list += " <td >" + item.TenLoai + "</td>\r\n";
                 list += "<td >" + item.Tongsl + "</td>\r\n";
                 list += "</tr>\r\n";
                 i++;
@@ -605,12 +668,15 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             {
                 list += "<tr><td class=\"service\">" + i + "</td>\r\n";
                 list += "<td class=\"desc\">" + item.Ngay+ "</td>\r\n";
-                list += " <td class=\"unit\">" + item.Tongthu + "</td>\r\n";
-                list += " <td class=\"unit\">" + item.Tongchi + "</td>\r\n";
-                list += "<td class=\"total\">" + item.Loinhuan + "</td>\r\n";
+                list += " <td class=\"unit\">" + Helpers.Helper.ToCurrencyStr(item.Tongthu, "0") + "</td>\r\n";
+                list += " <td class=\"unit\">" + Helpers.Helper.ToCurrencyStr(item.Tongchi, "0") + "</td>\r\n";
+                list += "<td class=\"total\">" + Helpers.Helper.ToCurrencyStr(item.Loinhuan, "0") + "</td>\r\n";
                 list += "</tr>\r\n";
                 i++;
+                tongbill += item.Loinhuan;
             }
+            list += "<tr><td colspan=\"4\"class=\"grand total\">Tổng tiền</td>\r\n";
+            list += " <td class=\"grand total\">" + Helpers.Helper.ToCurrencyStr(tongbill, "0") + "</td></tr></tbody>\r\n";
             return list;
         }
         string BuildHtmlDoanhthutheothang(List<DoanhThuTheoTungThang> ls)
@@ -624,12 +690,15 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             {
                 list += "<tr><td class=\"service\">" + i + "</td>\r\n";
                 list += "<td class=\"desc\">" + item.Thang + "</td>\r\n";
-                list += " <td class=\"unit\">" + item.Tongthu + "</td>\r\n";
-                list += " <td class=\"unit\">" + item.Tongchi + "</td>\r\n";
-                list += "<td class=\"total\">" + item.Loinhuan + "</td>\r\n";
+                list += " <td class=\"unit\">" + Helpers.Helper.ToCurrencyStr(item.Tongthu, "0") + "</td>\r\n";
+                list += " <td class=\"unit\">" + Helpers.Helper.ToCurrencyStr(item.Tongchi, "0") + "</td>\r\n";
+                list += "<td class=\"total\">" + Helpers.Helper.ToCurrencyStr(item.Loinhuan, "0") + "</td>\r\n";
                 list += "</tr>\r\n";
                 i++;
+                tongbill += item.Loinhuan;
             }
+            list += "<tr><td colspan=\"4\"class=\"grand total\">Tổng tiền</td>\r\n";
+            list += " <td class=\"grand total\">" + Helpers.Helper.ToCurrencyStr(tongbill, "0") + "</td></tr></tbody>\r\n";
             return list;
         }
     }

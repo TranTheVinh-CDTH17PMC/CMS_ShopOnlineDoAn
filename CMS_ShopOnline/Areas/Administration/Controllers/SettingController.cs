@@ -41,7 +41,14 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
                     DetailsPhanQuyen = Getphanquyen(item.Id),
                     LDetailsPhanQuyen = Getphanquyen(item.Id).ToList(),
                 }).ToList();
-            ViewBag.LoaiNV = LoaiNV.SelectAll();
+            if(Helpers.Helper.IsGD()==true)
+            {
+                ViewBag.LoaiNV = LoaiNV.SelectAll();
+            }
+            else
+            {
+                ViewBag.LoaiNV = LoaiNV.SelectAll().Where(x=>x.TenCode != "GD");
+            }
             //ViewBag.PhanQuyen = PhanQuyen.SelectAll();
             ViewBag.ListController = ListController.SelectAll();
             return View(model);
@@ -60,14 +67,32 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
         }
         public IEnumerable<DetailsPhanQuyenViewModel> Getphanquyen(int? name)
         {
-            var model = PhanQuyen.SelectAll().Where(x=>x.IdControllerName == name).Select(
-                item=>new DetailsPhanQuyenViewModel {
+            if (Helpers.Helper.IsGD() != true)
+            {
+                var idgd = LoaiNV.Selectbyname("GD");
+                var model1 = PhanQuyen.SelectAll().Where(x => x.IdControllerName == name && x.IdRole != idgd.Id).Select(
+                    item => new DetailsPhanQuyenViewModel
+                    {
+                        Id = item.Id,
+                        IdControllerName = item.IdControllerName,
+                        IdRole = item.IdRole,
+                        IsDelete = item.IsDelete,
+                    });
+                return model1;
+            }
+            else
+            {
+                var model = PhanQuyen.SelectAll().Where(x => x.IdControllerName == name).Select(
+               item => new DetailsPhanQuyenViewModel
+               {
                    Id = item.Id,
                    IdControllerName = item.IdControllerName,
                    IdRole = item.IdRole,
                    IsDelete = item.IsDelete,
-                });
-            return model;
+               });
+                return model;
+            }
+           
         }
         // GET: Administration/Setting/Details/5
         public ActionResult Details(int id,string value)

@@ -9,5 +9,6 @@ namespace CMS_Database.Interfaces
 {
     public interface ILoaiNV : IGenericRepository<LoaiNV>
     {
+        LoaiNV Selectbyname(string name);
     }
 }

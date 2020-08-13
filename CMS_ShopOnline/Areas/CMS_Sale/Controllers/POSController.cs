@@ -229,9 +229,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             {
                 list += "<tr><td style=\"font-size: 12px; font-family:'Open Sans',sans-serif;color:#646a6e; line-height:18px; vertical-align:top;padding:10px0;\">"+i+"</td>\r\n";
                 list += "<td style=\"font-size: 12px; font-family:'Open Sans',sans-serif;color:#646a6e; line-height:18px; vertical-align:top;padding:10px0;\" class=\"article\">" + item.Ten + "</td>\r\n";
-                list += "<td style=\"font-size: 14px; font-family:'Open Sans',sans-serif;color:#646a6e; line-height:18px; vertical-align:top;padding:10px0;\"><small>" + item.DonGia + "</small></td>\r\n";
+                list += "<td style=\"font-size: 14px; font-family:'Open Sans',sans-serif;color:#646a6e; line-height:18px; vertical-align:top;padding:10px0;\"><small>" + Helpers.Helper.ToCurrencyStr(item.DonGia, "0") + "</small></td>\r\n";
                 list += "<td style=\"font-size: 12px; font-family:'Open Sans',sans-serif;color:#646a6e; line-height:18px; vertical-align:top;padding:10px0;\" align=\"center\">" + item.SoLuong + "</td>\r\n";
-                list += "<td style=\"font-size: 12px; font-family:'Open Sans',sans-serif;color:#1e2b33; line-height:18px; vertical-align:top;padding:10px0;\" align=\"right\">" + item.SoLuong * item.DonGia + "</td></tr>\r\n";
+                list += "<td style=\"font-size: 12px; font-family:'Open Sans',sans-serif;color:#1e2b33; line-height:18px; vertical-align:top;padding:10px0;\" align=\"right\">" + Helpers.Helper.ToCurrencyStr(item.SoLuong * item.DonGia, "0") + "</td></tr>\r\n";
                 i++;
             }
             return list;

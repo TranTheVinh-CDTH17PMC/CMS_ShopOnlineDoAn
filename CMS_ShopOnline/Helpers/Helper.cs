@@ -13,6 +13,23 @@ namespace CMS_ShopOnline.Helpers
 {
     public static class Helper
     {
+        public static DateTime GetFistDayInMonth(int year, int month)
+        {
+            DateTime aDateTime = new DateTime(year, month, 1);
+
+            return aDateTime;
+        }
+
+        // Trả về ngày cuối cùng của tháng.
+        public static DateTime GetLastDayInMonth(int year, int month)
+        {
+            DateTime aDateTime = new DateTime(year, month, 1);
+
+            // Cộng thêm 1 tháng và trừ đi một ngày.
+            DateTime retDateTime = aDateTime.AddMonths(1).AddDays(-1);
+
+            return retDateTime;
+        }
         public static List<RequestInfo> ListRequest
         {
             set // đọc giá trị truyền vào
@@ -99,6 +116,14 @@ namespace CMS_ShopOnline.Helpers
             }
             return false;
         }
+        public static bool IsGD()
+        {
+            if (ChuyenThanhKhongDau(CurrentUser.LoaiNV.TenCode) == ChuyenThanhKhongDau("GD"))
+            {
+                return true;
+            }
+            return false;
+        }
         public static bool Khuyenmai()
         {
             IDoiDiem doidiem = new DoiDiemRepository();
@@ -123,13 +148,37 @@ namespace CMS_ShopOnline.Helpers
         }
         public static string ToCurrencyStr(this double? value, string currency)
         {
-            if (value.GetValueOrDefault(0) == 0) return "0";
-            if (string.IsNullOrEmpty(currency))
-                return value.GetValueOrDefault(0).ToString("##,###");
-            if (currency.ToUpper() == "VNĐ")
-                return value.GetValueOrDefault(0).ToString("##,###");
+            if(value != 0 && value.ToString() != "")
+            {
+                string semiRes = value.ToString();
+                var lastThree = semiRes.Substring(semiRes.Length - 3, 3);
+                List<string> resulatArray = new List<string>();
+                resulatArray.Add(lastThree);
+                semiRes = semiRes.Substring(0, semiRes.Length - 3);
+                for (int i = 3; i <= semiRes.Length + 3; i = i + 3)
+                {
+                    var start = semiRes.Length - i;
+                    var len = 3;
+                    if (start < 0)
+                    {
+                        len = 3 + start;
+                        start = 0;
+                    }
+                    var nextTwo = semiRes.Substring(start, len);
+                    resulatArray.Insert(0, nextTwo);
+                }
+                var result = string.Join(".", resulatArray);
+                if (result.StartsWith("."))
+                {
+                    result = result.Substring(1);
+                }
+                return result;
+            }
             else
-                return value.GetValueOrDefault(0).ToString("##,##0.00");
+            {
+                value = 0;
+            }
+            return value.ToString();
         }
         public static bool CheckKhuyenMai()
         {

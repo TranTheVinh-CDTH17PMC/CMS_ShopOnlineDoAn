@@ -295,7 +295,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 list += " <td class=\"qty\">" + item.Ten + "</td>\r\n";
                 list += " <td class=\"qty\">" + item.TenLoai + "</td>\r\n";
                 list += "<td class=\"total\">" + item.TenDVT + "</td>\r\n";
-                list += "<td class=\"total\">" + item.DonGia + "</td>\r\n";
+                list += "<td class=\"total\">" + Helpers.Helper.ToCurrencyStr(item.DonGia, "0") + "</td>\r\n";
                 list += "</tr>\r\n";
                 i++;
             }

@@ -277,7 +277,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 list += "<td class=\"desc\">" + item.Id + "</td>\r\n";
                 list += " <td class=\"qty\">" + item.NgayTao + "</td>\r\n";
                 list += " <td class=\"qty\">" + item.TenNV + "</td>\r\n";
-                list += "<td class=\"total\">" + item.TongTien + "</td>\r\n";
+                list += "<td class=\"total\">" + Helpers.Helper.ToCurrencyStr(item.TongTien, "0") + "</td>\r\n";
                 list += "</tr>\r\n";
                 i++;
             }
@@ -308,8 +308,8 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 list += "<tr><td>" + i + "</td>\r\n";
                 list += " <td>" + item.NguyenLieu.Ten + "</td>\r\n";
                 list += " <td>" + item.SoLuong + "</td>\r\n";
-                list += " <td>" + item.DonGia + "</td>\r\n";
-                list += "<td>" + item.DonGia * item.SoLuong + "</td>\r\n";
+                list += " <td>" + Helpers.Helper.ToCurrencyStr(item.DonGia, "0") + "</td>\r\n";
+                list += "<td>" + Helpers.Helper.ToCurrencyStr(item.DonGia*item.SoLuong, "0") + "</td>\r\n";
                 list += "</tr>\r\n";
                 i++;
             }
