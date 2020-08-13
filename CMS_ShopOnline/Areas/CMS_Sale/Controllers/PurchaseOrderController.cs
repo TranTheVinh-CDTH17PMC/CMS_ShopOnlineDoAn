@@ -188,7 +188,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 modellist = modellist.Where(x => x.IdNhanVien == id).ToList();
             }
             model.Content = model.Content.Replace("{Table}", BuildHtml(modellist));
-            model.Content = model.Content.Replace("{NamePrint}", "Danh sach hoa don");
+            model.Content = model.Content.Replace("{NamePrint}", "Danh sách hóa đơn");
             model.Content = model.Content.Replace("{NameStaff}", Helpers.Helper.CurrentUser.TenNV);
             model.Content = model.Content.Replace("{Datetime}", DateTime.Now.Date.ToString("dd/MM/yyyy"));
             if (ExportExcel)

@@ -305,7 +305,7 @@
                                                         </div>
                                                         <div class="col-md-8">
                                                             <div class="col-md-10 padd-0" style="position: relative;">
-                                                                <input class="form-control" name="TenKH" value="" id="dlcustomer" placeholder = "Tìm khách hàng (F4)", style="border-radius: 3px 0 0 3px !important;">
+                                                                <input class="form-control" name="TenKH" value="" id="dlcustomer" placeholder = "Tìm khách hàng...", style="border-radius: 3px 0 0 3px !important;">
                                                                     @if (Helper.Khuyenmai() != true)
                                                                     {
                                                                         <label class="custom-control-label">
@@ -421,12 +421,12 @@
                                         <div class="col-md-12">
                                             <div class="btn-groups pull-right" style="margin-bottom: 50px;">
                                                 <button type="submit" class="btn btn-primary" id="Save">
-                                                    <i class="fa fa-check"></i> Lưu (F9)
+                                                    <i class="fa fa-print"></i> Lưu và in
                                                 </button>
-                                                <button type="button" class="btn btn-primary">
+                                                @*<button type="button" class="btn btn-primary">
                                                     <i class="fa fa-print"></i> Lưu và
                                                     in (F10)
-                                                </button>
+                                                </button>*@
                                                 <a href="/orders">
                                                     <button type="button" class="btn-back btn btn-default">
                                                         <i class="fa fa-arrow-left"></i> Hủy
@@ -519,16 +519,7 @@ $("#Save").click(function () {
             button: "Đồng ý",
         });
         return false;
-    }
-    //if (dlcustomer == "") {
-    //    swal({
-    //        text: "Chưa nhập tên khách hàng!",
-    //        icon: "warning",
-    //        button: "Đồng ý",
-    //    });
-    //    return false;
-    //}
-        
+    }    
 });
 </script>
 
