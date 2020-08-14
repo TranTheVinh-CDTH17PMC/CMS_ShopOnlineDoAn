@@ -139,6 +139,29 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                      Khuyenmai = Checkhuyenmailoai(item.Id)
                  });
             ViewBag.ListType = ListType;
+            var model1 = KhuyenMai.SelectAll().Where(x => x.IsDelete != true && x.IsAll == true);
+            var model = KhuyenMai.SelectAll().Where(x => x.IsDelete != true && x.IsAll == true).Count();
+            if (model > 0)
+            {
+                var check = "";
+                foreach (var item in model1)
+                {
+                    var details = CTKhuyenMai.SelectAll().Where(x => x.IdKhuyenMai == item.Id && x.IsDelete != true);
+                    foreach (var item2 in details)
+                    {
+                        if (item2.IsPhanTram == true)
+                        {
+                            check = item2.TienGiam.ToString() + "%";
+                        }
+                        if (item2.IsTienMat == true)
+                        {
+                            check = item2.TienGiam.ToString() + "Đ";
+                        }
+                        break;
+                    }
+                }
+                ViewBag.All = check;
+            }
             ViewBag.SuccessMessage = TempData["SuccessMessage"];
             return View();
         }
@@ -216,9 +239,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             modellist.ListPOSDetails = details;
             model.Content = model.Content.Replace("{DataTable}", BuildHtml(details));
             model.Content = model.Content.Replace("{MAHD}", id.ToString());
-            model.Content = model.Content.Replace("{Tongtam}", modellist.TongTien.ToString());
-            model.Content = model.Content.Replace("{Khuyenmai}",px.TongKM.ToString());
-            model.Content = model.Content.Replace("{Tongtien}", modellist.TongTien.ToString());
+            model.Content = model.Content.Replace("{Tongtam}", Helpers.Helper.ToCurrencyStr(modellist.TongTien,"0"));
+            model.Content = model.Content.Replace("{Khuyenmai}", Helpers.Helper.ToCurrencyStr(modellist.TongKM, "0"));
+            model.Content = model.Content.Replace("{Tongtien}", Helpers.Helper.ToCurrencyStr(modellist.TongTien, "0"));
             return View(model);
         }
         string BuildHtml(List<CTHoaDonViewModel> model)

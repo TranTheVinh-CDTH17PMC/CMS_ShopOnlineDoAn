@@ -1,6 +1,7 @@
 ﻿using CMS_Database.Entities;
 using CMS_Database.Interfaces;
 using CMS_Database.Repositories;
+using System;
 using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
@@ -107,8 +108,22 @@ namespace CMS_ShopOnline.App_Start
                     }
                 }
             }
-            
-
+            DeleteKMQH();
+        }
+        public static void DeleteKMQH()
+        {
+            IKhuyenMai KhuyenMai = new KhuyenMaiRepository();
+            var daynow = DateTime.Now.Date;
+            var abc = KhuyenMai.SelectAll().Where(x => x.IsDelete != true);
+            foreach (var item in abc)
+            {
+                if (daynow > item.NgayKT.Date)
+                {
+                    item.IsDelete = true;
+                    KhuyenMai.Update(item);
+                    KhuyenMai.Save();
+                }
+            }
         }
         public static bool AccessRight(string ControlerName)
         {

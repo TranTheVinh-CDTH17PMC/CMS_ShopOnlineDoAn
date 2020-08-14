@@ -13,6 +13,7 @@ namespace CMS_ShopOnline.Helpers
 {
     public static class Helper
     {
+        
         public static DateTime GetFistDayInMonth(int year, int month)
         {
             DateTime aDateTime = new DateTime(year, month, 1);
@@ -191,6 +192,16 @@ namespace CMS_ShopOnline.Helpers
                 {
                     return true;
                 }
+            }
+            return false;
+        }
+        public static bool KMIsAll()
+        {
+            IKhuyenMai km = new KhuyenMaiRepository();
+            var model = km.SelectAll().Where(x => x.IsDelete != true && x.IsAll == true).Count();
+            if(model > 0)
+            {
+                return true;
             }
             return false;
         }

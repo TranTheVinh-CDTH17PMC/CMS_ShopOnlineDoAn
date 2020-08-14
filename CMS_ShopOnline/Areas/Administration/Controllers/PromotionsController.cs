@@ -146,17 +146,7 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
         }
         public ActionResult Create()
         {
-            var daynow = DateTime.Now.Date;
-            var abc = KhuyenMai.SelectAll().Where(x => x.IsDelete != true);
-            foreach (var item in abc)
-            {
-                if (daynow > item.NgayKT.Date)
-                {
-                    item.IsDelete = true;
-                    KhuyenMai.Update(item);
-                    KhuyenMai.Save();
-                }
-            }
+            
             bool check = false;
             var model = KhuyenMai.SelectAll().Where(x => x.IsDelete != true && x.IsAll == true).Count();
             if (model > 0)

@@ -258,16 +258,20 @@
     //});
     
     $("#giamgia").change(function () {
+        debugger
         var max = parseInt($(this).attr('max'));
         var min = parseInt($(this).attr('min'));
-        if ($(this).val() > max) {
-            $(this).val(max);
+        if (parseInt($(this).val()) > max) {
+            $("#TienGiam").val(max);
+            $("#giamgia").val(max);
         }
-        else if ($(this).val() < min) {
-            $(this).val(min);
+        else if (parseInt($(this).val()) < min) {
+            $("#TienGiam").val(max);
+            $("#giamgia").val(min);
         }
     });
     $('#phantram').on("click", function () {
+        $("#giamgia").val(100);
         $("#giamgia").attr({
             "max": 100,        // substitute your own
             "min": 1          // values (or variables) here

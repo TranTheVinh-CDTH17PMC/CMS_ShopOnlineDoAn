@@ -80,7 +80,7 @@ if (Status == "Success")
             var x = $('#alertsDropdown span').text();
             var count = parseInt(x) + 1;
             $('#alertsDropdown span').text(count);
-            var html = '<a class="dropdown-item d-flex align-items-center" onclick="Checkseen('+Idtask+')" href="CMS_Sale/PurchaseOrder/Details/' + IdPx + '" id="noticolor[' + Idtask + ']" style="background-color:#E6E6FA;">';
+            var html = '<a class="dropdown-item d-flex align-items-center" onclick="Checkseen(' + Idtask + ')" href="/CMS_Sale/' + Controller + '/Details/' + IdPx + '" id="noticolor[' + Idtask + ']" style="background-color:#E6E6FA;">';
             html += '<div class="mr-3">';
             html += '<div class="icon-circle bg-primary">';
             html += '<i class="fas fa-file-alt text-white"></i>';
@@ -134,9 +134,9 @@ if (Status == "Success")
             html += '<td class="grid-cell" data-name="DiaChi">' + GhiChu + '</td>';
             html += '<td class="grid-cell" data-name="">' + TrangThai + '</td>';
             html += '<td class="grid-cell text center" data-name="">';
-            html += '<a href="/CMS_Sale/PurchaseOrder/Details/'+Id+'"><button class="btn btn-primary" title="Chỉnh sửa" type="button"><i class="fas fa-pencil-alt"></i></button></a>';
-            html += '<button class="btn btn-warning" title="Ngừng kinh doanh" style="margin:-2px" name="IdDelete" type="submit" value="1" onclick="return ConfirmDelete()"><i class="fas fa-trash-alt"></i></button></td></tr>';
-            $("#table-grid tbody").prepend(html);
+            html += '<a href="/CMS_Sale/PurchaseOrder/Details/' + Id + '"><button class="btn btn-success" style="margin-right:3px;" title="Xem" type="button"><i class="fa fa-eye"></i></button></a>';
+            html += '<button class="btn btn-warning" title="Hủy hóa đơn" name="IdDelete" type="submit" value="'+Id+'" onclick="return ConfirmDelete()"><i class="fas fa-trash-alt"></i></button></td></tr>';
+            $("#table-gridhoadon tbody").prepend(html);
 
             //var audioElement = document.createElement('audio');
             //audioElement.setAttribute('src', '/Assets/mucsic/facebookme.mp3');

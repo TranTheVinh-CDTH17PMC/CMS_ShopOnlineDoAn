@@ -273,7 +273,14 @@
                                     <input type="text" placeholder="Tìm kiếm sản phẩm..." id="txtName" class="form-control marg-bot-10" style="width:68.5%">
                                     <div class="main">
                                             <div id="myBtnContainer" style="padding-top: 5px;">
-                                            <button class="btnproduct active" onclick="GetProducts(0)"  type="button">Tất cả sản phẩm</button>
+                                                @if (Helper.KMIsAll() == true)
+                                                {
+                                                    <button class="btnproduct notification active" style="margin-left:10px" onclick="GetProducts(0)" type="button">Tất cả sản phẩm<span class="badge">@ViewBag.All</span></button>
+                                                }
+                                                @if (Helper.KMIsAll() != true)
+                                                {
+                                                    <button class="btnproduct notification active" style="margin-left:10px" onclick="GetProducts(0)" type="button">Tất cả sản phẩm</button>
+                                                }
                                                 @foreach (var item in ViewBag.ListType)
                                                 {
                                                     if (item.Khuyenmai != "")
