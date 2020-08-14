@@ -14,5 +14,9 @@ namespace CMS_Database.Repositories
         {
             return _db.PhanQuyen.FirstOrDefault(x => x.IdControllerName == sControlerName && x.IdRole== IdRole && x.IsDelete!=true);
         }
+        public void DeleteAll()
+        {
+            _db.PhanQuyen.RemoveRange(_db.PhanQuyen.ToList());
+        }
     }
 }

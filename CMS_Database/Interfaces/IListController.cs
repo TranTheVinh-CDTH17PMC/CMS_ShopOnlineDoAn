@@ -10,5 +10,6 @@ namespace CMS_Database.Interfaces
     public interface IListController : IGenericRepository<ListController>
     {
         ListController GetIdByName(string name);
+        void DeleteAll();
     }
 }

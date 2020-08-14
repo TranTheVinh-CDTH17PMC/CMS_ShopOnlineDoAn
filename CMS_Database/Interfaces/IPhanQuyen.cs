@@ -10,5 +10,6 @@ namespace CMS_Database.Interfaces
     public interface IPhanQuyen : IGenericRepository<PhanQuyen>
     {
         PhanQuyen GetByName(int? sControlerName,int? IdRole);
+        void DeleteAll();
     }
 }

@@ -14,5 +14,9 @@ namespace CMS_Database.Repositories
         {
             return _db.ListController.FirstOrDefault(x => x.ControllerName == name && x.IsDelete != true);
         }
+        public void DeleteAll()
+        {
+            _db.ListController.RemoveRange(_db.ListController.ToList());
+        }
     }
 }
