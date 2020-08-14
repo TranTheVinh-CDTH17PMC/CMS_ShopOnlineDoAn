@@ -279,7 +279,6 @@ function SelectProducts(id)
             }
             else
             {
-                debugger
                 var num1 = $("#Count_" + id + "").val();
                 var answer = parseInt(num1) + 1;
                 $("#Count_" + id + "").val(answer);
@@ -291,17 +290,18 @@ function SelectProducts(id)
                     contentType: 'application/json; charset=utf-8',
                     data: { Id: id, soluong: answer },
                     success: function (data) {
-                        debugger
+                        var x = data;
                         var checknumber = number_format(data);
                         var value = $("#Dongia_" + id + "").text(checknumber);
-                        var x = $("#Price_" + id + "").val(data);
+                        $("#Price_" + id + "").val(x);
+                        TotalMoney(id);
+                        calcTotalAmount();
                     },
                     error: function (err) {
                         alert(err);
                     }
                 });
-                TotalMoney(id);
-                calcTotalAmount();
+                
             }
 
         },
