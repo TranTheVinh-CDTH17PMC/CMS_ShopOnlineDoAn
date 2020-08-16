@@ -113,7 +113,16 @@ $(document).ready(function () {
         Excesscash();
     });
     $("#diemtoida").change(function () {
+        debugger
         if ($("#dlcustomer").val() != null && $("#dlcustomer").val() != "") {
+            var max = parseInt($(this).attr('max'));
+            var min = parseInt($(this).attr('min'));
+            if (parseInt($(this).val()) > max) {
+                $("#diemtoida").val(max);
+            }
+            else if (parseInt($(this).val()) < min) {
+                $("#diemtoida").val(min);
+            }
             Tinhdiemgiamgia();
             calcTotalAmount();
         }
@@ -362,8 +371,12 @@ function calcTotalAmount() {
         if ($(elem).find('.detail_item_total').text() != '') {
             total = total + parseFloat($(elem).find('.detail_item_total').val());
             total1 = total - $("#TongKM").val();
-                $("#totalafterdiscount").val(total1);
-                $('input[name="TongTien"]').val(total1);        
+            if (total1 < 0)
+            {
+                total1 = 0;
+            }
+            $("#totalafterdiscount").val(total1);
+            $('input[name="TongTien"]').val(total1);        
         }
     });
     Excesscash();

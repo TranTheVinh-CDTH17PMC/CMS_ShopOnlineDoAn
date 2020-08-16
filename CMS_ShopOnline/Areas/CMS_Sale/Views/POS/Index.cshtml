@@ -327,7 +327,7 @@
                                                                             <label class="custom-control-label">
                                                                                 Điểm tích lũy
                                                                             </label>
-                                                                            <input class="form-control" value="0" id="diemtoida" placeholder="Điểm tích lũy" , style="border-radius: 3px 0 0 3px !important;" type="number">
+                                                                            <input class="form-control" value="0" id="diemtoida" placeholder="Điểm tích lũy" , style="border-radius: 3px 0 0 3px !important;" type="text">
                                                                         </div>
                                                                         <input class="form-control" value="" id="tiendoi" type="hidden">
                                                                         <input class="form-control" value="" id="diemdoi" type="hidden">
@@ -393,7 +393,7 @@
                                                             <label>Giảm giá (F7)</label>
                                                         </div>
                                                         <div class="col-md-8">
-                                                            <input type="text" id="khuyenmai" class="form-control text-right money1" placeholder="0" style="border-radius: 0 !important;" onchange="change(this, 'TongKM');">
+                                                            <input type="text" id="khuyenmai" class="form-control text-right money1" placeholder="0" style="border-radius: 0 !important;" onchange="change(this, 'TongKM');" readonly>
                                                             @Html.TextBoxFor(x => x.TongKM, new { type="hidden" })
                                                         </div>   
                                                     </div>
@@ -482,7 +482,6 @@
 }
 <script type="text/javascript">
 function change(idthis, idthat) {
-    debugger
     var el = idthis.value.replace(/[.]/g, '');
     $("#" + idthat + "").val(el);
 }

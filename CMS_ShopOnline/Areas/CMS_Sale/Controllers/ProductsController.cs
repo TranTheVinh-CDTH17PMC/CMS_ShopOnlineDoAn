@@ -188,9 +188,11 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 }
                 float vOut = Convert.ToSingle(model.DonGia);
                 _tp.DonGia = vOut;
-                AutoMapper.Mapper.Map(model, _tp);
-                _tp.NgayTao = DateTime.Now;
-                _tp.IsDelete = false;
+                _tp.DonGia = vOut;
+                _tp.Ten = model.Ten;
+                _tp.IdLoai = model.IdLoai;
+                _tp.IdDVT = model.IdDVT;
+                _tp.HinhAnh = model.HinhAnh;
                 ThanhPham.Update(_tp);
                 ThanhPham.Save();
                 TempData["SuccessMessage"] = "Edit";
