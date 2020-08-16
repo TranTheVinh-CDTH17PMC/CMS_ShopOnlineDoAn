@@ -11,5 +11,6 @@ namespace CMS_Database.Interfaces
     {
         void Delele(int id);
         ThanhPham GetbyId(int Id);
+        ThanhPham GetbyName(string name);
     }
 }

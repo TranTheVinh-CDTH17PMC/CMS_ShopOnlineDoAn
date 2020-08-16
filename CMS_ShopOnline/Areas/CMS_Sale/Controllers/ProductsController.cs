@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebMatrix.WebData;
 
 namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
 {
@@ -35,33 +36,42 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         }
         //
         // GET: /CMS_Sale/Products/
-        public ActionResult Index(string txtInfo,int? IdLoaiSP, string txtName, string txtTenLoai)
+        public ActionResult Index(string txtInfo,int? IdLoaiSP, string txtName, string txtTenLoai, bool? IsDelete)
         {
             try
             {
                 IEnumerable<ThanhPhamViewModel> model = ThanhPham.SelectAll().Select(
                     item => new ThanhPhamViewModel
-                {
-                    Id = item.Id,
-                    Ten = item.Ten,
-                    NgayTao = item.NgayTao,
-                    IdLoai = item.IdLoai,
-                    TenLoai = item.LoaiSP.Ten,
-                    HinhAnh = item.HinhAnh,
-                    DonGia = item.DonGia,
-                    IdDVT = item.IdDVT,
-                    TenDVT = item.DonViTinh.Ten,
-                    IsDelete = item.IsDelete
-                }).OrderByDescending(x=>x.NgayTao);
-                if(Helpers.Helper.IsManager()!=true)
+                    {
+                        Id = item.Id,
+                        Ten = item.Ten,
+                        NgayTao = item.NgayTao,
+                        IdLoai = item.IdLoai,
+                        TenLoai = item.LoaiSP.Ten,
+                        HinhAnh = item.HinhAnh,
+                        DonGia = item.DonGia,
+                        IdDVT = item.IdDVT,
+                        TenDVT = item.DonViTinh.Ten,
+                        IsDelete = item.IsDelete
+                    }).OrderByDescending(x => x.NgayTao);
+                if (Helpers.Helper.IsManager() != true)
                 {
                     model = model.Where(x => x.IsDelete != true);
                 }
-                ViewBag.LoaiSP = LoaiSP.SelectAll().Where(x=>x.IsDelete!=true && x.IsProducts == true);
+                ViewBag.LoaiSP = LoaiSP.SelectAll().Where(x => x.IsDelete != true && x.IsProducts == true);
                 if (IdLoaiSP != null)
                 {
                     model = model.Where(x => x.IdLoai == IdLoaiSP).ToList();
                 }
+                if (IsDelete != true)
+                {
+                    model = model.Where(x => x.IsDelete == false).ToList();
+                }
+                else
+                {
+                    model = model.Where(x => x.IsDelete == true ).ToList();
+                }
+                
                 if (txtName != null)
                 {
                     txtName = txtName == "" ? "~" : Helpers.Helper.ChuyenThanhKhongDau(txtName);
@@ -100,47 +110,68 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         [HttpPost]
         public ActionResult Create(ThanhPhamViewModel model, HttpPostedFileBase File)
         {
-            try
+            if (CheckName(model.Ten) == true)
             {
-                var _tp = new ThanhPham();
-                var path = "";
-                if (File != null)
+                try
                 {
-                    if (File.ContentLength > 0)
+                    var _tp = new ThanhPham();
+                    var path = "";
+                    if (File != null)
                     {
-                        if (Path.GetExtension(File.FileName).ToLower() == ".jpg"
-                            || Path.GetExtension(File.FileName).ToLower() == ".png"
-                            || Path.GetExtension(File.FileName).ToLower() == ".gif"
-                            || Path.GetExtension(File.FileName).ToLower() == ".jpeg")
+                        if (File.ContentLength > 0)
                         {
+                            if (Path.GetExtension(File.FileName).ToLower() == ".jpg"
+                                || Path.GetExtension(File.FileName).ToLower() == ".png"
+                                || Path.GetExtension(File.FileName).ToLower() == ".gif"
+                                || Path.GetExtension(File.FileName).ToLower() == ".jpeg")
+                            {
 
-                            string name = DateTime.Now.ToString() + "_" + File.FileName;
-                            name = name.Replace(" ", "");
-                            name = name.Replace("/", "");
-                            name = name.Replace(":", "");
-                            path = Path.Combine(Server.MapPath("~/Areas/CMS_Sale/Image/ThanhPham/"), name);
-                            model.HinhAnh = name;
-                            File.SaveAs(path);
+                                string name = DateTime.Now.ToString() + "_" + File.FileName;
+                                name = name.Replace(" ", "");
+                                name = name.Replace("/", "");
+                                name = name.Replace(":", "");
+                                path = Path.Combine(Server.MapPath("~/Areas/CMS_Sale/Image/ThanhPham/"), name);
+                                model.HinhAnh = name;
+                                File.SaveAs(path);
+                            }
                         }
                     }
+                    float vOut = Convert.ToSingle(model.DonGia);
+                    _tp.DonGia = vOut;
+                    AutoMapper.Mapper.Map(model, _tp);
+                    _tp.NgayTao = DateTime.Now;
+                    _tp.IsDelete = false;
+                    ThanhPham.Insert(_tp);
+                    ThanhPham.Save();
+                    TempData["SuccessMessage"] = "Create";
+                    return RedirectToAction("Index");
                 }
-
-                float vOut = Convert.ToSingle(model.DonGia);
-                _tp.DonGia = vOut;
-                AutoMapper.Mapper.Map(model, _tp);
-                _tp.NgayTao = DateTime.Now;
-                _tp.IsDelete = false;
-                ThanhPham.Insert(_tp);
-                ThanhPham.Save();
-                TempData["SuccessMessage"] = "Create";
-                return RedirectToAction("Index");
+                catch (Exception e)
+                {
+                    e.Message.ToString();
+                }
             }
-            catch (Exception e)
+            else
             {
-
+                model = new ThanhPhamViewModel
+                {
+                    listDVT = DVT.SelectAll().Where(x => x.IsDelete != true),
+                    listLoaiSP = LoaiSP.SelectAll().Where(x => x.IsDelete != true && x.IsProducts == true)
+                };
+                TempData["FailMessage"] = "FailCreate";
+                return View(model);
             }
 
             return View();
+        }
+        public bool CheckName(string Name)
+        {
+            var check = ThanhPham.GetbyName(Name);
+            if (check == null)
+            {
+                return true;
+            }
+            return false;
         }
         public ActionResult Edit(int Id)
         {

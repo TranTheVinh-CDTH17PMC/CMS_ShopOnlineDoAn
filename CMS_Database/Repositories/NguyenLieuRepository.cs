@@ -16,5 +16,9 @@ namespace CMS_Database.Repositories
             int? soluongreal = soluong;
             return soluongreal;
         }
+        public NguyenLieu GetbyName(string name)
+        {
+            return _db.NguyenLieu.FirstOrDefault(m => m.Ten == name);
+        }
     }
 }

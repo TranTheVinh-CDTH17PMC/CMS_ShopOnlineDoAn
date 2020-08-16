@@ -48,11 +48,11 @@
     {
         if (Status == false)
         {
-            <span class="badge badge-primary">Hoạt động</span>
+            <span class="badge badge-primary">Đang hoạt động</span>
         }
         else
         {
-            <span class="badge badge-warning">Đã khóa</span>
+            <span class="badge badge-warning">Đã tạm khóa</span>
         }
     }
     @helper Image(string img)
@@ -89,18 +89,26 @@
                 @using (Html.BeginForm("Index", "Products",FormMethod.Get))
                 {
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <div class="order-search" style="margin: 10px 0px; position: relative;">
                                 <input type="text" class="form-control" placeholder="Nhập tên hoặc loại sản phẩm..." id="search-pro-box" autocomplete="off" name="txtInfo">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <select class="form-control" name="IdLoaiSP" id="IdLoaiSP">
                                 <option value="">Tìm theo loại</option>
                                 @foreach (var item in ViewBag.LoaiSP)
                                 {
                                     <option value="@item.Id">@item.Ten</option>
                                 }
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select class="form-control" name="IsDelete" id="IsDelete">
+                                <option value="">Trạng thái</option>
+                                    <option value="false">Đang hoạt động</option>
+                                    <option value="true">Đã tạm khóa</option>
+                                
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary" style="width: 8%;border: 1px solid grey;border-left: none;"><i class="fa fa-search"></i></button>

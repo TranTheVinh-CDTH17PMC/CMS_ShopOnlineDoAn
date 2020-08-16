@@ -38,7 +38,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         }
         //
         // GET: /CMS_Sale/Warehouse/
-        public ActionResult Index(string name,int? iddvt,int ? idloai, string hangcon, string tonkho, string saphethang,string hethang,string all)
+        public ActionResult Index(string name,int? iddvt,int ? idloai, string hangcon, string tonkho, string saphethang,string hethang,string all, bool? IsDelete)
         {
             var idten = Helpers.Helper.ChuyenThanhKhongDau(name);
             int i = 0;
@@ -145,6 +145,14 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 {
                     model = model.Where(x => x.Id.ToString().Contains(idten) || Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(idten));
                 }
+            }
+            if (IsDelete != true)
+            {
+                model = model.Where(x => x.IsDelete == false).ToList();
+            }
+            else
+            {
+                model = model.Where(x => x.IsDelete == true).ToList();
             }
             ViewBag.SuccessMessage = TempData["SuccessMessage"];
             return View(model);
