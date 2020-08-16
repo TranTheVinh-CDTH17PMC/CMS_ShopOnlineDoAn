@@ -170,7 +170,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         {
             try
             {
-                string ControllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                string ControllerName = "PurchaseOrder";
                 string Action = this.ControllerContext.RouteData.Values["action"].ToString();
                 string Areas = "CMS_Sale";
                 var _hoadon = new HoaDon();
@@ -194,6 +194,10 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 }
                 if(_hoadon.IdKhachHang!=null && _hoadon.IdKhachHang!=0)
                 {
+                    if(_hoadon.TongKM == null)
+                    {
+                        _hoadon.TongKM = 0;
+                    }
                     var _kh = KhachHang.SelectById(_hoadon.IdKhachHang);
                     _kh.TongTien = (_kh.TongTien - _hoadon.TongKM) + _hoadon.TongTien;
                     KhachHang.Update(_kh);
