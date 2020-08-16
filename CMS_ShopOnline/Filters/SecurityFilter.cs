@@ -46,69 +46,69 @@ namespace CMS_ShopOnline.App_Start
                 }
             }
             //Lấy danh sách các controller hiện có
-            Assembly asm = Assembly.GetExecutingAssembly();
+            //Assembly asm = Assembly.GetExecutingAssembly();
 
-            var controllerTypes = from t in asm.GetExportedTypes()
-                                  where typeof(IController).IsAssignableFrom(t)
-                                  select t;
-            //Nếu chưa có gì trong bảng thì thêm controller vô
-            if(_ListController.SelectAll().Count() == 0)
-            {
-                foreach (var item in controllerTypes)
-                {
-                    var ctl = new ListController();
-                    ctl.ControllerName = item.Name.Replace("Controller", "");
-                    ctl.IsDelete = false;
-                    _ListController.Insert(ctl);
-                    _ListController.Save();
-                }
-                var getlistctl = _ListController.SelectAll().Where(x => x.IsDelete != true);
-                var getlistrole = _LoaiNV.SelectAll().Where(x => x.IsDelete != true);
-                foreach (var itemrole in getlistrole)
-                {
-                    foreach (var itemctl in getlistctl)
-                    {
-                        var pq = new PhanQuyen();
-                        pq.IdControllerName = itemctl.Id;
-                        pq.IdRole = itemrole.Id;
-                        pq.IsDelete = false;
-                        _PhanQuyen.Insert(pq);
-                        _PhanQuyen.Save();
-                    }
-                }
-            }
-            //nếu thay thêm/xóa controlle thì cập nhật lại
-            if(controllerTypes.Count() != _ListController.SelectAll().Count())
-            {
-                _ListController.DeleteAll();
-                _ListController.Save();
-                _PhanQuyen.DeleteAll();
-                _PhanQuyen.Save();
-                //-----
-                foreach (var item in controllerTypes)
-                {
-                    var ctl = new ListController();
-                    ctl.ControllerName = item.Name.Replace("Controller", "");
-                    ctl.IsDelete = false;
-                    _ListController.Insert(ctl);
-                    _ListController.Save();
-                }
-                var getlistctl = _ListController.SelectAll().Where(x => x.IsDelete != true);
-                var getlistrole = _LoaiNV.SelectAll().Where(x => x.IsDelete != true);
-                foreach (var itemrole in getlistrole)
-                {
-                    foreach (var itemctl in getlistctl)
-                    {
-                        var pq = new PhanQuyen();
-                        pq.IdControllerName = itemctl.Id;
-                        pq.IdRole = itemrole.Id;
-                        pq.IsDelete = false;
-                        _PhanQuyen.Insert(pq);
-                        _PhanQuyen.Save();
-                    }
-                }
-            }
-            DeleteKMQH();
+            //var controllerTypes = from t in asm.GetExportedTypes()
+            //                      where typeof(IController).IsAssignableFrom(t)
+            //                      select t;
+            ////Nếu chưa có gì trong bảng thì thêm controller vô
+            //if(_ListController.SelectAll().Count() == 0)
+            //{
+            //    foreach (var item in controllerTypes)
+            //    {
+            //        var ctl = new ListController();
+            //        ctl.ControllerName = item.Name.Replace("Controller", "");
+            //        ctl.IsDelete = false;
+            //        _ListController.Insert(ctl);
+            //        _ListController.Save();
+            //    }
+            //    var getlistctl = _ListController.SelectAll().Where(x => x.IsDelete != true);
+            //    var getlistrole = _LoaiNV.SelectAll().Where(x => x.IsDelete != true);
+            //    foreach (var itemrole in getlistrole)
+            //    {
+            //        foreach (var itemctl in getlistctl)
+            //        {
+            //            var pq = new PhanQuyen();
+            //            pq.IdControllerName = itemctl.Id;
+            //            pq.IdRole = itemrole.Id;
+            //            pq.IsDelete = false;
+            //            _PhanQuyen.Insert(pq);
+            //            _PhanQuyen.Save();
+            //        }
+            //    }
+            //}
+            ////nếu thay thêm/xóa controlle thì cập nhật lại
+            //if(controllerTypes.Count() != _ListController.SelectAll().Count())
+            //{
+            //    _ListController.DeleteAll();
+            //    _ListController.Save();
+            //    _PhanQuyen.DeleteAll();
+            //    _PhanQuyen.Save();
+            //    //-----
+            //    foreach (var item in controllerTypes)
+            //    {
+            //        var ctl = new ListController();
+            //        ctl.ControllerName = item.Name.Replace("Controller", "");
+            //        ctl.IsDelete = false;
+            //        _ListController.Insert(ctl);
+            //        _ListController.Save();
+            //    }
+            //    var getlistctl = _ListController.SelectAll().Where(x => x.IsDelete != true);
+            //    var getlistrole = _LoaiNV.SelectAll().Where(x => x.IsDelete != true);
+            //    foreach (var itemrole in getlistrole)
+            //    {
+            //        foreach (var itemctl in getlistctl)
+            //        {
+            //            var pq = new PhanQuyen();
+            //            pq.IdControllerName = itemctl.Id;
+            //            pq.IdRole = itemrole.Id;
+            //            pq.IsDelete = false;
+            //            _PhanQuyen.Insert(pq);
+            //            _PhanQuyen.Save();
+            //        }
+            //    }
+            //}
+            //DeleteKMQH();
         }
         public static void DeleteKMQH()
         {

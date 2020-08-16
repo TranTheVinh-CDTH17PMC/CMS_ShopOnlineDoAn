@@ -38,7 +38,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         }
         //
         // GET: /CMS_Sale/Warehouse/
-        public ActionResult Index(string name,int? iddvt,int ? idloai, string hangcon, string tonkho, string saphethang,string hethang,string all, bool? IsDelete)
+        public ActionResult Index(string name,int? iddvt,int ? idloai, string hangcon, string tonkho, string saphethang,string hethang,string all,string hethandung, bool? IsDelete)
         {
             var idten = Helpers.Helper.ChuyenThanhKhongDau(name);
             int i = 0;
@@ -49,6 +49,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 ViewBag.countSapHetHang = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && x.SoLuongKho >= 1 && x.SoLuongKho <= 5).Count();
                 ViewBag.HangTonKho = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && ngay(x.NgayNhap) > 30 && x.SoLuongKho > 20).Count();
                 ViewBag.countHetHang = NguyenLieu.SelectAll().Where(x => x.IsDelete != true &&  x.SoLuongKho == 0 && x.NgayNhap != datetimesetting).Count();
+                ViewBag.countHetHanDung = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && ngay(x.HSD) <= 0).Count();
             }
             else
             {
@@ -57,6 +58,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 ViewBag.countSapHetHang = NguyenLieu.SelectAll().Where(x => x.SoLuongKho >= 1 && x.SoLuongKho <= 5).Count();
                 ViewBag.HangTonKho = NguyenLieu.SelectAll().Where(x =>  ngay(x.NgayNhap) > 30 && x.SoLuongKho > 20).Count();
                 ViewBag.countHetHang = NguyenLieu.SelectAll().Where(x =>  x.SoLuongKho == 0 && x.NgayNhap != datetimesetting).Count();
+                ViewBag.countHetHanDung = NguyenLieu.SelectAll().Where(x => ngay(x.HSD) <= 0).Count();
             }
             IEnumerable<NguyenLieuViewModel> model = NguyenLieu.SelectAll().Select(
                 item => new NguyenLieuViewModel
@@ -71,7 +73,8 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     DonGia = item.DonGia,
                     SoLuongKho = item.SoLuongKho,
                     IsDelete = item.IsDelete,
-                    NgayNhap = item.NgayNhap
+                    NgayNhap = item.NgayNhap,
+                    HSD = item.HSD
                 }).OrderByDescending(x=>x.Id);
             ViewBag.loai = LoaiSP.SelectAll().Where(x => x.IsDelete != true && x.IsProducts == true);
             ViewBag.dvt = DVT.SelectAll().Where(x => x.IsDelete != true);
@@ -110,6 +113,10 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 {
                     model = model.Where(x => x.IsDelete != true && x.Id.ToString().Contains(idten) || Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(idten));
                 }
+                if (hethandung != null)
+                {
+                    model = model.Where(x => x.IsDelete != true && ngay(x.HSD) < 0);
+                }
             }
             else
             {
@@ -144,6 +151,10 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 if (idten != null && idten != "")
                 {
                     model = model.Where(x => x.Id.ToString().Contains(idten) || Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(idten));
+                }
+                if (hethandung != null)
+                {
+                    model = model.Where(x => ngay(x.HSD) < 0 );
                 }
             }
             if (IsDelete != true)
@@ -206,6 +217,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 AutoMapper.Mapper.Map(model, _nguyenlieu);
                 _nguyenlieu.NgayTao = DateTime.Now;
                 _nguyenlieu.NgayNhap = datetimesetting;
+                _nguyenlieu.HSD = new DateTime(2010, 10, 10, 1, 1, 1);
                 _nguyenlieu.IsDelete = false;
                 _nguyenlieu.SoLuongKho = 0;
                 NguyenLieu.Insert(_nguyenlieu);

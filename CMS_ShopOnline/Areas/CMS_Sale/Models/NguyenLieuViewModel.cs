@@ -28,6 +28,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Models
         public bool? IsDelete { get; set; }
         public DateTime NgayNhap { get; set; }
         public DateTime NgayTao { get; set; }
+        public DateTime HSD { get; set; }
 
         public IEnumerable<LoaiSP> listLoaiSP { get; set; }
         public IEnumerable<DonViTinh> listDVT { get; set; }

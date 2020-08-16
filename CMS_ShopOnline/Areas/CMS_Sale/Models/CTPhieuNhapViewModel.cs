@@ -14,6 +14,8 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Models
         public int? IdPhieuNhap { get; set; }
         public int? Soluong { get; set; }
         public double? DonGia { get; set; }
-
+        public int? IdDVT { get; set; }
+        public string TenDVT { get; set; }
+        public DateTime HSD { get; set; }
     }
 }
