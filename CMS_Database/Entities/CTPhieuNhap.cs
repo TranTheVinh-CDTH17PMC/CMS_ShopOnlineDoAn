@@ -16,6 +16,7 @@ namespace CMS_Database.Entities
         public int? IdPhieuNhap { get; set; }
 
         public int? SoLuong { get; set; }
+        public int? IdDVT { get; set; }
 
         public double? DonGia { get; set; }
 

@@ -25,6 +25,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         private readonly ILoaiSP LoaiSP;
         private readonly ITemplatePrint TemplatePrint;
         private readonly INhanVien NhanVien;
+        private readonly IDonViTinh DonViTinh;
         public InOrderController()
         {
             LoaiSP = new LoaiSPRepository();
@@ -34,8 +35,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             CTPhieuNhap = new ICTPhieuPhapRepository();
             TemplatePrint = new TemplatePrintRepository();
             NhanVien = new NhanVienRepository();
+            DonViTinh = new DonViTinhRepository();
         }
-        public InOrderController(INhanVien _NhanVien, ITemplatePrint _TemplatePrint,INguyenLieu _nl, INhaCungCap _ncc, IPhieuNhap _pn, ICTPhieuNhap _ctpn,ILoaiSP _loaisp)
+        public InOrderController(IDonViTinh _DonViTinh, INhanVien _NhanVien, ITemplatePrint _TemplatePrint,INguyenLieu _nl, INhaCungCap _ncc, IPhieuNhap _pn, ICTPhieuNhap _ctpn,ILoaiSP _loaisp)
         {
             LoaiSP = _loaisp;
             NguyenLieu = _nl;
@@ -44,6 +46,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             CTPhieuNhap = _ctpn;
             TemplatePrint = _TemplatePrint;
             NhanVien = _NhanVien;
+            DonViTinh = _DonViTinh;
         }
         //
         // GET: /CMS_Sale/InOrder/
@@ -89,7 +92,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             model.IsDelete = px.IsDetele;
             model.Ten = px.NhaCungCap.Ten;
             model.TenNV = px.NhanVien.TenNV;
-            var details = CTPhieuNhap.GetById(px.Id).Select(
+            var details = CTPhieuNhap.GetById(px.Id).AsEnumerable().Select(
                 item => new CTPhieuNhapViewModel
                 {
                     Id = item.Id,
@@ -98,9 +101,23 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     IdPhieuNhap = item.IdPhieuNhap,
                     Soluong = item.SoLuong,
                     DonGia = item.DonGia,
-                }).ToList();
-            model.ListCTPhieuNhap = details;
+                    TenDVT = Checkdvt(item.IdDVT).ToString(),
+                    IdDVT = item.IdDVT
+                });
+            model.ListCTPhieuNhap = details.ToList();
             return View(model);
+        }
+        public string Checkloai(int? id)
+        {
+            var loaisp = LoaiSP.SelectById(id);
+            return loaisp.Ten;
+        }
+        public string Checkdvt(int? id)
+        {
+            var tenloai = "";
+            var loaisp = DonViTinh.SelectById(id);
+            tenloai = loaisp.Ten;
+            return tenloai;
         }
         public ActionResult Edit(int id)
         {
@@ -163,10 +180,12 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     _ctpn.SoLuong = item.Soluong;
                     _ctpn.DonGia = item.DonGia;
                     _ctpn.IdPhieuNhap = idpn;
+                    _ctpn.IdDVT = item.IdDVT;
                     CTPhieuNhap.Insert(_ctpn);
                     CTPhieuNhap.Save();
                     var _nl = NguyenLieu.SelectById(item.IdNguyenLieu);
                     var tong = _nl.SoLuongKho + item.Soluong;
+                    _nl.HSD = item.HSD;
                     _nl.SoLuongKho = tong;
                     _nl.NgayNhap = DateTime.Now;
                     NguyenLieu.Update(_nl);
@@ -176,7 +195,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 TaskController.CreateTask("Tạo phiếu nhập", ControllerName, Action, Areas, Helper.CurrentUser.Id, idpn);
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception e)
             {
 
             }

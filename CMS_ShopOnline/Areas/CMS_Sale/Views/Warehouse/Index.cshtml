@@ -102,6 +102,7 @@
             <button class="tablinks" name="tonkho" value="tonkho" type="submit">Tồn kho (@ViewBag.HangTonKho)</button>
             <button class="tablinks" name="saphethang" value="saphethang" type="submit">Sắp hết hàng (@ViewBag.countSapHetHang)</button>
             <button class="tablinks" name="hethang" value="hethang" type="submit">Hết hàng (@ViewBag.countHetHang)</button>
+            @*<button class="tablinks" name="hethandung" value="hethandung" type="submit">Hết hạn dùng (@ViewBag.countHetHanDung)</button>*@
         </div>
     }
     <div class="row">
@@ -155,6 +156,7 @@
                        columns.Add().Titled("Mã").SetWidth(5).Sanitized(false).Encoded(false).RenderValueAs(x => Ma(x.Id));
                        columns.Add().Encoded(false).Sanitized(false).Titled("Hình ảnh").RenderValueAs(x => Image(x.HinhAnh));
                        columns.Add().Sanitized(false).Encoded(false).Titled("Ngày nhập").Format("{0:dd/MM/yyyy}").RenderValueAs(x => CheckDate(x.NgayNhap));
+                       columns.Add().Sanitized(false).Encoded(false).Titled("Ngày hết hạn").Format("{0:dd/MM/yyyy}").RenderValueAs(x => CheckDate(x.HSD));
                        columns.Add(x => x.Ten).Titled("Tên nguyên liệu");
                        columns.Add(x => x.TenDVT).Titled("ĐVT");
                        columns.Add(x => x.TenLoai).Titled("Loại");
