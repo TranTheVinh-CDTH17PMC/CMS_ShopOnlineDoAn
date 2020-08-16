@@ -115,7 +115,7 @@ else
                           .Sanitized(false)
                           .SetWidth(120)
                           .RenderValueAs(x =>(ButtonDetails(x.Id)).ToString() + (ButtonDelete(x.Id, x.IsDelete)).ToString());
-                   }).WithPaging(10)
+                   }).WithPaging(5)
                     </div>
                 }
             </div>
