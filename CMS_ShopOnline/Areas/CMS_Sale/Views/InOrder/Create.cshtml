@@ -62,12 +62,12 @@
                                 <table id="myTable" class="table order-list table-bordered table-striped mb-0">
                                     <thead class="thead-light" style="background-color:#e7cff7">
                                         <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Ngày hết hạn</th>
+                                            <th scope="col">#</th>                                          
                                             <th scope="col">Tên nguyên liệu</th>
+                                            <th scope="col">Hạn sử dụng</th>
                                             <th scope="col">Số lượng</th>
                                             <th scope="col">Đơn giá</th>
-                                            <th scope="col">Đơn vị tính</th>
+                                            <th scope="col">ĐVT</th>
                                             <th scope="col">Thành tiền</th>
                                             <th scope="col">Hủy</th>
                                         </tr>
@@ -240,11 +240,11 @@
                 if (getid == null) {
                     var html = "";
                     $.each(data, function (key, item) {
-                        html += '<tr data-id="' + item.Id + '"><td id="' + item.Id + '"><span class="sn">' + count + '</span></td>';
-                        html += '<td><input autocomplete="off" class="form-control form_datetime" id="StartDate" name="ListCTPhieuNhap[' + (count - 1) + '].HSD" type="date" value=""></td>';
+                        html += '<tr data-id="' + item.Id + '"><td id="' + item.Id + '"><span class="sn">' + count + '</span></td>';                       
                         html += '<td style="display:none;"><input class="detail_item_id form-control input-sm" name="ListCTPhieuNhap[' + (count - 1) + '].IdNguyenLieu"  value="' + item.Id + '"></td>';
                         html += '<td><p type="text">' + item.Ten + '</p></td>';
-                        html += '<td style="max-width:0px"><input id="Count_' + item.Id + '" class="detail_item_qty form-control input-sm" type="number" min="1" name="ListCTPhieuNhap[' + (count - 1) + '].SoLuong" value="1"></td>';
+                        html += '<td><input autocomplete="off" class="form-control form_datetime" id="StartDate" name="ListCTPhieuNhap[' + (count - 1) + '].HSD" type="date" value=""></td>';
+                        html += '<td><input id="Count_' + item.Id + '" class="detail_item_qty form-control input-sm" type="number" min="1" name="ListCTPhieuNhap[' + (count - 1) + '].SoLuong" value="1"></td>';
                         html += '<td><p  class="detail_item_price" type="text">' + number_format(item.DonGia) + '</p></td>';
                         html += '<td style="display:none;"><input id="Price_' + item.Id + '" class="detail_item_price form-control input-sm" type="text" name="ListCTPhieuNhap[' + (count - 1) + '].DonGia" value="' + item.DonGia + '"></td>';
                         html += '<td><p class="">' + item.TenDVT + '</p></td>';

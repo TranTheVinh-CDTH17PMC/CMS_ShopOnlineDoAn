@@ -45,7 +45,7 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">CMND</label>
-                            @Html.TextBoxFor(model => model.CMND, new { @class = "form-control" })
+                            @Html.TextBoxFor(model => model.CMND, new { @class = "form-control", pattern = "[0-9]*" })
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Địa chỉ</label>
@@ -57,7 +57,7 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Email</label>
-                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", Type = "email" })
                         </div>
                         <button class="btn btn-mini btn-primary" id="Save" type="submit" name="Submit">
                             <i class="ace-icon fa fa-save"></i> Lưu
@@ -69,6 +69,21 @@
     </div>
 }
 <script>
+    $('#SDT').change(function () {
+        var mobile = $('#SDT').val();
+        var vnf_regex_mobile = /((09|03|07|08|05)+([0-9]{8})\b)/g;;
+        if (mobile !== '') {
+            if (vnf_regex_mobile.test(mobile) == false) {
+                swal({
+                    text: "Số điện thoại không hợp lệ!",
+                    icon: "warning",
+                    button: "Đồng ý",
+                });
+                $(this).val("");
+                return false;
+            }
+        }
+    });
     $("#Save").click(function () {
         var tennv = $('#TenNV').val();
         var tentk = $('#TenTaiKhoan').val();
