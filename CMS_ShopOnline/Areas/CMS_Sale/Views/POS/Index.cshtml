@@ -325,12 +325,18 @@
                                                                         <br />
                                                                         <div id="dvPassport">
                                                                             <label class="custom-control-label">
-                                                                                Điểm tích lũy
+                                                                                Điểm hiện có
                                                                             </label>
-                                                                            <input class="form-control" value="0" id="diemtoida" placeholder="Điểm tích lũy" , style="border-radius: 3px 0 0 3px !important;" type="text">
+                                                                            <input class="form-control" value="0" id="diemhienco" placeholder="Điểm tích lũy" , style="border-radius: 3px 0 0 3px !important;" type="text" readonly>
+                                                                            <label class="custom-control-label">
+                                                                               Nhập điểm sử dụng
+                                                                            </label>
+                                                                            <input class="form-control" value="0" name="diemtoida" id="diemtoida" placeholder="Điểm tích lũy" , style="border-radius: 3px 0 0 3px !important;" type="text">
                                                                         </div>
-                                                                        <input class="form-control" value="" id="tiendoi" type="hidden">
-                                                                        <input class="form-control" value="" id="diemdoi" type="hidden">
+                                                                        <input class="form-control" value="0" id="tiendoi" type="hidden">
+                                                                        <input class="form-control" value="0" id="diemdoi" type="hidden">
+                                                                        <input class="form-control" value="0" id="tienhang" type="hidden">
+                                                                        <input class="form-control" value="0" id="diemhang" type="hidden">
                                                                         <input class="form-control" value="false" id="checkkhuyenmai" type="hidden">
                                                                     }
                                                                     else
@@ -390,7 +396,15 @@
                                                 <div class="tab-contents" style="padding: 8px 6px;">
                                                     <div class="form-group marg-bot-10 clearfix">
                                                         <div class="col-md-4">
-                                                            <label>Giảm giá (F7)</label>
+                                                            <label>Tổng tạm</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <input type="text" id="tongtam" class="form-control text-right money1" placeholder="0" style="border-radius: 0 !important;" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group marg-bot-10 clearfix">
+                                                        <div class="col-md-4">
+                                                            <label>Giảm giá</label>
                                                         </div>
                                                         <div class="col-md-8">
                                                             <input type="text" id="khuyenmai" class="form-control text-right money1" placeholder="0" style="border-radius: 0 !important;" onchange="change(this, 'TongKM');" readonly>
@@ -399,7 +413,7 @@
                                                     </div>
                                                     <div class="form-group marg-bot-10 clearfix">
                                                         <div class="col-md-4 padd-right-0">
-                                                            <label>Khách đưa (F8)</label>
+                                                            <label>Khách đưa</label>
                                                         </div>
                                                         <div class="col-md-8">
                                                             <input type="text" id="Custommer" class="form-control text-right money1" placeholder="0" style="border-radius: 0 !important;">
@@ -414,6 +428,17 @@
                                                             @Html.TextBoxFor(x => x.TongTien, new { @class = "form-control text-right", Type= "hidden" })
                                                         </div>
                                                     </div>
+                                                     @if (Helper.Khuyenmai() != true)
+                                                     {
+                                                        <div class="form-group marg-bot-10 clearfix">
+                                                            <div class="col-md-4">
+                                                                <label>Điểm cộng thêm</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <input type="text" class="form-control text-right money1" id="tiendoidiem" placeholder="0" style="border-radius: 0 !important;" readonly />
+                                                            </div>
+                                                        </div>
+                                                     }
                                                     <div class="form-group marg-bot-10 clearfix">
                                                         <div class="col-md-4">
                                                             <label class="debt">Tiền thừa</label>

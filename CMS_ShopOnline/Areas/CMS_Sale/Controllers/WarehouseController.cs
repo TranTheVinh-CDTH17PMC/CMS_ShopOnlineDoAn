@@ -49,7 +49,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 ViewBag.countSapHetHang = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && x.SoLuongKho >= 1 && x.SoLuongKho <= 5).Count();
                 ViewBag.HangTonKho = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && ngay(x.NgayNhap) > 30 && x.SoLuongKho > 20).Count();
                 ViewBag.countHetHang = NguyenLieu.SelectAll().Where(x => x.IsDelete != true &&  x.SoLuongKho == 0 && x.NgayNhap != datetimesetting).Count();
-                ViewBag.countHetHanDung = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && ngay(x.HSD) <= 0).Count();
+                ViewBag.countHetHanDung = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && ngayhethan(x.HSD) >= 0 && x.HSD != datetimesetting).Count();
             }
             else
             {
@@ -58,7 +58,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 ViewBag.countSapHetHang = NguyenLieu.SelectAll().Where(x => x.SoLuongKho >= 1 && x.SoLuongKho <= 5).Count();
                 ViewBag.HangTonKho = NguyenLieu.SelectAll().Where(x =>  ngay(x.NgayNhap) > 30 && x.SoLuongKho > 20).Count();
                 ViewBag.countHetHang = NguyenLieu.SelectAll().Where(x =>  x.SoLuongKho == 0 && x.NgayNhap != datetimesetting).Count();
-                ViewBag.countHetHanDung = NguyenLieu.SelectAll().Where(x => ngay(x.HSD) <= 0).Count();
+                ViewBag.countHetHanDung = NguyenLieu.SelectAll().Where(x => ngayhethan(x.HSD) >= 0 && x.HSD != datetimesetting).Count();
             }
             IEnumerable<NguyenLieuViewModel> model = NguyenLieu.SelectAll().Select(
                 item => new NguyenLieuViewModel
@@ -115,7 +115,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 }
                 if (hethandung != null)
                 {
-                    model = model.Where(x => x.IsDelete != true && ngay(x.HSD) < 0);
+                    model = model.Where(x => x.IsDelete != true && ngayhethan(x.HSD) >= 0 && x.HSD != datetimesetting);
                 }
             }
             else
@@ -154,7 +154,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 }
                 if (hethandung != null)
                 {
-                    model = model.Where(x => ngay(x.HSD) < 0 );
+                    model = model.Where(x => ngayhethan(x.HSD) >= 0 && x.HSD != datetimesetting);
                 }
             }
             if (IsDelete != true)
@@ -174,6 +174,11 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             TimeSpan diff1 = datetimenow.Subtract(ngaynhap);
             i = diff1.Days;
             return i;
+        }
+        public int ngayhethan(DateTime ngaynhap)
+        {
+            int diff1 = DateTime.Compare(datetimenow.Date, ngaynhap.Date);
+            return diff1;
         }
         public ActionResult Create()
         {
