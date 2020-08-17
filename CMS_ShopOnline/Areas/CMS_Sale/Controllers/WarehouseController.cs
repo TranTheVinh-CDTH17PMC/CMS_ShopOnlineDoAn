@@ -366,7 +366,8 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                    DonGia = item.DonGia,
                    SoLuongKho = item.SoLuongKho,
                    IsDelete = item.IsDelete,
-                   NgayNhap = item.NgayNhap
+                   NgayNhap = item.NgayNhap,
+                   HSD = item.HSD
                }).OrderByDescending(x => x.NgayTao);
             if (Helpers.Helper.IsManager() == true)
             {
@@ -463,12 +464,13 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             var i = 1;
             string list = "<thead><tr>";
             list = "<th>STT</th><th class=\"desc\">Mã</th>\r\n";
-            list += " <th>Ngày nhập</th><th>Tên</th><th>Tên loại</th><th>ĐVT</th><th>Số lượng kho</th><th>Đơn giá</th></thead><tbody>\r\n";
+            list += " <th>Ngày nhập</th><th>Hạn sử dụng</th><th>Tên</th><th>Tên loại</th><th>ĐVT</th><th>Số lượng kho</th><th>Đơn giá</th></thead><tbody>\r\n";
             foreach (var item in ls)
             {
                 list += "<tr><td class=\"service\">" + i + "</td>\r\n";
                 list += "<td class=\"desc\">" + item.Id + "</td>\r\n";
                 list += " <td class=\"unit\">" + item.NgayNhap + "</td>\r\n";
+                list += " <td class=\"unit\">" + item.HSD + "</td>\r\n";
                 list += " <td class=\"qty\">" + item.Ten + "</td>\r\n";
                 list += " <td class=\"qty\">" + item.TenLoai + "</td>\r\n";
                 list += "<td class=\"total\">" + item.TenDVT + "</td>\r\n";
