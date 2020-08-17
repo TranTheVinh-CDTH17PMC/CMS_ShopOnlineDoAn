@@ -114,7 +114,8 @@ namespace CMS_ShopOnline.Areas.CMS_Staff.Controllers
             else
             {
                 model.listLoaiNV = LoaiNV.SelectAll();
-                TempData["FailMessage"] = "FailCreate";
+                //TempData["FailMessage"] = "FailCreate";
+                ModelState.AddModelError("", "Tên tài khoản đã tồn tại !");
                 return View(model);
             }
             return View();
