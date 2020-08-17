@@ -18,6 +18,8 @@ namespace CMS_ShopOnline.Areas.Crm.Models
         public double? SoDiemToiDa { get; set; }
         public double? SoDiem{ get; set; }
         public double? SoTien { get; set; }
+        public double? TienHang { get; set; }
+        public double? DiemHang { get; set; }
         public bool? IsDelete { get; set; }
     }
 }

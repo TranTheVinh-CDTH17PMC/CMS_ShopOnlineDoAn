@@ -166,7 +166,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Index(POSViewModel model)
+        public ActionResult Index(POSViewModel model,string diemtoida)
         {
             try
             {
@@ -198,8 +198,12 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     {
                         _hoadon.TongKM = 0;
                     }
+                    if (diemtoida == null || diemtoida == "")
+                    {
+                        diemtoida = "0";
+                    }
                     var _kh = KhachHang.SelectById(_hoadon.IdKhachHang);
-                    _kh.TongTien = (_kh.TongTien - _hoadon.TongKM) + _hoadon.TongTien;
+                    _kh.TongTien = (_kh.TongTien - (Int32.Parse(diemtoida) * TinhtienF1())) + model.TongTien;
                     KhachHang.Update(_kh);
                     KhachHang.Save();
                 }
@@ -241,9 +245,10 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     DonGia = item.DonGia,
                 }).ToList();
             modellist.ListPOSDetails = details;
+            var tongtam = modellist.TongTien + modellist.TongKM;
             model.Content = model.Content.Replace("{DataTable}", BuildHtml(details));
             model.Content = model.Content.Replace("{MAHD}", id.ToString());
-            model.Content = model.Content.Replace("{Tongtam}", Helpers.Helper.ToCurrencyStr(modellist.TongTien,"0"));
+            model.Content = model.Content.Replace("{Tongtam}", Helpers.Helper.ToCurrencyStr(tongtam, "0"));
             model.Content = model.Content.Replace("{Khuyenmai}", Helpers.Helper.ToCurrencyStr(modellist.TongKM, "0"));
             model.Content = model.Content.Replace("{Tongtien}", Helpers.Helper.ToCurrencyStr(modellist.TongTien, "0"));
             return View(model);
@@ -497,7 +502,9 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 SoDiemToiDa = Tinhdiemtoida(item.TongTien),
                 SoDiem = TinhDiem(),
                 SoTien = Tinhtien(),
-                IsDelete = item.IsDelete
+                IsDelete = item.IsDelete,
+                DiemHang = TinhDiemF1(),
+                TienHang = TinhtienF1()
             }).ToList();
             return Json(model, JsonRequestBehavior.AllowGet);
         }
@@ -528,6 +535,26 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             foreach (var item in _dd)
             {
                 tien = item.Diemdoi;
+            }
+            return tien;
+        }
+        public double? TinhtienF1()
+        {
+            double? tien = 0; ;
+            var _dd = DoiDiem.SelectAll();
+            foreach (var item in _dd)
+            {
+                tien = item.Tienhang;
+            }
+            return tien;
+        }
+        public double? TinhDiemF1()
+        {
+            double? tien = 0; ;
+            var _dd = DoiDiem.SelectAll();
+            foreach (var item in _dd)
+            {
+                tien = item.Diemhang;
             }
             return tien;
         }

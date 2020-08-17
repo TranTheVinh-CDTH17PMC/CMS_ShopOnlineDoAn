@@ -185,10 +185,10 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
                 }
                 KhuyenMai.Insert(km);
                 KhuyenMai.Save();
-                var _doidiem = DoiDiem.SelectById(1);
-                _doidiem.IsDelete = true;
-                DoiDiem.Update(_doidiem);
-                DoiDiem.Save();
+                //var _doidiem = DoiDiem.SelectById(1);
+                //_doidiem.IsDelete = true;
+                //DoiDiem.Update(_doidiem);
+                //DoiDiem.Save();
                 var id = km.Id;
                 if (model.IsAll == "all")
                 {

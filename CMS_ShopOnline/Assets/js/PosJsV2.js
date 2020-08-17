@@ -233,6 +233,9 @@ function GetNameCustomer(id)
                     $('#diemtoida').val(item.SoDiemToiDa);
                     $('#tiendoi').val(item.SoTien);
                     $('#diemdoi').val(item.SoDiem);
+                    $('#diemhienco').val(item.SoDiemToiDa);
+                    $('#tienhang').val(item.TienHang);
+                    $('#diemhang').val(item.DiemHang);
                     $("#diemtoida").attr({
                         "max": item.SoDiemToiDa,        // substitute your own
                         "min": 0          // values (or variables) here
@@ -366,19 +369,34 @@ function TotalMoney(id)
 function calcTotalAmount() {
     var total = 0;
     var total1 = 0;
+    var tiendoidiem = 0;
+    var tiendoi = $("#tienhang").val();
+    var diemdoi = $("#diemhang").val();
     var selector = '.detailList tr';
     $('table > tbody  > tr').each(function (index, elem) {
         if ($(elem).find('.detail_item_total').text() != '') {
             total = total + parseFloat($(elem).find('.detail_item_total').val());
+            $("#tongtam").val(total);
             total1 = total - $("#TongKM").val();
             if (total1 < 0)
             {
                 total1 = 0;
             }
+            
+           
             $("#totalafterdiscount").val(total1);
             $('input[name="TongTien"]').val(total1);        
         }
     });
+    if (tiendoi == 0)
+    {
+        tiendoidiem = 0;
+    }
+    else
+    {
+        tiendoidiem = total1 / tiendoi;
+    }
+    $("#tiendoidiem").val(Math.floor(tiendoidiem));
     Excesscash();
 }
 function Excesscash()
