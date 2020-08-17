@@ -158,7 +158,8 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     listDVT = DVT.SelectAll().Where(x => x.IsDelete != true),
                     listLoaiSP = LoaiSP.SelectAll().Where(x => x.IsDelete != true && x.IsProducts == true)
                 };
-                TempData["FailMessage"] = "FailCreate";
+                ModelState.AddModelError("","Tên sản phẩm đã tồn tại !");
+                //TempData["FailMessage"] = "FailCreate";
                 return View(model);
             }
 

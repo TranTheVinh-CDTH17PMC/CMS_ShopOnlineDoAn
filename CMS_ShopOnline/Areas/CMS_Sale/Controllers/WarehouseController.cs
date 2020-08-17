@@ -180,57 +180,78 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             var model = new NguyenLieuViewModel
             {
                 listDVT = DVT.SelectAll().Where(x => x.IsDelete != true),
-                listLoaiSP = LoaiSP.SelectAll().Where(x => x.IsDelete != true && x.IsProducts == true)
+                listLoaiSP = LoaiSP.SelectAll().Where(x => x.IsDelete != true && x.IsProducts != true)
             };
             return View(model);
         }
         [HttpPost]
         public ActionResult Create(NguyenLieuViewModel model, HttpPostedFileBase File)
         {
-            try
+            if (CheckName(model.Ten) == true)
             {
-                var _nguyenlieu = new NguyenLieu();
-                var path = "";
-                if (File != null)
+                try
                 {
-                    if (File.ContentLength > 0)
+                    var _nguyenlieu = new NguyenLieu();
+                    var path = "";
+                    if (File != null)
                     {
-                        if (Path.GetExtension(File.FileName).ToLower() == ".jpg"
-                            || Path.GetExtension(File.FileName).ToLower() == ".png"
-                            || Path.GetExtension(File.FileName).ToLower() == ".gif"
-                            || Path.GetExtension(File.FileName).ToLower() == ".jpeg")
+                        if (File.ContentLength > 0)
                         {
+                            if (Path.GetExtension(File.FileName).ToLower() == ".jpg"
+                                || Path.GetExtension(File.FileName).ToLower() == ".png"
+                                || Path.GetExtension(File.FileName).ToLower() == ".gif"
+                                || Path.GetExtension(File.FileName).ToLower() == ".jpeg")
+                            {
 
-                            string name = DateTime.Now.ToString()+"_"+File.FileName;
-                            name = name.Replace(" ", "");
-                            name = name.Replace("/", "");
-                            name = name.Replace(":", "");
-                            path = Path.Combine(Server.MapPath("~/Areas/CMS_Sale/Image/NguyenLieu/"),name);
-                            model.HinhAnh = name;
-                            File.SaveAs(path);
+                                string name = DateTime.Now.ToString() + "_" + File.FileName;
+                                name = name.Replace(" ", "");
+                                name = name.Replace("/", "");
+                                name = name.Replace(":", "");
+                                path = Path.Combine(Server.MapPath("~/Areas/CMS_Sale/Image/NguyenLieu/"), name);
+                                model.HinhAnh = name;
+                                File.SaveAs(path);
+                            }
                         }
                     }
-                }
-                
-                float vOut = Convert.ToSingle(model.DonGia);
-                _nguyenlieu.DonGia = vOut;
-                AutoMapper.Mapper.Map(model, _nguyenlieu);
-                _nguyenlieu.NgayTao = DateTime.Now;
-                _nguyenlieu.NgayNhap = datetimesetting;
-                _nguyenlieu.HSD = new DateTime(2010, 10, 10, 1, 1, 1);
-                _nguyenlieu.IsDelete = false;
-                _nguyenlieu.SoLuongKho = 0;
-                NguyenLieu.Insert(_nguyenlieu);
-                NguyenLieu.Save();
-                TempData["SuccessMessage"] = "Create";
-                return RedirectToAction("Index");
-            }
-            catch(Exception e)
-            {
 
+                    float vOut = Convert.ToSingle(model.DonGia);
+                    _nguyenlieu.DonGia = vOut;
+                    AutoMapper.Mapper.Map(model, _nguyenlieu);
+                    _nguyenlieu.NgayTao = DateTime.Now;
+                    _nguyenlieu.NgayNhap = datetimesetting;
+                    _nguyenlieu.HSD = new DateTime(2010, 10, 10, 1, 1, 1);
+                    _nguyenlieu.IsDelete = false;
+                    _nguyenlieu.SoLuongKho = 0;
+                    NguyenLieu.Insert(_nguyenlieu);
+                    NguyenLieu.Save();
+                    TempData["SuccessMessage"] = "Create";
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    e.Message.ToString();
+                }
             }
-            
-            return View();
+            else
+            {
+                model = new NguyenLieuViewModel
+                {
+                    listDVT = DVT.SelectAll().Where(x => x.IsDelete != true),
+                    listLoaiSP = LoaiSP.SelectAll().Where(x => x.IsDelete != true && x.IsProducts != true)
+                };
+                ModelState.AddModelError("", "Tên nguyên liệu đã tồn tại !");
+                return View(model);
+            }
+                return View();
+        }
+        public bool CheckName(string Name)
+        {
+            var check = NguyenLieu.GetbyName(Name);
+            if (check == null)
+            {
+                return true;
+            }
+            return false;
         }
         public ActionResult Edit(int Id)
         {
