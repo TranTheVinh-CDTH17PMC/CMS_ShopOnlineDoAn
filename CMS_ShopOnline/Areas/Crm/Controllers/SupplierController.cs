@@ -56,7 +56,9 @@ namespace CMS_ShopOnline.Areas.Crm.Controllers
                 {
                     Id = item.Id,
                     Ten = item.Ten,
-                    DiaChi = item.DiaChi +", "+ item.Quan + ", " + item.ThanhPho,
+                    DiaChi = item.DiaChi,
+                    Quan = item.Quan,
+                    ThanhPho = item.ThanhPho,
                     SDT = item.SDT,
                     Email = item.Email,
                     IsDelete = item.IsDelete
@@ -138,7 +140,9 @@ namespace CMS_ShopOnline.Areas.Crm.Controllers
             {
                 var _ncc = nhacungcap.SelectById(model.Id);
                 _ncc.Ten = model.Ten;
-                _ncc.DiaChi = model.DiaChi + ", " + model.Quan + ", " + model.ThanhPho;
+                _ncc.DiaChi = model.DiaChi;
+                _ncc.Quan = model.Quan;
+                _ncc.ThanhPho = model.ThanhPho;
                 _ncc.SDT = model.SDT;
                 _ncc.Email = model.Email;
                 nhacungcap.Update(_ncc);

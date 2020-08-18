@@ -98,7 +98,10 @@ $(document).ready(function () {
         var count = myTable.querySelectorAll("tr").length;
         if(count == 1)
         {
+
             $('#Custommer').val("");
+            $('#tongtam').val("");
+            $('#tiendoidiem').val("");
             $('#totalafterdiscount').val("");  
             $('.Excesscash').text("0");
         }

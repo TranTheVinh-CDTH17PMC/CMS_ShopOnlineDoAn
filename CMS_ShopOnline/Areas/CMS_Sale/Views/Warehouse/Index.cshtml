@@ -46,11 +46,11 @@
 {
     if (Status == false)
     {
-            <span class="badge badge-primary">Hoạt động</span>
+            <span class="badge badge-primary">Đang kinh doanh</span>
     }
     else
     {
-            <span class="badge badge-success">Đã khóa</span>
+            <span class="badge badge-success">Tạm ngưng</span>
     }
 }
 @helper Image(string img)
@@ -120,7 +120,7 @@
                         
                     </div>
                     <div class="card-header d-flex flex-row align-items-center justify-content-between">
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             <select class="form-control" name="idloai" id="idloai">
                                 <option value="">Tìm theo loại</option>
                                 @foreach (var item in ViewBag.loai)
@@ -138,16 +138,16 @@
                                 }
                             </select>
                         </div>*@
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <select class="form-control" name="IsDelete" id="IsDelete">
                                 <option value="">Trạng thái</option>
-                                    <option value="false">Đang hoạt động</option>
-                                    <option value="true">Đã khóa</option>
+                                    <option value="false">Đang kinh doanh</option>
+                                    <option value="true">Tạm ngưng</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary" style="width: 8%;border: 1px solid grey;border-left: none;"><i class="fa fa-search"></i></button>
-                        <button type="button" class="btn btn-primary" onclick="openpoupmy(false);"><i class="fa fa-file-pdf-o" style="font-size:16px"> PDF</i></button>
-                        <button type="button" class="btn btn-primary" onclick="openpoupmy(true);"><i class="fa fa-file-excel-o" style="font-size:16px"> Excel</i></button>
+                        <button type="submit" class="btn btn-primary" style="width: 10%;border: 1px solid grey;border-left: none;"><i class="fa fa-search"></i></button>
+                        <button type="button" class="btn btn-primary" onclick="openpoupmy(false);"><i class="fa fa-file-pdf-o" style="font-size:16px"></i> PDF</button>
+                        <button type="button" class="btn btn-primary" onclick="openpoupmy(true);"><i class="fa fa-file-excel-o" style="font-size:16px"></i> Excel</button>
                         </div>
                         }
                         @using (Html.BeginForm("Delete", "Warehouse", FormMethod.Post))

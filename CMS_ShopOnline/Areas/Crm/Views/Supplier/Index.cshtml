@@ -42,7 +42,7 @@
     if (Status == false)
     {
         
-        <span class="badge badge-primary">Hoạt động</span>
+        <span class="badge badge-primary">Đang hợp tác</span>
     }
 }
 <div class="container-fluid" id="container-wrapper">
@@ -83,11 +83,11 @@
                     <div class="table-responsive">
                         @Html.Grid(Model).Columns(columns =>
                    {
-                       columns.Add().Titled("Mã").SetWidth(5).Sanitized(false).Encoded(false).RenderValueAs(x => Ma(x.Id));
+                       columns.Add().Titled("Mã").Sanitized(false).Encoded(false).RenderValueAs(x => Ma(x.Id));
                        columns.Add(x => x.Ten).Titled("Nhà cung cấp");
                        columns.Add(x => x.SDT).Titled("Số điện thoại");
                        columns.Add(x => x.Email).Titled("Email");
-                       columns.Add(x => x.DiaChi).Titled("Địa Chỉ");
+                       columns.Add().Titled("Địa Chỉ").RenderValueAs(x => x.DiaChi + ", " + x.Quan + ", " + x.ThanhPho);
                        columns.Add().Titled("Trạng thái").Sanitized(false).Encoded(false).RenderValueAs(x=>Delete(x.IsDelete));
                        columns.Add().Titled("Tùy chỉnh").Css("text center")
                        .Encoded(false)

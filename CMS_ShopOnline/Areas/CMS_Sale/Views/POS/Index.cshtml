@@ -26,7 +26,9 @@
         height: 200px;
         overflow: auto;
     }
-
+    .rowproduct{
+        height:700px;
+    }
     .table-wrapper-scroll-y {
         display: block;
     }
@@ -206,22 +208,22 @@
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <li>
+                    @*<li>
                         <label style="margin: 13px 15px; color: white">
                             Nhân viên : @Helper.CurrentUser.TenNV
                         </label>
-                    </li>
-                    <li style="border-right: 1px solid #E1E1E1; padding-right: 15px;">
+                    </li>*@
+                    @*<li style="border-right: 1px solid #E1E1E1; padding-right: 15px;">
                         <label style="margin: 13px 15px; color: white">
-                            @*@Helper.CurrentUser.TenNV*@
+                            @Helper.CurrentUser.TenNV
                         </label>
-                    </li>
+                    </li>*@
                     <li class="dropdown user-profile">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="hello">Xin chào, </span>My Coffee<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="hello">Xin chào, </span>@Helper.CurrentUser.TenNV</a>
+                        @*<ul class="dropdown-menu">
                             <li><a href="account"><i class="fa fa-user"></i>Tài khoản</a></li>
                             <li><a href="authentication/logout"><i class="fa fa-power-off"></i>Thoát</a></li>
-                        </ul>
+                        </ul>*@
                     </li>
                 </ul>
             </div>
@@ -312,26 +314,22 @@
                                                         </div>
                                                         <div class="col-md-8">
                                                             <div class="col-md-10 padd-0" style="position: relative;">
-                                                                <input class="form-control" name="TenKH" value="" id="dlcustomer" placeholder = "Tìm khách hàng...", style="border-radius: 3px 0 0 3px !important;">
+                                                                <input class="form-control" type="text" name="TenKH" value="" id="dlcustomer" placeholder = "Tìm khách hàng...", style="border-radius: 3px 0 0 3px !important;">
                                                                     @if (Helper.Khuyenmai() != true)
                                                                     {
-                                                                        <label class="custom-control-label">
-                                                                            Sử dụng điểm
-                                                                        </label><br />
+                                                                        <label class="custom-control-label">Sử dụng điểm</label>
                                                                         <label class="custom-control custom-checkbox" for="chkPassport">
                                                                             <input class="custom-control-input" data-val="true" data-val-required="The IsDelete field is required." id="chkPassport" name="IsDelete" type="checkbox">
                                                                             <span class="custom-control-indicator"></span>
                                                                         </label>
                                                                         <br />
                                                                         <div id="dvPassport">
-                                                                            <label class="custom-control-label">
-                                                                                Điểm hiện có
-                                                                            </label>
-                                                                            <input class="form-control" value="0" id="diemhienco" placeholder="Điểm tích lũy" , style="border-radius: 3px 0 0 3px !important;" type="text" readonly>
-                                                                            <label class="custom-control-label">
-                                                                               Nhập điểm sử dụng
-                                                                            </label>
-                                                                            <input class="form-control" value="0" name="diemtoida" id="diemtoida" placeholder="Điểm tích lũy" , style="border-radius: 3px 0 0 3px !important;" type="text">
+                                                                            <label class="custom-control-label" style="margin-left:-187px;margin-bottom:2px">Điểm / Điểm sử dụng</label>
+                                                                            <div style="display:flex;margin-top:-23px">
+                                                                            <input class="form-control" value="0" id="diemhienco" placeholder="Điểm tích lũy" , style="border-radius: 3px 0 0 3px !important; width:143px" type="text" readonly>
+                                                                             <i class="fa fa-arrow-right" style="margin-top: 7px;margin-left: 7px;margin-right: 7px;"></i>
+                                                                            <input class="form-control" name="diemtoida" id="diemtoida" placeholder="Điểm sử dụng" , style="border-radius: 3px 0 0 3px !important; width:143px" type="text">
+                                                                            </div>
                                                                         </div>
                                                                         <input class="form-control" value="0" id="tiendoi" type="hidden">
                                                                         <input class="form-control" value="0" id="diemdoi" type="hidden">
@@ -412,24 +410,16 @@
                                                         </div>   
                                                     </div>
                                                     <div class="form-group marg-bot-10 clearfix">
-                                                        <div class="col-md-4 padd-right-0">
-                                                            <label>Khách đưa</label>
-                                                        </div>
-                                                        <div class="col-md-8">
-                                                            <input type="text" id="Custommer" class="form-control text-right money1" placeholder="0" style="border-radius: 0 !important;">
-                                                        </div>  
-                                                    </div>
-                                                    <div class="form-group marg-bot-10 clearfix">
                                                         <div class="col-md-4">
                                                             <label>Tổng tiền</label>
                                                         </div>
                                                         <div class="col-md-8">
-                                                            <input type="text" class="form-control text-right money1" id="totalafterdiscount" placeholder="0"  style="border-radius: 0 !important;" onchange="change(this,'TongTien');" readonly />
-                                                            @Html.TextBoxFor(x => x.TongTien, new { @class = "form-control text-right", Type= "hidden" })
+                                                            <input type="text" class="form-control text-right money1" id="totalafterdiscount" placeholder="0" style="border-radius: 0 !important;" onchange="change(this,'TongTien');" readonly />
+                                                            @Html.TextBoxFor(x => x.TongTien, new { @class = "form-control text-right", Type = "hidden" })
                                                         </div>
                                                     </div>
-                                                     @if (Helper.Khuyenmai() != true)
-                                                     {
+                                                    @if (Helper.Khuyenmai() != true)
+                                                    {
                                                         <div class="form-group marg-bot-10 clearfix">
                                                             <div class="col-md-4">
                                                                 <label>Điểm cộng thêm</label>
@@ -438,7 +428,15 @@
                                                                 <input type="text" class="form-control text-right money1" id="tiendoidiem" placeholder="0" style="border-radius: 0 !important;" readonly />
                                                             </div>
                                                         </div>
-                                                     }
+                                                    }
+                                                    <div class="form-group marg-bot-10 clearfix">
+                                                        <div class="col-md-4 padd-right-0">
+                                                            <label>Khách đưa</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <input type="text" id="Custommer" class="form-control text-right money1" placeholder="0" style="border-radius: 0 !important;">
+                                                        </div>  
+                                                    </div>           
                                                     <div class="form-group marg-bot-10 clearfix">
                                                         <div class="col-md-4">
                                                             <label class="debt">Tiền thừa</label>
@@ -459,11 +457,9 @@
                                                     <i class="fa fa-print"></i> Lưu và
                                                     in (F10)
                                                 </button>*@
-                                                <a href="/orders">
-                                                    <button type="button" class="btn-back btn btn-default">
-                                                        <i class="fa fa-arrow-left"></i> Hủy
-                                                    </button>
-                                                </a>
+                                                <button type="button" id="cancel" class="btn-back btn btn-danger">
+                                                    <i class="fa fa-arrow-left"></i> Hủy
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -498,6 +494,7 @@
 @if (ViewBag.SuccessMessage != null)
 {
 <script>
+   
     $(document).ready(function () {
         newwindow = window.open('/CMS_Sale/POS/Print?id=' + @ViewBag.SuccessMessage + '', 'print', 'height=500,width=500');
         setTimeout(function () {
@@ -506,6 +503,11 @@
 </script>
 }
 <script type="text/javascript">
+    $("#cancel").click(function () {
+        $("input[type=text], textarea").val("");
+        $('#chkPassport').click();
+        $('.ibtnDel').click();
+    });
 function change(idthis, idthat) {
     var el = idthis.value.replace(/[.]/g, '');
     $("#" + idthat + "").val(el);

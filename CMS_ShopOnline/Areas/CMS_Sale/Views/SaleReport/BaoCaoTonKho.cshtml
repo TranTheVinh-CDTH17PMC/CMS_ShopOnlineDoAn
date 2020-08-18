@@ -41,7 +41,17 @@ else
         @date.Date.ToString("dd/MM/yyyy")
 }
 }
+<style>
+    .imageInputWrapper {
+        background-color: white;
+        display: flex;
+        align-items: center;
+    }
 
+    .red {
+        box-shadow: 0px 0px 2px 2px red;
+    }
+</style>
 <div class="container-fluid" id="container-wrapper">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Báo cáo tồn kho</h1>
@@ -60,17 +70,17 @@ else
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <div class="col-md-5">
                         <span class="input-daterange input-group date" style="margin-right:5px">
-                            @Html.TextBox("StartDate", Request["StartDate"] != null ? Request["StartDate"] : aDateTime.ToString("dd/MM/yyyy"), new { @class = "form-control form_datetime", autocomplete = "off", placeholder = "Từ ngày", @type = "date" })
+                            @Html.TextBox("StartDate", Request["StartDate"] != null ? Request["StartDate"] : aDateTime.ToString("dd/MM/yyyy"), new { @class = "form-control form_datetime", autocomplete = "off", placeholder = "Từ ngày", @type = "date", Style="width:175px" })
                             <span class="input-group-addon">
                                 <i class="fa fa-exchange" style="padding: 10px;"></i>
                             </span>
-                            @Html.TextBox("EndDate", Request["EndDate"] != null ? Request["EndDate"] : retDateTime.ToString("dd/MM/yyyy"), new { @class = "form-control form_datetime", autocomplete = "off", placeholder = "Đến ngày", @type = "date" })
+                            @Html.TextBox("EndDate", Request["EndDate"] != null ? Request["EndDate"] : retDateTime.ToString("dd/MM/yyyy"), new { @class = "form-control form_datetime", autocomplete = "off", placeholder = "Đến ngày", @type = "date", Style = "width:175px" })
                         </span>
                     </div>
                     <div class="col-md-7">
-                        <button type="submit" class="btn btn-primary" style="width: 14%;border: 1px solid grey;border-left: none;"><i class="fa fa-search"></i></button>
-                        <button type="button" class="btn btn-primary" onclick="openpoupmy(false);"><i class="fa fa-file-pdf-o" style="font-size:16px"> PDF</i></button>
-                        <button type="button" class="btn btn-primary" onclick="openpoupmy(true);"><i class="fa fa-file-excel-o" style="font-size:16px"> Excel</i></button>
+                        <button type="submit" id="search" class="btn btn-primary" style="width: 14%;border: 1px solid grey;border-left: none;"><i class="fa fa-search"></i></button>
+                        <button type="button" class="btn btn-primary" onclick="openpoupmy(false);"><i class="fa fa-file-pdf-o" style="font-size:16px"></i> PDF</button>
+                        <button type="button" class="btn btn-primary" onclick="openpoupmy(true);"><i class="fa fa-file-excel-o" style="font-size:16px"></i> Excel</button>
                     </div>
                     </div>
                 }
@@ -170,6 +180,28 @@ else
 
 
 <script>
+    $(function () {
+        $(".form_datetime").each(function () {
+            $(this).add($(this).next()).wrapAll('<div class="imageInputWrapper"></div>');
+        });
+
+        $('#search').click(function (e) {
+            debugger
+            $("#StartDate").removeClass("red");
+            $("#EndDate").removeClass("red");
+            var fromDate = $("#StartDate").val();
+            var toDate = $("#EndDate").val();
+
+            if (toDate <= fromDate) { //here only checks the day not month and year
+                $("#StartDate").addClass("red");
+                $("#EndDate").addClass("red");
+                return false;
+                errors++;
+            }
+
+            if (errors) e.preventDefault();
+        });
+    });
     function openpoupmy(value) {
         debugger
         var sd = $("#StartDate").val();

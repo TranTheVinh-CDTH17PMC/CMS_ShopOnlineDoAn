@@ -76,7 +76,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     NgayNhap = item.NgayNhap,
                     HSD = item.HSD
                 }).OrderByDescending(x=>x.Id);
-            ViewBag.loai = LoaiSP.SelectAll().Where(x => x.IsDelete != true && x.IsProducts == true);
+            ViewBag.loai = LoaiSP.SelectAll().Where(x => x.IsDelete != true && x.IsProducts != true);
             ViewBag.dvt = DVT.SelectAll().Where(x => x.IsDelete != true);
             if (Helpers.Helper.IsManager() != true)
             {
