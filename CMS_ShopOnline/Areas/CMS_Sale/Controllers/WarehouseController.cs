@@ -80,7 +80,6 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             ViewBag.dvt = DVT.SelectAll().Where(x => x.IsDelete != true);
             if (Helpers.Helper.IsManager() != true)
             {
-                model = model.Where(x => x.IsDelete != true);
                 if (hangcon != null)
                 {
                     model = model.Where(x => x.SoLuongKho > 0 && x.IsDelete != true);
@@ -156,15 +155,16 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 {
                     model = model.Where(x => ngayhethan(x.HSD) >= 0 && x.HSD != datetimesetting);
                 }
+                if (IsDelete != true)
+                {
+                    model = model.Where(x => x.IsDelete == false).ToList();
+                }
+                if (IsDelete == true)
+                {
+                    model = model.Where(x => x.IsDelete == true).ToList();
+                }
             }
-            if (IsDelete != true)
-            {
-                model = model.Where(x => x.IsDelete == false).ToList();
-            }
-            else
-            {
-                model = model.Where(x => x.IsDelete == true).ToList();
-            }
+
             ViewBag.SuccessMessage = TempData["SuccessMessage"];
             return View(model);
         }
@@ -351,6 +351,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             var saphethang1 = Helpers.Helper.ChuyenThanhKhongDau(saphethang);
             var hethang1 = Helpers.Helper.ChuyenThanhKhongDau(hethang);
             var all1 = Helpers.Helper.ChuyenThanhKhongDau(all);
+            var hethandung1 = Helpers.Helper.ChuyenThanhKhongDau(hethandung);
             var model = TemplatePrint.SelectById(1);
             IEnumerable<NguyenLieuViewModel> modellist = NguyenLieu.SelectAll().Select(
                item => new NguyenLieuViewModel
