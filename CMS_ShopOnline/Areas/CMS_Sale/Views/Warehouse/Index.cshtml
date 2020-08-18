@@ -191,8 +191,8 @@
         var saphethang = getUrlVars()["saphethang"];
         var hethang = getUrlVars()["hethang"];
         var all = getUrlVars()["all"];
-        
-        newwindow = window.open('/CMS_Sale/Warehouse/Print?name=' + name + '&ExportExcel=' + value + '&idloai=' + idloai + '&iddvt=' + iddvt + '&hangcon=' + hangcon + '&tonkho=' + tonkho + '&saphethang=' + saphethang + '&hethang=' + hethang + '&all=' + all + '', 'print', 'height=500,width=500');
+        var hethandung = getUrlVars()["hethandung"];
+        newwindow = window.open('/CMS_Sale/Warehouse/Print?name=' + name + '&ExportExcel=' + value + '&hethandung=' + hethandung + '&idloai=' + idloai + '&iddvt=' + iddvt + '&hangcon=' + hangcon + '&tonkho=' + tonkho + '&saphethang=' + saphethang + '&hethang=' + hethang + '&all=' + all + '', 'print', 'height=500,width=500');
                 setTimeout(function () {
                 }, 500);
             }

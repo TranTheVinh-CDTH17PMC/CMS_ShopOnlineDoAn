@@ -394,7 +394,7 @@ function calcTotalAmount() {
     }
     else
     {
-        tiendoidiem = total1 / tiendoi;
+        tiendoidiem = (total1 / tiendoi)*diemdoi;
     }
     $("#tiendoidiem").val(Math.floor(tiendoidiem));
     Excesscash();

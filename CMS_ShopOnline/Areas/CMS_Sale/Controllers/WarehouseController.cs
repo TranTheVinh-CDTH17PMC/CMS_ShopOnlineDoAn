@@ -155,11 +155,11 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 {
                     model = model.Where(x => ngayhethan(x.HSD) >= 0 && x.HSD != datetimesetting);
                 }
-                if (IsDelete != true)
+                if (IsDelete != true && IsDelete != null)
                 {
                     model = model.Where(x => x.IsDelete == false).ToList();
                 }
-                if (IsDelete == true)
+                if (IsDelete == true && IsDelete != null)
                 {
                     model = model.Where(x => x.IsDelete == true).ToList();
                 }
@@ -343,7 +343,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             }
             return View();
         }
-        public ActionResult Print(string name,bool ExportExcel, int? iddvt, int? idloai,string hangcon, string tonkho, string saphethang, string hethang, string all)
+        public ActionResult Print(string name,bool ExportExcel, int? iddvt, int? idloai,string hangcon, string tonkho, string saphethang, string hethang, string all,string hethandung, bool? IsDelete)
         {
             var idten = Helpers.Helper.ChuyenThanhKhongDau(name);
             var hangcon1 = Helpers.Helper.ChuyenThanhKhongDau(hangcon);
@@ -403,6 +403,18 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 {
                     modellist = modellist.Where(x => x.Id.ToString().Contains(idten) || Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(idten));
                 }
+                if (IsDelete != true && IsDelete != null)
+                {
+                    modellist = modellist.Where(x => x.IsDelete == false).ToList();
+                }
+                if (IsDelete == true && IsDelete != null)
+                {
+                    modellist = modellist.Where(x => x.IsDelete == true).ToList();
+                }
+                if (hethandung1 != null && hethandung1 != "" && hethandung1 != "undefined")
+                {
+                    modellist = modellist.Where(x => ngayhethan(x.HSD) >= 0 && x.HSD != datetimesetting);
+                }
             }
             else
             {
@@ -437,6 +449,10 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 if (idten != null && idten != "" && idten != "undefined")
                 {
                     modellist = modellist.Where(x => x.IsDelete != true && x.Id.ToString().Contains(idten) || Helpers.Helper.ChuyenThanhKhongDau(x.Ten).Contains(idten));
+                }
+                if (hethandung1 != null && hethandung1 != "" && hethandung1 != "undefined")
+                {
+                    modellist = modellist.Where(x => x.IsDelete != true && ngayhethan(x.HSD) >= 0 && x.HSD != datetimesetting);
                 }
             }
             

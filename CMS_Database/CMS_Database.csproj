@@ -137,6 +137,7 @@
   <ItemGroup>
     <Compile Include="Entities\CongViec.cs" />
     <Compile Include="Entities\CTKhuyenmai.cs" />
+    <Compile Include="Entities\DeleteHSD.cs" />
     <Compile Include="Entities\DoanhThuTheoTungNgay.cs" />
     <Compile Include="Entities\DoanhThuTheoTungThang.cs" />
     <Compile Include="Entities\DoiDiem.cs" />
