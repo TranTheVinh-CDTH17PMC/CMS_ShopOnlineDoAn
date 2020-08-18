@@ -16,25 +16,24 @@
     <li class="nav-item">
         <a class="nav-link" target="_blank" href="@Url.Action("Index", "POS", new { area ="CMS_Sale" })">
             <i class="fas fa-desktop"></i>
-            <span>POS</span>
+            <span>Máy POS</span>
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap"
            aria-expanded="true" aria-controls="collapseBootstrap">
             <i class="fas fa-home"></i>
-            <span>Quản lý</span>
+            <span>Quản lý cửa hàng</span>
         </a>
         <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
             <div id="cc" class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">QUẢN LÝ</h6>
+                <h6 class="collapse-header">QUẢN LÝ CỬA HÀNG</h6>
                 <a class="collapse-item" href="@Url.Action("Index", "PurchaseOrder", new { area ="CMS_Sale" })" >Đơn hàng</a>
                 <a class="collapse-item" href="@Url.Action("Index", "Products", new { area ="CMS_Sale" })">Sản phẩm</a>
                 <a class="collapse-item" href="@Url.Action("Index", "InOrder", new { area ="CMS_Sale" })">Nhập hàng</a>
                 <a class="collapse-item" href="@Url.Action("Index", "OutOrder", new { area ="CMS_Sale" })">Xuất hàng</a>
                 <a class="collapse-item" href="@Url.Action("Index", "Warehouse", new { area ="CMS_Sale" })">Kho hàng</a>
-                <a class="collapse-item" href="@Url.Action("Index", "ProductType", new { area ="CMS_Sale" })">Loại & Đvt</a>
-                
+                <a class="collapse-item" href="@Url.Action("Index", "ProductType", new { area ="CMS_Sale" })">Loại & Đvt</a>               
             </div>
         </div>
     </li>
@@ -42,11 +41,11 @@
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseForm"
            aria-expanded="true" aria-controls="collapseForm">
             <i class="fas fa-users"></i>
-            <span>Khách hàng</span>
+            <span>Quản lý khách hàng</span>
         </a>
         <div id="collapseForm" class="collapse" aria-labelledby="headingForm" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">KHÁCH HÀNG</h6>
+                <h6 class="collapse-header">QUẢN LÝ KHÁCH HÀNG</h6>
                 <a class="collapse-item" href="@Url.Action("Index", "Customer", new { area ="Crm" })">Khách hàng</a>
                 <a class="collapse-item" href="@Url.Action("Index", "Supplier", new { area ="Crm" })">Nhà cung cấp</a>
                 @*<a class="collapse-item" href="modals.html">Nhóm khách hàng</a>
