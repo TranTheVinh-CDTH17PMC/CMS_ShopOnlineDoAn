@@ -125,6 +125,14 @@ namespace CMS_ShopOnline.Helpers
             }
             return false;
         }
+        public static bool IsQL()
+        {
+            if (ChuyenThanhKhongDau(CurrentUser.LoaiNV.TenCode) == ChuyenThanhKhongDau("QL"))
+            {
+                return true;
+            }
+            return false;
+        }
         public static bool Khuyenmai()
         {
             IDoiDiem doidiem = new DoiDiemRepository();

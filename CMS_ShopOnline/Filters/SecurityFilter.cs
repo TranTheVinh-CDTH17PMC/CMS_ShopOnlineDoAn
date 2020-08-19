@@ -109,7 +109,6 @@ namespace CMS_ShopOnline.App_Start
             //        }
             //    }
             //}
-            var result = _db.Database.SqlQuery<DeleteHSD>("exec XoaSoLuongHetHan");
             DeleteKMQH();
         }
         public static void DeleteKMQH()

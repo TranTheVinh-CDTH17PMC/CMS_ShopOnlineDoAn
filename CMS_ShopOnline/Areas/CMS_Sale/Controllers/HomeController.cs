@@ -59,9 +59,11 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             double? tongtienchi = 0;
             double? tongtienthuhn = 0;
             double? tongtienchihn = 0;
-            DateTime aDateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+            var year = DateTime.Now.Year;
+            var month = DateTime.Now.Month;
+            DateTime aDateTime = GetFistDayInMonth(DateTime.Now.Year, DateTime.Now.Month);
             // Cộng thêm 1 tuần và trừ đi một ngày.
-            DateTime retDateTime = aDateTime.AddDays(-7).AddDays(1);
+            DateTime retDateTime = GetLastDayInMonth(DateTime.Now.Year, DateTime.Now.Month);
             var startDate = Convert.ToDateTime(aDateTime.ToString("yyyy/MM/dd"));
             var endDate = Convert.ToDateTime(retDateTime.ToString("yyyy/MM/dd"));
             var datenow = Convert.ToDateTime(DateTime.Now.ToString("yyyy/MM/dd"));
@@ -78,25 +80,25 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             ViewBag.Ten = KhuyenMai.SelectAll().Where(x => x.IsDelete != true);
             foreach (var item in tongthuhn)
             {
-                tongtienthuhn += +item.TongTien;
+                tongtienthuhn += item.TongTien;
             }
             var tongchihn = PhieuNhap.SelectAll().Where(x => x.NgayTao >= datenow);
             foreach (var item in tongchihn)
             {
-                tongtienchihn += +item.TongTien;
+                tongtienchihn += item.TongTien;
             }
-            var tongthu = HoaDon.SelectAll().Where(x => x.NgayTao >= endDate && x.NgayTao <= startDate || x.NgayTao >= datenow);
-            
+            var tongthu = _db.Database.SqlQuery<DoanhThuTheoTungNgay>("exec DoanhThuTheoNgay @Month,@Year", new SqlParameter("@Month", month), new SqlParameter("@Year", year)).ToList();
+
             foreach (var item in tongthu)
             {
-                tongtienthu += + item.TongTien;
+                tongtienthu +=  item.Tongthu;
             }
-            var tongchi = PhieuNhap.SelectAll().Where(x => x.NgayTao >= endDate && x.NgayTao <= startDate || x.NgayTao >= datenow);
+            var tongchi = _db.Database.SqlQuery<DoanhThuTheoTungNgay>("exec DoanhThuTheoNgay @Month,@Year", new SqlParameter("@Month", month), new SqlParameter("@Year", year)).ToList();
             foreach (var item in tongchi)
             {
-                tongtienchi += +item.TongTien;
+                tongtienchi += item.Tongchi;
             }
-            ViewBag.tongdonhang = HoaDon.SelectAll().Where(x => x.NgayTao >= endDate && x.NgayTao <= startDate || x.NgayTao >= datenow).Count();
+            ViewBag.tongdonhang = HoaDon.SelectAll().Where(x => x.NgayTao >= aDateTime && x.NgayTao <= retDateTime || x.NgayTao >= datenow).Count();
             ViewBag.countHangCon = NguyenLieu.SelectAll().Where(x => x.SoLuongKho > 0).Count();
             ViewBag.tonghang = NguyenLieu.SelectAll().Count();
             ViewBag.tongthu = tongtienthu;

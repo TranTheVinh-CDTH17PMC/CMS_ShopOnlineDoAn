@@ -260,6 +260,13 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             ViewBag.tongtien = tongtien;
             return View(model);
         }
+        public ActionResult BarcharTheongayReal()
+        {
+            var year = DateTime.Now.Year;
+            var month = DateTime.Now.Month;
+            var model = _db.Database.SqlQuery<DoanhThuTheoTungNgay>("exec DoanhThuTheoNgay @Month,@Year", new SqlParameter("@Month", month), new SqlParameter("@Year", year)).ToList();
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
         public int ngay(DateTime ngaynhap)
         {
             int i = 0;

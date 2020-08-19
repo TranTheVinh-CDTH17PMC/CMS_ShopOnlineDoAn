@@ -138,6 +138,7 @@ $(document).ready(function () {
         calcTotalAmount();
     });
     $('#txtName').autocomplete({
+
         minLength: 1,
         source: function (request, response) {
             $.ajax({

@@ -41,13 +41,17 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
                     DetailsPhanQuyen = Getphanquyen(item.Id),
                     LDetailsPhanQuyen = Getphanquyen(item.Id).ToList(),
                 }).ToList();
-            if(Helpers.Helper.IsGD()==true)
+            if (Helpers.Helper.IsGD() == true)
             {
                 ViewBag.LoaiNV = LoaiNV.SelectAll();
             }
-            else
+             if (Helpers.Helper.IsQL() == true)
             {
-                ViewBag.LoaiNV = LoaiNV.SelectAll().Where(x=>x.TenCode != "GD");
+                ViewBag.LoaiNV = LoaiNV.SelectAll().Where(x => x.TenCode != "GD" && x.TenCode != "QL");
+            }
+             if(Helpers.Helper.IsQL() != true && Helpers.Helper.IsGD() != true)
+            {
+                ViewBag.LoaiNV = LoaiNV.SelectAll().Where(x => x.TenCode != "GD" && x.TenCode != "QL");
             }
             //ViewBag.PhanQuyen = PhanQuyen.SelectAll();
             ViewBag.ListController = ListController.SelectAll();
@@ -67,10 +71,9 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
         }
         public IEnumerable<DetailsPhanQuyenViewModel> Getphanquyen(int? name)
         {
-            if (Helpers.Helper.IsGD() != true)
+            if (Helpers.Helper.IsGD() == true)
             {
-                var idgd = LoaiNV.Selectbyname("GD");
-                var model1 = PhanQuyen.SelectAll().Where(x => x.IdControllerName == name && x.IdRole != idgd.Id).Select(
+                var model1 = PhanQuyen.SelectAll().Where(x => x.IdControllerName == name).Select(
                     item => new DetailsPhanQuyenViewModel
                     {
                         Id = item.Id,
@@ -80,19 +83,34 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
                     });
                 return model1;
             }
-            else
+            if (Helpers.Helper.IsQL() == true)
             {
-                var model = PhanQuyen.SelectAll().Where(x => x.IdControllerName == name).Select(
-               item => new DetailsPhanQuyenViewModel
-               {
-                   Id = item.Id,
-                   IdControllerName = item.IdControllerName,
-                   IdRole = item.IdRole,
-                   IsDelete = item.IsDelete,
-               });
+                var idgd = LoaiNV.Selectbyname("GD");
+                var idql = LoaiNV.Selectbyname("QL");
+                var model = PhanQuyen.SelectAll().Where(x => x.IdControllerName == name && x.IdRole != idgd.Id && x.IdRole != idql.Id).Select(
+                item => new DetailsPhanQuyenViewModel
+                {
+                    Id = item.Id,
+                    IdControllerName = item.IdControllerName,
+                    IdRole = item.IdRole,
+                    IsDelete = item.IsDelete,
+                });
                 return model;
             }
-           
+            else
+            {
+                var idgd = LoaiNV.Selectbyname("GD");
+                var idql = LoaiNV.Selectbyname("QL");
+                var model = PhanQuyen.SelectAll().Where(x => x.IdControllerName == name && x.IdRole != idgd.Id && x.IdRole != idql.Id).Select(
+                item => new DetailsPhanQuyenViewModel
+                {
+                    Id = item.Id,
+                    IdControllerName = item.IdControllerName,
+                    IdRole = item.IdRole,
+                    IsDelete = item.IsDelete,
+                });
+                return model;
+            }  
         }
         // GET: Administration/Setting/Details/5
         public ActionResult Details(int id,string value)

@@ -290,7 +290,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             var modellist = PhieuXuat.SelectById(Id);
             model.Content = model.Content.Replace("{DataTable}", BuildHtmlNT(modellist.Id));
             model.Content = model.Content.Replace("{Ten}", "Hóa đơn xuất");
-            model.Content = model.Content.Replace("{TongTien}", modellist.TongTien.ToString());
+            model.Content = model.Content.Replace("{TongTien}", Helpers.Helper.ToCurrencyStr(modellist.TongTien, "0"));
             model.Content = model.Content.Replace("{NguoiLap}", Helpers.Helper.CurrentUser.TenNV);
             model.Content = model.Content.Replace("{NgayLap}", DateTime.Now.Date.ToString("dd/MM/yyyy"));
             modellist.IsPrint = true;
