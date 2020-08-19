@@ -263,7 +263,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             var model = new NguyenLieuViewModel();
             var _nguyenlieu = NguyenLieu.SelectById(Id);
             model.listDVT = DVT.SelectAll().Where(x => x.IsDelete != true);
-            model.listLoaiSP = LoaiSP.SelectAll().Where(x => x.IsDelete != true && x.IsProducts == true);
+            model.listLoaiSP = LoaiSP.SelectAll().Where(x => x.IsDelete != true && x.IsProducts != true);
             AutoMapper.Mapper.Map(_nguyenlieu, model);
             return View(model);
         }

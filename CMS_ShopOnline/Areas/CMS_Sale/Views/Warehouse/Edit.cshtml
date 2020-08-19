@@ -25,7 +25,7 @@
                                 <span class='label label-info' style="display:none" id="upload-file-info"></span>
                             </div>
                             <div class="text-center" id="display-image">
-                                <img src="/Assets/img/icons/add-image2.png" title="" id="imgAvt" style="max-height:187px" />
+                                <img src="~/Areas/CMS_Sale/Image/NguyenLieu/@Model.HinhAnh" title="" id="imgAvt" style="max-height:187px" />
                             </div>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                         </div>
                         <div class="form-group">
                             <label>Số Lượng Kho</label>
-                            @Html.TextBoxFor(model => model.SoLuongKho, new { @class = "form-control", Type = "number" , @readonly = "readonly" })
+                            @Html.TextBoxFor(model => model.SoLuongKho, new { @class = "form-control" , @readonly = "readonly" })
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Phân loại</label>
