@@ -27,6 +27,10 @@
                             @Html.TextBoxFor(model => model.MatKhau, new { @class = "form-control", Type = "password" })
                         </div>
                         <div class="form-group">
+                            <label>SLĐN Sai</label>
+                            @Html.TextBoxFor(model => model.SLDNSai, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
                             <label for="exampleFormControlSelect1">Loại tài khoản</label>
                             <select class="form-control " data-val="true" data-val-number="The field Loại người dùng must be a number." data-val-required="Bắt buộc nhập" id="IdLoaiNV" name="IdLoaiNV">
                                 <option @(Model.IdLoaiNV == null ? "selected" : "") value="" data-code="">Rỗng</option>

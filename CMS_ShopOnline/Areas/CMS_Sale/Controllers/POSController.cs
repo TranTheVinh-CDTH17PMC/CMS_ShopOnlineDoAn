@@ -170,6 +170,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         {
             try
             {
+                double? tongkm = 0;
                 string ControllerName = "PurchaseOrder";
                 string Action = this.ControllerContext.RouteData.Values["action"].ToString();
                 string Areas = "CMS_Sale";
@@ -191,8 +192,13 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     _cthoadon.IdHoaDon = idhd;
                     CTHoaDon.Insert(_cthoadon);
                     CTHoaDon.Save();
+                    var dongiareal = ThanhPham.SelectById(item.IdThanhPham);
+                    tongkm += dongiareal.DonGia * item.SoLuong;
                 }
-                if(_hoadon.IdKhachHang!=null && _hoadon.IdKhachHang!=0)
+                _hoadon.TongKM = tongkm - _hoadon.TongTien;
+                HoaDon.Update(_hoadon);
+                HoaDon.Save();
+                if (_hoadon.IdKhachHang!=null && _hoadon.IdKhachHang!=0)
                 {
                     if(_hoadon.TongKM == null)
                     {
@@ -227,7 +233,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             AutoMapper.Mapper.Map(px, modellist);
             if(px.IdKhachHang==null)
             {
-                modellist.TenKH = "Rỗng";
+                modellist.TenKH = "Khách vãng lai";
             }
             //else
             //{

@@ -13,7 +13,7 @@ namespace CMS_ShopOnline.App_Start
     
     public class SecurityFilter : ActionFilterAttribute
     {
-        DBConnection _db = new DBConnection();
+       
         private bool _authenticate;
         private readonly INhanVien _NhanVien = new NhanVienRepository();
         private readonly IPhanQuyen _PhanQuyen = new PhanQuyenRepository();

@@ -16,6 +16,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
     [Authorize]
     public class WarehouseController : Controller
     {
+        DBConnection _db = new DBConnection();
         private readonly INguyenLieu NguyenLieu;
         private readonly IDonViTinh DVT;
         private readonly ILoaiSP LoaiSP;
@@ -40,25 +41,26 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         // GET: /CMS_Sale/Warehouse/
         public ActionResult Index(string name,int? iddvt,int ? idloai, string hangcon, string tonkho, string saphethang,string hethang,string all,string hethandung, bool? IsDelete)
         {
+            var result = _db.Database.ExecuteSqlCommand("dbo.XoaSoLuongHetHan");
             var idten = Helpers.Helper.ChuyenThanhKhongDau(name);
             int i = 0;
             if (Helpers.Helper.IsManager() != true)
             {
-                ViewBag.countAll = NguyenLieu.SelectAll().Where(x => x.IsDelete != true).Count();
+                ViewBag.countAll = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && ngayhethan(x.HSD) < 0 && x.HSD != datetimesetting).Count();
                 ViewBag.countHangCon = NguyenLieu.SelectAll().Where(x => x.IsDelete != true &&  x.SoLuongKho > 0).Count();
                 ViewBag.countSapHetHang = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && x.SoLuongKho >= 1 && x.SoLuongKho <= 5).Count();
                 ViewBag.HangTonKho = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && ngay(x.NgayNhap) > 30 && x.SoLuongKho > 20).Count();
                 ViewBag.countHetHang = NguyenLieu.SelectAll().Where(x => x.IsDelete != true &&  x.SoLuongKho == 0 && x.NgayNhap != datetimesetting).Count();
-                ViewBag.countHetHanDung = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && ngayhethan(x.HSD) >= 0 && x.HSD != datetimesetting).Count();
+                ViewBag.countHetHanDung = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && ngayhethan(x.HSD) > 0 && x.HSD != datetimesetting).Count();
             }
             else
             {
                 ViewBag.countAll = NguyenLieu.SelectAll().Count();
-                ViewBag.countHangCon = NguyenLieu.SelectAll().Where(x =>  x.SoLuongKho > 0).Count();
+                ViewBag.countHangCon = NguyenLieu.SelectAll().Where(x =>  x.SoLuongKho > 0  && ngayhethan(x.HSD) < 0 && x.HSD != datetimesetting).Count();
                 ViewBag.countSapHetHang = NguyenLieu.SelectAll().Where(x => x.SoLuongKho >= 1 && x.SoLuongKho <= 5).Count();
                 ViewBag.HangTonKho = NguyenLieu.SelectAll().Where(x =>  ngay(x.NgayNhap) > 30 && x.SoLuongKho > 20).Count();
                 ViewBag.countHetHang = NguyenLieu.SelectAll().Where(x =>  x.SoLuongKho == 0 && x.NgayNhap != datetimesetting).Count();
-                ViewBag.countHetHanDung = NguyenLieu.SelectAll().Where(x => ngayhethan(x.HSD) >= 0 && x.HSD != datetimesetting).Count();
+                ViewBag.countHetHanDung = NguyenLieu.SelectAll().Where(x => ngayhethan(x.HSD) > 0 && x.HSD != datetimesetting).Count();
             }
             IEnumerable<NguyenLieuViewModel> model = NguyenLieu.SelectAll().Select(
                 item => new NguyenLieuViewModel
@@ -82,7 +84,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             {
                 if (hangcon != null)
                 {
-                    model = model.Where(x => x.SoLuongKho > 0 && x.IsDelete != true);
+                    model = model.Where(x => x.SoLuongKho > 0 && x.IsDelete != true && ngayhethan(x.HSD) < 0 && x.HSD != datetimesetting);
                 }
                 if (tonkho != null)
                 {
@@ -114,14 +116,14 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 }
                 if (hethandung != null)
                 {
-                    model = model.Where(x => x.IsDelete != true && ngayhethan(x.HSD) >= 0 && x.HSD != datetimesetting);
+                    model = model.Where(x => x.IsDelete != true && ngayhethan(x.HSD) > 0 && x.HSD != datetimesetting);
                 }
             }
             else
             {
                 if (hangcon != null)
                 {
-                    model = model.Where(x => x.SoLuongKho > 0);
+                    model = model.Where(x => x.SoLuongKho > 0 && ngayhethan(x.HSD) < 0 && x.HSD != datetimesetting);
                 }
                 if (tonkho != null)
                 {
@@ -153,7 +155,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 }
                 if (hethandung != null)
                 {
-                    model = model.Where(x => ngayhethan(x.HSD) >= 0 && x.HSD != datetimesetting);
+                    model = model.Where(x => ngayhethan(x.HSD) > 0 && x.HSD != datetimesetting);
                 }
                 if (IsDelete != true && IsDelete != null)
                 {
@@ -373,7 +375,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             {
                 if (hangcon1 != null && hangcon1 != "undefined")
                 {
-                    modellist = modellist.Where(x => x.SoLuongKho > 0);
+                    modellist = modellist.Where(x => x.SoLuongKho > 0 && ngayhethan(x.HSD) < 0 && x.HSD != datetimesetting);
                 }
                 if (tonkho1 != null && tonkho1 != "undefined")
                 {
@@ -413,14 +415,14 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 }
                 if (hethandung1 != null && hethandung1 != "" && hethandung1 != "undefined")
                 {
-                    modellist = modellist.Where(x => ngayhethan(x.HSD) >= 0 && x.HSD != datetimesetting);
+                    modellist = modellist.Where(x => ngayhethan(x.HSD) > 0 && x.HSD != datetimesetting);
                 }
             }
             else
             {
                 if (hangcon1 != null && hangcon1 != "undefined")
                 {
-                    modellist = modellist.Where(x => x.SoLuongKho > 0 && x.IsDelete != true);
+                    modellist = modellist.Where(x => x.SoLuongKho > 0 && x.IsDelete != true && ngayhethan(x.HSD) < 0 && x.HSD != datetimesetting);
                 }
                 if (tonkho1 != null && tonkho1 != "undefined")
                 {
@@ -452,7 +454,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 }
                 if (hethandung1 != null && hethandung1 != "" && hethandung1 != "undefined")
                 {
-                    modellist = modellist.Where(x => x.IsDelete != true && ngayhethan(x.HSD) >= 0 && x.HSD != datetimesetting);
+                    modellist = modellist.Where(x => x.IsDelete != true && ngayhethan(x.HSD) > 0 && x.HSD != datetimesetting);
                 }
             }
             
@@ -491,7 +493,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 list += " <td class=\"qty\">" + item.TenLoai + "</td>\r\n";
                 list += "<td class=\"total\">" + item.TenDVT + "</td>\r\n";
                 list += "<td class=\"total\">" + item.SoLuongKho + "</td>\r\n";
-                list += "<td class=\"total\">" + item.DonGia + "</td>\r\n";
+                list += "<td class=\"total\">" + Helpers.Helper.ToCurrencyStr(item.DonGia,"0") + "</td>\r\n";
                 list += "</tr>\r\n";
                 i++;
             }

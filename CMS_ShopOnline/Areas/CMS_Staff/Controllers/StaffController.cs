@@ -151,6 +151,7 @@ namespace CMS_ShopOnline.Areas.CMS_Staff.Controllers
                     user.DiaChi = model.DiaChi;
                     user.SDT = model.SDT;
                     user.CMND = model.CMND;
+                    user.SLDNSai = model.SLDNSai;
                     NhanVien.Update(user);
                     NhanVien.Save();
                     TempData["SuccessMessage"] = "Create";

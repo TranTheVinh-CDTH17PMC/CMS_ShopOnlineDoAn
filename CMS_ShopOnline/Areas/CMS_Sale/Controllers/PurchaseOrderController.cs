@@ -55,7 +55,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         }
         public string checknullkh(int? tenkh)
         {
-            string name = "Rỗng";
+            string name = "Khách vãng lai";
             if(tenkh!=null)
             {
                 var getname = KhachHang.GetNameById(tenkh);

@@ -1,0 +1,72 @@
+﻿@using CMS_ShopOnline.Areas.Administration.Models
+@using GridMvc.Html
+@model IEnumerable<TaskViewModel>
+@{
+    ViewBag.Title = "ViewAll";
+    Layout = "~/Views/Shared/ACE_Layout.cshtml";
+}
+@helper ButtonDetails(int? Id,string Action,string Controller,string Area)
+{
+    <a href="@Url.Action("Details",Controller,new { @Id = Id,area=Area })">
+        <button class="btn btn-success" title="Chi tiết" style="margin-right:3px;" type="button"><i class="fa fa-eye" aria-hidden="true"></i></button>
+    </a>
+}
+
+@helper Ma(int Id)
+{
+    <span>@Id</span>
+}
+<div class="container-fluid" id="container-wrapper">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div style="display:flex;">
+            <h1 class="h3 mb-0 text-gray-800">Công việc</h1>
+        </div>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="./">Trang chủ</a></li>
+            <li class="breadcrumb-item">Công việc</li>
+        </ol>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 mb-4">
+            <!-- Simple Tables -->
+            <div class="card">
+                @using (Html.BeginForm("ViewAll", "Task", FormMethod.Get))
+                {
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <div class="col-md-7">
+                            <select class="form-control" name="Tenviec" id="Tenviec">
+                                <option value="">Tên công việc</option>
+                                <option value="tao hoa don">Hóa đơn</option>
+                                <option value="tao phieu nhap">Phiếu nhập</option>
+                                <option value="tao phieu xuat">Phiếu xuất</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 8%;border: 1px solid grey;border-left: none;"><i class="fa fa-search"></i></button>
+                    </div>
+                }
+                @using (Html.BeginForm("Delete", "Products", FormMethod.Post))
+                {
+                    <div class="table-responsive">
+                        @Html.Grid(Model).Columns(columns =>
+                       {
+                           columns.Add().Titled("Mã").Sanitized(false).Encoded(false).RenderValueAs(x => Ma(x.Id));
+                           columns.Add(x => x.Ten).Titled("Tên công việc");
+                           columns.Add(x => x.NgayTao).Sanitized(false).Titled("Ngày tạo").Format("{0:dd/MM/yyyy}");
+                           columns.Add(x => x.Controller).Titled("Nơi tạo");
+                           columns.Add(x => x.IdPhieuXuat).Titled("Mã công việc");
+                           columns.Add().Titled("Tùy chỉnh").Css("text center")
+                              .Encoded(false)
+                              .Sanitized(false)
+                              .SetWidth(150)
+                              .RenderValueAs(x => (ButtonDetails(x.IdPhieuXuat,x.Action,x.Controller,x.Area)).ToString());
+                       }).WithPaging(10)
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <!--Row-->
+</div>
+
+
+
