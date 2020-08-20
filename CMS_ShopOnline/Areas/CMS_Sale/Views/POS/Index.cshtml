@@ -272,7 +272,7 @@
                         <div class="row">
                             <div class="orders-act">
                                 <div class="col-md-7">
-                                    <input type="text" placeholder="Tìm kiếm sản phẩm (F8)..." id="txtName" class="form-control marg-bot-10" style="width:68.5%">
+                                    <input type="text" placeholder="Tìm kiếm sản phẩm (F2)..." id="txtName" class="form-control marg-bot-10" style="width:68.5%">
                                     <div class="main">
                                             <div id="myBtnContainer" style="padding-top: 5px;">
                                                 @if (Helper.KMIsAll() == true)
@@ -559,7 +559,7 @@ function hotkey(e) {
     var keycode = (e.keyCode ? e.keyCode : e.which);
     //F2
     if (keycode == '113') {
-        $('#GhiChu').focus();
+        $('#txtName').focus();
     }
     //F4
     if (keycode == '115') {
@@ -570,10 +570,10 @@ function hotkey(e) {
         debugger
         $('#Custommer').focus();
     }
-    //F8
-    if (keycode == '119') {
-        $('#txtName').focus();
-    }
+    ////F8
+    //if (keycode == '119') {
+    //    $('#txtName').focus();
+    //}
     //F9
     if (keycode == '120') {
         cms_save_orders(3);

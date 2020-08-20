@@ -19,7 +19,8 @@ namespace CMS_Database.Entities
         public int? IdDVT { get; set; }
 
         public double? DonGia { get; set; }
-
+        public DateTime HSD { get; set; }
+        public bool? IsDelete { get; set; }
         public virtual NguyenLieu NguyenLieu { get; set; }
 
         public virtual PhieuNhap PhieuNhap { get; set; }

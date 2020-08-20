@@ -84,6 +84,14 @@ namespace CMS_ShopOnline.Hubs
         public static void PurchaseOder(int? Id, DateTime NgayTao,int? IdNhanVien, int? IdKhachHang, string TenNV, string TenKH, string GhiChu, string TrangThai, double? TongTien, double? TongKM)
         {
             var listStaffCanView = UserOnlines.Select(x => x.ConnectionID).ToList();
+            if(TenKH == null)
+            {
+                TenKH = "Khách vãng lai";
+            }
+            if(GhiChu == null)
+            {
+                GhiChu = "Không";
+            }
             context.Clients.All.updatedPurchaseOder(Id,  NgayTao,  IdNhanVien,  IdKhachHang,  TenNV,  TenKH, GhiChu ,  TrangThai,  TongTien, TongKM);  
         }
         public class UserOnline

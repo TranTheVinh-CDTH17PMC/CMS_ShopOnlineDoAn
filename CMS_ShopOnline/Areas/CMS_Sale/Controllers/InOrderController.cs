@@ -181,6 +181,8 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     _ctpn.DonGia = item.DonGia;
                     _ctpn.IdPhieuNhap = idpn;
                     _ctpn.IdDVT = item.IdDVT;
+                    _ctpn.HSD = item.HSD;
+                    _ctpn.IsDelete = false;
                     CTPhieuNhap.Insert(_ctpn);
                     CTPhieuNhap.Save();
                     var _nl = NguyenLieu.SelectById(item.IdNguyenLieu);

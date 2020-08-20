@@ -25,18 +25,18 @@ namespace CMS_ShopOnline.App_Start
             {
                 CMS_ShopOnline.Helpers.Helper.Request();
             }
-            _authenticate = (filterContext.ActionDescriptor.GetCustomAttributes(typeof(OverrideAuthenticationAttribute), true).Length == 0);
-            bool skipAuthorization = filterContext.ActionDescriptor.IsDefined(typeof(AllowAnonymousAttribute), inherit: true) || filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(typeof(AllowAnonymousAttribute), inherit: true);
+            //_authenticate = (filterContext.ActionDescriptor.GetCustomAttributes(typeof(OverrideAuthenticationAttribute), true).Length == 0);
+            //bool skipAuthorization = filterContext.ActionDescriptor.IsDefined(typeof(AllowAnonymousAttribute), inherit: true) || filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(typeof(AllowAnonymousAttribute), inherit: true);
 
-            if (skipAuthorization)
-            {
-                return;
-            }
+            //if (skipAuthorization)
+            //{
+            //    return;
+            //}
             if (!WebSecurity.Initialized)
             {
                 WebSecurity.InitializeDatabaseConnection("DBConnection", "NhanVien", "Id", "TenTaiKhoan", true);
             }
-            base.OnActionExecuting(filterContext);
+            //base.OnActionExecuting(filterContext);
             string sControlerName = filterContext.RouteData.Values["Controller"] != null ? filterContext.RouteData.Values["Controller"].ToString().ToLower() : "";
             string sActionName = filterContext.RouteData.Values["Action"] != null ? filterContext.RouteData.Values["Action"].ToString().ToLower() : "";
             if (sActionName != "login".ToLower() && sActionName != "logoff" && sControlerName != "task" && sControlerName != "user")
