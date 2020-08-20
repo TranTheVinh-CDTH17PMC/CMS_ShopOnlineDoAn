@@ -272,7 +272,7 @@
                         <div class="row">
                             <div class="orders-act">
                                 <div class="col-md-7">
-                                    <input type="text" placeholder="Tìm kiếm sản phẩm..." id="txtName" class="form-control marg-bot-10" style="width:68.5%">
+                                    <input type="text" placeholder="Tìm kiếm sản phẩm (F2)..." id="txtName" class="form-control marg-bot-10" style="width:68.5%">
                                     <div class="main">
                                             <div id="myBtnContainer" style="padding-top: 5px;">
                                                 @if (Helper.KMIsAll() == true)
@@ -310,7 +310,7 @@
                                                 <div class="tab-contents" style="padding: 8px 6px;">
                                                     <div class="form-group marg-bot-10 clearfix">
                                                         <div style="padding:0px" class="col-md-4">
-                                                            <label>Khách hàng</label>
+                                                            <label>Khách hàng (F4)</label>
                                                         </div>
                                                         <div class="col-md-8">
                                                             <div class="col-md-10 padd-0" style="position: relative;">
@@ -431,7 +431,7 @@
                                                     }
                                                     <div class="form-group marg-bot-10 clearfix">
                                                         <div class="col-md-4 padd-right-0">
-                                                            <label>Khách đưa</label>
+                                                            <label>Khách đưa (F7)</label>
                                                         </div>
                                                         <div class="col-md-8">
                                                             <input type="text" id="Custommer" class="form-control text-right money1" placeholder="0" style="border-radius: 0 !important;">
@@ -554,5 +554,35 @@ $("#Save").click(function () {
         return false;
     }    
 });
+function hotkey(e) {
+    debugger
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    //F2
+    if (keycode == '113') {
+        $('#txtName').focus();
+    }
+    //F4
+    if (keycode == '115') {
+        $('#dlcustomer').focus();
+    }
+    //F7
+    if (keycode == '118') {
+        debugger
+        $('#Custommer').focus();
+    }
+    ////F8
+    //if (keycode == '119') {
+    //    $('#txtName').focus();
+    //}
+    //F9
+    if (keycode == '120') {
+        cms_save_orders(3);
+    }
+    //F10
+    if (keycode == '121') {
+        cms_save_orders(4);
+    }
+}
+document.addEventListener('keyup', hotkey, false);
 </script>
 

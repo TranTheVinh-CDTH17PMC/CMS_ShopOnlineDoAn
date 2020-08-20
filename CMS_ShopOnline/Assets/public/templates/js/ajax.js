@@ -287,18 +287,20 @@ function cms_func_common() {
 }
 
 function hotkey(e) {
+    debugger
     var keycode = (e.keyCode ? e.keyCode : e.which);
     //F2
     if (keycode == '113') {
-        $('#search-pro-box').focus();
+        $('#GhiChu').focus();
     }
     //F4
     if (keycode == '115') {
-        $('#search-box-cys').focus();
+        $('#dlcustomer').focus();
     }
     //F7
     if (keycode == '118') {
-        $('.discount-order').focus();
+        debugger
+        $('#Custommer').focus();
     }
     //F8
     if (keycode == '119') {

@@ -34,7 +34,7 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
                 if (IsAu)
                 { 
                     var user = _NhanVien.GetByUserName(login.Username);
-                    if(user.SLDNSai >= 5 && user.IsDelete == true)
+                    if(user.SLDNSai >= 5 || user.IsDelete == true)
                     {
                         ModelState.AddModelError("", "Tài khoản bị khóa.Vui lòng liên hệ quản lí!!!");
                         return View(login);
@@ -59,6 +59,7 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
                         ModelState.AddModelError("", "Mật khẩu không chính xác.");
                         user.SLDNSai = user.SLDNSai+1;
                         _NhanVien.Update(user);
+                        _NhanVien.Save();
                         return View(login);
                     }
                 }

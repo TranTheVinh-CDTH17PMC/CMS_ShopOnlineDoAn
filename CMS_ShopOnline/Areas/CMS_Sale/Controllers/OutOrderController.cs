@@ -184,10 +184,10 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         public ActionResult Search(string name, int? Idloai)
         {
             name = Helper.ChuyenThanhKhongDau(name);
-            var q = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && Helper.ChuyenThanhKhongDau(x.Ten).Contains(name)).ToList();
+            var q = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && x.SoLuongKho > 0 && Helper.ChuyenThanhKhongDau(x.Ten).Contains(name)).ToList();
             if (Idloai != null)
             {
-                q = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && Helper.ChuyenThanhKhongDau(x.Ten).Contains(name) && x.IdLoai == Idloai).ToList();
+                q = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && x.SoLuongKho > 0 && Helper.ChuyenThanhKhongDau(x.Ten).Contains(name) && x.IdLoai == Idloai).ToList();
             }
             var model = q.Select(item => new NguyenLieuViewModel
             {
@@ -212,7 +212,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
         }
         public ActionResult ListProductsById(int Id)
         {
-            var q = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && x.Id == Id).ToList();
+            var q = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && x.Id == Id && x.SoLuongKho>0).ToList();
             var model = q.Select(item => new NguyenLieuViewModel
             {
                 Id = item.Id,

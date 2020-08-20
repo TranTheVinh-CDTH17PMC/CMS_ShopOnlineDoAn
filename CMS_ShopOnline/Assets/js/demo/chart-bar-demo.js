@@ -72,7 +72,6 @@ $.ajax({
     type: "GET",
     contentType: 'application/json; charset=utf-8',
     success: function (data) {
-        debugger
         var value = data[0].DOANHTHU;
         for (var i = 1; i < data.length; i++)
         {
@@ -82,7 +81,6 @@ $.ajax({
                 value = data[i].DOANHTHU;
             }
         }
-        console.log(value);
         var labels = data.map(function (e) {
             return "Th." + e.THANG;
         });

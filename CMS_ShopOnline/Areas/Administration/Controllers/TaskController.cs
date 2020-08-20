@@ -42,6 +42,30 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
                 }).OrderByDescending(x=>x.NgayTao).Take(5);
             return View(model);
         }
+        public ActionResult ViewAll(string Tenviec)
+        {
+            Delete();
+            IEnumerable<TaskViewModel> model = CongViec.SelectAll().Where(x => x.IsDelete != true).Select(
+                item => new TaskViewModel
+                {
+                    Id = item.Id,
+                    IdPhieuXuat = item.IdPhieuXuat,
+                    Ten = item.Ten,
+                    IdNhanVien = item.IdNhanVien,
+                    NgayTao = item.NgayTao,
+                    Action = item.Action,
+                    Controller = item.Controller,
+                    Area = item.Area,
+                    IsDelete = item.IsDelete,
+                    Seen = item.Seen,
+                    Color = CheckSeen(item.Seen),
+                }).OrderByDescending(x => x.NgayTao);
+            if(Tenviec != null)
+            {
+                model = model.Where(x => Helpers.Helper.ChuyenThanhKhongDau(x.Ten) == Tenviec);
+            }
+            return View(model);
+        }
         public string CheckSeen(bool? seen)
         {
             string color = "white";

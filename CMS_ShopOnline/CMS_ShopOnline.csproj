@@ -3222,6 +3222,7 @@
     <Content Include="Areas\Administration\Views\Promotions\Create.cshtml" />
     <Content Include="Areas\Administration\Views\Promotions\Index.cshtml" />
     <Content Include="Areas\Administration\Views\Promotions\Details.cshtml" />
+    <Content Include="Areas\Administration\Views\Task\ViewAll.cshtml" />
     <None Include="scripts\jquery-3.0.0-vsdoc.js" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\jquery-1.10.2.js" />

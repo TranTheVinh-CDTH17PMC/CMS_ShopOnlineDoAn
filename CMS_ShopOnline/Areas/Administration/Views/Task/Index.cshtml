@@ -67,7 +67,7 @@ if (Status == "Success")
     }    
     
     @* end *@
-    <a class="dropdown-item text-center small text-gray-500" href="#">Hiển thị tất cả</a>
+    <a class="dropdown-item text-center small text-gray-500" href="@Url.Action("ViewAll","Task",new {area="Administration" })">Hiển thị tất cả</a>
     
 </div>
 
@@ -129,8 +129,8 @@ if (Status == "Success")
             html += '<td class="grid-cell" data-name="Ten">' + today + '</td>';
             html += '<td class="grid-cell" data-name="SDT">' + TenNV + '</td>';
             html += '<td class="grid-cell" data-name="Email">' + TenKH + '</td>';
-            html += '<td class="grid-cell" data-name="DiaChi">' + TongTien + '</td>';
-            html += '<td class="grid-cell" data-name="DiaChi">' + TongKM + '</td>';
+            html += '<td class="grid-cell" data-name="DiaChi">' +  number_format(TongTien) + '</td>';
+            html += '<td class="grid-cell" data-name="DiaChi">' + number_format(TongKM) + '</td>';
             html += '<td class="grid-cell" data-name="DiaChi">' + GhiChu + '</td>';
             html += '<td class="grid-cell" data-name="">' + TrangThai + '</td>';
             html += '<td class="grid-cell text center" data-name="">';

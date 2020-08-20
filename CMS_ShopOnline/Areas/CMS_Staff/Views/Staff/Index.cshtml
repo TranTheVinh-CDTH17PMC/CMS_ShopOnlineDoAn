@@ -22,22 +22,53 @@
 }
 @helper ButtonEdit(int Id)
 {
-    <a href="@Url.Action("Edit","Staff",new { @Id = Id })">
-        <button class="btn btn-primary" title="Chỉnh sửa" style="margin-left:-8px;margin-right:9px;" type="button">
-            <i class="fas fa-pencil-alt"></i>
-        </button>
-    </a>
+    if (Helper.IsGD() != true)
+    {
+        if (Helper.IsGDbyId(Id) != true)
+        {
+            <a href="@Url.Action("Edit","Staff",new { @Id = Id })">
+                <button class="btn btn-primary" title="Chỉnh sửa" style="margin-left:-8px;margin-right:9px;" type="button">
+                    <i class="fas fa-pencil-alt"></i>
+                </button>
+            </a>
+        }
+    }
+    else
+    {
+        <a href="@Url.Action("Edit","Staff",new { @Id = Id })">
+            <button class="btn btn-primary" title="Chỉnh sửa" style="margin-left:-8px;margin-right:9px;" type="button">
+                <i class="fas fa-pencil-alt"></i>
+            </button>
+        </a>
+    }
 }
 
 @helper ButtonDelete(int Id, bool? Status)
 {
-    if (Status == true)
+    if (Helper.IsGD() != true)
     {
-            <button class="btn btn-warning" title="Mở khóa" style="margin:-2px;width:40px" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmUnBlock()"> <i class="fa fa-unlock-alt"></i></button>
+        if (Helper.IsGDbyId(Id) != true)
+        {
+            if (Status == true)
+            {
+                    <button class="btn btn-warning" title="Mở khóa" style="margin:-2px;width:40px" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmUnBlock()"> <i class="fa fa-unlock-alt"></i></button>
+            }
+            else
+            {
+                <button class="btn btn-warning" title="Khóa tài khoản" style="margin:-2px" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmDelete()"> <i class="fas fa-trash-alt"></i></button>
+            }
+        }
     }
     else
     {
-            <button class="btn btn-warning" title="Khóa tài khoản" style="margin:-2px" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmDelete()"> <i class="fas fa-trash-alt"></i></button>
+        if (Status == true)
+        {
+                <button class="btn btn-warning" title="Mở khóa" style="margin:-2px;width:40px" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmUnBlock()"> <i class="fa fa-unlock-alt"></i></button>
+        }
+        else
+        {
+                <button class="btn btn-warning" title="Khóa tài khoản" style="margin:-2px" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmDelete()"> <i class="fas fa-trash-alt"></i></button>
+        }
     }
 }
 @helper Ma(int Id)
@@ -100,23 +131,24 @@
                 {
                 <div class="table-responsive">
                         @Html.Grid(Model).Columns(columns =>
-                    {
-                        columns.Add().Titled("Mã").SetWidth(5).Sanitized(false).Encoded(false).RenderValueAs(x => Ma(x.Id));
-                        columns.Add(x => x.NgayTao).Sanitized(false).Titled("Ngày tạo").Format("{0:dd/MM/yyyy}");
-                        columns.Add(x => x.TenNV).Titled("Tên nhân viên");                    
-                        columns.Add(x => x.TenTaiKhoan).Titled("Tên tài khoản");
-                        columns.Add(x => x.TenLoai).Titled("Chức vụ");
-                        columns.Add(x => x.Email).Titled("Email");
-                        columns.Add(x => x.DiaChi).Titled("Địa chỉ");
-                        columns.Add(x => x.SDT).Titled("SĐT");
-                        columns.Add(x => x.CMND).Titled("CMND");
-                        columns.Add().Titled("Trạng thái").Sanitized(false).Encoded(false).RenderValueAs(x => Delete(x.IsDelete));
-                        columns.Add().Titled("Tùy chỉnh").Css("text center")
-                            .Encoded(false)
-                            .Sanitized(false)
-                            .SetWidth(100)
-                            .RenderValueAs(x => (ButtonEdit(x.Id)).ToString() + (ButtonDelete(x.Id,x.IsDelete)).ToString());
-                    }).WithPaging(5)
+                   {
+                       columns.Add().Titled("Tùy chỉnh").Css("text center")
+                          .Encoded(false)
+                          .Sanitized(false)
+                          .SetWidth(100)
+                          .RenderValueAs(x => (ButtonEdit(x.Id)).ToString() + (ButtonDelete(x.Id, x.IsDelete)).ToString());
+                       columns.Add().Titled("Mã").SetWidth(5).Sanitized(false).Encoded(false).RenderValueAs(x => Ma(x.Id));
+                       columns.Add(x => x.NgayTao).Sanitized(false).Titled("Ngày tạo").Format("{0:dd/MM/yyyy}");
+                       columns.Add(x => x.TenNV).Titled("Tên nhân viên");
+                       columns.Add(x => x.TenTaiKhoan).Titled("Tên tài khoản");
+                       columns.Add(x => x.TenLoai).Titled("Chức vụ");
+                       columns.Add(x => x.Email).Titled("Email");
+                       columns.Add(x => x.DiaChi).Titled("Địa chỉ");
+                       columns.Add(x => x.SDT).Titled("SĐT");
+                       columns.Add(x => x.CMND).Titled("CMND");
+                       columns.Add().Titled("Trạng thái").Sanitized(false).Encoded(false).RenderValueAs(x => Delete(x.IsDelete));
+
+                   }).WithPaging(5)
                 </div>
                 }
                 <div class="card-footer"></div>

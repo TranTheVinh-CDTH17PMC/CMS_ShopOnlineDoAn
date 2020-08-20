@@ -125,6 +125,18 @@ namespace CMS_ShopOnline.Helpers
             }
             return false;
         }
+        public static bool IsGDbyId(int? id)
+        {
+            INhanVien nhanvien = new NhanVienRepository();
+            ILoaiNV loainv = new LoaiNVRepository();
+            var idrole = nhanvien.SelectById(id);
+            var displayname = loainv.SelectById(idrole.IdLoaiNV);
+            if(displayname.TenCode == "GD")
+            {
+                return true;
+            }
+            return false;
+        }
         public static bool IsQL()
         {
             if (ChuyenThanhKhongDau(CurrentUser.LoaiNV.TenCode) == ChuyenThanhKhongDau("QL"))
