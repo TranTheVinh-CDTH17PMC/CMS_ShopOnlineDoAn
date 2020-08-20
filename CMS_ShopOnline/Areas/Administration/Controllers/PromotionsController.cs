@@ -258,11 +258,18 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
                     var model2 = CTKhuyenMai.SelectAll().Where(x => x.IsDelete != true && x.IdKhuyenMai == item.Id);
                     foreach (var item2 in model2)
                     {
-                        var temp = ThanhPham.SelectById(item2.IdThanhPham);
-                        if (temp.IdLoai == idloai)
+                        if(item2.IdKhuyenMai != null)
                         {
-                            item2.IsDelete = true;
+                            var temp = ThanhPham.SelectById(item2.IdThanhPham);
+                            if(temp != null)
+                            {
+                                if (temp.IdLoai == idloai)
+                                {
+                                    item2.IsDelete = true;
+                                }
+                            }  
                         }
+                        
                     }
                 }
             }
