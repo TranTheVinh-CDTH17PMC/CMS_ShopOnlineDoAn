@@ -42,7 +42,7 @@ if (Status == "Success")
     @* thông báo *@
     @foreach (var item in Model.ToList())
     {
-        <a class="dropdown-item d-flex align-items-center" onclick="Checkseen(@item.Id)" href="@Url.Action("Details", "PurchaseOrder", new { area = "CMS_Sale", id = item.IdPhieuXuat })" id="noticolor[@item.Id]" style="background-color:@item.Color;">
+        <a class="dropdown-item d-flex align-items-center" onclick="Checkseen(@item.Id)" href="@Url.Action("Details", item.Controller, new { area = item.Area, id = item.IdPhieuXuat })" id="noticolor[@item.Id]" style="background-color:@item.Color;">
             <div class="mr-3">
                 <div class="icon-circle bg-primary">
                     <i class="fas fa-file-alt text-white"></i>

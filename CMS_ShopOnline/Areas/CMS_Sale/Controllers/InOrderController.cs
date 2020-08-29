@@ -332,7 +332,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             model.Content = model.Content.Replace("{Ten}", "Hóa đơn nhập");
             model.Content = model.Content.Replace("{Nhacc}",modellist.NhaCungCap.Ten);
             model.Content = model.Content.Replace("{DiaChi}", diachi);
-            model.Content = model.Content.Replace("{TongTien}", modellist.TongTien.ToString());
+            model.Content = model.Content.Replace("{TongTien}", Helpers.Helper.ToCurrencyStr(modellist.TongTien,"0"));
             model.Content = model.Content.Replace("{NguoiLap}", Helpers.Helper.CurrentUser.TenNV);
             model.Content = model.Content.Replace("{NgayLap}", DateTime.Now.Date.ToString("dd/MM/yyyy"));
             modellist.IsPrint = true;
@@ -349,6 +349,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             {
                 list += "<tr><td>" + i + "</td>\r\n";
                 list += " <td>" + item.NguyenLieu.Ten + "</td>\r\n";
+                list += " <td>" + item.HSD + "</td>\r\n";
                 list += " <td>" + item.SoLuong + "</td>\r\n";
                 list += " <td>" + Helpers.Helper.ToCurrencyStr(item.DonGia, "0") + "</td>\r\n";
                 list += "<td>" + Helpers.Helper.ToCurrencyStr(item.DonGia * item.SoLuong, "0") + "</td>\r\n";

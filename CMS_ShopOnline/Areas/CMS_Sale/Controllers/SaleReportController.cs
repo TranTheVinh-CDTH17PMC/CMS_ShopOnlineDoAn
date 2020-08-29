@@ -170,7 +170,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             ViewBag.CurrentFilter = searchString;
             DateTime d_startDate, d_endDate;
             double? tongtien = 0;
-            IEnumerable<NguyenLieuViewModel> model = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && ngay(x.NgayNhap) > 30 && x.SoLuongKho > 20 && x.NgayNhap != datetimesetting).Select(
+            IEnumerable<NguyenLieuViewModel> model = NguyenLieu.SelectAll().Where(x => x.IsDelete != true /*&& ngay(x.NgayNhap) > 30*/ && x.SoLuongKho > 20 && x.NgayNhap != datetimesetting).Select(
                 item => new NguyenLieuViewModel
                 {
                     Id = item.Id,
@@ -189,7 +189,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
             {
                 d_startDate = Convert.ToDateTime(startDate);
                 d_endDate = Convert.ToDateTime(endDate);
-                model = model.Where(x => x.IsDelete != true && ngay(x.NgayNhap) > 30 && x.SoLuongKho > 20 && x.NgayNhap != datetimesetting && x.NgayNhap >= d_startDate && x.NgayNhap <= d_endDate);
+                model = model.Where(x => x.IsDelete != true && /*ngay(x.NgayNhap) > 30 &&*/ x.SoLuongKho > 20 && x.NgayNhap != datetimesetting && x.NgayNhap >= d_startDate && x.NgayNhap <= d_endDate);
             }
             foreach (var item in model)
             {
@@ -422,7 +422,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                     {
                         d_startDate = Convert.ToDateTime(startDate);
                         d_endDate = Convert.ToDateTime(endDate);
-                        modellist = modellist.Where(x => x.IsDelete != true && ngay(x.NgayNhap) > 30 && x.SoLuongKho > 20 && x.NgayNhap != datetimesetting && x.NgayNhap >= d_startDate && x.NgayNhap <= d_endDate);
+                        modellist = modellist.Where(x => x.IsDelete != true /*&& ngay(x.NgayNhap) > 30*/ && x.SoLuongKho > 20 && x.NgayNhap != datetimesetting && x.NgayNhap >= d_startDate && x.NgayNhap <= d_endDate);
                     }
                     model.Content = model.Content.Replace("{Table}", BuildHtml(modellist));
                     model.Content = model.Content.Replace("{NamePrint}", "Báo cáo tồn kho");

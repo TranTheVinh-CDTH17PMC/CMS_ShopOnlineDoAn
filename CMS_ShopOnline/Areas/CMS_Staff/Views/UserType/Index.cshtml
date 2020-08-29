@@ -27,7 +27,7 @@
 }
 @helper ButtonDelete(int Id)
 {
-    <button class="btn btn-warning" title="Xóa" style="margin:-2px" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmDelete()"> <i class="fas fa-trash-alt"></i></button>
+    @*<button class="btn btn-warning" title="Xóa" style="margin:-2px" name="IdDelete" type="submit" value="@Id" onclick="return ConfirmDelete()"> <i class="fas fa-trash-alt"></i></button>*@
 }
 @helper Delete(bool? Status)
 {
@@ -40,11 +40,11 @@ if (Status == false)
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <div style="display:flex;">
 
-            <a href="@Url.Action("Create", "UserType", new { area ="CMS_Staff" })">
+            @*<a href="@Url.Action("Create", "UserType", new { area ="CMS_Staff" })">
                 <button type="button" class="btn btn-primary" title="Thêm mới" style="margin-left:10px">
                     Thêm mới <i class="fa fa-plus"></i>
                 </button>
-            </a>
+            </a>*@
         </div>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="./">Trang chủ</a></li>

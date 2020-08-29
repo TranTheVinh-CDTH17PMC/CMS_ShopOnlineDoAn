@@ -49,7 +49,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 ViewBag.countAll = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && ngayhethan(x.HSD) < 0 && x.HSD != datetimesetting).Count();
                 ViewBag.countHangCon = NguyenLieu.SelectAll().Where(x => x.IsDelete != true &&  x.SoLuongKho > 0).Count();
                 ViewBag.countSapHetHang = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && x.SoLuongKho >= 1 && x.SoLuongKho <= 5).Count();
-                ViewBag.HangTonKho = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && ngay(x.NgayNhap) > 30 && x.SoLuongKho > 20).Count();
+                ViewBag.HangTonKho = NguyenLieu.SelectAll().Where(x => x.IsDelete != true /*&& ngay(x.NgayNhap) > 30*/ && x.SoLuongKho > 20).Count();
                 ViewBag.countHetHang = NguyenLieu.SelectAll().Where(x => x.IsDelete != true &&  x.SoLuongKho == 0 && x.NgayNhap != datetimesetting).Count();
                 ViewBag.countHetHanDung = NguyenLieu.SelectAll().Where(x => x.IsDelete != true && ngayhethan(x.HSD) > 0 && x.HSD != datetimesetting).Count();
             }
@@ -58,7 +58,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 ViewBag.countAll = NguyenLieu.SelectAll().Count();
                 ViewBag.countHangCon = NguyenLieu.SelectAll().Where(x =>  x.SoLuongKho > 0  && ngayhethan(x.HSD) < 0 && x.HSD != datetimesetting).Count();
                 ViewBag.countSapHetHang = NguyenLieu.SelectAll().Where(x => x.SoLuongKho >= 1 && x.SoLuongKho <= 5).Count();
-                ViewBag.HangTonKho = NguyenLieu.SelectAll().Where(x =>  ngay(x.NgayNhap) > 30 && x.SoLuongKho > 20).Count();
+                ViewBag.HangTonKho = NguyenLieu.SelectAll().Where(x =>  /*ngay(x.NgayNhap) > 30 &&*/ x.SoLuongKho > 20).Count();
                 ViewBag.countHetHang = NguyenLieu.SelectAll().Where(x =>  x.SoLuongKho == 0 && x.NgayNhap != datetimesetting).Count();
                 ViewBag.countHetHanDung = NguyenLieu.SelectAll().Where(x => ngayhethan(x.HSD) > 0 && x.HSD != datetimesetting).Count();
             }
@@ -88,7 +88,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 }
                 if (tonkho != null)
                 {
-                    model = model.Where(x => x.IsDelete != true && ngay(x.NgayNhap) > 30 && x.SoLuongKho > 20 && x.NgayNhap != datetimesetting);
+                    model = model.Where(x => x.IsDelete != true /*&& ngay(x.NgayNhap) > 30*/ && x.SoLuongKho > 20 && x.NgayNhap != datetimesetting);
                 }
                 if (saphethang != null)
                 {
@@ -127,7 +127,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 }
                 if (tonkho != null)
                 {
-                    model = model.Where(x => ngay(x.NgayNhap) > 30 && x.SoLuongKho > 20 && x.NgayNhap != datetimesetting);
+                    model = model.Where(x => /*ngay(x.NgayNhap) > 30 &&*/ x.SoLuongKho > 20 && x.NgayNhap != datetimesetting);
                 }
                 if (saphethang != null)
                 {
@@ -379,7 +379,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 }
                 if (tonkho1 != null && tonkho1 != "undefined")
                 {
-                    modellist = modellist.Where(x => ngay(x.NgayNhap) > 30 && x.SoLuongKho > 20 && x.NgayNhap != datetimesetting);
+                    modellist = modellist.Where(x => /*ngay(x.NgayNhap) > 30 &&*/ x.SoLuongKho > 20 && x.NgayNhap != datetimesetting);
                 }
                 if (saphethang1 != null && saphethang1 != "undefined")
                 {
@@ -426,7 +426,7 @@ namespace CMS_ShopOnline.Areas.CMS_Sale.Controllers
                 }
                 if (tonkho1 != null && tonkho1 != "undefined")
                 {
-                    modellist = modellist.Where(x => x.IsDelete != true && ngay(x.NgayNhap) > 30 && x.SoLuongKho > 20 && x.NgayNhap != datetimesetting);
+                    modellist = modellist.Where(x => x.IsDelete != true /*&& ngay(x.NgayNhap) > 30*/ && x.SoLuongKho > 20 && x.NgayNhap != datetimesetting);
                 }
                 if (saphethang1 != null && saphethang1 != "undefined")
                 {

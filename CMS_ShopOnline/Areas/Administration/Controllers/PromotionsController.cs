@@ -244,8 +244,7 @@ namespace CMS_ShopOnline.Areas.Administration.Controllers
             catch(Exception e)
             {
 
-            }
-            
+            }            
             return View();
         }
         public void DeleteCTKM(int? idloai)

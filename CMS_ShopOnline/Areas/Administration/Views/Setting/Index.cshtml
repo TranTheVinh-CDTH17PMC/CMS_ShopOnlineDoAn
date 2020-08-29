@@ -74,7 +74,7 @@
                                 <th><i class='fas fa-arrow-down'></i> Tên chức năng | Loại tài khoản <i class='fas fa-arrow-right'></i></th>
                                 @foreach (var item in ViewBag.LoaiNV)
                                 {
-                                    <th>@item.TenLoai<label class="custom-control custom-checkbox"><input id="@item.Id" type="checkbox" checked="checked" class="custom-control-input phanquyenall" onchange="selectid(@item.Id);"><span class="custom-control-indicator" title="Chọn tất cả"></span></label></th>
+                                    <th>@item.TenLoai<label class="custom-control custom-checkbox"><input id="@item.Id" type="checkbox" @*checked="checked"*@ class="custom-control-input phanquyenall" onchange="selectid(@item.Id);"><span class="custom-control-indicator" title="Chọn tất cả"></span></label></th>
                                 }
                             </tr>
                         </thead>
